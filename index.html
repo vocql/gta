@@ -59,81 +59,85 @@ header:hover{
   transform:scale(1.05);
 }
 
-/* Countdown Card */
+/* Updated Compact Countdown Card */
 .countdown-wrap{
-  backdrop-filter:blur(6px);
-  border-radius:24px;
-  padding:40px 48px;
+  backdrop-filter:blur(8px);
+  -webkit-backdrop-filter:blur(8px);
+  border-radius:20px;
+  padding:30px 40px; /* Reduced padding for a slimmer profile */
   text-align:center;
-  box-shadow:0 20px 60px rgba(0,0,0,.8);
-  background:rgba(0,0,0,.3);
-  width:clamp(320px,70vw,980px);
+  box-shadow:0 20px 60px rgba(0,0,0,.7);
+  background:rgba(0,0,0,.35);
+  width:90%;
+  max-width:700px; /* Constrained width to match your circle */
 }
 
 .title{
-  font-size:50px;
+  font-size:32px; /* Smaller, punchier title */
   font-weight:900;
-  margin-bottom:8px;
+  margin-bottom:4px;
+  letter-spacing: 1px;
 }
 
 .subtitle{
   color:rgba(255,255,255,.85);
-  margin-bottom:22px;
-  font-size:18px;
+  margin-bottom:24px;
+  font-size:14px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
 .clock{
   display:flex;
-  gap:18px;
+  gap:12px;
   justify-content:center;
-  flex-wrap:wrap;
+  flex-wrap:nowrap; /* Keeps boxes in one line */
 }
 
 .unit{
-  min-width:88px;
-  padding:18px 16px;
-  border-radius:14px;
-  background:rgba(0,0,0,.5);
-  border:1px solid rgba(255,255,255,.9);
+  min-width:85px;
+  padding:12px 10px;
+  border-radius:12px;
+  background:rgba(0,0,0,.4);
+  border:1px solid rgba(255,255,255,.7);
 }
 
 .num{
-  font-size:45px;
+  font-size:32px; /* Scaled down number size */
   font-weight:900;
+  line-height: 1;
 }
 
 .label{
-  font-size:20px;
+  font-size:12px;
   margin-top:6px;
   text-transform:uppercase;
+  opacity: 0.8;
 }
 
-/* Launch Buttons (GLASS STYLE MATCHING HEADER) */
+/* Launch Buttons */
 .launch-buttons{
   display:none;
-  margin-top:28px;
-  gap:18px;
+  margin-top:24px;
+  gap:14px;
   justify-content:center;
   flex-wrap:wrap;
 }
 
 .launch-btn{
-  padding:14px 26px;
+  padding:12px 24px;
   border-radius:999px;
   color:#fff;
+  font-size: 14px;
   font-weight:700;
   text-decoration:none;
-
   background:rgba(255,255,255,0.08);
   border:1px solid rgba(255,255,255,0.18);
-
   box-shadow:
     inset 0 1.2px 1.5px rgba(255,255,255,0.4),
     0 6px 18px rgba(0,0,0,0.35);
-
   backdrop-filter:blur(12px);
   -webkit-backdrop-filter:blur(12px);
-
   transition:.25s ease;
 }
 
@@ -143,15 +147,6 @@ header:hover{
   box-shadow:
     inset 0 1.2px 1.5px rgba(255,255,255,0.45),
     0 0 22px rgba(255,77,210,0.45);
-}
-
-/* Test */
-.test-launch{
-  margin-top:18px;
-  font-size:13px;
-  opacity:.7;
-  cursor:pointer;
-  text-decoration:underline;
 }
 
 /* Confetti */
@@ -200,13 +195,16 @@ header:hover{
     <a href="map" class="launch-btn">Map</a>
     <a href="trailers" class="launch-btn">Trailers</a>
   </div>
-
-  <!--<div class="test-launch" onclick="forceLaunch()">Test launch mode</div>-->
 </section>
 
 <script>
 const target = new Date('2026-11-19T00:00:00');
 let launched=false;
+
+const daysEl = document.getElementById('days');
+const hoursEl = document.getElementById('hours');
+const minutesEl = document.getElementById('minutes');
+const secondsEl = document.getElementById('seconds');
 
 function pad(n){return String(n).padStart(2,'0')}
 
@@ -235,13 +233,11 @@ function update(){
   const now=new Date();
   let diff=Math.floor((target-now)/1000);
   if(diff<=0){launchMode();return;}
-  days.textContent=Math.floor(diff/86400);
-  hours.textContent=pad(Math.floor(diff%86400/3600));
-  minutes.textContent=pad(Math.floor(diff%3600/60));
-  seconds.textContent=pad(diff%60);
+  daysEl.textContent=Math.floor(diff/86400);
+  hoursEl.textContent=pad(Math.floor(diff%86400/3600));
+  minutesEl.textContent=pad(Math.floor(diff%3600/60));
+  secondsEl.textContent=pad(diff%60);
 }
-
-function forceLaunch(){launchMode()}
 
 update();
 setInterval(update,1000);
@@ -249,4 +245,3 @@ setInterval(update,1000);
 
 </body>
 </html>
-
