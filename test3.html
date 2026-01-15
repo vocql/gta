@@ -36,10 +36,6 @@ header{
   box-shadow:0 6px 18px rgba(0,0,0,0.35);
 }
 
-header:hover{
-  box-shadow:0 12px 40px rgba(255,77,210,0.35);
-}
-
 .nav-btn{
   padding:9px 17px;
   border-radius:999px;
@@ -48,100 +44,85 @@ header:hover{
   text-decoration:none;
   background:rgba(255,255,255,0.08);
   border:1px solid rgba(255,255,255,0.18);
-  box-shadow:
-    inset 0 1.2px 1.5px rgba(255,255,255,0.4),
-    0 4px 18px rgba(0,0,0,0.3);
   transition:.25s;
 }
 
-.nav-btn:hover{
-  background:rgba(255,255,255,0.14);
-  transform:scale(1.05);
-}
-
-/* --- FIXED MEDIUM SIZE COUNTDOWN --- */
+/* Updated Medium Sized Countdown Card */
 .countdown-wrap{
-  backdrop-filter:blur(6px);
+  backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);
   border-radius:24px;
-  padding:30px 40px; /* Reduced from 40px 48px */
+  padding:25px 35px; /* Tighter padding for a smaller feel */
   text-align:center;
-  box-shadow:0 20px 60px rgba(0,0,0,.8);
-  background:rgba(0,0,0,.3);
-  width: 600px; /* Locked to a medium width */
-  max-width: 90%; 
+  box-shadow:0 15px 45px rgba(0,0,0,.6);
+  background:rgba(0,0,0,.35);
+  width: 90%;
+  max-width: 650px; /* Limits the width to a medium size */
 }
 
 .title{
-  font-size:36px; /* Reduced from 50px */
+  font-size:32px; /* Smaller title */
   font-weight:900;
-  margin-bottom:8px;
+  margin-bottom:4px;
+  letter-spacing: 1px;
 }
 
 .subtitle{
   color:rgba(255,255,255,.85);
-  margin-bottom:22px;
-  font-size:16px; /* Reduced from 18px */
+  margin-bottom:20px;
+  font-size:14px; /* Scaled down subtitle */
+  text-transform: uppercase;
 }
 
 .clock{
   display:flex;
-  gap:12px; /* Tighter gap */
+  gap:10px; /* Tighter spacing between units */
   justify-content:center;
-  flex-wrap:nowrap;
 }
 
 .unit{
-  min-width:80px; /* Reduced from 88px */
-  padding:14px 10px; /* Reduced from 18px 16px */
-  border-radius:14px;
-  background:rgba(0,0,0,.5);
-  border:1px solid rgba(255,255,255,.9);
+  min-width:75px; /* Narrower units */
+  padding:12px 8px;
+  border-radius:12px;
+  background:rgba(0,0,0,.4);
+  border:1.5px solid rgba(255,255,255,.8);
 }
 
 .num{
-  font-size:32px; /* Reduced from 45px */
+  font-size:28px; /* Smaller numbers */
   font-weight:900;
+  line-height: 1;
 }
 
 .label{
-  font-size:14px; /* Reduced from 20px */
-  margin-top:6px;
+  font-size:11px; /* Smaller labels */
+  margin-top:4px;
   text-transform:uppercase;
+  opacity: 0.9;
 }
-/* ---------------------------------- */
 
+/* Launch Buttons */
 .launch-buttons{
   display:none;
-  margin-top:28px;
-  gap:18px;
+  margin-top:20px;
+  gap:12px;
   justify-content:center;
-  flex-wrap:wrap;
 }
 
 .launch-btn{
-  padding:14px 26px;
+  padding:10px 20px;
   border-radius:999px;
   color:#fff;
+  font-size: 14px;
   font-weight:700;
   text-decoration:none;
-  background:rgba(255,255,255,0.08);
-  border:1px solid rgba(255,255,255,0.18);
-  box-shadow:
-    inset 0 1.2px 1.5px rgba(255,255,255,0.4),
-    0 6px 18px rgba(0,0,0,0.35);
-  backdrop-filter:blur(12px);
-  -webkit-backdrop-filter:blur(12px);
+  background:rgba(255,255,255,0.1);
+  border:1px solid rgba(255,255,255,0.2);
+  backdrop-filter:blur(10px);
   transition:.25s ease;
 }
 
-.launch-btn:hover{
-  background:rgba(255,255,255,0.14);
-  transform:translateY(-2px) scale(1.06);
-  box-shadow:
-    inset 0 1.2px 1.5px rgba(255,255,255,0.45),
-    0 0 22px rgba(255,77,210,0.45);
-}
-
+/* Confetti */
 .confetti{
   position:fixed;
   top:-10px;
@@ -152,10 +133,7 @@ header:hover{
 }
 
 @keyframes fall{
-  to{
-    transform:translateY(110vh) rotate(720deg);
-    opacity:0;
-  }
+  to{ transform:translateY(110vh) rotate(720deg); opacity:0; }
 }
 </style>
 </head>
@@ -163,7 +141,7 @@ header:hover{
 <body>
 
 <header>
-  <a href="index" class="nav-btn">Home</a>
+  <a href="index" class="nav-btn">Homee</a>
   <a href="map" class="nav-btn">Map</a>
   <a href="characters" class="nav-btn">Characters</a>
   <a href="places" class="nav-btn">Places</a>
@@ -193,11 +171,6 @@ header:hover{
 const target = new Date('2026-11-19T00:00:00');
 let launched=false;
 
-const d = document.getElementById('days');
-const h = document.getElementById('hours');
-const m = document.getElementById('minutes');
-const s = document.getElementById('seconds');
-
 function pad(n){return String(n).padStart(2,'0')}
 
 function celebrate(){
@@ -225,10 +198,10 @@ function update(){
   const now=new Date();
   let diff=Math.floor((target-now)/1000);
   if(diff<=0){launchMode();return;}
-  d.textContent=Math.floor(diff/86400);
-  h.textContent=pad(Math.floor(diff%86400/3600));
-  m.textContent=pad(Math.floor(diff%3600/60));
-  s.textContent=pad(diff%60);
+  document.getElementById('days').textContent=Math.floor(diff/86400);
+  document.getElementById('hours').textContent=pad(Math.floor(diff%86400/3600));
+  document.getElementById('minutes').textContent=pad(Math.floor(diff%3600/60));
+  document.getElementById('seconds').textContent=pad(diff%60);
 }
 
 update();
