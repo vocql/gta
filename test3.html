@@ -59,76 +59,69 @@ header:hover{
   transform:scale(1.05);
 }
 
-/* Updated Compact Countdown Card */
+/* --- FIXED MEDIUM SIZE COUNTDOWN --- */
 .countdown-wrap{
-  backdrop-filter:blur(8px);
-  -webkit-backdrop-filter:blur(8px);
-  border-radius:20px;
-  padding:30px 40px; /* Reduced padding for a slimmer profile */
+  backdrop-filter:blur(6px);
+  border-radius:24px;
+  padding:30px 40px; /* Reduced from 40px 48px */
   text-align:center;
-  box-shadow:0 20px 60px rgba(0,0,0,.7);
-  background:rgba(0,0,0,.35);
-  width:90%;
-  max-width:700px; /* Constrained width to match your circle */
+  box-shadow:0 20px 60px rgba(0,0,0,.8);
+  background:rgba(0,0,0,.3);
+  width: 600px; /* Locked to a medium width */
+  max-width: 90%; 
 }
 
 .title{
-  font-size:32px; /* Smaller, punchier title */
+  font-size:36px; /* Reduced from 50px */
   font-weight:900;
-  margin-bottom:4px;
-  letter-spacing: 1px;
+  margin-bottom:8px;
 }
 
 .subtitle{
   color:rgba(255,255,255,.85);
-  margin-bottom:24px;
-  font-size:14px;
-  text-transform: uppercase;
-  letter-spacing: 1px;
+  margin-bottom:22px;
+  font-size:16px; /* Reduced from 18px */
 }
 
 .clock{
   display:flex;
-  gap:12px;
+  gap:12px; /* Tighter gap */
   justify-content:center;
-  flex-wrap:nowrap; /* Keeps boxes in one line */
+  flex-wrap:nowrap;
 }
 
 .unit{
-  min-width:85px;
-  padding:12px 10px;
-  border-radius:12px;
-  background:rgba(0,0,0,.4);
-  border:1px solid rgba(255,255,255,.7);
+  min-width:80px; /* Reduced from 88px */
+  padding:14px 10px; /* Reduced from 18px 16px */
+  border-radius:14px;
+  background:rgba(0,0,0,.5);
+  border:1px solid rgba(255,255,255,.9);
 }
 
 .num{
-  font-size:32px; /* Scaled down number size */
+  font-size:32px; /* Reduced from 45px */
   font-weight:900;
-  line-height: 1;
 }
 
 .label{
-  font-size:12px;
+  font-size:14px; /* Reduced from 20px */
   margin-top:6px;
   text-transform:uppercase;
-  opacity: 0.8;
 }
+/* ---------------------------------- */
 
-/* Launch Buttons */
 .launch-buttons{
   display:none;
-  margin-top:24px;
-  gap:14px;
+  margin-top:28px;
+  gap:18px;
   justify-content:center;
   flex-wrap:wrap;
 }
 
 .launch-btn{
-  padding:12px 24px;
+  padding:14px 26px;
   border-radius:999px;
   color:#fff;
-  font-size: 14px;
   font-weight:700;
   text-decoration:none;
   background:rgba(255,255,255,0.08);
@@ -149,7 +142,6 @@ header:hover{
     0 0 22px rgba(255,77,210,0.45);
 }
 
-/* Confetti */
 .confetti{
   position:fixed;
   top:-10px;
@@ -201,10 +193,10 @@ header:hover{
 const target = new Date('2026-11-19T00:00:00');
 let launched=false;
 
-const daysEl = document.getElementById('days');
-const hoursEl = document.getElementById('hours');
-const minutesEl = document.getElementById('minutes');
-const secondsEl = document.getElementById('seconds');
+const d = document.getElementById('days');
+const h = document.getElementById('hours');
+const m = document.getElementById('minutes');
+const s = document.getElementById('seconds');
 
 function pad(n){return String(n).padStart(2,'0')}
 
@@ -233,10 +225,10 @@ function update(){
   const now=new Date();
   let diff=Math.floor((target-now)/1000);
   if(diff<=0){launchMode();return;}
-  daysEl.textContent=Math.floor(diff/86400);
-  hoursEl.textContent=pad(Math.floor(diff%86400/3600));
-  minutesEl.textContent=pad(Math.floor(diff%3600/60));
-  secondsEl.textContent=pad(diff%60);
+  d.textContent=Math.floor(diff/86400);
+  h.textContent=pad(Math.floor(diff%86400/3600));
+  m.textContent=pad(Math.floor(diff%3600/60));
+  s.textContent=pad(diff%60);
 }
 
 update();
