@@ -1,325 +1,350 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>VI | Home</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>VI | Home</title>
+  <link rel="icon" href="gta/npc/lucia.jpg" type="image/jpg">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    html, body { height:100%; overflow:hidden; }
+    body {
+      font-family: 'Orbitron', sans-serif;
+      background: url('gta/jason.jpg') center/cover no-repeat fixed;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
 
-<link rel="icon" href="gta/npc/lucia.jpg" type="image/jpg">
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
+    /* ================= HEADER ================= */
+    header {
+      position: fixed;
+      top: 18px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 50;
+      display: flex;
+      gap: 12px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: rgba(0,0,0,0.25);
+      box-shadow: 0 6px 18px rgba(0,0,0,0.35);
+    }
+    .nav-btn {
+      padding: 9px 17px;
+      border-radius: 999px;
+      color: #fff;
+      font-weight: 600;
+      text-decoration: none;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.18);
+      transition: .25s;
+    }
+    .nav-btn:hover { background: rgba(255,255,255,0.14); transform: scale(1.05); }
+    .nav-item { position: relative; }
+    .pages-dropdown {
+      position: absolute;
+      top: 140%;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0,0,0,0.85);
+      border-radius: 14px;
+      padding: 10px;
+      display: none;
+      min-width: 180px;
+    }
+    .nav-item:hover .pages-dropdown { display: block; }
+    .pages-dropdown a {
+      display: block;
+      padding: 8px 12px;
+      border-radius: 10px;
+      color: #fff;
+      text-decoration: none;
+      font-size: 13px;
+    }
+    .pages-dropdown a:hover { background: rgba(255,255,255,0.1); }
 
-<style>
-*{margin:0;padding:0;box-sizing:border-box}
-html,body{height:100%;overflow:hidden}
+    /* ================= HAMBURGER ================= */
+    .menu-btn {
+      position: fixed;
+      top: 18px;
+      left: 18px;
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      background: rgba(0,0,0,0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 60;
+    }
+    .menu-btn span,
+    .menu-btn span::before,
+    .menu-btn span::after {
+      content: "";
+      width: 18px;
+      height: 2px;
+      background: #fff;
+      position: absolute;
+      transition: 0.3s;
+    }
+    .menu-btn span::before { transform: translateY(-6px); }
+    .menu-btn span::after { transform: translateY(6px); }
+    .menu-dropdown {
+      position: fixed;
+      top: 68px;
+      left: 18px;
+      background: rgba(0,0,0,0.9);
+      border-radius: 14px;
+      padding: 10px;
+      display: none;
+      z-index: 60;
+    }
+    .menu-dropdown a {
+      display: block;
+      padding: 10px;
+      border-radius: 10px;
+      color: #fff;
+      font-size: 13px;
+      text-decoration: none;
+    }
+    .menu-dropdown a:hover { background: rgba(255,255,255,0.1); }
 
-body{
-  font-family:'Orbitron',sans-serif;
-  background:url('gta/jason.jpg') center/cover no-repeat fixed;
-  color:#fff;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-}
+    /* ================= COUNTDOWN ================= */
+    .countdown-wrap {
+      backdrop-filter: blur(8px);
+      border-radius: 20px;
+      padding: 30px 40px;
+      background: rgba(0,0,0,.35);
+      text-align: center;
+      width: 90%;
+      max-width: 700px;
+    }
+    .title { font-size: 32px; font-weight: 900; }
+    .subtitle { font-size: 14px; margin-bottom: 24px; opacity: .85; }
+    .clock {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .unit {
+      min-width: 85px;
+      padding: 12px;
+      border-radius: 12px;
+      background: rgba(0,0,0,.4);
+      border: 1px solid rgba(255,255,255,.6);
+    }
+    .num { font-size: 32px; font-weight: 900; }
+    .label { font-size: 12px; margin-top: 6px; opacity: .8; }
 
-/* ================= HEADER ================= */
-header{
-  position:fixed;
-  top:18px;
-  left:50%;
-  transform:translateX(-50%);
-  z-index:50;
-  display:flex;
-  gap:12px;
-  padding:8px 14px;
-  border-radius:999px;
-  background:rgba(0,0,0,0.25);
-  box-shadow:0 6px 18px rgba(0,0,0,0.35);
-}
+    /* ================= SETTINGS MODAL ================= */
+    .modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.65);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+    }
+    .modal-box {
+      width: 90%;
+      max-width: 720px;
+      max-height: 80vh;
+      overflow: auto;
+      background: rgba(15,15,15,0.95);
+      border-radius: 22px;
+      padding: 24px;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.8);
+    }
+    .modal-box h2 {
+      margin-bottom: 16px;
+      font-size: 20px;
+      letter-spacing: 1px;
+    }
+    .settings-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+    .setting {
+      background: rgba(255,255,255,0.05);
+      padding: 12px;
+      border-radius: 12px;
+      font-size: 13px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .setting input,
+    .setting select {
+      background: #000;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      padding: 4px;
+    }
+    .close-btn {
+      margin-top: 18px;
+      padding: 10px 18px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.2);
+      color: #fff;
+      font-weight: 700;
+      cursor: pointer;
+    }
 
-.nav-btn{
-  padding:9px 17px;
-  border-radius:999px;
-  color:#fff;
-  font-weight:600;
-  text-decoration:none;
-  background:rgba(255,255,255,0.08);
-  border:1px solid rgba(255,255,255,0.18);
-  transition:.25s;
-}
-
-.nav-btn:hover{background:rgba(255,255,255,0.14);transform:scale(1.05)}
-
-.nav-item{position:relative}
-
-.pages-dropdown{
-  position:absolute;
-  top:140%;
-  left:50%;
-  transform:translateX(-50%);
-  background:rgba(0,0,0,0.85);
-  border-radius:14px;
-  padding:10px;
-  display:none;
-}
-
-.nav-item:hover .pages-dropdown{display:block}
-
-.pages-dropdown a{
-  display:block;
-  padding:8px 12px;
-  border-radius:10px;
-  color:#fff;
-  text-decoration:none;
-  font-size:13px;
-}
-
-.pages-dropdown a:hover{background:rgba(255,255,255,0.1)}
-
-/* ================= HAMBURGER ================= */
-.menu-btn{
-  position:fixed;
-  top:18px;
-  left:18px;
-  width:42px;
-  height:42px;
-  border-radius:12px;
-  background:rgba(0,0,0,0.4);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  cursor:pointer;
-  z-index:60;
-}
-
-.menu-btn span,
-.menu-btn span::before,
-.menu-btn span::after{
-  content:"";
-  width:18px;
-  height:2px;
-  background:#fff;
-  position:absolute;
-}
-.menu-btn span::before{transform:translateY(-6px)}
-.menu-btn span::after{transform:translateY(6px)}
-
-.menu-dropdown{
-  position:fixed;
-  top:68px;
-  left:18px;
-  background:rgba(0,0,0,0.9);
-  border-radius:14px;
-  padding:10px;
-  display:none;
-  z-index:60;
-}
-.menu-dropdown a{
-  display:block;
-  padding:10px;
-  border-radius:10px;
-  color:#fff;
-  font-size:13px;
-  text-decoration:none;
-}
-.menu-dropdown a:hover{background:rgba(255,255,255,0.1)}
-
-/* ================= COUNTDOWN ================= */
-.countdown-wrap{
-  backdrop-filter:blur(8px);
-  border-radius:20px;
-  padding:30px 40px;
-  background:rgba(0,0,0,.35);
-  text-align:center;
-  width:90%;
-  max-width:700px;
-}
-
-.title{font-size:32px;font-weight:900}
-.subtitle{font-size:14px;margin-bottom:24px;opacity:.85}
-
-.clock{display:flex;gap:12px;justify-content:center}
-.unit{
-  min-width:85px;
-  padding:12px;
-  border-radius:12px;
-  background:rgba(0,0,0,.4);
-  border:1px solid rgba(255,255,255,.6);
-}
-.num{font-size:32px;font-weight:900}
-.label{font-size:12px;margin-top:6px;opacity:.8}
-
-/* ================= SETTINGS MODAL ================= */
-.modal{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,0.65);
-  display:none;
-  align-items:center;
-  justify-content:center;
-  z-index:100;
-}
-
-.modal-box{
-  width:90%;
-  max-width:720px;
-  max-height:80vh;
-  overflow:auto;
-  background:rgba(15,15,15,0.95);
-  border-radius:22px;
-  padding:24px;
-  box-shadow:0 30px 80px rgba(0,0,0,0.8);
-}
-
-.modal-box h2{
-  margin-bottom:16px;
-  font-size:20px;
-  letter-spacing:1px;
-}
-
-.settings-grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:14px;
-}
-
-.setting{
-  background:rgba(255,255,255,0.05);
-  padding:12px;
-  border-radius:12px;
-  font-size:13px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-}
-
-.setting input,
-.setting select{
-  background:#000;
-  color:#fff;
-  border:none;
-  border-radius:6px;
-}
-
-.close-btn{
-  margin-top:18px;
-  padding:10px 18px;
-  border-radius:999px;
-  background:rgba(255,255,255,0.12);
-  border:1px solid rgba(255,255,255,0.2);
-  color:#fff;
-  font-weight:700;
-  cursor:pointer;
-}
-</style>
+    @media (max-width: 600px) {
+      header { top: 12px; padding: 6px 10px; gap: 8px; }
+      .nav-btn { padding: 7px 12px; font-size: 13px; }
+      .countdown-wrap { padding: 20px 25px; }
+      .title { font-size: 26px; }
+      .clock { gap: 8px; }
+      .unit { min-width: 70px; padding: 10px; }
+      .num { font-size: 26px; }
+    }
+  </style>
 </head>
-
 <body>
 
-<!-- Hamburger -->
-<div class="menu-btn" id="menuBtn"><span></span></div>
+  <!-- Hamburger -->
+  <div class="menu-btn" id="menuBtn"><span></span></div>
+  <div class="menu-dropdown" id="menuDropdown">
+    <a href="#" id="openSettings">Settings</a>
+    <a href="#">Audio</a>
+    <a href="#">Credits</a>
+  </div>
 
-<div class="menu-dropdown" id="menuDropdown">
-  <a href="#" id="openSettings">Settings</a>
-  <a href="#">Audio</a>
-  <a href="#">Credits</a>
-</div>
+  <header>
+    <a class="nav-btn" href="index">Home</a>
+    <div class="nav-item">
+      <a class="nav-btn" href="#">Pages</a>
+      <div class="pages-dropdown">
+        <a href="map">Map</a>
+        <a href="characters">Characters</a>
+        <a href="places">Places</a>
+        <a href="screenshots">Screenshots</a>
+        <a href="trailers">Trailers</a>
+        <a href="chapters">Chapters</a>
+        <a href="leaks">Leaks</a>
+        <a href="preorder">Pre-Order</a>
+      </div>
+    </div>
+  </header>
 
-<header>
-  <a class="nav-btn" href="index">Home</a>
-  <div class="nav-item">
-    <a class="nav-btn" href="#">Pages</a>
-    <div class="pages-dropdown">
-      <a href="map">Map</a>
-      <a href="characters">Characters</a>
-      <a href="places">Places</a>
-      <a href="screenshots">Screenshots</a>
-      <a href="trailers">Trailers</a>
-      <a href="chapters">Chapters</a>
-      <a href="leaks">Leaks</a>
-      <a href="preorder">Pre-Order</a>
+  <section class="countdown-wrap">
+    <h1 class="title">Grand Theft Auto VI</h1>
+    <div class="subtitle">Release countdown — November 19th, 2026</div>
+    <div class="clock">
+      <div class="unit"><div class="num" id="days">0</div><div class="label">Days</div></div>
+      <div class="unit"><div class="num" id="hours">0</div><div class="label">Hours</div></div>
+      <div class="unit"><div class="num" id="minutes">0</div><div class="label">Minutes</div></div>
+      <div class="unit"><div class="num" id="seconds">0</div><div class="label">Seconds</div></div>
+    </div>
+  </section>
+
+  <!-- SETTINGS MODAL -->
+  <div class="modal" id="settingsModal">
+    <div class="modal-box">
+      <h2>Settings</h2>
+      <div class="settings-grid">
+        <div class="setting">Blur UI <input type="checkbox" checked></div>
+        <div class="setting">Particles <input type="checkbox" checked></div>
+        <div class="setting">Ambient Music <input type="checkbox"></div>
+        <div class="setting">24h Clock <input type="checkbox"></div>
+        <div class="setting">Reduced Motion <input type="checkbox"></div>
+        <div class="setting">High Contrast <input type="checkbox"></div>
+        <div class="setting">Vignette <input type="checkbox" checked></div>
+        <div class="setting">Dynamic Background <input type="checkbox" checked></div>
+        <div class="setting">Confetti Effects <input type="checkbox"></div>
+        <div class="setting">Cursor FX <input type="checkbox"></div>
+        <div class="setting">UI Scale
+          <select><option>100%</option><option>110%</option><option>120%</option></select>
+        </div>
+        <div class="setting">Theme
+          <select><option>Dark</option><option>Midnight</option><option>Vice</option></select>
+        </div>
+        <div class="setting">Sound Volume <input type="range"></div>
+        <div class="setting">Music Volume <input type="range"></div>
+        <div class="setting">Effects Volume <input type="range"></div>
+        <div class="setting">FPS Counter <input type="checkbox"></div>
+        <div class="setting">Developer Mode <input type="checkbox"></div>
+        <div class="setting">Beta Features <input type="checkbox"></div>
+        <div class="setting">Live Data <input type="checkbox"></div>
+        <div class="setting">Auto Theme <input type="checkbox"></div>
+        <div class="setting">Low Power Mode <input type="checkbox"></div>
+        <div class="setting">HDR UI <input type="checkbox"></div>
+        <div class="setting">Accessibility Mode <input type="checkbox"></div>
+        <div class="setting">Experimental UI <input type="checkbox"></div>
+      </div>
+      <button class="close-btn" id="closeSettings">Close</button>
     </div>
   </div>
-</header>
 
-<section class="countdown-wrap">
-  <h1 class="title">Grand Theft Auto VI</h1>
-  <div class="subtitle">Release countdown — November 19th, 2026</div>
-  <div class="clock">
-    <div class="unit"><div class="num" id="days">0</div><div class="label">Days</div></div>
-    <div class="unit"><div class="num" id="hours">0</div><div class="label">Hours</div></div>
-    <div class="unit"><div class="num" id="minutes">0</div><div class="label">Minutes</div></div>
-    <div class="unit"><div class="num" id="seconds">0</div><div class="label">Seconds</div></div>
-  </div>
-</section>
+  <script>
+    // ================= COUNTDOWN =================
+    const targetDate = new Date('2026-11-19T00:00:00'); // Official release: Nov 19, 2026
 
-<!-- SETTINGS MODAL -->
-<div class="modal" id="settingsModal">
-  <div class="modal-box">
-    <h2>Settings</h2>
+    const daysEl    = document.getElementById('days');
+    const hoursEl   = document.getElementById('hours');
+    const minutesEl = document.getElementById('minutes');
+    const secondsEl = document.getElementById('seconds');
 
-    <div class="settings-grid">
-      <!-- 30+ settings -->
-      <div class="setting">Blur UI <input type="checkbox" checked></div>
-      <div class="setting">Particles <input type="checkbox" checked></div>
-      <div class="setting">Ambient Music <input type="checkbox"></div>
-      <div class="setting">24h Clock <input type="checkbox"></div>
-      <div class="setting">Reduced Motion <input type="checkbox"></div>
-      <div class="setting">High Contrast <input type="checkbox"></div>
-      <div class="setting">Vignette <input type="checkbox" checked></div>
-      <div class="setting">Dynamic Background <input type="checkbox" checked></div>
-      <div class="setting">Confetti Effects <input type="checkbox"></div>
-      <div class="setting">Cursor FX <input type="checkbox"></div>
+    function pad(num) {
+      return String(num).padStart(2, '0');
+    }
 
-      <div class="setting">UI Scale 
-        <select><option>100%</option><option>110%</option><option>120%</option></select>
-      </div>
-      <div class="setting">Theme
-        <select><option>Dark</option><option>Midnight</option><option>Vice</option></select>
-      </div>
+    function updateCountdown() {
+      const now = new Date();
+      let diff = Math.floor((targetDate - now) / 1000);
 
-      <div class="setting">Sound Volume <input type="range"></div>
-      <div class="setting">Music Volume <input type="range"></div>
-      <div class="setting">Effects Volume <input type="range"></div>
+      if (diff < 0) {
+        diff = 0;
+        // Optional: you could add a "RELEASED!" message here
+      }
 
-      <div class="setting">FPS Counter <input type="checkbox"></div>
-      <div class="setting">Developer Mode <input type="checkbox"></div>
-      <div class="setting">Beta Features <input type="checkbox"></div>
-      <div class="setting">Live Data <input type="checkbox"></div>
-      <div class="setting">Auto Theme <input type="checkbox"></div>
-      <div class="setting">Low Power Mode <input type="checkbox"></div>
-      <div class="setting">HDR UI <input type="checkbox"></div>
-      <div class="setting">Accessibility Mode <input type="checkbox"></div>
-      <div class="setting">Experimental UI <input type="checkbox"></div>
-    </div>
+      daysEl.textContent    = Math.floor(diff / 86400);
+      hoursEl.textContent   = pad(Math.floor((diff % 86400) / 3600));
+      minutesEl.textContent = pad(Math.floor((diff % 3600) / 60));
+      secondsEl.textContent = pad(diff % 60);
+    }
 
-    <button class="close-btn" id="closeSettings">Close</button>
-  </div>
-</div>
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
 
-<script>
-const target=new Date('2026-11-19T00:00:00');
-const days=daysEl=days, hoursEl=hours, minutesEl=minutes, secondsEl=seconds;
+    // ================= HAMBURGER MENU =================
+    const menuBtn = document.getElementById('menuBtn');
+    const menuDropdown = document.getElementById('menuDropdown');
 
-function pad(n){return String(n).padStart(2,'0')}
-function update(){
-  let diff=Math.floor((target-new Date())/1000);
-  if(diff<0) diff=0;
-  days.textContent=Math.floor(diff/86400);
-  hours.textContent=pad(Math.floor(diff%86400/3600));
-  minutes.textContent=pad(Math.floor(diff%3600/60));
-  seconds.textContent=pad(diff%60);
-}
-update();setInterval(update,1000);
+    menuBtn.addEventListener('click', () => {
+      menuDropdown.style.display = 
+        menuDropdown.style.display === 'block' ? 'none' : 'block';
+    });
 
-// Hamburger
-menuBtn.onclick=()=>menuDropdown.style.display=
-menuDropdown.style.display==='block'?'none':'block';
+    // ================= SETTINGS MODAL =================
+    const settingsModal = document.getElementById('settingsModal');
+    const openSettings  = document.getElementById('openSettings');
+    const closeSettings = document.getElementById('closeSettings');
 
-// Settings modal
-openSettings.onclick=()=>settingsModal.style.display='flex';
-closeSettings.onclick=()=>settingsModal.style.display='none';
-settingsModal.onclick=e=>{if(e.target===settingsModal)settingsModal.style.display='none'}
-</script>
+    openSettings.addEventListener('click', (e) => {
+      e.preventDefault();
+      settingsModal.style.display = 'flex';
+    });
 
+    closeSettings.addEventListener('click', () => {
+      settingsModal.style.display = 'none';
+    });
+
+    settingsModal.addEventListener('click', (e) => {
+      if (e.target === settingsModal) {
+        settingsModal.style.display = 'none';
+      }
+    });
+  </script>
 </body>
 </html>
