@@ -11,16 +11,18 @@
 html,body{height:100%;overflow:hidden}
 body{
   font-family:'Orbitron',sans-serif;
-  background:url('gta/jason.jpg') center/cover no-repeat fixed;
+  background:url('gta/jason.jpg') center/cover no-repeat fixed; /* high-res Jason & Lucia art */
   color:#fff;
   display:flex;
   align-items:center;
   justify-content:center;
+  background-position: center 40%; /* moves the image up so Lucia is higher */
 }
-/* Header */
+
+/* Header - moved up a bit so it doesn't cover Jason's face */
 header{
   position:fixed;
-  top:18px;
+  top:12px; /* was 18px - lowered slightly */
   left:50%;
   transform:translateX(-50%);
   z-index:50;
@@ -51,20 +53,24 @@ header:hover{
   background:rgba(255,255,255,0.14);
   transform:scale(1.05);
 }
-/* Updated Compact Countdown Card */
+
+/* Countdown card - pushed down so it doesn't overlap Jason's face */
 .countdown-wrap{
   backdrop-filter:blur(8px);
   -webkit-backdrop-filter:blur(8px);
   border-radius:20px;
-  padding:30px 40px; /* Reduced padding for a slimmer profile */
+  padding:30px 40px;
   text-align:center;
   box-shadow:0 20px 60px rgba(0,0,0,.7);
   background:rgba(0,0,0,.35);
   width:90%;
-  max-width:700px; /* Constrained width to match your circle */
+  max-width:700px;
+  margin-top:80px; /* added this to push the card down */
 }
+
+/* Rest of your styles unchanged */
 .title{
-  font-size:32px; /* Smaller, punchier title */
+  font-size:32px;
   font-weight:900;
   margin-bottom:4px;
   letter-spacing: 1px;
@@ -80,7 +86,7 @@ header:hover{
   display:flex;
   gap:12px;
   justify-content:center;
-  flex-wrap:nowrap; /* Keeps boxes in one line */
+  flex-wrap:nowrap;
 }
 .unit{
   min-width:85px;
@@ -90,7 +96,7 @@ header:hover{
   border:1px solid rgba(255,255,255,.7);
 }
 .num{
-  font-size:32px; /* Scaled down number size */
+  font-size:32px;
   font-weight:900;
   line-height: 1;
 }
@@ -100,7 +106,6 @@ header:hover{
   text-transform:uppercase;
   opacity: 0.8;
 }
-/* Launch Buttons */
 .launch-buttons{
   display:none;
   margin-top:24px;
@@ -131,7 +136,6 @@ header:hover{
     inset 0 1.2px 1.5px rgba(255,255,255,0.45),
     0 0 22px rgba(255,77,210,0.45);
 }
-/* Confetti */
 .confetti{
   position:fixed;
   top:-10px;
@@ -159,12 +163,12 @@ header:hover{
 </header>
 <section class="countdown-wrap">
   <h1 class="title">Grand Theft Auto VI</h1>
-  <div class="subtitle">Release countdown — November 19th, 2026</div>
+  <div class="subtitle">RELEASE COUNTDOWN – NOVEMBER 19TH, 2026</div>
   <div class="clock">
-    <div class="unit"><div class="num" id="days">0</div><div class="label">Days</div></div>
-    <div class="unit"><div class="num" id="hours">0</div><div class="label">Hours</div></div>
-    <div class="unit"><div class="num" id="minutes">0</div><div class="label">Minutes</div></div>
-    <div class="unit"><div class="num" id="seconds">0</div><div class="label">Seconds</div></div>
+    <div class="unit"><div class="num" id="days">0</div><div class="label">DAYS</div></div>
+    <div class="unit"><div class="num" id="hours">0</div><div class="label">HOURS</div></div>
+    <div class="unit"><div class="num" id="minutes">0</div><div class="label">MINUTES</div></div>
+    <div class="unit"><div class="num" id="seconds">0</div><div class="label">SECONDS</div></div>
   </div>
   <div class="launch-buttons" id="launchButtons">
     <a href="preorder" class="launch-btn">Pre-Order</a>
@@ -172,6 +176,7 @@ header:hover{
     <a href="trailers" class="launch-btn">Trailers</a>
   </div>
 </section>
+
 <script>
 const target = new Date('2026-11-19T00:00:00');
 let launched=false;
