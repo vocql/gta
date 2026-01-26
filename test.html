@@ -1,362 +1,218 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>VI | Home</title>
-  <link rel="icon" href="https://i.imgur.com/8k5pXjL.jpg" type="image/jpg" id="favicon"> <!-- Default favicon -->
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
-  <style>
-    * { margin:0; padding:0; box-sizing:border-box; }
-    html, body { height:100%; overflow:hidden; }
-    body {
-      font-family: 'Orbitron', sans-serif;
-      background: url('https://i.imgur.com/jason-background.jpg') center/cover no-repeat fixed; /* Default bg */
-      color: #fff;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: filter 0.4s, background-image 0.6s ease;
-    }
-    body.blur-off { backdrop-filter: none; -webkit-backdrop-filter: none; }
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>VI | Home</title>
+<link rel="icon" href="gta/npc/lucia.jpg" type="image/jpg">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;overflow:hidden}
+body{
+  font-family:'Orbitron',sans-serif;
+  background:url('gta/jason.jpg') center/cover no-repeat fixed;
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding-top: 120px; /* Extra space at top to prevent navbar overlap on characters */
+}
 
-    /* ================= HAMBURGER MENU ================= */
-    .menu-btn {
-      position: fixed;
-      top: 18px;
-      left: 18px;
-      width: 44px;
-      height: 44px;
-      border-radius: 12px;
-      background: rgba(0,0,0,0.45);
-      backdrop-filter: blur(8px);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      z-index: 100;
-      border: 1px solid rgba(255,255,255,0.15);
-      transition: 0.25s;
-    }
-    .menu-btn:hover { transform: scale(1.08); background: rgba(0,0,0,0.6); }
-    .menu-btn span,
-    .menu-btn span::before,
-    .menu-btn span::after {
-      content: "";
-      width: 20px;
-      height: 2.5px;
-      background: #fff;
-      position: absolute;
-      border-radius: 2px;
-      transition: 0.3s;
-    }
-    .menu-btn span::before { transform: translateY(-7px); }
-    .menu-btn span::after  { transform: translateY(7px); }
-
-    .menu-dropdown {
-      position: fixed;
-      top: 70px;
-      left: 18px;
-      background: rgba(0,0,0,0.9);
-      backdrop-filter: blur(12px);
-      border-radius: 14px;
-      padding: 14px;
-      display: none;
-      z-index: 100;
-      border: 1px solid rgba(255,255,255,0.2);
-      min-width: 260px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.7);
-      max-height: 80vh;
-      overflow-y: auto;
-    }
-    .menu-section {
-      margin-bottom: 16px;
-    }
-    .menu-section h4 {
-      font-size: 14px;
-      margin-bottom: 8px;
-      color: rgba(255,255,255,0.9);
-      text-transform: uppercase;
-      letter-spacing: 1px;
-    }
-    .option-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 8px;
-    }
-    .option {
-      width: 50px;
-      height: 50px;
-      border-radius: 8px;
-      background-size: cover;
-      background-position: center;
-      cursor: pointer;
-      border: 2px solid transparent;
-      transition: 0.2s;
-    }
-    .option:hover,
-    .option.selected {
-      border: 2px solid #ff4dd2;
-      transform: scale(1.1);
-    }
-    .toggle-label {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 10px 0;
-      font-size: 14px;
-    }
-
-    /* ================= HEADER & COUNTDOWN (unchanged) ================= */
-    header {
-      position: fixed;
-      top: 18px;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 50;
-      display: flex;
-      gap: 12px;
-      padding: 8px 14px;
-      border-radius: 999px;
-      background: rgba(0,0,0,0.25);
-      backdrop-filter: blur(8px);
-      box-shadow: 0 6px 18px rgba(0,0,0,0.35);
-    }
-    header:hover { box-shadow: 0 12px 40px rgba(255,77,210,0.35); }
-    .nav-btn {
-      padding: 9px 17px;
-      border-radius: 999px;
-      color: #fff;
-      font-weight: 600;
-      text-decoration: none;
-      background: rgba(255,255,255,0.08);
-      border: 1px solid rgba(255,255,255,0.18);
-      box-shadow: inset 0 1.2px 1.5px rgba(255,255,255,0.4), 0 4px 18px rgba(0,0,0,0.3);
-      transition: .25s;
-    }
-    .nav-btn:hover {
-      background: rgba(255,255,255,0.14);
-      transform: scale(1.05);
-    }
-
-    .countdown-wrap {
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      border-radius: 20px;
-      padding: 30px 40px;
-      text-align: center;
-      box-shadow: 0 20px 60px rgba(0,0,0,.7);
-      background: rgba(0,0,0,.35);
-      width: 90%;
-      max-width: 700px;
-    }
-    .title { font-size: 32px; font-weight: 900; margin-bottom: 4px; letter-spacing: 1px; }
-    .subtitle { color: rgba(255,255,255,.85); margin-bottom: 24px; font-size: 14px; text-transform: uppercase; letter-spacing: 1px; }
-    .clock { display: flex; gap: 12px; justify-content: center; flex-wrap: nowrap; }
-    .unit { min-width: 85px; padding: 12px 10px; border-radius: 12px; background: rgba(0,0,0,.4); border: 1px solid rgba(255,255,255,.7); }
-    .num { font-size: 32px; font-weight: 900; line-height: 1; }
-    .label { font-size: 12px; margin-top: 6px; text-transform: uppercase; opacity: 0.8; }
-
-    .launch-buttons { display: none; margin-top: 24px; gap: 14px; justify-content: center; flex-wrap: wrap; }
-    .launch-btn {
-      padding: 12px 24px;
-      border-radius: 999px;
-      color: #fff;
-      font-size: 14px;
-      font-weight: 700;
-      text-decoration: none;
-      background: rgba(255,255,255,0.08);
-      border: 1px solid rgba(255,255,255,0.18);
-      box-shadow: inset 0 1.2px 1.5px rgba(255,255,255,0.4), 0 6px 18px rgba(0,0,0,0.35);
-      backdrop-filter: blur(12px);
-      transition: .25s ease;
-    }
-    .launch-btn:hover {
-      background: rgba(255,255,255,0.14);
-      transform: translateY(-2px) scale(1.06);
-      box-shadow: inset 0 1.2px 1.5px rgba(255,255,255,0.45), 0 0 22px rgba(255,77,210,0.45);
-    }
-
-    .confetti { position: fixed; top: -10px; width: 8px; height: 14px; animation: fall linear forwards; z-index: 9999; }
-    @keyframes fall { to { transform: translateY(110vh) rotate(720deg); opacity: 0; } }
-  </style>
+/* Header - raised a bit more to avoid covering faces */
+header{
+  position:fixed;
+  top:40px; /* Increased from 18px to push it higher */
+  left:50%;
+  transform:translateX(-50%);
+  z-index:50;
+  display:flex;
+  gap:12px;
+  padding:8px 14px;
+  border-radius:999px;
+  background:rgba(0,0,0,0.25);
+  box-shadow:0 6px 18px rgba(0,0,0,0.35);
+}
+header:hover{
+  box-shadow:0 12px 40px rgba(255,77,210,0.35);
+}
+.nav-btn{
+  padding:9px 17px;
+  border-radius:999px;
+  color:#fff;
+  font-weight:600;
+  text-decoration:none;
+  background:rgba(255,255,255,0.08);
+  border:1px solid rgba(255,255,255,0.18);
+  box-shadow:
+    inset 0 1.2px 1.5px rgba(255,255,255,0.4),
+    0 4px 18px rgba(0,0,0,0.3);
+  transition:.25s;
+}
+.nav-btn:hover{
+  background:rgba(255,255,255,0.14);
+  transform:scale(1.05);
+}
+/* Updated Compact Countdown Card - shifted up for Lucia's face */
+.countdown-wrap{
+  backdrop-filter:blur(8px);
+  -webkit-backdrop-filter:blur(8px);
+  border-radius:20px;
+  padding:30px 40px;
+  text-align:center;
+  box-shadow:0 20px 60px rgba(0,0,0,.7);
+  background:rgba(0,0,0,.35);
+  width:90%;
+  max-width:700px;
+  margin-top: -80px; /* Negative margin to pull it up, making Lucia's face higher */
+}
+.title{
+  font-size:32px;
+  font-weight:900;
+  margin-bottom:4px;
+  letter-spacing: 1px;
+}
+.subtitle{
+  color:rgba(255,255,255,.85);
+  margin-bottom:24px;
+  font-size:14px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.clock{
+  display:flex;
+  gap:12px;
+  justify-content:center;
+  flex-wrap:nowrap;
+}
+.unit{
+  min-width:85px;
+  padding:12px 10px;
+  border-radius:12px;
+  background:rgba(0,0,0,.4);
+  border:1px solid rgba(255,255,255,.7);
+}
+.num{
+  font-size:32px;
+  font-weight:900;
+  line-height: 1;
+}
+.label{
+  font-size:12px;
+  margin-top:6px;
+  text-transform:uppercase;
+  opacity: 0.8;
+}
+/* Launch Buttons */
+.launch-buttons{
+  display:none;
+  margin-top:24px;
+  gap:14px;
+  justify-content:center;
+  flex-wrap:wrap;
+}
+.launch-btn{
+  padding:12px 24px;
+  border-radius:999px;
+  color:#fff;
+  font-size: 14px;
+  font-weight:700;
+  text-decoration:none;
+  background:rgba(255,255,255,0.08);
+  border:1px solid rgba(255,255,255,0.18);
+  box-shadow:
+    inset 0 1.2px 1.5px rgba(255,255,255,0.4),
+    0 6px 18px rgba(0,0,0,0.35);
+  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
+  transition:.25s ease;
+}
+.launch-btn:hover{
+  background:rgba(255,255,255,0.14);
+  transform:translateY(-2px) scale(1.06);
+  box-shadow:
+    inset 0 1.2px 1.5px rgba(255,255,255,0.45),
+    0 0 22px rgba(255,77,210,0.45);
+}
+/* Confetti */
+.confetti{
+  position:fixed;
+  top:-10px;
+  width:8px;
+  height:14px;
+  animation:fall linear forwards;
+  z-index:9999;
+}
+@keyframes fall{
+  to{
+    transform:translateY(110vh) rotate(720deg);
+    opacity:0;
+  }
+}
+</style>
 </head>
 <body>
-
-  <!-- Hamburger Menu -->
-  <div class="menu-btn" id="menuBtn"><span></span></div>
-  <div class="menu-dropdown" id="menuDropdown">
-
-    <div class="menu-section">
-      <h4>Background</h4>
-      <div class="option-grid" id="bgOptions">
-        <!-- Options added via JS -->
-      </div>
-    </div>
-
-    <div class="menu-section">
-      <h4>Logo / Favicon</h4>
-      <div class="option-grid" id="iconOptions">
-        <!-- Options added via JS -->
-      </div>
-    </div>
-
-    <div class="menu-section">
-      <label class="toggle-label">
-        Blur Effect <input type="checkbox" id="blurToggle" checked>
-      </label>
-      <label class="toggle-label">
-        Confetti on Release <input type="checkbox" id="confettiToggle" checked>
-      </label>
-    </div>
+<header>
+  <a href="index" class="nav-btn">Home</a>
+  <a href="map" class="nav-btn">Map</a>
+  <a href="characters" class="nav-btn">Characters</a>
+  <a href="places" class="nav-btn">Places</a>
+  <a href="screenshots" class="nav-btn">Screenshots</a>
+  <a href="trailers" class="nav-btn">Trailers</a>
+</header>
+<section class="countdown-wrap">
+  <h1 class="title">Grand Theft Auto VI</h1>
+  <div class="subtitle">Release countdown — November 19th, 2026</div>
+  <div class="clock">
+    <div class="unit"><div class="num" id="days">0</div><div class="label">Days</div></div>
+    <div class="unit"><div class="num" id="hours">0</div><div class="label">Hours</div></div>
+    <div class="unit"><div class="num" id="minutes">0</div><div class="label">Minutes</div></div>
+    <div class="unit"><div class="num" id="seconds">0</div><div class="label">Seconds</div></div>
   </div>
-
-  <header>
-    <a href="index" class="nav-btn">Home</a>
-    <a href="map" class="nav-btn">Map</a>
-    <a href="characters" class="nav-btn">Characters</a>
-    <a href="places" class="nav-btn">Places</a>
-    <a href="screenshots" class="nav-btn">Screenshots</a>
-    <a href="trailers" class="nav-btn">Trailers</a>
-  </header>
-
-  <section class="countdown-wrap">
-    <h1 class="title">Grand Theft Auto VI</h1>
-    <div class="subtitle">Release countdown — November 19th, 2026</div>
-    <div class="clock">
-      <div class="unit"><div class="num" id="days">0</div><div class="label">Days</div></div>
-      <div class="unit"><div class="num" id="hours">0</div><div class="label">Hours</div></div>
-      <div class="unit"><div class="num" id="minutes">0</div><div class="label">Minutes</div></div>
-      <div class="unit"><div class="num" id="seconds">0</div><div class="label">Seconds</div></div>
-    </div>
-    <div class="launch-buttons" id="launchButtons">
-      <a href="preorder" class="launch-btn">Pre-Order</a>
-      <a href="map" class="launch-btn">Map</a>
-      <a href="trailers" class="launch-btn">Trailers</a>
-    </div>
-  </section>
-
-  <script>
-    const target = new Date('2026-11-19T00:00:00');
-    let launched = false;
-    let useConfetti = true;
-
-    const daysEl    = document.getElementById('days');
-    const hoursEl   = document.getElementById('hours');
-    const minutesEl = document.getElementById('minutes');
-    const secondsEl = document.getElementById('seconds');
-
-    function pad(n) { return String(n).padStart(2, '0'); }
-
-    function celebrate() {
-      if (!useConfetti) return;
-      for (let i = 0; i < 120; i++) {
-        const c = document.createElement('div');
-        c.className = 'confetti';
-        c.style.left = Math.random() * 100 + 'vw';
-        c.style.background = `hsl(${Math.random()*360},90%,60%)`;
-        c.style.animationDuration = 2 + Math.random() * 2 + 's';
-        document.body.appendChild(c);
-        setTimeout(() => c.remove(), 4000);
-      }
-    }
-
-    function launchMode() {
-      if (launched) return;
-      launched = true;
-      document.querySelector('.clock').style.display = 'none';
-      document.getElementById('launchButtons').style.display = 'flex';
-      document.querySelector('.subtitle').textContent = 'Now Available';
-      celebrate();
-    }
-
-    function update() {
-      const now = new Date();
-      let diff = Math.floor((target - now) / 1000);
-      if (diff <= 0) { launchMode(); return; }
-      daysEl.textContent    = Math.floor(diff / 86400);
-      hoursEl.textContent   = pad(Math.floor((diff % 86400) / 3600));
-      minutesEl.textContent = pad(Math.floor((diff % 3600) / 60));
-      secondsEl.textContent = pad(diff % 60);
-    }
-
-    update();
-    setInterval(update, 1000);
-
-    // Hamburger Menu Toggle
-    const menuBtn = document.getElementById('menuBtn');
-    const menuDropdown = document.getElementById('menuDropdown');
-
-    menuBtn.addEventListener('click', () => {
-      menuDropdown.style.display = menuDropdown.style.display === 'block' ? 'none' : 'block';
-    });
-
-    document.addEventListener('click', (e) => {
-      if (!menuBtn.contains(e.target) && !menuDropdown.contains(e.target)) {
-        menuDropdown.style.display = 'none';
-      }
-    });
-
-    // Safe Background Options
-    const backgrounds = [
-      { name: 'Vice City Neon', url: 'https://i.imgur.com/0zZ8kL9.jpg' },
-      { name: 'GTA VI Lucia', url: 'https://i.imgur.com/LuciaGTA6.jpg' },
-      { name: 'Jason & Lucia', url: 'https://i.imgur.com/JasonLuciaVI.jpg' },
-      { name: 'Miami Night', url: 'https://i.imgur.com/MiamiNightVI.jpg' },
-      { name: 'Neon Streets', url: 'https://i.imgur.com/NeonStreets.jpg' },
-      { name: 'Tropical Sunset', url: 'https://i.imgur.com/TropicalSunset.jpg' },
-      { name: 'Ocean View', url: 'https://i.imgur.com/OceanViewVI.jpg' },
-      { name: 'Default (Jason)', url: 'https://i.imgur.com/jason-background.jpg' }
-    ];
-
-    // Safe Favicon/Logo Options
-    const icons = [
-      { name: 'Lucia', url: 'https://i.imgur.com/8k5pXjL.jpg' },
-      { name: 'Jason', url: 'https://i.imgur.com/JasonIconVI.jpg' },
-      { name: 'GTA VI Logo', url: 'https://i.imgur.com/GTAVILogo.png' },
-      { name: 'Vice City Symbol', url: 'https://i.imgur.com/ViceSymbol.jpg' },
-      { name: 'Palm Tree', url: 'https://i.imgur.com/PalmTreeIcon.jpg' },
-      { name: 'Default Lucia', url: 'https://i.imgur.com/8k5pXjL.jpg' }
-    ];
-
-    // Populate Background Options
-    const bgGrid = document.getElementById('bgOptions');
-    backgrounds.forEach(bg => {
-      const div = document.createElement('div');
-      div.className = 'option';
-      div.style.backgroundImage = `url('${bg.url}')`;
-      div.title = bg.name;
-      div.addEventListener('click', () => {
-        document.body.style.backgroundImage = `url('${bg.url}')`;
-        document.querySelectorAll('#bgOptions .option').forEach(opt => opt.classList.remove('selected'));
-        div.classList.add('selected');
-      });
-      bgGrid.appendChild(div);
-    });
-
-    // Populate Icon Options
-    const iconGrid = document.getElementById('iconOptions');
-    icons.forEach(icon => {
-      const div = document.createElement('div');
-      div.className = 'option';
-      div.style.backgroundImage = `url('${icon.url}')`;
-      div.title = icon.name;
-      div.addEventListener('click', () => {
-        document.getElementById('favicon').href = icon.url;
-        document.querySelectorAll('#iconOptions .option').forEach(opt => opt.classList.remove('selected'));
-        div.classList.add('selected');
-      });
-      iconGrid.appendChild(div);
-    });
-
-    // Toggles
-    document.getElementById('blurToggle').addEventListener('change', (e) => {
-      document.body.classList.toggle('blur-off', !e.target.checked);
-    });
-
-    document.getElementById('confettiToggle').addEventListener('change', (e) => {
-      useConfetti = e.target.checked;
-    });
-  </script>
+  <div class="launch-buttons" id="launchButtons">
+    <a href="preorder" class="launch-btn">Pre-Order</a>
+    <a href="map" class="launch-btn">Map</a>
+    <a href="trailers" class="launch-btn">Trailers</a>
+  </div>
+</section>
+<script>
+const target = new Date('2026-11-19T00:00:00');
+let launched=false;
+const daysEl = document.getElementById('days');
+const hoursEl = document.getElementById('hours');
+const minutesEl = document.getElementById('minutes');
+const secondsEl = document.getElementById('seconds');
+function pad(n){return String(n).padStart(2,'0')}
+function celebrate(){
+  for(let i=0;i<120;i++){
+    const c=document.createElement('div');
+    c.className='confetti';
+    c.style.left=Math.random()*100+'vw';
+    c.style.background=`hsl(${Math.random()*360},90%,60%)`;
+    c.style.animationDuration=2+Math.random()*2+'s';
+    document.body.appendChild(c);
+    setTimeout(()=>c.remove(),4000);
+  }
+}
+function launchMode(){
+  if(launched)return;
+  launched=true;
+  document.querySelector('.clock').style.display='none';
+  document.getElementById('launchButtons').style.display='flex';
+  document.querySelector('.subtitle').textContent='Now Available';
+  celebrate();
+}
+function update(){
+  const now=new Date();
+  let diff=Math.floor((target-now)/1000);
+  if(diff<=0){launchMode();return;}
+  daysEl.textContent=Math.floor(diff/86400);
+  hoursEl.textContent=pad(Math.floor(diff%86400/3600));
+  minutesEl.textContent=pad(Math.floor(diff%3600/60));
+  secondsEl.textContent=pad(diff%60);
+}
+update();
+setInterval(update,1000);
+</script>
 </body>
 </html>
