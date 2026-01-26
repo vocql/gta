@@ -1,27 +1,25 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>VI | Locations</title>
-  <link rel="icon" href="gta/npc/lucia.jpg" type="image/jpg">
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
-  <style>
-    * { margin:0; padding:0; box-sizing:border-box; }
-    html, body { height:100%; }
-    body {
-      font-family: 'Orbitron', sans-serif;
-      background:
-        linear-gradient(135deg, rgba(255,77,210,0.18), rgba(0,255,224,0.12)),
-        url('gta/jason.jpg') center/cover no-repeat fixed;
-      background-blend-mode: overlay;
-      color: #fff;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>VI | Places</title>
+<link rel="icon" href="gta/npc/lucia.jpg" type="image/jpg">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%}
+body{
+  font-family:'Orbitron',sans-serif;
+  background:
+    linear-gradient(135deg, rgba(255,77,210,0.18), rgba(0,255,224,0.12)),
+    url('gta/jason.jpg') center/cover no-repeat fixed;
+  color:#fff;
+  min-height:100vh;
+}
 
-  header{
+/* ===== NAVBAR ===== */
+header{
   position:fixed;
   top:18px;
   left:50%;
@@ -33,13 +31,9 @@
   border-radius:999px;
   background:rgba(0,0,0,0.25);
   box-shadow:0 6px 18px rgba(0,0,0,0.35);
+  backdrop-filter: blur(10px);
 }
-
-    header:hover {
-      box-shadow: 0 12px 40px rgba(255, 77, 210, 0.35);
-    }
-
-   .nav-btn{
+.nav-btn{
   padding:9px 17px;
   border-radius:999px;
   color:#fff;
@@ -47,9 +41,6 @@
   text-decoration:none;
   background:rgba(255,255,255,0.08);
   border:1px solid rgba(255,255,255,0.18);
-  box-shadow:
-    inset 0 1.2px 1.5px rgba(255,255,255,0.4),
-    0 4px 18px rgba(0,0,0,0.3);
   transition:.25s;
 }
 .nav-btn:hover{
@@ -57,230 +48,224 @@
   transform:scale(1.05);
 }
 
-    .page {
-      position: relative; z-index: 10;
-      width: clamp(900px, 90vw, 1400px);
-      margin-top: 120px; margin-bottom: 80px;
-      padding: 0 20px;
-    }
+/* ===== PAGE ===== */
+.page{
+  width:clamp(900px,90vw,1440px);
+  margin:120px auto 100px;
+  padding:0 20px;
+}
+h1{
+  text-align:center;
+  font-size:clamp(42px,5vw,54px);
+  font-weight:900;
+  margin-bottom:60px;
+  text-shadow:0 6px 16px rgba(0,0,0,.7);
+}
+.character-list{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(380px,1fr));
+  gap:32px;
+}
 
-    h1 {
-      text-align: center;
-      font-size: 52px;
-      font-weight: 900;
-      margin-bottom: 60px;
-      color: #ffffff;
-      text-shadow: 0 6px 12px rgba(0,0,0,0.65);
-      letter-spacing: -1px;
-    }
+/* ===== PLACE CARD ===== */
+.character-card{
+  aspect-ratio: 4 / 3;          /* landscape-friendly ratio */
+  border-radius:22px;
+  overflow:hidden;
+  position:relative;
+  cursor:pointer;
+  box-shadow:0 15px 40px rgba(0,0,0,.65);
+  transition:.4s;
+  background:#111;
+}
+.character-card:hover{
+  transform:translateY(-10px) scale(1.03);
+  box-shadow:0 30px 60px rgba(0,0,0,.9),0 0 40px rgba(255,77,210,.4);
+}
+.character-card img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  transition:.5s;
+}
+.character-card:hover img{
+  transform:scale(1.08);
+  filter:brightness(.85) contrast(1.1);
+}
+.card-overlay{
+  position:absolute;
+  inset:0;
+  display:flex;
+  align-items:flex-end;
+  padding:28px 24px;
+  background:linear-gradient(to top,rgba(0,0,0,.92),transparent 50%);
+  transition:.4s;
+}
+.card-overlay h2{
+  font-size:clamp(22px,2.4vw,28px);
+  font-weight:900;
+  text-shadow:0 4px 12px rgba(0,0,0,.95);
+  letter-spacing:1px;
+}
 
-    .places-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-      gap: 32px;
-    }
+/* ===== MODAL ===== */
+.modal{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.82);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  opacity:0;
+  pointer-events:none;
+  transition:.4s;
+  z-index:999;
+}
+.modal.active{
+  opacity:1;
+  pointer-events:auto;
+}
+.modal-content{
+  background:rgba(8,8,18,.97);
+  border-radius:24px;
+  max-width:960px;
+  width:92%;
+  padding:36px;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:36px;
+  transform:scale(.88);
+  transition:.4s;
+  box-shadow:0 40px 100px rgba(0,0,0,1);
+  position:relative;
+}
+.modal.active .modal-content{
+  transform:scale(1);
+}
+.modal img{
+  width:100%;
+  border-radius:18px;
+  object-fit:cover;
+  box-shadow:0 10px 30px rgba(0,0,0,.6);
+}
+.modal h2{
+  font-size:clamp(32px,4vw,40px);
+  margin-bottom:20px;
+  text-shadow:0 4px 12px rgba(0,0,0,.8);
+}
+.modal p{
+  font-size:17px;
+  line-height:1.65;
+  opacity:.92;
+}
+.close-btn{
+  position:absolute;
+  top:20px;
+  right:24px;
+  font-size:32px;
+  cursor:pointer;
+  opacity:.75;
+  color:#fff;
+}
+.close-btn:hover{opacity:1}
 
-    .place-item {
-      perspective: 1200px;
-      height: 420px;
-    }
-
-    .place-card {
-      position: relative;
-      width: 100%;
-      height: 100%;
-      transform-style: preserve-3d;
-      transition: transform 0.7s cubic-bezier(0.4, 0.2, 0.2, 1);
-      border-radius: 20px;
-      box-shadow: 0 15px 35px rgba(0,0,0,0.6);
-    }
-
-    .place-item:hover .place-card {
-      transform: rotateY(180deg);
-      box-shadow: 0 25px 50px rgba(0,0,0,0.8), 0 0 30px rgba(255,77,210,0.4);
-    }
-
-    .card-face {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      backface-visibility: hidden;
-      border-radius: 20px;
-      overflow: hidden;
-      border: 2px solid rgba(255,255,255,0.08);
-    }
-
-    .card-front {
-      background: rgba(0,0,0,0.5);
-    }
-
-    .card-front img {
-      width: 100%; height: 100%;
-      object-fit: cover;
-      transition: transform 0.6s ease, filter 0.6s ease;
-    }
-
-    .place-item:hover .card-front img {
-      transform: scale(1.12);
-      filter: brightness(0.75) contrast(1.15);
-    }
-
-    .front-overlay {
-      position: absolute; inset: 0;
-      display: flex; flex-direction: column; justify-content: flex-end;
-      padding: 30px;
-      background: linear-gradient(to top, rgba(0,0,0,0.85), transparent 60%);
-    }
-
-    .front-overlay h2 {
-      font-size: 32px;
-      text-shadow: 0 4px 12px rgba(0,0,0,0.9), 0 0 18px rgba(255,77,210,0.6);
-      color: #ffffff;
-    }
-
-    .card-back {
-      background: rgba(10,10,20,0.92);
-      transform: rotateY(180deg);
-      display: flex; flex-direction: column; justify-content: center; align-items: center;
-      padding: 40px; text-align: center;
-      backdrop-filter: blur(8px);
-    }
-
-    .card-back h2 {
-      font-size: 32px;
-      margin-bottom: 24px;
-      color: #ffffff;
-      text-shadow: 0 0 15px rgba(0,0,0,0.8);
-    }
-
-    .card-back p {
-      font-size: 17px;
-      line-height: 1.7;
-      color: #ffffff;
-      max-width: 90%;
-      text-shadow: 0 1px 4px rgba(0,0,0,0.7);
-    }
-
-    @media (max-width: 768px) {
-      h1 { font-size: 42px; margin-bottom: 50px; }
-      .place-item { height: 380px; }
-      .front-overlay h2, .card-back h2 { font-size: 28px; }
-      .card-back p { font-size: 16px; }
-    }
-
-    @media (max-width: 480px) {
-      h1 { font-size: 36px; }
-      .places-grid { gap: 24px; }
-      .front-overlay { padding: 20px; }
-      .card-back { padding: 30px; }
-    }
-  </style>
+/* ===== MOBILE ===== */
+@media(max-width:900px){
+  .modal-content{
+    grid-template-columns:1fr;
+    padding:28px;
+  }
+  .page{
+    margin:100px auto 80px;
+  }
+}
+@media(max-width:600px){
+  .character-list{
+    grid-template-columns:1fr;
+  }
+}
+</style>
 </head>
 <body>
-  <header>
-    <a href="index" class="nav-btn">Home</a>
-    <a href="map" class="nav-btn">Map</a>
-    <a href="characters" class="nav-btn">Characters</a>
-    <a href="places" class="nav-btn">Places</a>
-    <a href="screenshots" class="nav-btn">Screenshots</a>
-    <a href="trailers" class="nav-btn">Trailers</a>
-  </header>
+<header>
+  <a href="index" class="nav-btn">Home</a>
+  <a href="map" class="nav-btn">Map</a>
+  <a href="characters" class="nav-btn">Characters</a>
+  <a href="places" class="nav-btn">Places</a>
+  <a href="screenshots" class="nav-btn">Screenshots</a>
+  <a href="trailers" class="nav-btn">Trailers</a>
+</header>
 
-  <main class="page">
-    <h1>GTA 6 Locations</h1>
-    <div class="places-grid">
+<main class="page">
+<h1>Leonida — Places</h1>
+<div class="character-list">
 
-      <div class="place-item">
-        <div class="place-card">
-          <div class="card-face card-front">
-            <img src="gta/places/vice.jpg" alt="Vice City Beach">
-            <div class="front-overlay">
-              <h2>Vice City</h2>
-            </div>
-          </div>
-          <div class="card-face card-back">
-            <h2>Vice City</h2>
-            <p>The glamour, hustle, and greed of America captured in a single city. From pastel art deco hotels to the bright white sands of Ocean Beach — Vice City has it all.</p>
-          </div>
-        </div>
-      </div>
+  <div class="character-card" data-name="Vice City" data-img="gta/places/vice.jpg" data-desc="The glamour, hustle, and greed of America captured in a single city. From pastel art deco hotels to the bright white sands of Ocean Beach — Vice City has it all.">
+    <img src="gta/places/vice.jpg" alt="Vice City">
+    <div class="card-overlay"><h2>Vice City</h2></div>
+  </div>
 
-      <div class="place-item">
-        <div class="place-card">
-          <div class="card-face card-front">
-            <img src="gta/places/leoninda.jpg" alt="Leoninda Keys">
-            <div class="front-overlay">
-              <h2>Leoninda Keys</h2>
-            </div>
-          </div>
-          <div class="card-face card-back">
-            <h2>Leoninda Keys</h2>
-            <p>A tropical archipelago where life is easy but the waters are deadly. Grab a drink and relax, but don’t drift too far from shore.</p>
-          </div>
-        </div>
-      </div>
+  <div class="character-card" data-name="Leoninda Keys" data-img="gta/places/leoninda.jpg" data-desc="A tropical archipelago where life is easy but the waters are deadly. Grab a drink and relax, but don’t drift too far from shore.">
+    <img src="gta/places/leoninda.jpg" alt="Leoninda Keys">
+    <div class="card-overlay"><h2>Leoninda Keys</h2></div>
+  </div>
 
-      <div class="place-item">
-        <div class="place-card">
-          <div class="card-face card-front">
-            <img src="gta/places/grassrivers.jpg" alt="Grassrivers">
-            <div class="front-overlay">
-              <h2>Grassrivers</h2>
-            </div>
-          </div>
-          <div class="card-face card-back">
-            <h2>Grassrivers</h2>
-            <p>Swamps filled with gators, secrets, and something far stranger. The deeper you go, the weirder it gets.</p>
-          </div>
-        </div>
-      </div>
+  <div class="character-card" data-name="Grassrivers" data-img="gta/places/grassrivers.jpg" data-desc="Swamps filled with gators, secrets, and something far stranger. The deeper you go, the weirder it gets.">
+    <img src="gta/places/grassrivers.jpg" alt="Grassrivers">
+    <div class="card-overlay"><h2>Grassrivers</h2></div>
+  </div>
 
-      <div class="place-item">
-        <div class="place-card">
-          <div class="card-face card-front">
-            <img src="gta/places/port.jpg" alt="Port Gellhorn">
-            <div class="front-overlay">
-              <h2>Port Gellhorn</h2>
-            </div>
-          </div>
-          <div class="card-face card-back">
-            <h2>Port Gellhorn</h2>
-            <p>Abandoned malls, cheap motels, and biker gangs — the new economy of this forgotten tourist town runs on chaos.</p>
-          </div>
-        </div>
-      </div>
+  <div class="character-card" data-name="Port Gellhorn" data-img="gta/places/port.jpg" data-desc="Abandoned malls, cheap motels, and biker gangs — the new economy of this forgotten tourist town runs on chaos.">
+    <img src="gta/places/port.jpg" alt="Port Gellhorn">
+    <div class="card-overlay"><h2>Port Gellhorn</h2></div>
+  </div>
 
-      <div class="place-item">
-        <div class="place-card">
-          <div class="card-face card-front">
-            <img src="gta/places/ambrosia.jpg" alt="Ambrosia">
-            <div class="front-overlay">
-              <h2>Ambrosia</h2>
-            </div>
-          </div>
-          <div class="card-face card-back">
-            <h2>Ambrosia</h2>
-            <p>A town built on sugar and sweat. The refinery fuels the locals, the bikers control the streets.</p>
-          </div>
-        </div>
-      </div>
+  <div class="character-card" data-name="Ambrosia" data-img="gta/places/ambrosia.jpg" data-desc="A town built on sugar and sweat. The refinery fuels the locals, the bikers control the streets.">
+    <img src="gta/places/ambrosia.jpg" alt="Ambrosia">
+    <div class="card-overlay"><h2>Ambrosia</h2></div>
+  </div>
 
-      <div class="place-item">
-        <div class="place-card">
-          <div class="card-face card-front">
-            <img src="gta/places/mount.jpg" alt="Mount Kalaga">
-            <div class="front-overlay">
-              <h2>Mount Kalaga</h2>
-            </div>
-          </div>
-          <div class="card-face card-back">
-            <h2>Mount Kalaga</h2>
-            <p>A rugged wilderness where outlaws and mystics hide from civilization — and maybe something more sinister.</p>
-          </div>
-        </div>
-      </div>
+  <div class="character-card" data-name="Mount Kalaga" data-img="gta/places/mount.jpg" data-desc="A rugged wilderness where outlaws and mystics hide from civilization — and maybe something more sinister.">
+    <img src="gta/places/mount.jpg" alt="Mount Kalaga">
+    <div class="card-overlay"><h2>Mount Kalaga</h2></div>
+  </div>
 
+</div>
+</main>
+
+<!-- ===== MODAL ===== -->
+<div class="modal" id="modal">
+  <div class="modal-content">
+    <span class="close-btn" id="closeBtn">✕</span>
+    <img id="modalImg" alt="Location">
+    <div>
+      <h2 id="modalTitle"></h2>
+      <p id="modalDesc"></p>
     </div>
-  </main>
+  </div>
+</div>
+
+<script>
+const cards = document.querySelectorAll('.character-card');
+const modal = document.getElementById('modal');
+const modalImg = document.getElementById('modalImg');
+const modalTitle = document.getElementById('modalTitle');
+const modalDesc = document.getElementById('modalDesc');
+const closeBtn = document.getElementById('closeBtn');
+
+cards.forEach(card => {
+  card.onclick = () => {
+    modalImg.src = card.dataset.img;
+    modalTitle.textContent = card.dataset.name;
+    modalDesc.textContent = card.dataset.desc;
+    modal.classList.add('active');
+  };
+});
+
+closeBtn.onclick = () => modal.classList.remove('active');
+modal.onclick = e => {
+  if (e.target === modal) modal.classList.remove('active');
+};
+</script>
 </body>
 </html>
