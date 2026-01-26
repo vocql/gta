@@ -18,10 +18,10 @@ body{
   min-height:100vh;
 }
 
-/* ===== NAVBAR ===== */
+/* ===== NAVBAR (updated to match your home page exactly) ===== */
 header{
   position:fixed;
-  top:18px;
+  top:12px; /* was 18px - lowered slightly */
   left:50%;
   transform:translateX(-50%);
   z-index:50;
@@ -31,7 +31,9 @@ header{
   border-radius:999px;
   background:rgba(0,0,0,0.25);
   box-shadow:0 6px 18px rgba(0,0,0,0.35);
-  backdrop-filter: blur(10px);
+}
+header:hover{
+  box-shadow:0 12px 40px rgba(255,77,210,0.35);
 }
 .nav-btn{
   padding:9px 17px;
@@ -41,6 +43,9 @@ header{
   text-decoration:none;
   background:rgba(255,255,255,0.08);
   border:1px solid rgba(255,255,255,0.18);
+  box-shadow:
+    inset 0 1.2px 1.5px rgba(255,255,255,0.4),
+    0 4px 18px rgba(0,0,0,0.3);
   transition:.25s;
 }
 .nav-btn:hover{
@@ -69,7 +74,7 @@ h1{
 
 /* ===== PLACE CARD ===== */
 .character-card{
-  aspect-ratio: 4 / 3;          /* landscape-friendly ratio */
+  aspect-ratio: 4 / 3;
   border-radius:22px;
   overflow:hidden;
   position:relative;
@@ -197,7 +202,7 @@ h1{
 </header>
 
 <main class="page">
-<h1>Leonida — Places</h1>
+<h1>Places</h1>
 <div class="character-list">
 
   <div class="character-card" data-name="Vice City" data-img="gta/places/vice.jpg" data-desc="The glamour, hustle, and greed of America captured in a single city. From pastel art deco hotels to the bright white sands of Ocean Beach — Vice City has it all.">
