@@ -4,26 +4,24 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>VI | Characters</title>
-
 <link rel="icon" href="gta/npc/lucia.jpg" type="image/jpg">
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
-
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{height:100%}
-
 body{
   font-family:'Orbitron',sans-serif;
   background:
     linear-gradient(135deg, rgba(255,77,210,0.18), rgba(0,255,224,0.12)),
     url('gta/jason.jpg') center/cover no-repeat fixed;
   color:#fff;
+  min-height:100vh;
 }
 
-/* ===== NAVBAR ===== */
+/* NAVBAR - matched to your home page */
 header{
   position:fixed;
-  top:18px;
+  top:12px;
   left:50%;
   transform:translateX(-50%);
   z-index:50;
@@ -34,7 +32,9 @@ header{
   background:rgba(0,0,0,0.25);
   box-shadow:0 6px 18px rgba(0,0,0,0.35);
 }
-
+header:hover{
+  box-shadow:0 12px 40px rgba(255,77,210,0.35);
+}
 .nav-btn{
   padding:9px 17px;
   border-radius:999px;
@@ -43,6 +43,9 @@ header{
   text-decoration:none;
   background:rgba(255,255,255,0.08);
   border:1px solid rgba(255,255,255,0.18);
+  box-shadow:
+    inset 0 1.2px 1.5px rgba(255,255,255,0.4),
+    0 4px 18px rgba(0,0,0,0.3);
   transition:.25s;
 }
 .nav-btn:hover{
@@ -50,145 +53,138 @@ header{
   transform:scale(1.05);
 }
 
-/* ===== PAGE ===== */
+/* PAGE */
 .page{
-  width:clamp(900px,90vw,1400px);
-  margin:120px auto 80px;
+  width:clamp(900px,90vw,1440px);
+  margin:140px auto 100px;
   padding:0 20px;
 }
-
 h1{
   text-align:center;
-  font-size:52px;
+  font-size:clamp(42px,5vw,54px);
   font-weight:900;
-  margin-bottom:50px;
-  text-shadow:0 6px 12px rgba(0,0,0,.6);
+  margin-bottom:60px;
+  text-shadow:0 6px 16px rgba(0,0,0,.7);
 }
-
 .character-list{
   display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(300px,1fr));
-  gap:28px;
+  grid-template-columns:repeat(auto-fill,minmax(340px,1fr));
+  gap:32px;
 }
 
-/* ===== CHARACTER CARD ===== */
+/* SQUARE CARDS */
 .character-card{
-  height:420px;
-  border-radius:20px;
+  aspect-ratio: 1 / 1;
+  border-radius:22px;
   overflow:hidden;
   position:relative;
   cursor:pointer;
-  box-shadow:0 15px 35px rgba(0,0,0,.6);
-  transition:.35s;
+  box-shadow:0 15px 40px rgba(0,0,0,.65);
+  transition:.4s;
+  background:#111;
 }
-
 .character-card:hover{
-  transform:translateY(-6px) scale(1.02);
-  box-shadow:0 25px 50px rgba(0,0,0,.85),0 0 30px rgba(255,77,210,.35);
+  transform:translateY(-10px) scale(1.03);
+  box-shadow:0 30px 60px rgba(0,0,0,.9),0 0 40px rgba(255,77,210,.4);
 }
-
 .character-card img{
   width:100%;
   height:100%;
   object-fit:cover;
-  transition:.4s;
+  transition:.5s;
 }
-
 .character-card:hover img{
-  transform:scale(1.1);
-  filter:brightness(.8);
+  transform:scale(1.08);
+  filter:brightness(.85) contrast(1.1);
 }
-
 .card-overlay{
   position:absolute;
   inset:0;
   display:flex;
   align-items:flex-end;
-  padding:24px;
-  background:linear-gradient(to top,rgba(0,0,0,.85),transparent 60%);
+  padding:28px 24px;
+  background:linear-gradient(to top,rgba(0,0,0,.92),transparent 50%);
+  transition:.4s;
 }
-
 .card-overlay h2{
-  font-size:28px;
-  text-shadow:0 3px 12px rgba(0,0,0,.9);
+  font-size:clamp(22px,2.4vw,28px);
+  font-weight:900;
+  text-shadow:0 4px 12px rgba(0,0,0,.95);
+  letter-spacing:1px;
 }
 
-/* ===== MODAL ===== */
+/* MODAL */
 .modal{
   position:fixed;
   inset:0;
-  background:rgba(0,0,0,.75);
+  background:rgba(0,0,0,.82);
   display:flex;
   align-items:center;
   justify-content:center;
   opacity:0;
   pointer-events:none;
-  transition:.35s;
+  transition:.4s;
   z-index:999;
 }
-
 .modal.active{
   opacity:1;
   pointer-events:auto;
 }
-
 .modal-content{
-  background:rgba(10,10,20,.95);
-  border-radius:22px;
-  max-width:900px;
-  width:90%;
-  padding:30px;
+  background:rgba(8,8,18,.97);
+  border-radius:24px;
+  max-width:960px;
+  width:92%;
+  padding:36px;
   display:grid;
   grid-template-columns:1fr 1fr;
-  gap:28px;
-  transform:scale(.85);
-  transition:.35s;
-  box-shadow:0 30px 80px rgba(0,0,0,.9);
+  gap:36px;
+  transform:scale(.88);
+  transition:.4s;
+  box-shadow:0 40px 100px rgba(0,0,0,1);
+  position:relative;
 }
-
 .modal.active .modal-content{
   transform:scale(1);
 }
-
 .modal img{
   width:100%;
   border-radius:18px;
   object-fit:cover;
+  box-shadow:0 10px 30px rgba(0,0,0,.6);
 }
-
 .modal h2{
-  font-size:36px;
-  margin-bottom:14px;
+  font-size:clamp(32px,4vw,40px);
+  margin-bottom:20px;
+  text-shadow:0 4px 12px rgba(0,0,0,.8);
 }
-
 .modal p{
-  font-size:16px;
-  line-height:1.6;
-  opacity:.9;
+  font-size:17px;
+  line-height:1.65;
+  opacity:.92;
 }
-
 .close-btn{
   position:absolute;
   top:20px;
-  right:20px;
-  font-size:26px;
+  right:24px;
+  font-size:32px;
   cursor:pointer;
-  opacity:.8;
+  opacity:.75;
+  color:#fff;
 }
 .close-btn:hover{opacity:1}
 
-/* ===== MOBILE ===== */
-@media(max-width:768px){
-  .modal-content{
-    grid-template-columns:1fr;
-  }
-  h1{font-size:40px}
+/* MOBILE */
+@media(max-width:900px){
+  .modal-content{grid-template-columns:1fr; padding:28px;}
+  .page{margin:120px auto 80px;}
+}
+@media(max-width:600px){
+  .character-list{grid-template-columns:1fr;}
 }
 </style>
 </head>
-
 <body>
-
 <header>
   <a href="index" class="nav-btn">Home</a>
   <a href="map" class="nav-btn">Map</a>
@@ -199,68 +195,67 @@ h1{
 </header>
 
 <main class="page">
-<h1>GTA 6 Characters</h1>
-
+<h1>GTA VI — Characters</h1>
 <div class="character-list">
 
   <div class="character-card" data-name="Lucia" data-img="gta/npc/lucia.jpg" data-desc="Lucia fights for her family and her future. After prison, she’s done playing nice — every move is calculated.">
-    <img src="gta/npc/lucia.jpg">
+    <img src="gta/npc/lucia.jpg" alt="Lucia">
     <div class="card-overlay"><h2>Lucia</h2></div>
   </div>
 
   <div class="character-card" data-name="Jason" data-img="gta/npc/jason.jpg" data-desc="Army vet turned Keys drug runner. Sharp, deadly, and desperate for a way out.">
-    <img src="gta/npc/jason.jpg">
+    <img src="gta/npc/jason.jpg" alt="Jason">
     <div class="card-overlay"><h2>Jason</h2></div>
   </div>
 
   <div class="character-card" data-name="Dre'Quan Preist" data-img="gta/npc/dre.jpg" data-desc="Street hustler gone legit. Runs Only Raw Records chasing a Vice City anthem.">
-    <img src="gta/npc/dre.jpg">
+    <img src="gta/npc/dre.jpg" alt="Dre'Quan Preist">
     <div class="card-overlay"><h2>Dre'Quan Preist</h2></div>
   </div>
-  
+
   <div class="character-card" data-name="Stefanie" data-img="gta/npc/stefanie.png" data-desc="Leonida Corrections social worker tired of a broken system. She’s ready to fix it her way — even if it means breaking a few rules.">
-    <img src="gta/npc/stefanie.png">
+    <img src="gta/npc/stefanie.png" alt="Stefanie">
     <div class="card-overlay"><h2>Stefanie</h2></div>
   </div>
-  
+
   <div class="character-card" data-name="Cal Hampton" data-img="gta/npc/cal.png" data-desc="Jason’s paranoid, beer-loving friend. Hides at home monitoring Coast Guard chatter — but bigger scores might pull him into the chaos.">
-    <img src="gta/npc/cal.png">
+    <img src="gta/npc/cal.png" alt="Cal Hampton">
     <div class="card-overlay"><h2>Cal Hampton</h2></div>
   </div>
 
-   <div class="character-card" data-name="Dre'Quan Preist" data-img="gta/npc/boobie.png" data-desc="Vice City icon. Built an empire from clubs and real estate — smiles wide, but business is always deadly serious.">
-    <img src="gta/npc/boobie.png">
+  <div class="character-card" data-name="Boobie Ike" data-img="gta/npc/boobie.png" data-desc="Vice City icon. Built an empire from clubs and real estate — smiles wide, but business is always deadly serious.">
+    <img src="gta/npc/boobie.png" alt="Boobie Ike">
     <div class="card-overlay"><h2>Boobie Ike</h2></div>
   </div>
 
-   <div class="character-card" data-name="Real Dimez" data-img="gta/npc/dimez.webp" data-desc="Bae-Luxe & Roxy — viral duo turned Only Raw signees. Street hustle became bars and fame — now they’re fighting to stay relevant.">
-    <img src="gta/npc/dimez.webp">
+  <div class="character-card" data-name="Real Dimez" data-img="gta/npc/dimez.webp" data-desc="Bae-Luxe & Roxy — viral duo turned Only Raw signees. Street hustle became bars and fame — now they’re fighting to stay relevant.">
+    <img src="gta/npc/dimez.webp" alt="Real Dimez">
     <div class="card-overlay"><h2>Real Dimez</h2></div>
   </div>
 
-   <div class="character-card" data-name="Raul Bautista" data-img="gta/npc/raul.png" data-desc="Veteran bank robber with charm and ice-cold precision. Always hunting the next big score — and the perfect crew to pull it off.">
-    <img src="gta/npc/raul.png">
+  <div class="character-card" data-name="Raul Bautista" data-img="gta/npc/raul.png" data-desc="Veteran bank robber with charm and ice-cold precision. Always hunting the next big score — and the perfect crew to pull it off.">
+    <img src="gta/npc/raul.png" alt="Raul Bautista">
     <div class="card-overlay"><h2>Raul Bautista</h2></div>
   </div>
 
-   <div class="character-card" data-name="Brian Heder" data-img="gta/npc/brian.png" data-desc="Old-school Keys drug kingpin. Lets the young crews do the dirty work now — but his empire still runs deep and ruthless.">
-    <img src="gta/npc/brian.png">
+  <div class="character-card" data-name="Brian Heder" data-img="gta/npc/brian.png" data-desc="Old-school Keys drug kingpin. Lets the young crews do the dirty work now — but his empire still runs deep and ruthless.">
+    <img src="gta/npc/brian.png" alt="Brian Heder">
     <div class="card-overlay"><h2>Brian Heder</h2></div>
   </div>
 
-   <div class="character-card" data-name="Luxe" data-img="gta/npc/luxe.webp" data-desc="Half of Real Dimez. Turned dealer shake-downs into viral fame and bars. Hungry for the throne — one bad move could end it all.">
-    <img src="gta/npc/luxe.webp">
+  <div class="character-card" data-name="Luxe" data-img="gta/npc/luxe.webp" data-desc="Half of Real Dimez. Turned dealer shake-downs into viral fame and bars. Hungry for the throne — one bad move could end it all.">
+    <img src="gta/npc/luxe.webp" alt="Luxe">
     <div class="card-overlay"><h2>Luxe</h2></div>
   </div>
 
 </div>
 </main>
 
-<!-- ===== MODAL ===== -->
+<!-- MODAL -->
 <div class="modal" id="modal">
   <div class="modal-content">
     <span class="close-btn" id="closeBtn">✕</span>
-    <img id="modalImg">
+    <img id="modalImg" alt="Character">
     <div>
       <h2 id="modalTitle"></h2>
       <p id="modalDesc"></p>
@@ -276,18 +271,19 @@ const modalTitle = document.getElementById('modalTitle');
 const modalDesc = document.getElementById('modalDesc');
 const closeBtn = document.getElementById('closeBtn');
 
-cards.forEach(card=>{
-  card.onclick=()=>{
-    modalImg.src=card.dataset.img;
-    modalTitle.textContent=card.dataset.name;
-    modalDesc.textContent=card.dataset.desc;
+cards.forEach(card => {
+  card.onclick = () => {
+    modalImg.src = card.dataset.img;
+    modalTitle.textContent = card.dataset.name;
+    modalDesc.textContent = card.dataset.desc;
     modal.classList.add('active');
-  }
+  };
 });
 
-closeBtn.onclick=()=>modal.classList.remove('active');
-modal.onclick=e=>{ if(e.target===modal) modal.classList.remove('active'); }
+closeBtn.onclick = () => modal.classList.remove('active');
+modal.onclick = e => {
+  if (e.target === modal) modal.classList.remove('active');
+};
 </script>
-
 </body>
 </html>
