@@ -7,7 +7,183 @@
 <link rel="icon" href="gta/npc/lucia.jpg" type="image/jpg">
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
 <style>
-/* Your existing styles remain unchanged */
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%}
+body{
+  font-family:'Orbitron',sans-serif;
+  background:
+    linear-gradient(135deg, rgba(255,77,210,0.18), rgba(0,255,224,0.12)),
+    url('gta/jason.jpg') center/cover no-repeat fixed;
+  color:#fff;
+  min-height:100vh;
+}
+/* ===== NAVBAR ===== */
+header{
+  position:fixed;
+  top:12px;
+  left:50%;
+  transform:translateX(-50%);
+  z-index:50;
+  display:flex;
+  gap:12px;
+  padding:8px 14px;
+  border-radius:999px;
+  background:rgba(0,0,0,0.25);
+  box-shadow:0 6px 18px rgba(0,0,0,0.35);
+}
+header:hover{
+  box-shadow:0 12px 40px rgba(255,77,210,0.35);
+}
+.nav-btn{
+  padding:9px 17px;
+  border-radius:999px;
+  color:#fff;
+  font-weight:600;
+  text-decoration:none;
+  background:rgba(255,255,255,0.08);
+  border:1px solid rgba(255,255,255,0.18);
+  box-shadow:
+    inset 0 1.2px 1.5px rgba(255,255,255,0.4),
+    0 4px 18px rgba(0,0,0,0.3);
+  transition:.25s;
+}
+.nav-btn:hover{
+  background:rgba(255,255,255,0.14);
+  transform:scale(1.05);
+}
+/* ===== PAGE ===== */
+.page{
+  width:clamp(900px,90vw,1440px);
+  margin:120px auto 100px;
+  padding:0 20px;
+}
+h1{
+  text-align:center;
+  font-size:clamp(42px,5vw,54px);
+  font-weight:900;
+  margin-bottom:60px;
+  text-shadow:0 6px 16px rgba(0,0,0,.7);
+}
+.character-list{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(380px,1fr));
+  gap:32px;
+}
+/* ===== PLACE CARD ===== */
+.character-card{
+  aspect-ratio: 4 / 3;
+  border-radius:22px;
+  overflow:hidden;
+  position:relative;
+  cursor:pointer;
+  box-shadow:0 15px 40px rgba(0,0,0,.65);
+  transition:.4s;
+  background:#111;
+}
+.character-card:hover{
+  transform:translateY(-10px) scale(1.03);
+  box-shadow:0 30px 60px rgba(0,0,0,.9),0 0 40px rgba(255,77,210,.4);
+}
+.character-card img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  transition:.5s;
+}
+.character-card:hover img{
+  transform:scale(1.08);
+  filter:brightness(.85) contrast(1.1);
+}
+.card-overlay{
+  position:absolute;
+  inset:0;
+  display:flex;
+  align-items:flex-end;
+  padding:28px 24px;
+  background:linear-gradient(to top,rgba(0,0,0,.92),transparent 50%);
+  transition:.4s;
+}
+.card-overlay h2{
+  font-size:clamp(22px,2.4vw,28px);
+  font-weight:900;
+  text-shadow:0 4px 12px rgba(0,0,0,.95);
+  letter-spacing:1px;
+}
+/* ===== MODAL ===== */
+.modal{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.82);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  opacity:0;
+  pointer-events:none;
+  transition:.4s;
+  z-index:999;
+}
+.modal.active{
+  opacity:1;
+  pointer-events:auto;
+}
+.modal-content{
+  background:rgba(8,8,18,.97);
+  border-radius:24px;
+  max-width:960px;
+  width:92%;
+  padding:36px;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:36px;
+  transform:scale(.88);
+  transition:.4s;
+  box-shadow:0 40px 100px rgba(0,0,0,1);
+  position:relative;
+}
+.modal.active .modal-content{
+  transform:scale(1);
+}
+.modal img{
+  width:100%;
+  border-radius:18px;
+  object-fit:cover;
+  box-shadow:0 10px 30px rgba(0,0,0,.6);
+}
+.modal h2{
+  font-size:clamp(32px,4vw,40px);
+  margin-bottom:20px;
+  text-shadow:0 4px 12px rgba(0,0,0,.8);
+}
+.modal p{
+  font-size:17px;
+  line-height:1.65;
+  opacity:.92;
+}
+.close-btn{
+  position:absolute;
+  top:20px;
+  right:24px;
+  font-size:32px;
+  cursor:pointer;
+  opacity:.75;
+  color:#fff;
+}
+.close-btn:hover{opacity:1}
+/* ===== MOBILE ===== */
+@media(max-width:900px){
+  .modal-content{
+    grid-template-columns:1fr;
+    padding:28px;
+  }
+  .page{
+    margin:100px auto 80px;
+  }
+}
+@media(max-width:600px){
+  .character-list{
+    grid-template-columns:1fr;
+  }
+}
 </style>
 </head>
 <body>
@@ -19,35 +195,44 @@
   <a href="screenshots" class="nav-btn">Screenshots</a>
   <a href="trailers" class="nav-btn">Trailers</a>
 </header>
+
 <main class="page">
 <h1>Places</h1>
 <div class="character-list">
-  <div class="character-card" data-name="Vice City" data-img="gta/places/vice.jpg" data-desc="Vice City is Leonida's neon-soaked metropolis where America's glamour, hustle, and greed are turned up to eleven. Pastel art deco towers rise alongside Cuban-influenced neighborhoods, bootleg markets, gorgeous beaches, and endless cruise ships docking in the bay. From the bustling panaderias of Little Cuba to the flashy strip clubs and shady record labels downtown, every corner pulses with opportunity—and danger. If you've got the cash to flash, this is where you make it rain.">
+
+  <div class="character-card" data-name="Vice City" data-img="gta/places/vice.jpg" data-desc="Vice City is Leonida's neon-soaked metropolis where America's glamour, hustle, and greed are turned up to eleven. Pastel art deco towers rise alongside Cuban-influenced neighborhoods, bootleg markets, gorgeous beaches, and endless cruise ships docking in the bay. From the bustling panaderias of Little Cuba to the flashy strip clubs and shady record labels downtown, every corner pulses with opportunity—and danger.">
     <img src="gta/places/vice.jpg" alt="Vice City">
     <div class="card-overlay"><h2>Vice City</h2></div>
   </div>
-  <div class="character-card" data-name="Leonida Keys" data-img="gta/places/leoninda.jpg" data-desc="The Leonida Keys serve as the tropical gateway to paradise—a laid-back chain of islands where the dress code is casual, the drinks flow freely, and life moves at the speed of a slow-rolling wave. Luxury beachfront spots mix with hidden coves perfect for unwinding, but the stunning turquoise waters hide unpredictable currents, dangerous marine life, and plenty of secrets beneath the surface. It's the ideal spot to kick back with a buzz and a view—just don't drift too far from shore.">
+
+  <div class="character-card" data-name="Leonida Keys" data-img="gta/places/leoninda.jpg" data-desc="The Leonida Keys are the tropical gateway to paradise — a laid-back chain of islands where the dress code is flip-flops, the drinks are cold, and life moves at the speed of a slow-rolling wave. Luxury beachfront villas mix with hidden coves perfect for chilling, but the stunning turquoise waters hide strong currents, sharks, and secrets better left undisturbed. Grab a beer, enjoy the sunset… just don't drift too far from shore.">
     <img src="gta/places/leoninda.jpg" alt="Leonida Keys">
     <div class="card-overlay"><h2>Leonida Keys</h2></div>
   </div>
-  <div class="character-card" data-name="Grassrivers" data-img="gta/places/grassrivers.jpg" data-desc="Grassrivers is the untamable jewel of Leonida's crown—a vast, primordial swamp echoing the Everglades, where tangled mangroves, murky channels, and thick wetlands stretch as far as the eye can see. Alligators and deadly predators rule the waters, but the real threats are the weirder discoveries lurking just beneath the surface. This is raw, untouched wilderness where nature hides bodies (literal and figurative), and every boat ride or airboat trip feels like venturing into the unknown.">
+
+  <div class="character-card" data-name="Grassrivers" data-img="gta/places/grassrivers.jpg" data-desc="Grassrivers is Leonida's wild, primordial swamp — a sprawling maze of mangroves, slow-moving black water, and sawgrass that stretches forever. Gators own these channels, airboats are the only real transportation, and every bend hides something: moonshine stills, sunken wrecks, or things the locals refuse to talk about. The deeper you go, the less the normal rules apply.">
     <img src="gta/places/grassrivers.jpg" alt="Grassrivers">
     <div class="card-overlay"><h2>Grassrivers</h2></div>
   </div>
-  <div class="character-card" data-name="Port Gellhorn" data-img="gta/places/port.jpg" data-desc="Port Gellhorn is Leonida’s forgotten coast—a once-thriving tourist town now reduced to cheap motels, abandoned strip malls, shuttered attractions, and empty boardwalks. The tourists never came back, but a new economy took root: fueled by malt liquor, painkillers, truck-stop energy drinks, dirt bikes, and biker gangs. It's gritty, chaotic, and seedy—a perfect hideout for lowlifes, drifters, and anyone running from the law or looking to disappear into the decay.">
+
+  <div class="character-card" data-name="Port Gellhorn" data-img="gta/places/port.jpg" data-desc="Port Gellhorn is what's left after the tourists stopped coming: a decaying coastal town of abandoned motels, shuttered arcades, empty strip malls, and cracked neon signs. The new economy runs on cheap beer, pain pills, dirt bikes, and biker gangs. It's grimy, desperate, and strangely alive — the perfect place to lay low, make bad decisions, or disappear completely.">
     <img src="gta/places/port.jpg" alt="Port Gellhorn">
     <div class="card-overlay"><h2>Port Gellhorn</h2></div>
   </div>
-  <div class="character-card" data-name="Ambrosia" data-img="gta/places/ambrosia.jpg" data-desc="In the heart of Leonida, Ambrosia is where old-school American industry and values still reign supreme—whatever the cost. Dominated by the massive Allied Crystal sugar refinery, the town provides hard jobs for blue-collar locals while a notorious biker gang supplies almost everything else. Small towns collide with heavy industry, creating a gritty mix of sweat-soaked labor, outlaw loyalty, quiet corruption, and rural backroads. It's a place where the factory whistle and motorcycle engines define the rhythm of life.">
+
+  <div class="character-card" data-name="Ambrosia" data-img="gta/places/ambrosia.jpg" data-desc="Ambrosia is old-school Florida heartland built on sugar and hard labor. The massive Allied Crystal sugar refinery dominates the skyline and provides the only steady work in town. Outside the factory gates, outlaw motorcycle clubs run the roads, the bars, and most of the side hustles. It's a place where blue-collar pride meets quiet corruption, and everyone knows someone who knows something.">
     <img src="gta/places/ambrosia.jpg" alt="Ambrosia">
     <div class="card-overlay"><h2>Ambrosia</h2></div>
   </div>
-  <div class="character-card" data-name="Mount Kalaga" data-img="gta/places/mount.jpg" data-desc="Mount Kalaga National Park stretches across the remote northern fringes of Leonida, a rugged wilderness of dense forests, winding rivers, deep canyons, and wide-open trails. It's a national off-the-grid landmark drawing hunters, fishers, off-road riders, and reclusive types seeking freedom far from civilization. The terrain is unforgiving and beautiful, offering prime spots for adventure—but also plenty of hiding places for outlaws, mystics, and anyone paranoid enough to vanish into the hills.">
+
+  <div class="character-card" data-name="Mount Kalaga" data-img="gta/places/mount.jpg" data-desc="Mount Kalaga National Park is the remote, rugged backbone of northern Leonida — dense pine forests, deep ravines, fast rivers, and miles of off-road trails. It's a magnet for hunters, dirt bikers, preppers, and people who want to be left the hell alone. Beautiful during the day, eerie at night, and full of places perfect for hiding… or for never being found.">
     <img src="gta/places/mount.jpg" alt="Mount Kalaga">
     <div class="card-overlay"><h2>Mount Kalaga</h2></div>
   </div>
+
 </div>
 </main>
+
 <!-- ===== MODAL ===== -->
 <div class="modal" id="modal">
   <div class="modal-content">
@@ -59,6 +244,7 @@
     </div>
   </div>
 </div>
+
 <script>
 const cards = document.querySelectorAll('.character-card');
 const modal = document.getElementById('modal');
@@ -66,6 +252,7 @@ const modalImg = document.getElementById('modalImg');
 const modalTitle = document.getElementById('modalTitle');
 const modalDesc = document.getElementById('modalDesc');
 const closeBtn = document.getElementById('closeBtn');
+
 cards.forEach(card => {
   card.onclick = () => {
     modalImg.src = card.dataset.img;
@@ -74,6 +261,7 @@ cards.forEach(card => {
     modal.classList.add('active');
   };
 });
+
 closeBtn.onclick = () => modal.classList.remove('active');
 modal.onclick = e => {
   if (e.target === modal) modal.classList.remove('active');
