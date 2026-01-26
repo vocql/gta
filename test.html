@@ -3,26 +3,27 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>VI | Home</title>
+<title>VI | Characters</title>
+
 <link rel="icon" href="gta/npc/lucia.jpg" type="image/jpg">
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
+
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-html,body{height:100%;overflow:hidden}
+html,body{height:100%}
+
 body{
   font-family:'Orbitron',sans-serif;
-  background:url('gta/jason.jpg') center/cover no-repeat fixed;
+  background:
+    linear-gradient(135deg, rgba(255,77,210,0.18), rgba(0,255,224,0.12)),
+    url('gta/jason.jpg') center/cover no-repeat fixed;
   color:#fff;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  padding-top: 120px; /* Extra space at top to prevent navbar overlap on characters */
 }
 
-/* Header - raised a bit more to avoid covering faces */
+/* ===== NAVBAR ===== */
 header{
   position:fixed;
-  top:40px; /* Increased from 18px to push it higher */
+  top:18px;
   left:50%;
   transform:translateX(-50%);
   z-index:50;
@@ -33,9 +34,7 @@ header{
   background:rgba(0,0,0,0.25);
   box-shadow:0 6px 18px rgba(0,0,0,0.35);
 }
-header:hover{
-  box-shadow:0 12px 40px rgba(255,77,210,0.35);
-}
+
 .nav-btn{
   padding:9px 17px;
   border-radius:999px;
@@ -44,114 +43,152 @@ header:hover{
   text-decoration:none;
   background:rgba(255,255,255,0.08);
   border:1px solid rgba(255,255,255,0.18);
-  box-shadow:
-    inset 0 1.2px 1.5px rgba(255,255,255,0.4),
-    0 4px 18px rgba(0,0,0,0.3);
   transition:.25s;
 }
 .nav-btn:hover{
   background:rgba(255,255,255,0.14);
   transform:scale(1.05);
 }
-/* Updated Compact Countdown Card - shifted up for Lucia's face */
-.countdown-wrap{
-  backdrop-filter:blur(8px);
-  -webkit-backdrop-filter:blur(8px);
-  border-radius:20px;
-  padding:30px 40px;
+
+/* ===== PAGE ===== */
+.page{
+  width:clamp(900px,90vw,1400px);
+  margin:120px auto 80px;
+  padding:0 20px;
+}
+
+h1{
   text-align:center;
-  box-shadow:0 20px 60px rgba(0,0,0,.7);
-  background:rgba(0,0,0,.35);
-  width:90%;
-  max-width:700px;
-  margin-top: -80px; /* Negative margin to pull it up, making Lucia's face higher */
-}
-.title{
-  font-size:32px;
+  font-size:52px;
   font-weight:900;
-  margin-bottom:4px;
-  letter-spacing: 1px;
+  margin-bottom:50px;
+  text-shadow:0 6px 12px rgba(0,0,0,.6);
 }
-.subtitle{
-  color:rgba(255,255,255,.85);
-  margin-bottom:24px;
-  font-size:14px;
-  text-transform: uppercase;
-  letter-spacing: 1px;
+
+.character-list{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(300px,1fr));
+  gap:28px;
 }
-.clock{
+
+/* ===== CHARACTER CARD ===== */
+.character-card{
+  height:420px;
+  border-radius:20px;
+  overflow:hidden;
+  position:relative;
+  cursor:pointer;
+  box-shadow:0 15px 35px rgba(0,0,0,.6);
+  transition:.35s;
+}
+
+.character-card:hover{
+  transform:translateY(-6px) scale(1.02);
+  box-shadow:0 25px 50px rgba(0,0,0,.85),0 0 30px rgba(255,77,210,.35);
+}
+
+.character-card img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  transition:.4s;
+}
+
+.character-card:hover img{
+  transform:scale(1.1);
+  filter:brightness(.8);
+}
+
+.card-overlay{
+  position:absolute;
+  inset:0;
   display:flex;
-  gap:12px;
-  justify-content:center;
-  flex-wrap:nowrap;
+  align-items:flex-end;
+  padding:24px;
+  background:linear-gradient(to top,rgba(0,0,0,.85),transparent 60%);
 }
-.unit{
-  min-width:85px;
-  padding:12px 10px;
-  border-radius:12px;
-  background:rgba(0,0,0,.4);
-  border:1px solid rgba(255,255,255,.7);
+
+.card-overlay h2{
+  font-size:28px;
+  text-shadow:0 3px 12px rgba(0,0,0,.9);
 }
-.num{
-  font-size:32px;
-  font-weight:900;
-  line-height: 1;
-}
-.label{
-  font-size:12px;
-  margin-top:6px;
-  text-transform:uppercase;
-  opacity: 0.8;
-}
-/* Launch Buttons */
-.launch-buttons{
-  display:none;
-  margin-top:24px;
-  gap:14px;
-  justify-content:center;
-  flex-wrap:wrap;
-}
-.launch-btn{
-  padding:12px 24px;
-  border-radius:999px;
-  color:#fff;
-  font-size: 14px;
-  font-weight:700;
-  text-decoration:none;
-  background:rgba(255,255,255,0.08);
-  border:1px solid rgba(255,255,255,0.18);
-  box-shadow:
-    inset 0 1.2px 1.5px rgba(255,255,255,0.4),
-    0 6px 18px rgba(0,0,0,0.35);
-  backdrop-filter:blur(12px);
-  -webkit-backdrop-filter:blur(12px);
-  transition:.25s ease;
-}
-.launch-btn:hover{
-  background:rgba(255,255,255,0.14);
-  transform:translateY(-2px) scale(1.06);
-  box-shadow:
-    inset 0 1.2px 1.5px rgba(255,255,255,0.45),
-    0 0 22px rgba(255,77,210,0.45);
-}
-/* Confetti */
-.confetti{
+
+/* ===== MODAL ===== */
+.modal{
   position:fixed;
-  top:-10px;
-  width:8px;
-  height:14px;
-  animation:fall linear forwards;
-  z-index:9999;
+  inset:0;
+  background:rgba(0,0,0,.75);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  opacity:0;
+  pointer-events:none;
+  transition:.35s;
+  z-index:999;
 }
-@keyframes fall{
-  to{
-    transform:translateY(110vh) rotate(720deg);
-    opacity:0;
+
+.modal.active{
+  opacity:1;
+  pointer-events:auto;
+}
+
+.modal-content{
+  background:rgba(10,10,20,.95);
+  border-radius:22px;
+  max-width:900px;
+  width:90%;
+  padding:30px;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:28px;
+  transform:scale(.85);
+  transition:.35s;
+  box-shadow:0 30px 80px rgba(0,0,0,.9);
+}
+
+.modal.active .modal-content{
+  transform:scale(1);
+}
+
+.modal img{
+  width:100%;
+  border-radius:18px;
+  object-fit:cover;
+}
+
+.modal h2{
+  font-size:36px;
+  margin-bottom:14px;
+}
+
+.modal p{
+  font-size:16px;
+  line-height:1.6;
+  opacity:.9;
+}
+
+.close-btn{
+  position:absolute;
+  top:20px;
+  right:20px;
+  font-size:26px;
+  cursor:pointer;
+  opacity:.8;
+}
+.close-btn:hover{opacity:1}
+
+/* ===== MOBILE ===== */
+@media(max-width:768px){
+  .modal-content{
+    grid-template-columns:1fr;
   }
+  h1{font-size:40px}
 }
 </style>
 </head>
+
 <body>
+
 <header>
   <a href="index" class="nav-btn">Home</a>
   <a href="map" class="nav-btn">Map</a>
@@ -160,59 +197,62 @@ header:hover{
   <a href="screenshots" class="nav-btn">Screenshots</a>
   <a href="trailers" class="nav-btn">Trailers</a>
 </header>
-<section class="countdown-wrap">
-  <h1 class="title">Grand Theft Auto VI</h1>
-  <div class="subtitle">Release countdown — November 19th, 2026</div>
-  <div class="clock">
-    <div class="unit"><div class="num" id="days">0</div><div class="label">Days</div></div>
-    <div class="unit"><div class="num" id="hours">0</div><div class="label">Hours</div></div>
-    <div class="unit"><div class="num" id="minutes">0</div><div class="label">Minutes</div></div>
-    <div class="unit"><div class="num" id="seconds">0</div><div class="label">Seconds</div></div>
+
+<main class="page">
+<h1>GTA 6 Characters</h1>
+
+<div class="character-list">
+
+  <div class="character-card" data-name="Lucia" data-img="gta/npc/lucia.jpg" data-desc="Lucia fights for her family and her future. After prison, she’s done playing nice — every move is calculated.">
+    <img src="gta/npc/lucia.jpg">
+    <div class="card-overlay"><h2>Lucia</h2></div>
   </div>
-  <div class="launch-buttons" id="launchButtons">
-    <a href="preorder" class="launch-btn">Pre-Order</a>
-    <a href="map" class="launch-btn">Map</a>
-    <a href="trailers" class="launch-btn">Trailers</a>
+
+  <div class="character-card" data-name="Jason" data-img="gta/npc/jason.jpg" data-desc="Army vet turned Keys drug runner. Sharp, deadly, and desperate for a way out.">
+    <img src="gta/npc/jason.jpg">
+    <div class="card-overlay"><h2>Jason</h2></div>
   </div>
-</section>
+
+  <div class="character-card" data-name="Dre'Quan Preist" data-img="gta/npc/dre.jpg" data-desc="Street hustler gone legit. Runs Only Raw Records chasing a Vice City anthem.">
+    <img src="gta/npc/dre.jpg">
+    <div class="card-overlay"><h2>Dre'Quan Preist</h2></div>
+  </div>
+
+</div>
+</main>
+
+<!-- ===== MODAL ===== -->
+<div class="modal" id="modal">
+  <div class="modal-content">
+    <span class="close-btn" id="closeBtn">✕</span>
+    <img id="modalImg">
+    <div>
+      <h2 id="modalTitle"></h2>
+      <p id="modalDesc"></p>
+    </div>
+  </div>
+</div>
+
 <script>
-const target = new Date('2026-11-19T00:00:00');
-let launched=false;
-const daysEl = document.getElementById('days');
-const hoursEl = document.getElementById('hours');
-const minutesEl = document.getElementById('minutes');
-const secondsEl = document.getElementById('seconds');
-function pad(n){return String(n).padStart(2,'0')}
-function celebrate(){
-  for(let i=0;i<120;i++){
-    const c=document.createElement('div');
-    c.className='confetti';
-    c.style.left=Math.random()*100+'vw';
-    c.style.background=`hsl(${Math.random()*360},90%,60%)`;
-    c.style.animationDuration=2+Math.random()*2+'s';
-    document.body.appendChild(c);
-    setTimeout(()=>c.remove(),4000);
+const cards = document.querySelectorAll('.character-card');
+const modal = document.getElementById('modal');
+const modalImg = document.getElementById('modalImg');
+const modalTitle = document.getElementById('modalTitle');
+const modalDesc = document.getElementById('modalDesc');
+const closeBtn = document.getElementById('closeBtn');
+
+cards.forEach(card=>{
+  card.onclick=()=>{
+    modalImg.src=card.dataset.img;
+    modalTitle.textContent=card.dataset.name;
+    modalDesc.textContent=card.dataset.desc;
+    modal.classList.add('active');
   }
-}
-function launchMode(){
-  if(launched)return;
-  launched=true;
-  document.querySelector('.clock').style.display='none';
-  document.getElementById('launchButtons').style.display='flex';
-  document.querySelector('.subtitle').textContent='Now Available';
-  celebrate();
-}
-function update(){
-  const now=new Date();
-  let diff=Math.floor((target-now)/1000);
-  if(diff<=0){launchMode();return;}
-  daysEl.textContent=Math.floor(diff/86400);
-  hoursEl.textContent=pad(Math.floor(diff%86400/3600));
-  minutesEl.textContent=pad(Math.floor(diff%3600/60));
-  secondsEl.textContent=pad(diff%60);
-}
-update();
-setInterval(update,1000);
+});
+
+closeBtn.onclick=()=>modal.classList.remove('active');
+modal.onclick=e=>{ if(e.target===modal) modal.classList.remove('active'); }
 </script>
+
 </body>
 </html>
