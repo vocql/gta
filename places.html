@@ -17,11 +17,10 @@ body{
   color:#fff;
   min-height:100vh;
 }
-
-/* ===== NAVBAR (updated to match your home page exactly) ===== */
+/* ===== NAVBAR ===== */
 header{
   position:fixed;
-  top:12px; /* was 18px - lowered slightly */
+  top:12px;
   left:50%;
   transform:translateX(-50%);
   z-index:50;
@@ -52,7 +51,6 @@ header:hover{
   background:rgba(255,255,255,0.14);
   transform:scale(1.05);
 }
-
 /* ===== PAGE ===== */
 .page{
   width:clamp(900px,90vw,1440px);
@@ -71,7 +69,6 @@ h1{
   grid-template-columns:repeat(auto-fill,minmax(380px,1fr));
   gap:32px;
 }
-
 /* ===== PLACE CARD ===== */
 .character-card{
   aspect-ratio: 4 / 3;
@@ -112,7 +109,6 @@ h1{
   text-shadow:0 4px 12px rgba(0,0,0,.95);
   letter-spacing:1px;
 }
-
 /* ===== MODAL ===== */
 .modal{
   position:fixed;
@@ -173,7 +169,6 @@ h1{
   color:#fff;
 }
 .close-btn:hover{opacity:1}
-
 /* ===== MOBILE ===== */
 @media(max-width:900px){
   .modal-content{
@@ -205,32 +200,32 @@ h1{
 <h1>Places</h1>
 <div class="character-list">
 
-  <div class="character-card" data-name="Vice City" data-img="gta/places/vice.jpg" data-desc="The glamour, hustle, and greed of America captured in a single city. From pastel art deco hotels to the bright white sands of Ocean Beach — Vice City has it all.">
+  <div class="character-card" data-name="Vice City" data-img="gta/places/vice.jpg" data-desc="Vice City is Leonida's neon-soaked metropolis where America's glamour, hustle, and greed are turned up to eleven. Pastel art deco towers rise alongside Cuban-influenced neighborhoods, bootleg markets, gorgeous beaches, and endless cruise ships docking in the bay. From the bustling panaderias of Little Cuba to the flashy strip clubs and shady record labels downtown, every corner pulses with opportunity—and danger.">
     <img src="gta/places/vice.jpg" alt="Vice City">
     <div class="card-overlay"><h2>Vice City</h2></div>
   </div>
 
-  <div class="character-card" data-name="Leoninda Keys" data-img="gta/places/leoninda.jpg" data-desc="A tropical archipelago where life is easy but the waters are deadly. Grab a drink and relax, but don’t drift too far from shore.">
-    <img src="gta/places/leoninda.jpg" alt="Leoninda Keys">
-    <div class="card-overlay"><h2>Leoninda Keys</h2></div>
+  <div class="character-card" data-name="Leonida Keys" data-img="gta/places/leoninda.jpg" data-desc="The Leonida Keys are the tropical gateway to paradise — a laid-back chain of islands where the dress code is flip-flops, the drinks are cold, and life moves at the speed of a slow-rolling wave. Luxury beachfront villas mix with hidden coves perfect for chilling, but the stunning turquoise waters hide strong currents, sharks, and secrets better left undisturbed. Grab a beer, enjoy the sunset… just don't drift too far from shore.">
+    <img src="gta/places/leoninda.jpg" alt="Leonida Keys">
+    <div class="card-overlay"><h2>Leonida Keys</h2></div>
   </div>
 
-  <div class="character-card" data-name="Grassrivers" data-img="gta/places/grassrivers.jpg" data-desc="Swamps filled with gators, secrets, and something far stranger. The deeper you go, the weirder it gets.">
+  <div class="character-card" data-name="Grassrivers" data-img="gta/places/grassrivers.jpg" data-desc="Grassrivers is Leonida's wild, primordial swamp — a sprawling maze of mangroves, slow-moving black water, and sawgrass that stretches forever. Gators own these channels, airboats are the only real transportation, and every bend hides something: moonshine stills, sunken wrecks, or things the locals refuse to talk about. The deeper you go, the less the normal rules apply.">
     <img src="gta/places/grassrivers.jpg" alt="Grassrivers">
     <div class="card-overlay"><h2>Grassrivers</h2></div>
   </div>
 
-  <div class="character-card" data-name="Port Gellhorn" data-img="gta/places/port.jpg" data-desc="Abandoned malls, cheap motels, and biker gangs — the new economy of this forgotten tourist town runs on chaos.">
+  <div class="character-card" data-name="Port Gellhorn" data-img="gta/places/port.jpg" data-desc="Port Gellhorn is what's left after the tourists stopped coming: a decaying coastal town of abandoned motels, shuttered arcades, empty strip malls, and cracked neon signs. The new economy runs on cheap beer, pain pills, dirt bikes, and biker gangs. It's grimy, desperate, and strangely alive — the perfect place to lay low, make bad decisions, or disappear completely.">
     <img src="gta/places/port.jpg" alt="Port Gellhorn">
     <div class="card-overlay"><h2>Port Gellhorn</h2></div>
   </div>
 
-  <div class="character-card" data-name="Ambrosia" data-img="gta/places/ambrosia.jpg" data-desc="A town built on sugar and sweat. The refinery fuels the locals, the bikers control the streets.">
+  <div class="character-card" data-name="Ambrosia" data-img="gta/places/ambrosia.jpg" data-desc="Ambrosia is old-school Florida heartland built on sugar and hard labor. The massive Allied Crystal sugar refinery dominates the skyline and provides the only steady work in town. Outside the factory gates, outlaw motorcycle clubs run the roads, the bars, and most of the side hustles. It's a place where blue-collar pride meets quiet corruption, and everyone knows someone who knows something.">
     <img src="gta/places/ambrosia.jpg" alt="Ambrosia">
     <div class="card-overlay"><h2>Ambrosia</h2></div>
   </div>
 
-  <div class="character-card" data-name="Mount Kalaga" data-img="gta/places/mount.jpg" data-desc="A rugged wilderness where outlaws and mystics hide from civilization — and maybe something more sinister.">
+  <div class="character-card" data-name="Mount Kalaga" data-img="gta/places/mount.jpg" data-desc="Mount Kalaga National Park is the remote, rugged backbone of northern Leonida — dense pine forests, deep ravines, fast rivers, and miles of off-road trails. It's a magnet for hunters, dirt bikers, preppers, and people who want to be left the hell alone. Beautiful during the day, eerie at night, and full of places perfect for hiding… or for never being found.">
     <img src="gta/places/mount.jpg" alt="Mount Kalaga">
     <div class="card-overlay"><h2>Mount Kalaga</h2></div>
   </div>
