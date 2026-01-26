@@ -21,7 +21,7 @@ body{
   justify-content:center;
 }
 
-/* Header */
+/* ================= HEADER ================= */
 header{
   position:fixed;
   top:18px;
@@ -36,10 +36,6 @@ header{
   box-shadow:0 6px 18px rgba(0,0,0,0.35);
 }
 
-header:hover{
-  box-shadow:0 12px 40px rgba(255,77,210,0.35);
-}
-
 .nav-btn{
   padding:9px 17px;
   border-radius:999px;
@@ -48,199 +44,281 @@ header:hover{
   text-decoration:none;
   background:rgba(255,255,255,0.08);
   border:1px solid rgba(255,255,255,0.18);
-  box-shadow:
-    inset 0 1.2px 1.5px rgba(255,255,255,0.4),
-    0 4px 18px rgba(0,0,0,0.3);
   transition:.25s;
 }
 
-.nav-btn:hover{
-  background:rgba(255,255,255,0.14);
-  transform:scale(1.05);
+.nav-btn:hover{background:rgba(255,255,255,0.14);transform:scale(1.05)}
+
+.nav-item{position:relative}
+
+.pages-dropdown{
+  position:absolute;
+  top:140%;
+  left:50%;
+  transform:translateX(-50%);
+  background:rgba(0,0,0,0.85);
+  border-radius:14px;
+  padding:10px;
+  display:none;
 }
 
-/* Updated Compact Countdown Card */
+.nav-item:hover .pages-dropdown{display:block}
+
+.pages-dropdown a{
+  display:block;
+  padding:8px 12px;
+  border-radius:10px;
+  color:#fff;
+  text-decoration:none;
+  font-size:13px;
+}
+
+.pages-dropdown a:hover{background:rgba(255,255,255,0.1)}
+
+/* ================= HAMBURGER ================= */
+.menu-btn{
+  position:fixed;
+  top:18px;
+  left:18px;
+  width:42px;
+  height:42px;
+  border-radius:12px;
+  background:rgba(0,0,0,0.4);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+  z-index:60;
+}
+
+.menu-btn span,
+.menu-btn span::before,
+.menu-btn span::after{
+  content:"";
+  width:18px;
+  height:2px;
+  background:#fff;
+  position:absolute;
+}
+.menu-btn span::before{transform:translateY(-6px)}
+.menu-btn span::after{transform:translateY(6px)}
+
+.menu-dropdown{
+  position:fixed;
+  top:68px;
+  left:18px;
+  background:rgba(0,0,0,0.9);
+  border-radius:14px;
+  padding:10px;
+  display:none;
+  z-index:60;
+}
+.menu-dropdown a{
+  display:block;
+  padding:10px;
+  border-radius:10px;
+  color:#fff;
+  font-size:13px;
+  text-decoration:none;
+}
+.menu-dropdown a:hover{background:rgba(255,255,255,0.1)}
+
+/* ================= COUNTDOWN ================= */
 .countdown-wrap{
   backdrop-filter:blur(8px);
-  -webkit-backdrop-filter:blur(8px);
   border-radius:20px;
-  padding:30px 40px; /* Reduced padding for a slimmer profile */
-  text-align:center;
-  box-shadow:0 20px 60px rgba(0,0,0,.7);
+  padding:30px 40px;
   background:rgba(0,0,0,.35);
+  text-align:center;
   width:90%;
-  max-width:700px; /* Constrained width to match your circle */
+  max-width:700px;
 }
 
-.title{
-  font-size:32px; /* Smaller, punchier title */
-  font-weight:900;
-  margin-bottom:4px;
-  letter-spacing: 1px;
-}
+.title{font-size:32px;font-weight:900}
+.subtitle{font-size:14px;margin-bottom:24px;opacity:.85}
 
-.subtitle{
-  color:rgba(255,255,255,.85);
-  margin-bottom:24px;
-  font-size:14px;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-}
-
-.clock{
-  display:flex;
-  gap:12px;
-  justify-content:center;
-  flex-wrap:nowrap; /* Keeps boxes in one line */
-}
-
+.clock{display:flex;gap:12px;justify-content:center}
 .unit{
   min-width:85px;
-  padding:12px 10px;
+  padding:12px;
   border-radius:12px;
   background:rgba(0,0,0,.4);
-  border:1px solid rgba(255,255,255,.7);
+  border:1px solid rgba(255,255,255,.6);
 }
+.num{font-size:32px;font-weight:900}
+.label{font-size:12px;margin-top:6px;opacity:.8}
 
-.num{
-  font-size:32px; /* Scaled down number size */
-  font-weight:900;
-  line-height: 1;
-}
-
-.label{
-  font-size:12px;
-  margin-top:6px;
-  text-transform:uppercase;
-  opacity: 0.8;
-}
-
-/* Launch Buttons */
-.launch-buttons{
-  display:none;
-  margin-top:24px;
-  gap:14px;
-  justify-content:center;
-  flex-wrap:wrap;
-}
-
-.launch-btn{
-  padding:12px 24px;
-  border-radius:999px;
-  color:#fff;
-  font-size: 14px;
-  font-weight:700;
-  text-decoration:none;
-  background:rgba(255,255,255,0.08);
-  border:1px solid rgba(255,255,255,0.18);
-  box-shadow:
-    inset 0 1.2px 1.5px rgba(255,255,255,0.4),
-    0 6px 18px rgba(0,0,0,0.35);
-  backdrop-filter:blur(12px);
-  -webkit-backdrop-filter:blur(12px);
-  transition:.25s ease;
-}
-
-.launch-btn:hover{
-  background:rgba(255,255,255,0.14);
-  transform:translateY(-2px) scale(1.06);
-  box-shadow:
-    inset 0 1.2px 1.5px rgba(255,255,255,0.45),
-    0 0 22px rgba(255,77,210,0.45);
-}
-
-/* Confetti */
-.confetti{
+/* ================= SETTINGS MODAL ================= */
+.modal{
   position:fixed;
-  top:-10px;
-  width:8px;
-  height:14px;
-  animation:fall linear forwards;
-  z-index:9999;
+  inset:0;
+  background:rgba(0,0,0,0.65);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:100;
 }
 
-@keyframes fall{
-  to{
-    transform:translateY(110vh) rotate(720deg);
-    opacity:0;
-  }
+.modal-box{
+  width:90%;
+  max-width:720px;
+  max-height:80vh;
+  overflow:auto;
+  background:rgba(15,15,15,0.95);
+  border-radius:22px;
+  padding:24px;
+  box-shadow:0 30px 80px rgba(0,0,0,0.8);
+}
+
+.modal-box h2{
+  margin-bottom:16px;
+  font-size:20px;
+  letter-spacing:1px;
+}
+
+.settings-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:14px;
+}
+
+.setting{
+  background:rgba(255,255,255,0.05);
+  padding:12px;
+  border-radius:12px;
+  font-size:13px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.setting input,
+.setting select{
+  background:#000;
+  color:#fff;
+  border:none;
+  border-radius:6px;
+}
+
+.close-btn{
+  margin-top:18px;
+  padding:10px 18px;
+  border-radius:999px;
+  background:rgba(255,255,255,0.12);
+  border:1px solid rgba(255,255,255,0.2);
+  color:#fff;
+  font-weight:700;
+  cursor:pointer;
 }
 </style>
 </head>
 
 <body>
 
+<!-- Hamburger -->
+<div class="menu-btn" id="menuBtn"><span></span></div>
+
+<div class="menu-dropdown" id="menuDropdown">
+  <a href="#" id="openSettings">Settings</a>
+  <a href="#">Audio</a>
+  <a href="#">Credits</a>
+</div>
+
 <header>
-  <a href="index" class="nav-btn">Home</a>
-  <a href="map" class="nav-btn">Map</a>
-  <a href="characters" class="nav-btn">Characters</a>
-  <a href="places" class="nav-btn">Places</a>
-  <a href="screenshots" class="nav-btn">Screenshots</a>
-  <a href="trailers" class="nav-btn">Trailers</a>
+  <a class="nav-btn" href="index">Home</a>
+  <div class="nav-item">
+    <a class="nav-btn" href="#">Pages</a>
+    <div class="pages-dropdown">
+      <a href="map">Map</a>
+      <a href="characters">Characters</a>
+      <a href="places">Places</a>
+      <a href="screenshots">Screenshots</a>
+      <a href="trailers">Trailers</a>
+      <a href="chapters">Chapters</a>
+      <a href="leaks">Leaks</a>
+      <a href="preorder">Pre-Order</a>
+    </div>
+  </div>
 </header>
 
 <section class="countdown-wrap">
   <h1 class="title">Grand Theft Auto VI</h1>
   <div class="subtitle">Release countdown — November 19th, 2026</div>
-
   <div class="clock">
     <div class="unit"><div class="num" id="days">0</div><div class="label">Days</div></div>
     <div class="unit"><div class="num" id="hours">0</div><div class="label">Hours</div></div>
     <div class="unit"><div class="num" id="minutes">0</div><div class="label">Minutes</div></div>
     <div class="unit"><div class="num" id="seconds">0</div><div class="label">Seconds</div></div>
   </div>
-
-  <div class="launch-buttons" id="launchButtons">
-    <a href="preorder" class="launch-btn">Pre-Order</a>
-    <a href="map" class="launch-btn">Map</a>
-    <a href="trailers" class="launch-btn">Trailers</a>
-  </div>
 </section>
 
-<script>
-const target = new Date('2026-11-19T00:00:00');
-let launched=false;
+<!-- SETTINGS MODAL -->
+<div class="modal" id="settingsModal">
+  <div class="modal-box">
+    <h2>Settings</h2>
 
-const daysEl = document.getElementById('days');
-const hoursEl = document.getElementById('hours');
-const minutesEl = document.getElementById('minutes');
-const secondsEl = document.getElementById('seconds');
+    <div class="settings-grid">
+      <!-- 30+ settings -->
+      <div class="setting">Blur UI <input type="checkbox" checked></div>
+      <div class="setting">Particles <input type="checkbox" checked></div>
+      <div class="setting">Ambient Music <input type="checkbox"></div>
+      <div class="setting">24h Clock <input type="checkbox"></div>
+      <div class="setting">Reduced Motion <input type="checkbox"></div>
+      <div class="setting">High Contrast <input type="checkbox"></div>
+      <div class="setting">Vignette <input type="checkbox" checked></div>
+      <div class="setting">Dynamic Background <input type="checkbox" checked></div>
+      <div class="setting">Confetti Effects <input type="checkbox"></div>
+      <div class="setting">Cursor FX <input type="checkbox"></div>
+
+      <div class="setting">UI Scale 
+        <select><option>100%</option><option>110%</option><option>120%</option></select>
+      </div>
+      <div class="setting">Theme
+        <select><option>Dark</option><option>Midnight</option><option>Vice</option></select>
+      </div>
+
+      <div class="setting">Sound Volume <input type="range"></div>
+      <div class="setting">Music Volume <input type="range"></div>
+      <div class="setting">Effects Volume <input type="range"></div>
+
+      <div class="setting">FPS Counter <input type="checkbox"></div>
+      <div class="setting">Developer Mode <input type="checkbox"></div>
+      <div class="setting">Beta Features <input type="checkbox"></div>
+      <div class="setting">Live Data <input type="checkbox"></div>
+      <div class="setting">Auto Theme <input type="checkbox"></div>
+      <div class="setting">Low Power Mode <input type="checkbox"></div>
+      <div class="setting">HDR UI <input type="checkbox"></div>
+      <div class="setting">Accessibility Mode <input type="checkbox"></div>
+      <div class="setting">Experimental UI <input type="checkbox"></div>
+    </div>
+
+    <button class="close-btn" id="closeSettings">Close</button>
+  </div>
+</div>
+
+<script>
+const target=new Date('2026-11-19T00:00:00');
+const days=daysEl=days, hoursEl=hours, minutesEl=minutes, secondsEl=seconds;
 
 function pad(n){return String(n).padStart(2,'0')}
-
-function celebrate(){
-  for(let i=0;i<120;i++){
-    const c=document.createElement('div');
-    c.className='confetti';
-    c.style.left=Math.random()*100+'vw';
-    c.style.background=`hsl(${Math.random()*360},90%,60%)`;
-    c.style.animationDuration=2+Math.random()*2+'s';
-    document.body.appendChild(c);
-    setTimeout(()=>c.remove(),4000);
-  }
-}
-
-function launchMode(){
-  if(launched)return;
-  launched=true;
-  document.querySelector('.clock').style.display='none';
-  document.getElementById('launchButtons').style.display='flex';
-  document.querySelector('.subtitle').textContent='Now Available';
-  celebrate();
-}
-
 function update(){
-  const now=new Date();
-  let diff=Math.floor((target-now)/1000);
-  if(diff<=0){launchMode();return;}
-  daysEl.textContent=Math.floor(diff/86400);
-  hoursEl.textContent=pad(Math.floor(diff%86400/3600));
-  minutesEl.textContent=pad(Math.floor(diff%3600/60));
-  secondsEl.textContent=pad(diff%60);
+  let diff=Math.floor((target-new Date())/1000);
+  if(diff<0) diff=0;
+  days.textContent=Math.floor(diff/86400);
+  hours.textContent=pad(Math.floor(diff%86400/3600));
+  minutes.textContent=pad(Math.floor(diff%3600/60));
+  seconds.textContent=pad(diff%60);
 }
+update();setInterval(update,1000);
 
-update();
-setInterval(update,1000);
+// Hamburger
+menuBtn.onclick=()=>menuDropdown.style.display=
+menuDropdown.style.display==='block'?'none':'block';
+
+// Settings modal
+openSettings.onclick=()=>settingsModal.style.display='flex';
+closeSettings.onclick=()=>settingsModal.style.display='none';
+settingsModal.onclick=e=>{if(e.target===settingsModal)settingsModal.style.display='none'}
 </script>
 
 </body>
