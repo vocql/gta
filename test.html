@@ -57,9 +57,7 @@ header:hover{
   transform:scale(1.05);
 }
 
-/* Countdown card - pushed down so it doesn't overlap Jason's face */
 .countdown-wrap{
-  backdrop-filter:blur(12px);
   border-radius:20px;
   padding:26px 34px;
   text-align:center;
@@ -67,9 +65,11 @@ header:hover{
   max-width:600px;
   margin-top:120px;
 
-  background:transparent;   /* ← removed background */
-  border:none;              /* ← removed border */
-  box-shadow:none;          /* ← removed shadow */
+  background: rgba(255,255,255,0.1); /* light transparent overlay */
+  backdrop-filter: blur(20px); /* the frosted glass blur */
+  -webkit-backdrop-filter: blur(20px);
+  border:1px solid rgba(255,255,255,0.2); /* subtle border */
+  box-shadow:0 8px 40px rgba(0,0,0,0.4); /* soft shadow */
 }
 
 
