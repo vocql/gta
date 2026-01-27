@@ -62,7 +62,7 @@ header:hover {
   padding: 26px 34px;
   text-align: center;
   width: 88%;
-  max-width: 680px;
+  max-width: 720px;
   margin-top: 120px;
   background: rgba(0,0,0,0.25);
   border: 2px solid #fff;
@@ -88,6 +88,7 @@ header:hover {
   justify-content:center;
   flex-wrap:nowrap;
   margin-bottom:16px;
+  align-items: flex-start;
 }
 .unit{
   min-width:72px;
@@ -110,25 +111,25 @@ header:hover {
   opacity:.8;
   letter-spacing:1px;
 }
-/* Toggle button */
+/* Toggle button placed exactly where circled */
 .toggle-btn {
-  width: 44px;
-  height: 44px;
-  background: rgba(255,255,255,0.12);
+  width: 48px;
+  height: 48px;
+  background: rgba(255,255,255,0.10);
   border: 1px solid rgba(255,255,255,0.25);
   border-radius: 12px;
   color: #fff;
-  font-size: 22px;
+  font-size: 24px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   transition: all 0.2s;
-  margin-left: 8px;
+  margin-left: 4px;
   align-self: center;
 }
 .toggle-btn:hover {
-  background: rgba(255,255,255,0.22);
+  background: rgba(255,255,255,0.20);
   transform: scale(1.08);
 }
 /* Launch buttons */
@@ -188,10 +189,10 @@ header:hover {
   <div class="subtitle">RELEASE COUNTDOWN – NOVEMBER 19TH, 2026</div>
   
   <div class="clock" id="clock">
-    <div class="unit"><div class="num" id="days">000</div><div class="label">DAYS</div></div>
-    <div class="unit"><div class="num" id="hours">00</div><div class="label">HOURS</div></div>
-    <div class="unit"><div class="num" id="minutes">00</div><div class="label">MINUTES</div></div>
-    <div class="unit"><div class="num" id="seconds">00</div><div class="label">SECONDS</div></div>
+    <div class="unit"><div class="num" id="main1">000</div><div class="label" id="label1">DAYS</div></div>
+    <div class="unit"><div class="num" id="main2">00</div><div class="label" id="label2">HOURS</div></div>
+    <div class="unit"><div class="num" id="main3">00</div><div class="label" id="label3">MINUTES</div></div>
+    <div class="unit"><div class="num" id="main4">00</div><div class="label" id="label4">SECONDS</div></div>
     <div class="toggle-btn" id="toggleMode" title="Switch to months view">🕒</div>
   </div>
 
@@ -207,11 +208,14 @@ const targetDate = new Date('2026-11-19T00:00:00');
 let hasLaunched = false;
 let showMonths = false;
 
-const daysEl    = document.getElementById('days');
-const hoursEl   = document.getElementById('hours');
-const minutesEl = document.getElementById('minutes');
-const secondsEl = document.getElementById('seconds');
-const clockEl   = document.getElementById('clock');
+const main1El = document.getElementById('main1');
+const main2El = document.getElementById('main2');
+const main3El = document.getElementById('main3');
+const main4El = document.getElementById('main4');
+const label1 = document.getElementById('label1');
+const label2 = document.getElementById('label2');
+const label3 = document.getElementById('label3');
+const label4 = document.getElementById('label4');
 const toggleBtn = document.getElementById('toggleMode');
 
 function pad(n){return String(n).padStart(2,'0')}
@@ -231,10 +235,18 @@ function celebrate(){
 function enterLaunchMode(){
   if(hasLaunched) return;
   hasLaunched = true;
-  clockEl.style.display = 'none';
+  document.getElementById('clock').style.display = 'none';
   document.getElementById('launchButtons').style.display = 'flex';
   document.querySelector('.subtitle').textContent = 'NOW AVAILABLE – WELCOME TO LEONIDA';
   celebrate();
+}
+
+// Helper to calculate accurate month diff (mimics relativedelta)
+function getMonthDiff(d1, d2) {
+  let months = (d2.getFullYear() - d1.getFullYear()) * 12 + (d2.getMonth() - d1.getMonth());
+  const dayDiff = d2.getDate() - d1.getDate();
+  if (dayDiff < 0) months--;
+  return months;
 }
 
 function updateCountdown(){
@@ -245,44 +257,44 @@ function updateCountdown(){
     return;
   }
 
-  const diff = Math.floor(diffMs / 1000);
+  const diffSec = Math.floor(diffMs / 1000);
+  const totalDays = Math.floor(diffSec / 86400);
 
   if(showMonths){
-    // Approximate months (using ~30.4375 days/month average)
-    const totalDays = Math.floor(diff / 86400);
-    const months = Math.floor(totalDays / 30.4375);
-    const remainingDays = totalDays % 30; // rough remainder
+    // Accurate-ish months + remaining days
+    const months = getMonthDiff(now, targetDate);
+    const roughMonthsMs = months * 30.4375 * 86400 * 1000;
+    const remainingMs = diffMs - roughMonthsMs;
+    const remainingDays = Math.floor(remainingMs / 86400000);
+    
+    main1El.textContent = months;
+    main2El.textContent = pad(remainingDays);
+    main3El.textContent = pad(Math.floor((diffSec % 86400) / 3600));
+    main4El.textContent = pad(Math.floor((diffSec % 3600) / 60));
 
-    daysEl.textContent    = pad(remainingDays);
-    hoursEl.textContent   = pad(Math.floor((diff % 86400) / 3600));
-    minutesEl.textContent = pad(Math.floor((diff % 3600) / 60));
-    secondsEl.textContent = '---'; // hide seconds in months mode
-
-    // Update labels
-    document.querySelectorAll('.label')[0].textContent = 'MONTHS';
-    document.querySelectorAll('.label')[1].textContent = 'DAYS';
-    document.querySelectorAll('.label')[2].textContent = 'HOURS';
-    document.querySelectorAll('.label')[3].textContent = 'MINUTES';
+    label1.textContent = 'MONTHS';
+    label2.textContent = 'DAYS';
+    label3.textContent = 'HOURS';
+    label4.textContent = 'MINUTES';
   } else {
-    daysEl.textContent    = Math.floor(diff / 86400);
-    hoursEl.textContent   = pad(Math.floor((diff % 86400) / 3600));
-    minutesEl.textContent = pad(Math.floor((diff % 3600) / 60));
-    secondsEl.textContent = pad(diff % 60);
+    main1El.textContent = totalDays;
+    main2El.textContent = pad(Math.floor((diffSec % 86400) / 3600));
+    main3El.textContent = pad(Math.floor((diffSec % 3600) / 60));
+    main4El.textContent = pad(diffSec % 60);
 
-    // Reset labels
-    document.querySelectorAll('.label')[0].textContent = 'DAYS';
-    document.querySelectorAll('.label')[1].textContent = 'HOURS';
-    document.querySelectorAll('.label')[2].textContent = 'MINUTES';
-    document.querySelectorAll('.label')[3].textContent = 'SECONDS';
+    label1.textContent = 'DAYS';
+    label2.textContent = 'HOURS';
+    label3.textContent = 'MINUTES';
+    label4.textContent = 'SECONDS';
   }
 }
 
-// Toggle between modes
+// Toggle mode
 toggleBtn.addEventListener('click', () => {
   showMonths = !showMonths;
   toggleBtn.textContent = showMonths ? '📅' : '🕒';
-  toggleBtn.title = showMonths ? 'Switch to days view' : 'Switch to months view';
-  updateCountdown(); // refresh immediately
+  toggleBtn.title = showMonths ? 'Switch to full days view' : 'Switch to months view';
+  updateCountdown();
 });
 
 updateCountdown();
