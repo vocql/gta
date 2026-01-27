@@ -60,7 +60,7 @@ header:hover {
   padding: 26px 34px;
   text-align: center;
   width: 88%;
-  max-width: 740px;
+  max-width: 780px; /* slightly wider to fit 5 items nicely */
   margin-top: 120px;
   background: rgba(0,0,0,0.25);
   border: 2px solid #fff;
@@ -76,61 +76,57 @@ header:hover {
   font-size:14px;
   opacity:.85;
   letter-spacing:1px;
-  margin-bottom:20px;
+  margin-bottom:24px;
   text-transform:uppercase;
 }
 .clock{
   display:flex;
-  gap:10px;
+  gap:12px;
   justify-content:center;
-  align-items:flex-start;
   flex-wrap:nowrap;
-  margin-bottom:20px;
+  margin-bottom:16px;
 }
 .unit{
   min-width:78px;
-  padding:14px 12px;
-  border-radius:14px;
-  background:rgba(0,0,0,0.40);
-  border:1px solid rgba(255,255,255,0.12);
+  padding:12px 10px;
+  border-radius:12px;
+  background:rgba(0,0,0,0.35);
+  border:1px solid rgba(255,255,255,0.15);
 }
 .num{
   font-size:36px;
   font-weight:900;
   color:#fff;
   line-height:1;
-  text-shadow: 0 0 8px rgba(255,255,255,0.4),0 0 16px rgba(255,255,255,0.2);
+  text-shadow: 0 0 6px rgba(255,255,255,0.35),0 0 14px rgba(255,255,255,0.15);
 }
 .label{
   font-size:11px;
-  margin-top:8px;
+  margin-top:6px;
   text-transform:uppercase;
-  opacity:.75;
-  letter-spacing:1.2px;
+  opacity:.8;
+  letter-spacing:1px;
 }
 .toggle-btn {
-  width: 50px;
-  height: 50px;
-  min-width: 50px;
-  background: rgba(255,255,255,0.09);
-  border: 1px solid rgba(255,255,255,0.22);
-  border-radius: 14px;
+  width: 52px;
+  height: 52px;
+  background: rgba(0,0,0,0.40);
+  border: 1px solid rgba(255,255,255,0.20);
+  border-radius: 12px;
   color: #fff;
-  font-size: 24px;
+  font-size: 26px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: all 0.2s ease;
-  margin-left: 6px;
-  align-self: center;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  transition: all 0.2s;
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.4);
 }
 .toggle-btn:hover {
-  background: rgba(255,255,255,0.18);
-  transform: scale(1.06);
-  box-shadow: 0 4px 14px rgba(255,77,210,0.3);
+  background: rgba(255,255,255,0.12);
+  transform: scale(1.05);
 }
+/* Launch buttons etc. unchanged */
 .launch-buttons{
   display:none;
   margin-top:24px;
@@ -177,7 +173,6 @@ header:hover {
   <a href="screenshots" class="nav-btn">Screenshots</a>
   <a href="trailers" class="nav-btn">Trailers</a>
 </header>
-
 <section class="countdown-wrap">
   <h1 class="title">Grand Theft Auto VI</h1>
   <div class="subtitle">RELEASE COUNTDOWN – NOVEMBER 19TH, 2026</div>
@@ -187,7 +182,7 @@ header:hover {
     <div class="unit"><div class="num" id="val2">06</div><div class="label" id="lbl2">HOURS</div></div>
     <div class="unit"><div class="num" id="val3">12</div><div class="label" id="lbl3">MINUTES</div></div>
     <div class="unit"><div class="num" id="val4">15</div><div class="label" id="lbl4">SECONDS</div></div>
-    <div class="toggle-btn" id="toggleBtn" title="Switch to months view">🕒</div>
+    <div class="toggle-btn" id="toggleBtn" title="Toggle to months view">🕒</div>
   </div>
 
   <div class="launch-buttons" id="launchButtons">
@@ -198,21 +193,17 @@ header:hover {
 </section>
 
 <script>
-const targetDate = new Date('2026-11-19T00:00:00Z');
-let hasLaunched = false;
-let showMonthsMode = false;
+const target = new Date('2026-11-19T00:00:00');
+let launched = false;
+let monthsMode = false;
 
-const val1 = document.getElementById('val1');
-const val2 = document.getElementById('val2');
-const val3 = document.getElementById('val3');
-const val4 = document.getElementById('val4');
-const lbl1 = document.getElementById('lbl1');
-const lbl2 = document.getElementById('lbl2');
-const lbl3 = document.getElementById('lbl3');
-const lbl4 = document.getElementById('lbl4');
-const toggleBtn = document.getElementById('toggleBtn');
+const v1 = document.getElementById('val1'), l1 = document.getElementById('lbl1');
+const v2 = document.getElementById('val2'), l2 = document.getElementById('lbl2');
+const v3 = document.getElementById('val3'), l3 = document.getElementById('lbl3');
+const v4 = document.getElementById('val4'), l4 = document.getElementById('lbl4');
+const toggle = document.getElementById('toggleBtn');
 
-function pad(n) { return String(n).padStart(2, '0'); }
+function pad(n) { return n.toString().padStart(2, '0'); }
 
 function celebrate() {
   for (let i = 0; i < 120; i++) {
@@ -226,73 +217,70 @@ function celebrate() {
   }
 }
 
-function enterLaunchMode() {
-  if (hasLaunched) return;
-  hasLaunched = true;
+function launchMode() {
+  if (launched) return;
+  launched = true;
   document.getElementById('clock').style.display = 'none';
   document.getElementById('launchButtons').style.display = 'flex';
   document.querySelector('.subtitle').textContent = 'NOW AVAILABLE – WELCOME TO LEONIDA';
   celebrate();
 }
 
-function getMonthsAndDays(now, target) {
-  let months = (target.getFullYear() - now.getFullYear()) * 12 + (target.getMonth() - now.getMonth());
-  let days = target.getDate() - now.getDate();
+function monthsAndDays(now, targ) {
+  let months = (targ.getFullYear() - now.getFullYear()) * 12 + (targ.getMonth() - now.getMonth());
+  let days = targ.getDate() - now.getDate();
   if (days < 0) {
     months--;
-    const lastDayPrevMonth = new Date(now.getFullYear(), now.getMonth(), 0).getDate();
-    days += lastDayPrevMonth;
+    const prevLastDay = new Date(now.getFullYear(), now.getMonth(), 0).getDate();
+    days += prevLastDay;
   }
-  return { months, days };
+  return {months, days};
 }
 
-function updateCountdown() {
+function update() {
   const now = new Date();
-  const diffMs = targetDate - now;
-  if (diffMs <= 0) {
-    enterLaunchMode();
-    return;
-  }
+  const diff = target - now;
+  if (diff <= 0) return launchMode();
 
-  const totalSec = Math.floor(diffMs / 1000);
-  const totalDays = Math.floor(totalSec / 86400);
+  const sec = Math.floor(diff / 1000);
+  const totalDays = Math.floor(sec / 86400);
 
-  if (showMonthsMode) {
-    const { months, days } = getMonthsAndDays(now, targetDate);
-    const hours = Math.floor((totalSec % 86400) / 3600);
-    const mins = Math.floor((totalSec % 3600) / 60);
+  if (monthsMode) {
+    const {months, days} = monthsAndDays(now, target);
+    const hrs = Math.floor((sec % 86400) / 3600);
+    const min = Math.floor((sec % 3600) / 60);
 
-    val1.textContent = months;
-    val2.textContent = pad(days);
-    val3.textContent = pad(hours);
-    val4.textContent = pad(mins);
+    v1.textContent = months;
+    v2.textContent = pad(days);
+    v3.textContent = pad(hrs);
+    v4.textContent = pad(min);
 
-    lbl1.textContent = 'MONTHS';
-    lbl2.textContent = 'DAYS';
-    lbl3.textContent = 'HOURS';
-    lbl4.textContent = 'MINUTES';
+    l1.textContent = 'MONTHS';
+    l2.textContent = 'DAYS';
+    l3.textContent = 'HOURS';
+    l4.textContent = 'MINUTES';
   } else {
-    val1.textContent = totalDays;
-    val2.textContent = pad(Math.floor((totalSec % 86400) / 3600));
-    val3.textContent = pad(Math.floor((totalSec % 3600) / 60));
-    val4.textContent = pad(totalSec % 60);
+    v1.textContent = totalDays;
+    v2.textContent = pad(Math.floor((sec % 86400) / 3600));
+    v3.textContent = pad(Math.floor((sec % 3600) / 60));
+    v4.textContent = pad(sec % 60);
 
-    lbl1.textContent = 'DAYS';
-    lbl2.textContent = 'HOURS';
-    lbl3.textContent = 'MINUTES';
-    lbl4.textContent = 'SECONDS';
+    l1.textContent = 'DAYS';
+    l2.textContent = 'HOURS';
+    l3.textContent = 'MINUTES';
+    l4.textContent = 'SECONDS';
   }
 }
 
-toggleBtn.addEventListener('click', () => {
-  showMonthsMode = !showMonthsMode;
-  toggleBtn.textContent = showMonthsMode ? '🕒' : '📅';
-  toggleBtn.title = showMonthsMode ? 'Switch to days view' : 'Switch to months view';
-  updateCountdown();
+toggle.addEventListener('click', () => {
+  monthsMode = !monthsMode;
+  toggle.textContent = monthsMode ? '📅' : '🕒';
+  toggle.title = monthsMode ? 'Show days & seconds' : 'Show months & days';
+  update();
 });
 
-updateCountdown();
-setInterval(updateCountdown, 1000);
+update();
+setInterval(update, 1000);
 </script>
 </body>
 </html>
