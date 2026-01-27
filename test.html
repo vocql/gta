@@ -22,7 +22,7 @@ body{
   background-position:center 40%;
 }
 
-/* ================= HEADER ================= */
+/* ================= GLASS NAVBAR ================= */
 header{
   position:fixed;
   top:12px;
@@ -33,25 +33,34 @@ header{
   gap:12px;
   padding:8px 14px;
   border-radius:999px;
-  background:rgba(0,0,0,0.25);
-  box-shadow:0 6px 18px rgba(0,0,0,0.35);
-  backdrop-filter:blur(8px);
+
+  /* transparent glass */
+  background:rgba(0,0,0,0.12);
+  backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);
+
+  border:1px solid rgba(255,255,255,0.12);
+  box-shadow:0 10px 30px rgba(0,0,0,0.35);
 }
 header:hover{
-  box-shadow:0 12px 40px rgba(0,0,0,0.45);
+  box-shadow:0 14px 42px rgba(0,0,0,0.45);
 }
+
 .nav-btn{
   padding:9px 17px;
   border-radius:999px;
   color:#fff;
   font-weight:600;
   text-decoration:none;
-  background:rgba(255,255,255,0.08);
-  border:1px solid rgba(255,255,255,0.18);
+
+  background:rgba(255,255,255,0.06);
+  border:1px solid rgba(255,255,255,0.16);
+
   box-shadow:
-    inset 0 1.2px 1.5px rgba(255,255,255,0.4),
-    0 4px 18px rgba(0,0,0,0.3);
-  transition:.25s;
+    inset 0 1px 2px rgba(255,255,255,0.35),
+    0 4px 14px rgba(0,0,0,0.25);
+
+  transition:.25s ease;
 }
 .nav-btn:hover{
   background:rgba(255,255,255,0.14);
@@ -101,11 +110,10 @@ header:hover{
   box-shadow:0 4px 14px rgba(0,0,0,0.45);
 }
 
-/* Filled white numbers */
 .num{
   font-size:32px;
   font-weight:900;
-  color:#ffffff;
+  color:#fff;
   line-height:1;
   letter-spacing:1px;
   text-shadow:
@@ -119,7 +127,7 @@ header:hover{
   letter-spacing:1px;
 }
 
-/* Progress bar */
+/* Progress */
 .progress-container{
   margin:0 auto;
   width:80%;
