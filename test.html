@@ -4,197 +4,108 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>VI | Home</title>
-
 <link rel="icon" href="gta/npc/lucia.jpg" type="image/jpg">
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
-
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-html,body{height:100%;overflow:hidden}
-
+html,body{height:100%;overflow:hidden;font-family:'Orbitron',sans-serif;color:#fff}
 body{
-  font-family:'Orbitron',sans-serif;
-  background:
-    linear-gradient(135deg, rgba(255,77,210,0.15), rgba(0,255,224,0.10)),
-    url('gta/jason.jpg') center/cover no-repeat fixed;
+  background: linear-gradient(135deg, rgba(255,77,210,0.15), rgba(0,255,224,0.10)), url('gta/jason.jpg') center/cover no-repeat fixed;
   background-blend-mode: overlay;
-  color:#fff;
-  display:flex;
-  align-items:center;
-  justify-content:center;
+  display:flex;align-items:center;justify-content:center;
   background-position:center 40%;
+  transition: background 0.5s, filter 0.5s;
 }
 
 /* ================= NAVBAR ================= */
-header{
-  position:fixed;
-  top:18px;
-  left:50%;
-  transform:translateX(-50%);
-  z-index:50;
-  display:flex;
-  gap:12px;
-  padding:8px 14px;
-  border-radius:999px;
-  background:rgba(0,0,0,0.25);
-  box-shadow:0 6px 18px rgba(0,0,0,0.35);
-  transition:.25s;
+header {
+  position: fixed; top: 18px; left: 50%; transform: translateX(-50%);
+  z-index: 50; display: flex; gap: 12px; padding: 8px 14px; border-radius: 999px;
+  background: rgba(0,0,0,0.25); box-shadow: 0 6px 18px rgba(0,0,0,0.35); transition:0.25s;
 }
-header:hover{
-  box-shadow:0 12px 40px rgba(255,77,210,0.35);
-}
+header:hover{ box-shadow: 0 12px 40px rgba(255,77,210,0.35); }
 .nav-btn{
-  padding:9px 17px;
-  border-radius:999px;
-  color:#fff;
-  font-weight:600;
-  text-decoration:none;
-  background:rgba(255,255,255,0.08);
-  border:1px solid rgba(255,255,255,0.18);
-  box-shadow:inset 0 1.2px 1.5px rgba(255,255,255,0.4),
-             0 4px 18px rgba(0,0,0,0.3);
-  transition:.25s;
+  padding: 9px 17px; border-radius:999px; color:#fff; font-weight:600; text-decoration:none;
+  background: rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.18);
+  box-shadow: inset 0 1.2px 1.5px rgba(255,255,255,0.4), 0 4px 18px rgba(0,0,0,0.3); transition:0.25s;
 }
-.nav-btn:hover{
-  background:rgba(255,255,255,0.14);
-  transform:scale(1.05);
-}
+.nav-btn:hover{ background: rgba(255,255,255,0.14); transform:scale(1.05); }
 
 /* ================= COUNTDOWN CARD ================= */
 .countdown-wrap{
-  backdrop-filter:blur(4px);
-  border-radius:20px;
-  padding:26px 34px;
-  text-align:center;
-  width:88%;
-  max-width:600px;
-  margin-top:120px;
-  background:rgba(0,0,0,0.25);
-  border:2px solid #fff;
-  box-shadow:0 0 16px rgba(255,255,255,0.3);
+  backdrop-filter: blur(4px); border-radius:20px; padding:26px 34px; text-align:center;
+  width:88%; max-width:600px; margin-top:120px;
+  background: rgba(0,0,0,0.25); border:2px solid #fff; box-shadow:0 0 16px rgba(255,255,255,0.3);
+  transition: 0.3s;
 }
-.title{
-  font-size:32px;
-  font-weight:900;
-  margin-bottom:6px;
-}
-.subtitle{
-  font-size:14px;
-  opacity:.85;
-  letter-spacing:1px;
-  margin-bottom:24px;
-  text-transform:uppercase;
-}
+.title{ font-size:32px; font-weight:900; margin-bottom:6px; letter-spacing:1px; }
+.subtitle{ font-size:14px; opacity:.85; letter-spacing:1px; margin-bottom:24px; text-transform:uppercase; }
 
-/* ================= CLOCK ================= */
-.clock{
-  display:flex;
-  gap:12px;
-  justify-content:center;
-  margin-bottom:24px;
-}
-.unit{
-  min-width:72px;
-  padding:12px 10px;
-  border-radius:12px;
-  background:rgba(0,0,0,0.35);
-  border:1px solid rgba(255,255,255,0.15);
-}
-.num{
-  font-size:32px;
-  font-weight:900;
-  text-shadow:0 0 6px rgba(255,255,255,0.35);
-}
-.label{
-  font-size:11px;
-  margin-top:6px;
-  opacity:.8;
-  letter-spacing:1px;
-}
+/* Countdown */
+.clock{ display:flex; gap:12px; justify-content:center; flex-wrap:nowrap; margin-bottom:24px; }
+.unit{ min-width:72px; padding:12px 10px; border-radius:12px; background:rgba(0,0,0,0.35); border:1px solid rgba(255,255,255,0.15); }
+.num{ font-size:32px; font-weight:900; color:#fff; line-height:1; text-shadow: 0 0 6px rgba(255,255,255,0.35),0 0 14px rgba(255,255,255,0.15);}
+.label{ font-size:11px; margin-top:6px; text-transform:uppercase; opacity:.8; letter-spacing:1px; }
 
-/* ================= PROGRESS BAR ================= */
+/* Progress bar */
 .progress-container{
-  margin:0 auto 16px;
-  width:80%;
-  max-width:440px;
-  height:18px;
-  background:rgba(255,255,255,0.08);
-  border-radius:12px;
-  overflow:hidden;
-  border:1px solid rgba(255,255,255,0.18);
-  box-shadow:inset 0 1px 2px rgba(0,0,0,0.35);
+  margin:0 auto; width:80%; max-width:440px; height:16px; background:rgba(255,255,255,0.08);
+  border-radius:10px; overflow:hidden; border:1px solid rgba(255,255,255,0.18); box-shadow:inset 0 1px 2px rgba(0,0,0,0.3);
+  margin-bottom:16px;
 }
+.progress-bar{ height:100%; width:0%; background:linear-gradient(90deg,#fff,#ddd,#fff); background-size:200% 100%; transition:width 0.8s ease; }
+.progress-label{ text-align:center; font-size:12px; letter-spacing:1.4px; opacity:.85; }
 
-.progress-bar{
-  height:100%;
-  width:0%;
-  position:relative;
-  background-image:url("gta/progress-bg.jpg");
-  background-size:cover;
-  background-position:center;
-  background-repeat:no-repeat;
-  transition:width 0.8s ease;
-}
-
-/* glossy overlay */
-.progress-bar::after{
-  content:"";
-  position:absolute;
-  inset:0;
-  background:linear-gradient(
-    90deg,
-    rgba(255,255,255,0.15),
-    rgba(255,255,255,0.35),
-    rgba(255,255,255,0.15)
-  );
-}
-
-.progress-label{
-  font-size:12px;
-  letter-spacing:1.4px;
-  opacity:.85;
-}
-
-/* ================= LAUNCH ================= */
-.launch-buttons{
-  display:none;
-  margin-top:24px;
-  gap:14px;
-  justify-content:center;
-}
+/* Launch buttons */
+.launch-buttons{ display:none; margin-top:24px; gap:14px; justify-content:center; flex-wrap:wrap; }
 .launch-btn{
-  padding:12px 24px;
-  border-radius:999px;
-  color:#fff;
-  font-size:14px;
-  font-weight:700;
-  text-decoration:none;
-  background:rgba(255,255,255,0.08);
-  border:1px solid rgba(255,255,255,0.2);
-  transition:.25s;
+  padding:12px 24px; border-radius:999px; color:#fff; font-size:14px; font-weight:700; text-decoration:none;
+  background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.2);
+  box-shadow:inset 0 1.2px 1.5px rgba(255,255,255,0.4),0 6px 18px rgba(0,0,0,0.35);
+  backdrop-filter:blur(12px); transition:.25s ease;
 }
-.launch-btn:hover{
-  background:rgba(255,255,255,0.14);
-  transform:translateY(-2px) scale(1.06);
+.launch-btn:hover{ background:rgba(255,255,255,0.14); transform:translateY(-2px) scale(1.06); box-shadow:inset 0 1.2px 1.5px rgba(255,255,255,0.45),0 0 22px rgba(255,255,255,0.35); }
+
+/* Confetti */
+.confetti{ position:fixed; top:-10px; width:8px; height:14px; animation:fall linear forwards; z-index:9999; }
+@keyframes fall{ to{ transform:translateY(110vh) rotate(720deg); opacity:0; } }
+
+/* ================= SETTINGS UI ================= */
+.settings-btn{
+  position:fixed; top:16px; left:16px; width:42px; height:42px; border-radius:50%;
+  background:rgba(0,0,0,0.35); border:1px solid rgba(255,255,255,0.25); display:flex; align-items:center; justify-content:center;
+  cursor:pointer; z-index:60; font-size:18px; backdrop-filter:blur(6px); transition:.25s;
+}
+.settings-btn:hover{ transform:rotate(90deg) scale(1.1); box-shadow:0 0 20px rgba(255,77,210,0.45); }
+
+.settings-panel{
+  position:fixed; top:70px; left:16px; width:240px; padding:16px; border-radius:16px;
+  background:rgba(0,0,0,0.45); backdrop-filter:blur(10px); border:1px solid rgba(255,255,255,0.18);
+  box-shadow:0 20px 50px rgba(0,0,0,0.5); z-index:59; display:none;
+}
+.settings-panel h3{ font-size:14px; margin-bottom:12px; letter-spacing:1px; }
+.settings-panel label{ display:flex; justify-content:space-between; align-items:center; font-size:11px; margin-bottom:12px; gap:10px; }
+.settings-panel input[type="range"]{ width:100px; }
+.settings-panel .toggle{ cursor:pointer; }
+
+/* ================= FILM GRAIN ================= */
+.film-grain{
+  position:fixed; top:0; left:0; width:100%; height:100%; pointer-events:none;
+  background: url('https://i.ibb.co/NjXk7bL/noise.png') repeat; opacity:0.05; mix-blend-mode:overlay;
+  z-index:55; display:none;
 }
 
-/* ================= CONFETTI ================= */
-.confetti{
-  position:fixed;
-  top:-10px;
-  width:8px;
-  height:14px;
-  animation:fall linear forwards;
-  z-index:9999;
-}
-@keyframes fall{
-  to{transform:translateY(110vh) rotate(720deg);opacity:0;}
+/* ================= VIGNETTE ================= */
+.vignette{
+  position:fixed; top:0; left:0; width:100%; height:100%; pointer-events:none;
+  background: radial-gradient(ellipse at center, rgba(0,0,0,0) 60%, rgba(0,0,0,0.5) 100%);
+  z-index:54; display:none;
 }
 </style>
 </head>
-
 <body>
 
+<!-- NAVBAR -->
 <header>
   <a href="index" class="nav-btn">Home</a>
   <a href="map" class="nav-btn">Map</a>
@@ -204,22 +115,42 @@ header:hover{
   <a href="trailers" class="nav-btn">Trailers</a>
 </header>
 
+<!-- SETTINGS -->
+<div class="settings-btn" id="settingsToggle">⚙</div>
+<div class="settings-panel" id="settingsPanel">
+  <h3>SETTINGS</h3>
+  <label>Background Blur<input type="range" min="0" max="10" value="4" id="blurRange"></label>
+  <label>Neon Glow<input type="range" min="0" max="1" step="0.05" value="0.35" id="glowRange"></label>
+  <label>Vignette Strength<input type="range" min="0" max="1" step="0.05" value="0.5" id="vignetteRange"></label>
+  <label class="toggle"><input type="checkbox" id="filmGrain" checked>Film Grain</label>
+  <label class="toggle"><input type="checkbox" id="tickSound" checked>Countdown Tick</label>
+  <label class="toggle"><input type="checkbox" id="motionToggle" checked>UI Motion Effects</label>
+  <label class="toggle"><input type="checkbox" id="ambientAudio" checked>Ambient Audio</label>
+  <label>Cursor Style<select id="cursorStyle">
+    <option value="default">Default</option>
+    <option value="crosshair">Crosshair</option>
+    <option value="pointer">Pointer Dot</option>
+  </select></label>
+  <label class="toggle"><input type="checkbox" id="performanceMode">Performance Mode</label>
+  <button id="resetSettings">Reset to Defaults</button>
+</div>
+
+<!-- FILM GRAIN & VIGNETTE OVERLAY -->
+<div class="film-grain" id="filmGrainOverlay"></div>
+<div class="vignette" id="vignetteOverlay"></div>
+
+<!-- COUNTDOWN -->
 <section class="countdown-wrap">
   <h1 class="title">Grand Theft Auto VI</h1>
   <div class="subtitle">RELEASE COUNTDOWN – NOVEMBER 19TH, 2026</div>
-
   <div class="clock">
     <div class="unit"><div class="num" id="days">000</div><div class="label">DAYS</div></div>
     <div class="unit"><div class="num" id="hours">00</div><div class="label">HOURS</div></div>
     <div class="unit"><div class="num" id="minutes">00</div><div class="label">MINUTES</div></div>
     <div class="unit"><div class="num" id="seconds">00</div><div class="label">SECONDS</div></div>
   </div>
-
-  <div class="progress-container">
-    <div class="progress-bar" id="progressBar"></div>
-  </div>
+  <div class="progress-container"><div class="progress-bar" id="progressBar"></div></div>
   <div class="progress-label" id="progressText">0% COMPLETE</div>
-
   <div class="launch-buttons" id="launchButtons">
     <a href="preorder" class="launch-btn">Pre-Order</a>
     <a href="map" class="launch-btn">Map</a>
@@ -228,9 +159,11 @@ header:hover{
 </section>
 
 <script>
+/* ================= COUNTDOWN ================= */
 const targetDate = new Date('2026-11-19T00:00:00');
 const startDate  = new Date('2025-11-19T00:00:00');
 const totalMs = targetDate - startDate;
+let hasLaunched = false;
 
 const daysEl = document.getElementById('days');
 const hoursEl = document.getElementById('hours');
@@ -241,24 +174,118 @@ const progressText = document.getElementById('progressText');
 
 function pad(n){return String(n).padStart(2,'0')}
 
-function updateCountdown(){
-  const now = new Date();
-  const diff = Math.floor((targetDate - now) / 1000);
-
-  if(diff <= 0) return;
-
-  daysEl.textContent = String(Math.floor(diff/86400)).padStart(3,'0');
-  hoursEl.textContent = pad(Math.floor((diff%86400)/3600));
-  minutesEl.textContent = pad(Math.floor((diff%3600)/60));
-  secondsEl.textContent = pad(diff%60);
-
-  const progress = Math.min(100, Math.max(0, ((now - startDate) / totalMs) * 100));
-  progressBar.style.width = progress + '%';
-  progressText.textContent = Math.round(progress) + '% COMPLETE';
+function celebrate(){
+  for(let i=0;i<120;i++){
+    const c=document.createElement('div');
+    c.className='confetti';
+    c.style.left=Math.random()*100+'vw';
+    c.style.background=`hsl(${200+Math.random()*40},20%,90%)`;
+    c.style.animationDuration=(2+Math.random()*3)+'s';
+    document.body.appendChild(c);
+    setTimeout(()=>c.remove(),5000);
+  }
 }
 
+function enterLaunchMode(){
+  if(hasLaunched) return;
+  hasLaunched = true;
+  document.querySelector('.clock').style.display='none';
+  document.querySelector('.progress-container').style.display='none';
+  document.querySelector('.progress-label').style.display='none';
+  document.getElementById('launchButtons').style.display='flex';
+  document.querySelector('.subtitle').textContent='NOW AVAILABLE – WELCOME TO LEONIDA';
+  celebrate();
+}
+
+function updateCountdown(){
+  const now=new Date();
+  const diff=Math.floor((targetDate-now)/1000);
+  if(diff<=0){enterLaunchMode(); return}
+  daysEl.textContent=Math.floor(diff/86400);
+  hoursEl.textContent=pad(Math.floor((diff%86400)/3600));
+  minutesEl.textContent=pad(Math.floor((diff%3600)/60));
+  secondsEl.textContent=pad(diff%60);
+  const progress = Math.min(100, Math.max(0, ((now-startDate)/totalMs)*100));
+  progressBar.style.width = progress+'%';
+  progressText.textContent = Math.round(progress)+'% COMPLETE';
+}
 updateCountdown();
-setInterval(updateCountdown, 1000);
+setInterval(updateCountdown,1000);
+
+/* ================= SETTINGS ================= */
+const settingsToggle = document.getElementById('settingsToggle');
+const settingsPanel  = document.getElementById('settingsPanel');
+settingsToggle.onclick = () => {
+  settingsPanel.style.display = settingsPanel.style.display === 'block' ? 'none' : 'block';
+};
+
+/* BACKGROUND BLUR */
+const blurRange = document.getElementById('blurRange');
+blurRange.oninput = () => {
+  document.querySelector('.countdown-wrap').style.backdropFilter = `blur(${blurRange.value}px)`;
+  localStorage.blur = blurRange.value;
+};
+if(localStorage.blur){ blurRange.value = localStorage.blur; blurRange.oninput(); }
+
+/* NEON GLOW */
+const glowRange = document.getElementById('glowRange');
+glowRange.oninput = () => {
+  document.querySelector('.countdown-wrap').style.boxShadow = `0 0 30px rgba(255,255,255,${glowRange.value})`;
+  localStorage.glow = glowRange.value;
+};
+if(localStorage.glow){ glowRange.value = localStorage.glow; glowRange.oninput(); }
+
+/* VIGNETTE */
+const vignette = document.getElementById('vignetteOverlay');
+const vignetteRange = document.getElementById('vignetteRange');
+vignetteRange.oninput = () => { vignette.style.opacity = vignetteRange.value; localStorage.vignette = vignetteRange.value; vignette.style.display='block'; }
+if(localStorage.vignette){ vignetteRange.value=localStorage.vignette; vignetteRange.oninput(); }
+
+/* FILM GRAIN */
+const filmGrain = document.getElementById('filmGrain');
+const filmGrainOverlay = document.getElementById('filmGrainOverlay');
+filmGrain.onchange = e => { filmGrainOverlay.style.display = e.target.checked ? 'block':'none'; localStorage.filmGrain = e.target.checked; }
+if(localStorage.filmGrain === 'false'){ filmGrain.checked=false; filmGrainOverlay.style.display='none'; }
+
+/* TICK SOUND */
+const tickSound = document.getElementById('tickSound');
+let tick = new Audio('tick.mp3'); tick.volume=0.2;
+tickSound.onchange = e => localStorage.tick = e.target.checked;
+
+/* MOTION EFFECTS */
+const motionToggle = document.getElementById('motionToggle');
+motionToggle.onchange = e => { document.body.style.transition = e.target.checked ? '' : 'none'; localStorage.motion = e.target.checked; }
+if(localStorage.motion === 'false'){ motionToggle.checked=false; document.body.style.transition='none'; }
+
+/* AMBIENT AUDIO */
+const ambientAudio = document.getElementById('ambientAudio');
+let ambient = new Audio('https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3'); // placeholder ambient
+ambient.loop=true; ambient.volume=0.1;
+ambientAudio.onchange = e => { e.target.checked ? ambient.play() : ambient.pause(); localStorage.ambient = e.target.checked; }
+if(localStorage.ambient === 'false'){ ambientAudio.checked=false; ambient.pause(); } else { ambient.play(); }
+
+/* CURSOR STYLE */
+const cursorStyle = document.getElementById('cursorStyle');
+cursorStyle.onchange = e => { document.body.style.cursor = e.target.value; localStorage.cursor = e.target.value; }
+if(localStorage.cursor){ cursorStyle.value = localStorage.cursor; cursorStyle.onchange({target:{value:localStorage.cursor}}); }
+
+/* PERFORMANCE MODE */
+const performanceMode = document.getElementById('performanceMode');
+performanceMode.onchange = e => {
+  if(e.target.checked){
+    blurRange.value=0; glowRange.value=0; vignetteRange.value=0;
+    motionToggle.checked=false; filmGrain.checked=false; ambientAudio.checked=false;
+    blurRange.oninput(); glowRange.oninput(); vignetteRange.oninput(); motionToggle.onchange({target:{checked:false}});
+    filmGrain.onchange({target:{checked:false}}); ambientAudio.onchange({target:{checked:false}});
+  }
+  localStorage.performance = e.target.checked;
+};
+if(localStorage.performance==='true'){ performanceMode.checked=true; performanceMode.onchange({target:{checked:true}}); }
+
+/* RESET SETTINGS */
+document.getElementById('resetSettings').onclick = () => {
+  localStorage.clear(); location.reload();
+};
 </script>
 
 </body>
