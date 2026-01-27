@@ -76,83 +76,71 @@ header:hover{box-shadow:0 12px 40px rgba(255,77,210,0.35);}
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border:1px solid rgba(160,210,255,0.16);
-  box-shadow: 
-    inset 0 2px 6px rgba(255,255,255,0.22),
-    inset 0 -2px 6px rgba(0,0,0,0.3),
-    0 8px 30px rgba(0,0,0,0.4);
+  box-shadow: inset 0 2px 6px rgba(255,255,255,0.22), inset 0 -2px 6px rgba(0,0,0,0.3), 0 8px 30px rgba(0,0,0,0.4);
   position:relative;
   overflow:hidden;
   transition: transform 0.35s ease;
 }
 .unit:hover{transform: translateY(-5px);}
 
-/* ── Ultra-transparent jelly glass numbers ── */
+/* Jelly-style colorful transparent glass numbers */
 .num{
   font-size:48px;
   font-weight:900;
   line-height:1;
-  color: rgba(220, 245, 255, 0.75);           /* semi-transparent base color */
-  text-shadow: 
-    0 0 18px rgba(160, 220, 255, 0.7),
-    0 0 40px rgba(100, 180, 255, 0.45),
-    0 0 70px rgba(60, 140, 255, 0.25);
-  background: linear-gradient(145deg, rgba(230,255,255,0.35) 0%, rgba(180,240,255,0.18) 50%, rgba(120,200,255,0.12) 100%);
+  background: linear-gradient(135deg, #ff69b4 0%, #ff1493 25%, #ff4500 50%, #ffa500 75%, #ffd700 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
-  position:relative;
-  z-index:2;
-  filter: 
-    drop-shadow(0 4px 14px rgba(100,180,255,0.5))
-    brightness(1.15);
-  opacity: 0.82;                                /* extra transparency layer */
-  transform: perspective(380px) translateZ(6px) scale(1.02);
-  letter-spacing: -1px;                         /* tighter for jelly feel */
+  color: transparent; /* fallback */
+  text-shadow: 
+    0 0 15px rgba(255,105,180,0.8),
+    0 0 35px rgba(255,69,0,0.6),
+    0 0 60px rgba(255,215,0,0.4);
+  filter: drop-shadow(0 6px 18px rgba(255,20,147,0.5));
+  position: relative;
+  z-index: 2;
+  transform: perspective(400px) rotateX(8deg) translateZ(10px);
+  letter-spacing: -2px;
+  opacity: 0.92;
 }
 
-/* Multiple moving refractions for deep jelly transparency effect */
+/* Glossy jelly highlights/reflections (multiple layers for depth) */
 .num::before,
-.num::after,
-.num span {   /* using pseudo + span wrapper in html for third layer */
-  content: attr(data-text);   /* we'll duplicate text in html */
+.num::after {
+  content: attr(data-text);
   position: absolute;
   inset: 0;
-  color: transparent;
-  background: linear-gradient(90deg, transparent 30%, rgba(255,255,255,0.45) 50%, transparent 70%);
+  background: linear-gradient(90deg, transparent 20%, rgba(255,255,255,0.7) 50%, transparent 80%);
   -webkit-background-clip: text;
   background-clip: text;
-  background-size: 300% 100%;
-  animation: jellyRefract 8s linear infinite;
+  -webkit-text-fill-color: transparent;
   mix-blend-mode: screen;
   opacity: 0.6;
+  animation: jellyGloss 6s ease-in-out infinite;
   pointer-events: none;
-  transform: skewX(-12deg);
+  transform: skewX(-15deg);
 }
 
 .num::after {
-  animation-delay: 2.7s;
-  opacity: 0.45;
-  background: linear-gradient(120deg, transparent 35%, rgba(200,255,255,0.38) 55%, transparent 75%);
+  animation-delay: 3s;
+  opacity: 0.4;
+  background: linear-gradient(120deg, transparent 30%, rgba(255,255,255,0.55) 55%, transparent 80%);
 }
 
-.num span {
-  animation-delay: 5.4s;
-  opacity: 0.35;
+/* Gloss animation */
+@keyframes jellyGloss {
+  0%, 100% { transform: translateX(-150%) skewX(-15deg); }
+  50%      { transform: translateX(150%)  skewX(-15deg); }
 }
 
-/* Jelly refraction animation */
-@keyframes jellyRefract {
-  0%   { background-position: -200% 0; }
-  100% { background-position: 200%  0; }
-}
-
-/* Tick animation - quick jelly bounce + glow */
+/* Tick animation – jelly squish + bright glow */
 .num {
-  transition: transform 0.25s cubic-bezier(0.68, -0.6, 0.32, 1.6), filter 0.25s ease, opacity 0.25s ease;
+  transition: transform 0.28s cubic-bezier(0.68, -0.55, 0.265, 1.55), filter 0.28s ease, opacity 0.28s ease;
 }
 .num.changed {
-  transform: perspective(380px) translateZ(14px) scale(1.22) translateY(-3px);
-  filter: brightness(1.7) drop-shadow(0 0 40px rgba(160,220,255,0.9));
+  transform: perspective(400px) rotateX(12deg) translateZ(18px) scale(1.18);
+  filter: brightness(1.6) drop-shadow(0 0 45px rgba(255,105,180,0.9));
   opacity: 1;
 }
 
@@ -162,7 +150,7 @@ header:hover{box-shadow:0 12px 40px rgba(255,77,210,0.35);}
   text-transform:uppercase;
   opacity:0.85;
   letter-spacing:1.2px;
-  color: #b0d8ff;
+  color: #ffb6c1;
   text-shadow:0 1px 6px rgba(0,0,0,0.5);
 }
 
@@ -193,7 +181,7 @@ header:hover{box-shadow:0 12px 40px rgba(255,77,210,0.35);}
   box-shadow:inset 0 2px 4px rgba(255,255,255,0.45), 0 0 30px rgba(100,180,255,0.45);
 }
 
-/* Confetti */
+/* Confetti – colorful to match jelly theme */
 .confetti{
   position:fixed;
   top:-10px;
@@ -222,10 +210,10 @@ header:hover{box-shadow:0 12px 40px rgba(255,77,210,0.35);}
   <h1 class="title">Grand Theft Auto VI</h1>
   <div class="subtitle">RELEASE COUNTDOWN – NOVEMBER 19TH, 2026</div>
   <div class="clock">
-    <div class="unit"><div class="num" id="days" data-text="0"><span>0</span></div><div class="label">DAYS</div></div>
-    <div class="unit"><div class="num" id="hours" data-text="0"><span>0</span></div><div class="label">HOURS</div></div>
-    <div class="unit"><div class="num" id="minutes" data-text="0"><span>0</span></div><div class="label">MINUTES</div></div>
-    <div class="unit"><div class="num" id="seconds" data-text="0"><span>0</span></div><div class="label">SECONDS</div></div>
+    <div class="unit"><div class="num" id="days" data-text="0">0</div><div class="label">DAYS</div></div>
+    <div class="unit"><div class="num" id="hours" data-text="0">0</div><div class="label">HOURS</div></div>
+    <div class="unit"><div class="num" id="minutes" data-text="0">0</div><div class="label">MINUTES</div></div>
+    <div class="unit"><div class="num" id="seconds" data-text="0">0</div><div class="label">SECONDS</div></div>
   </div>
   <div class="launch-buttons" id="launchButtons">
     <a href="preorder" class="launch-btn">Pre-Order</a>
@@ -249,7 +237,7 @@ function celebrate(){
     const c = document.createElement('div');
     c.className='confetti';
     c.style.left = Math.random()*100+'vw';
-    c.style.background = `hsl(${Math.random()*50 + 180},90%,65%)`;
+    c.style.background = `hsl(${Math.random()*60 + 0},100%,60%)`; // warm colorful tones
     c.style.animationDuration = 2+Math.random()*3+'s';
     document.body.appendChild(c);
     setTimeout(()=>c.remove(),6000);
@@ -268,12 +256,12 @@ function launchMode(){
 function updateNumber(el, newVal) {
   const str = String(newVal);
   if (el.textContent !== str) {
-    el.dataset.text = str;  // update data-text for ::before/::after
+    el.dataset.text = str;
     el.classList.add('changed');
     setTimeout(() => {
       el.textContent = str;
-      setTimeout(() => el.classList.remove('changed'), 400);
-    }, 120);
+      setTimeout(() => el.classList.remove('changed'), 450);
+    }, 140);
   } else {
     el.textContent = str;
     el.dataset.text = str;
