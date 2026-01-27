@@ -4,25 +4,28 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>VI | Home</title>
+
 <link rel="icon" href="gta/npc/lucia.jpg" type="image/jpg">
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
+
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{height:100%;overflow:hidden}
+
 body{
   font-family:'Orbitron',sans-serif;
-  background:url('gta/jason.jpg') center/cover no-repeat fixed; /* high-res Jason & Lucia art */
+  background:url('gta/jason.jpg') center/cover no-repeat fixed;
   color:#fff;
   display:flex;
   align-items:center;
   justify-content:center;
-  background-position: center 40%; /* moves the image up so Lucia is higher */
+  background-position:center 40%;
 }
 
-/* Header - moved up a bit so it doesn't cover Jason's face */
+/* ================= HEADER ================= */
 header{
   position:fixed;
-  top:12px; /* was 18px - lowered slightly */
+  top:12px;
   left:50%;
   transform:translateX(-50%);
   z-index:50;
@@ -32,9 +35,10 @@ header{
   border-radius:999px;
   background:rgba(0,0,0,0.25);
   box-shadow:0 6px 18px rgba(0,0,0,0.35);
+  backdrop-filter:blur(8px);
 }
 header:hover{
-  box-shadow:0 12px 40px rgba(255,77,210,0.35);
+  box-shadow:0 12px 40px rgba(0,0,0,0.45); /* removed pink glow */
 }
 .nav-btn{
   padding:9px 17px;
@@ -54,58 +58,92 @@ header:hover{
   transform:scale(1.05);
 }
 
-/* Countdown card - pushed down so it doesn't overlap Jason's face */
+/* ================= COUNTDOWN CARD ================= */
 .countdown-wrap{
-  backdrop-filter:blur(8px);
-  -webkit-backdrop-filter:blur(8px);
+  backdrop-filter:blur(4px);
   border-radius:20px;
-  padding:30px 40px;
+  padding:26px 34px;
   text-align:center;
-  box-shadow:0 20px 60px rgba(0,0,0,.7);
-  background:rgba(0,0,0,.35);
-  width:90%;
-  max-width:700px;
-  margin-top:80px; /* added this to push the card down */
+  width:88%;
+  max-width:600px;
+  margin-top:120px;
+  background:transparent; /* fully transparent */
+  border:none;
+  box-shadow:none;
 }
 
-/* Rest of your styles unchanged */
 .title{
   font-size:32px;
   font-weight:900;
-  margin-bottom:4px;
-  letter-spacing: 1px;
+  margin-bottom:6px;
+  letter-spacing:1px;
 }
 .subtitle{
-  color:rgba(255,255,255,.85);
-  margin-bottom:24px;
   font-size:14px;
-  text-transform: uppercase;
-  letter-spacing: 1px;
+  opacity:.85;
+  letter-spacing:1px;
+  margin-bottom:24px;
+  text-transform:uppercase;
 }
+
+/* Countdown */
 .clock{
   display:flex;
   gap:12px;
   justify-content:center;
   flex-wrap:nowrap;
+  margin-bottom:24px;
 }
 .unit{
-  min-width:85px;
+  min-width:72px;
   padding:12px 10px;
   border-radius:12px;
-  background:rgba(0,0,0,.4);
-  border:1px solid rgba(255,255,255,.7);
+  background:rgba(0,0,0,0.35);
+  border:1px solid rgba(255,255,255,0.15);
 }
 .num{
   font-size:32px;
   font-weight:900;
-  line-height: 1;
+  color:#fff;
+  line-height:1;
+  text-shadow: 0 0 6px rgba(255,255,255,0.35),0 0 14px rgba(255,255,255,0.15);
 }
 .label{
-  font-size:12px;
+  font-size:11px;
   margin-top:6px;
   text-transform:uppercase;
-  opacity: 0.8;
+  opacity:.8;
+  letter-spacing:1px;
 }
+
+/* Progress bar */
+.progress-container{
+  margin:0 auto;
+  width:80%;
+  max-width:440px;
+  height:16px;
+  background:rgba(255,255,255,0.08);
+  border-radius:10px;
+  overflow:hidden;
+  border:1px solid rgba(255,255,255,0.18);
+  box-shadow:inset 0 1px 2px rgba(0,0,0,0.3);
+  margin-bottom:16px;
+}
+.progress-bar{
+  height:100%;
+  width:0%;
+  background:linear-gradient(90deg,#fff,#ddd,#fff);
+  background-size:200% 100%;
+  transition:width 0.8s ease;
+}
+.progress-label{
+  text-align:center;
+  font-size:12px;
+  letter-spacing:1.4px;
+  opacity:.85;
+}
+
+/* Launch buttons */
 .launch-buttons{
   display:none;
   margin-top:24px;
@@ -117,25 +155,22 @@ header:hover{
   padding:12px 24px;
   border-radius:999px;
   color:#fff;
-  font-size: 14px;
+  font-size:14px;
   font-weight:700;
   text-decoration:none;
   background:rgba(255,255,255,0.08);
-  border:1px solid rgba(255,255,255,0.18);
-  box-shadow:
-    inset 0 1.2px 1.5px rgba(255,255,255,0.4),
-    0 6px 18px rgba(0,0,0,0.35);
+  border:1px solid rgba(255,255,255,0.2);
+  box-shadow:inset 0 1.2px 1.5px rgba(255,255,255,0.4),0 6px 18px rgba(0,0,0,0.35);
   backdrop-filter:blur(12px);
-  -webkit-backdrop-filter:blur(12px);
   transition:.25s ease;
 }
 .launch-btn:hover{
   background:rgba(255,255,255,0.14);
   transform:translateY(-2px) scale(1.06);
-  box-shadow:
-    inset 0 1.2px 1.5px rgba(255,255,255,0.45),
-    0 0 22px rgba(255,77,210,0.45);
+  box-shadow:inset 0 1.2px 1.5px rgba(255,255,255,0.45),0 0 22px rgba(255,255,255,0.35);
 }
+
+/* Confetti */
 .confetti{
   position:fixed;
   top:-10px;
@@ -153,6 +188,7 @@ header:hover{
 </style>
 </head>
 <body>
+
 <header>
   <a href="index" class="nav-btn">Home</a>
   <a href="map" class="nav-btn">Map</a>
@@ -161,15 +197,23 @@ header:hover{
   <a href="screenshots" class="nav-btn">Screenshots</a>
   <a href="trailers" class="nav-btn">Trailers</a>
 </header>
+
 <section class="countdown-wrap">
   <h1 class="title">Grand Theft Auto VI</h1>
   <div class="subtitle">RELEASE COUNTDOWN – NOVEMBER 19TH, 2026</div>
+
   <div class="clock">
-    <div class="unit"><div class="num" id="days">0</div><div class="label">DAYS</div></div>
-    <div class="unit"><div class="num" id="hours">0</div><div class="label">HOURS</div></div>
-    <div class="unit"><div class="num" id="minutes">0</div><div class="label">MINUTES</div></div>
-    <div class="unit"><div class="num" id="seconds">0</div><div class="label">SECONDS</div></div>
+    <div class="unit"><div class="num" id="days">000</div><div class="label">DAYS</div></div>
+    <div class="unit"><div class="num" id="hours">00</div><div class="label">HOURS</div></div>
+    <div class="unit"><div class="num" id="minutes">00</div><div class="label">MINUTES</div></div>
+    <div class="unit"><div class="num" id="seconds">00</div><div class="label">SECONDS</div></div>
   </div>
+
+  <div class="progress-container">
+    <div class="progress-bar" id="progressBar"></div>
+  </div>
+  <div class="progress-label" id="progressText">0% COMPLETE</div>
+
   <div class="launch-buttons" id="launchButtons">
     <a href="preorder" class="launch-btn">Pre-Order</a>
     <a href="map" class="launch-btn">Map</a>
@@ -178,43 +222,63 @@ header:hover{
 </section>
 
 <script>
-const target = new Date('2026-11-19T00:00:00');
-let launched=false;
+const targetDate = new Date('2026-11-19T00:00:00');
+const startDate  = new Date('2025-11-19T00:00:00');
+const totalMs = targetDate - startDate;
+
+let hasLaunched = false;
+
 const daysEl = document.getElementById('days');
 const hoursEl = document.getElementById('hours');
 const minutesEl = document.getElementById('minutes');
 const secondsEl = document.getElementById('seconds');
+const progressBar = document.getElementById('progressBar');
+const progressText = document.getElementById('progressText');
+
 function pad(n){return String(n).padStart(2,'0')}
+
 function celebrate(){
   for(let i=0;i<120;i++){
     const c=document.createElement('div');
     c.className='confetti';
     c.style.left=Math.random()*100+'vw';
-    c.style.background=`hsl(${Math.random()*360},90%,60%)`;
-    c.style.animationDuration=2+Math.random()*2+'s';
+    c.style.background=`hsl(${200+Math.random()*40},20%,90%)`;
+    c.style.animationDuration=(2+Math.random()*3)+'s';
     document.body.appendChild(c);
-    setTimeout(()=>c.remove(),4000);
+    setTimeout(()=>c.remove(),5000);
   }
 }
-function launchMode(){
-  if(launched)return;
-  launched=true;
+
+function enterLaunchMode(){
+  if(hasLaunched) return;
+  hasLaunched = true;
   document.querySelector('.clock').style.display='none';
+  document.querySelector('.progress-container').style.display='none';
+  document.querySelector('.progress-label').style.display='none';
   document.getElementById('launchButtons').style.display='flex';
-  document.querySelector('.subtitle').textContent='Now Available';
+  document.querySelector('.subtitle').textContent='NOW AVAILABLE – WELCOME TO LEONIDA';
   celebrate();
 }
-function update(){
+
+function updateCountdown(){
   const now=new Date();
-  let diff=Math.floor((target-now)/1000);
-  if(diff<=0){launchMode();return;}
+  const diff=Math.floor((targetDate-now)/1000);
+
+  if(diff<=0){enterLaunchMode(); return}
+
   daysEl.textContent=Math.floor(diff/86400);
-  hoursEl.textContent=pad(Math.floor(diff%86400/3600));
-  minutesEl.textContent=pad(Math.floor(diff%3600/60));
+  hoursEl.textContent=pad(Math.floor((diff%86400)/3600));
+  minutesEl.textContent=pad(Math.floor((diff%3600)/60));
   secondsEl.textContent=pad(diff%60);
+
+  const progress = Math.min(100, Math.max(0, ((now-startDate)/totalMs)*100));
+  progressBar.style.width = progress+'%';
+  progressText.textContent = Math.round(progress)+'% COMPLETE';
 }
-update();
-setInterval(update,1000);
+
+updateCountdown();
+setInterval(updateCountdown,1000);
 </script>
+
 </body>
 </html>
