@@ -19,7 +19,6 @@ body{
   background-position: center 40%;
 }
 
-/* Header (kept mostly as-is, just slight glassy tweak) */
 header{
   position:fixed;
   top:12px;
@@ -36,11 +35,8 @@ header{
   border:1px solid rgba(255,255,255,0.12);
   box-shadow:0 6px 24px rgba(0,0,0,0.45);
 }
-header:hover{
-  box-shadow:0 12px 40px rgba(255,77,210,0.28);
-}
+header:hover{box-shadow:0 12px 40px rgba(255,77,210,0.28);}
 
-/* Nav buttons (slight glassy enhancement) */
 .nav-btn{
   padding:9px 17px;
   border-radius:999px;
@@ -54,12 +50,8 @@ header:hover{
   box-shadow: inset 0 1px 2px rgba(255,255,255,0.18);
   transition:.28s;
 }
-.nav-btn:hover{
-  background:rgba(255,255,255,0.13);
-  transform:scale(1.05);
-}
+.nav-btn:hover{background:rgba(255,255,255,0.13); transform:scale(1.05);}
 
-/* ── Main countdown card ── */
 .countdown-wrap{
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
@@ -67,38 +59,18 @@ header:hover{
   padding:36px 48px;
   text-align:center;
   box-shadow:0 24px 80px rgba(0,0,0,0.65);
-  background:rgba(15,15,35,0.26);          /* darker + more transparent base */
+  background:rgba(15,15,35,0.26);
   border:1px solid rgba(255,255,255,0.14);
   width:92%;
   max-width:760px;
   margin-top:90px;
 }
 
-/* Title & subtitle */
-.title{
-  font-size:36px;
-  font-weight:900;
-  margin-bottom:6px;
-  letter-spacing:1.5px;
-  text-shadow:0 2px 12px rgba(0,0,0,0.6);
-}
-.subtitle{
-  color:rgba(255,255,255,0.82);
-  margin-bottom:28px;
-  font-size:15px;
-  text-transform:uppercase;
-  letter-spacing:1.8px;
-}
+.title{font-size:36px; font-weight:900; margin-bottom:6px; letter-spacing:1.5px; text-shadow:0 2px 12px rgba(0,0,0,0.6);}
+.subtitle{color:rgba(255,255,255,0.82); margin-bottom:28px; font-size:15px; text-transform:uppercase; letter-spacing:1.8px;}
 
-/* Clock container */
-.clock{
-  display:flex;
-  gap:16px;
-  justify-content:center;
-  flex-wrap:nowrap;
-}
+.clock{display:flex; gap:16px; justify-content:center; flex-wrap:nowrap;}
 
-/* Each time unit — glassy blocks */
 .unit{
   min-width:100px;
   padding:16px 12px;
@@ -107,34 +79,71 @@ header:hover{
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border:1px solid rgba(255,255,255,0.18);
-  box-shadow:
-    inset 0 1px 3px rgba(255,255,255,0.25),
-    0 8px 32px rgba(0,0,0,0.4);
+  box-shadow: inset 0 1px 3px rgba(255,255,255,0.25), 0 8px 32px rgba(0,0,0,0.4);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
-.unit:hover{
-  transform: translateY(-4px);
-  box-shadow:
-    inset 0 1px 4px rgba(255,255,255,0.35),
-    0 14px 48px rgba(255,77,210,0.22);
+.unit:hover{transform: translateY(-4px); box-shadow: inset 0 1px 4px rgba(255,255,255,0.35), 0 14px 48px rgba(255,77,210,0.22);}
+
+/* Glassy number container + slow breathing glow */
+.num-wrap {
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  background: rgba(255,255,255,0.07);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.16);
+  box-shadow: 
+    inset 0 1px 4px rgba(255,255,255,0.3),
+    0 4px 20px rgba(0,0,0,0.5);
+  padding: 10px 14px;
+  margin-bottom: 6px;
 }
 
-/* Numbers — bigger, bolder, slight glassy feel */
-.num{
-  font-size:48px;
-  font-weight:900;
-  line-height:1;
-  background:rgba(255,255,255,0.06);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
-  border-radius:10px;
-  padding:8px 12px;
-  margin-bottom:4px;
-  border:1px solid rgba(255,255,255,0.12);
-  text-shadow:0 3px 14px rgba(0,0,0,0.7);
+/* Slow pulsing/glass-like shine effect */
+.num-wrap::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(255,255,255,0.12) 0%,
+    rgba(255,255,255,0) 40%,
+    rgba(255,255,255,0.08) 60%,
+    rgba(255,255,255,0) 100%
+  );
+  opacity: 0.6;
+  animation: glassShine 8s ease-in-out infinite;
+  pointer-events: none;
 }
 
-/* Labels */
+@keyframes glassShine {
+  0%, 100% { transform: translateX(-120%) skewX(-20deg); }
+  50%      { transform: translateX(120%)  skewX(-20deg); }
+}
+
+/* The actual number – sharp changes, no transition on content */
+.num {
+  font-size: 52px;
+  font-weight: 900;
+  line-height: 1;
+  text-shadow: 0 3px 16px rgba(0,0,0,0.75), 0 0 12px rgba(180,100,255,0.4);
+  position: relative;
+  z-index: 2;
+  /* No transition here → numbers tick instantly */
+}
+
+/* Optional: very subtle fade only on the edges if you want micro-smoothness */
+.num {
+  transition: opacity 0.12s ease-out; /* tiny fade on change – feels premium but not slow */
+}
+.num.changed {
+  opacity: 0.4;
+}
+.num:not(.changed) {
+  opacity: 1;
+}
+
 .label{
   font-size:13px;
   margin-top:8px;
@@ -144,7 +153,6 @@ header:hover{
   text-shadow:0 1px 6px rgba(0,0,0,0.5);
 }
 
-/* Launch buttons (already quite glassy — just minor polish) */
 .launch-buttons{
   display:none;
   margin-top:28px;
@@ -163,20 +171,15 @@ header:hover{
   border:1px solid rgba(255,255,255,0.18);
   backdrop-filter:blur(14px);
   -webkit-backdrop-filter:blur(14px);
-  box-shadow:
-    inset 0 1.5px 2px rgba(255,255,255,0.35),
-    0 8px 24px rgba(0,0,0,0.4);
+  box-shadow: inset 0 1.5px 2px rgba(255,255,255,0.35), 0 8px 24px rgba(0,0,0,0.4);
   transition:.3s ease;
 }
 .launch-btn:hover{
   background:rgba(255,255,255,0.15);
   transform:translateY(-3px) scale(1.07);
-  box-shadow:
-    inset 0 1.5px 3px rgba(255,255,255,0.45),
-    0 0 28px rgba(255,77,210,0.4);
+  box-shadow: inset 0 1.5px 3px rgba(255,255,255,0.45), 0 0 28px rgba(255,77,210,0.4);
 }
 
-/* Confetti (unchanged) */
 .confetti{
   position:fixed;
   top:-10px;
@@ -186,14 +189,12 @@ header:hover{
   z-index:9999;
 }
 @keyframes fall{
-  to{
-    transform:translateY(110vh) rotate(720deg);
-    opacity:0;
-  }
+  to{transform:translateY(110vh) rotate(720deg); opacity:0;}
 }
 </style>
 </head>
 <body>
+
 <header>
   <a href="index" class="nav-btn">Home</a>
   <a href="map" class="nav-btn">Map</a>
@@ -207,10 +208,22 @@ header:hover{
   <h1 class="title">Grand Theft Auto VI</h1>
   <div class="subtitle">RELEASE COUNTDOWN – NOVEMBER 19TH, 2026</div>
   <div class="clock">
-    <div class="unit"><div class="num" id="days">0</div><div class="label">DAYS</div></div>
-    <div class="unit"><div class="num" id="hours">0</div><div class="label">HOURS</div></div>
-    <div class="unit"><div class="num" id="minutes">0</div><div class="label">MINUTES</div></div>
-    <div class="unit"><div class="num" id="seconds">0</div><div class="label">SECONDS</div></div>
+    <div class="unit">
+      <div class="num-wrap"><div class="num" id="days">0</div></div>
+      <div class="label">DAYS</div>
+    </div>
+    <div class="unit">
+      <div class="num-wrap"><div class="num" id="hours">0</div></div>
+      <div class="label">HOURS</div>
+    </div>
+    <div class="unit">
+      <div class="num-wrap"><div class="num" id="minutes">0</div></div>
+      <div class="label">MINUTES</div>
+    </div>
+    <div class="unit">
+      <div class="num-wrap"><div class="num" id="seconds">0</div></div>
+      <div class="label">SECONDS</div>
+    </div>
   </div>
   <div class="launch-buttons" id="launchButtons">
     <a href="preorder" class="launch-btn">Pre-Order</a>
@@ -221,9 +234,9 @@ header:hover{
 
 <script>
 const target = new Date('2026-11-19T00:00:00');
-let launched=false;
-const daysEl = document.getElementById('days');
-const hoursEl = document.getElementById('hours');
+let launched = false;
+const daysEl    = document.getElementById('days');
+const hoursEl   = document.getElementById('hours');
 const minutesEl = document.getElementById('minutes');
 const secondsEl = document.getElementById('seconds');
 
@@ -231,37 +244,57 @@ function pad(n){return String(n).padStart(2,'0')}
 
 function celebrate(){
   for(let i=0;i<120;i++){
-    const c=document.createElement('div');
+    const c = document.createElement('div');
     c.className='confetti';
-    c.style.left=Math.random()*100+'vw';
-    c.style.background=`hsl(${Math.random()*360},90%,60%)`;
-    c.style.animationDuration=2+Math.random()*2+'s';
+    c.style.left = Math.random()*100+'vw';
+    c.style.background = `hsl(${Math.random()*360},90%,60%)`;
+    c.style.animationDuration = 2+Math.random()*2+'s';
     document.body.appendChild(c);
     setTimeout(()=>c.remove(),4000);
   }
 }
 
 function launchMode(){
-  if(launched)return;
-  launched=true;
+  if(launched) return;
+  launched = true;
   document.querySelector('.clock').style.display='none';
   document.getElementById('launchButtons').style.display='flex';
   document.querySelector('.subtitle').textContent='Now Available';
   celebrate();
 }
 
+// Add tiny "changed" class flash for micro-smooth feel
+function updateNumber(el, newVal) {
+  const str = String(newVal);
+  if (el.textContent !== str) {
+    el.classList.add('changed');
+    setTimeout(() => {
+      el.textContent = str;
+      el.classList.remove('changed');
+    }, 60); // very short flash
+  } else {
+    el.textContent = str;
+  }
+}
+
 function update(){
-  const now=new Date();
-  let diff=Math.floor((target-now)/1000);
-  if(diff<=0){launchMode();return;}
-  daysEl.textContent=Math.floor(diff/86400);
-  hoursEl.textContent=pad(Math.floor(diff%86400/3600));
-  minutesEl.textContent=pad(Math.floor(diff%3600/60));
-  secondsEl.textContent=pad(diff%60);
+  const now = new Date();
+  let diff = Math.floor((target - now)/1000);
+  if (diff <= 0) { launchMode(); return; }
+
+  const d = Math.floor(diff / 86400);
+  const h = Math.floor(diff % 86400 / 3600);
+  const m = Math.floor(diff % 3600 / 60);
+  const s = diff % 60;
+
+  updateNumber(daysEl,    d);
+  updateNumber(hoursEl,   pad(h));
+  updateNumber(minutesEl, pad(m));
+  updateNumber(secondsEl, pad(s));
 }
 
 update();
-setInterval(update,1000);
+setInterval(update, 1000);
 </script>
 </body>
 </html>
