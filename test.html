@@ -19,7 +19,7 @@ body{
   background-position: center 40%;
 }
 
-/* ── Original Navbar (exactly as in your first version) ── */
+/* Original Navbar restored */
 header{
   position:fixed;
   top:12px;
@@ -54,164 +54,171 @@ header:hover{
   transform:scale(1.05);
 }
 
-/* ── Countdown card ── */
+/* Countdown card - made more compact */
 .countdown-wrap{
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border-radius:28px;
-  padding:40px 52px;
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border-radius:24px;
+  padding:28px 40px;
   text-align:center;
-  box-shadow:0 30px 90px rgba(0,0,0,0.7);
-  background:rgba(10,10,30,0.24);
-  border:1px solid rgba(255,255,255,0.16);
-  width:94%;
-  max-width:820px;
-  margin-top:100px;
+  box-shadow:0 25px 70px rgba(0,0,0,0.65);
+  background:rgba(8,8,25,0.22);
+  border:1px solid rgba(255,255,255,0.14);
+  width:86%;
+  max-width:620px;
+  margin-top:120px; /* adjusted for smaller size */
 }
 
 .title{
-  font-size:40px;
+  font-size:32px;
   font-weight:900;
-  margin-bottom:8px;
-  letter-spacing:2px;
-  text-shadow:0 3px 16px rgba(0,0,0,0.7);
+  margin-bottom:6px;
+  letter-spacing:1.8px;
+  text-shadow:0 3px 12px rgba(0,0,0,0.6);
 }
 .subtitle{
-  color:rgba(200,220,255,0.9);
-  margin-bottom:32px;
-  font-size:16px;
+  color:rgba(180,210,255,0.88);
+  margin-bottom:20px;
+  font-size:13px;
   text-transform:uppercase;
-  letter-spacing:2.2px;
+  letter-spacing:2px;
 }
 
+/* Smaller clock with jelly-glass numbers */
 .clock{
   display:flex;
-  gap:20px;
+  gap:14px;
   justify-content:center;
   flex-wrap:nowrap;
 }
 
 .unit{
-  min-width:110px;
-  padding:18px 14px;
-  border-radius:20px;
-  background:rgba(20,30,60,0.18);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  border:1px solid rgba(180,220,255,0.22);
+  min-width:80px;
+  padding:12px 10px;
+  border-radius:16px;
+  background:rgba(15,25,55,0.16);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border:1px solid rgba(160,210,255,0.20);
   box-shadow: 
-    inset 0 2px 6px rgba(255,255,255,0.28),
-    inset 0 -2px 6px rgba(0,0,0,0.4),
-    0 10px 40px rgba(0,0,0,0.5);
+    inset 0 2px 5px rgba(255,255,255,0.25),
+    inset 0 -2px 5px rgba(0,0,0,0.35),
+    0 8px 30px rgba(0,0,0,0.45);
   position:relative;
   overflow:hidden;
-  transition: transform 0.4s ease, box-shadow 0.4s ease;
+  transition: transform 0.35s ease;
 }
 .unit:hover{
-  transform: translateY(-6px);
-  box-shadow: 
-    inset 0 3px 8px rgba(255,255,255,0.4),
-    inset 0 -3px 8px rgba(0,0,0,0.45),
-    0 18px 60px rgba(100,180,255,0.3);
+  transform: translateY(-5px);
 }
 
-/* Glassy / jelly-like numbers */
+/* Core jelly-glass number effect – thick, refractive, glowing, iridescent */
 .num{
-  font-size:64px;
+  font-size:48px;          /* smaller than before */
   font-weight:900;
   line-height:1;
-  color: #e0f0ff;
-  text-shadow: 
-    0 0 20px rgba(180,220,255,0.9),
-    0 0 40px rgba(100,180,255,0.6);
-  background: linear-gradient(135deg, #e0f8ff 0%, #a0d0ff 50%, #80b0ff 100%);
+  color: transparent;
+  background: linear-gradient(135deg, #e8faff 10%, #b0e0ff 45%, #80c0ff 70%, #60a0ff 90%);
   -webkit-background-clip: text;
   background-clip: text;
-  -webkit-text-fill-color: transparent;
+  text-shadow: 
+    0 0 15px rgba(160,220,255,0.85),
+    0 0 35px rgba(100,180,255,0.65),
+    0 0 60px rgba(60,140,255,0.4);
   position:relative;
   z-index:2;
-  filter: drop-shadow(0 4px 16px rgba(80,140,255,0.8));
+  filter: drop-shadow(0 3px 12px rgba(80,140,255,0.75));
+  transform: perspective(400px) translateZ(8px); /* subtle 3D lift */
 }
 
-/* Moving shine / glass reflection */
-.num::after{
-  content:"";
-  position:absolute;
-  inset: -50% 0;
+/* Strong moving internal shine/refraction for jelly-liquid-glass feel */
+.num::before,
+.num::after {
+  content: "";
+  position: absolute;
+  inset: -60% 0;
   background: linear-gradient(
-    90deg,
-    transparent 0%,
-    rgba(255,255,255,0.45) 40%,
-    rgba(255,255,255,0.25) 50%,
-    rgba(200,240,255,0.4) 60%,
-    transparent 100%
+    100deg,
+    transparent 20%,
+    rgba(255,255,255,0.55) 45%,
+    rgba(220,255,255,0.35) 55%,
+    transparent 80%
   );
-  opacity:0.7;
-  pointer-events:none;
-  animation: shine 9s ease-in-out infinite;
+  opacity: 0.75;
+  pointer-events: none;
+  animation: jellyShine 7s ease-in-out infinite;
   mix-blend-mode: screen;
-  transform: skewX(-20deg);
+  transform: skewX(-18deg);
 }
 
-@keyframes shine {
-  0%   { transform: translateX(-200%) skewX(-20deg); }
-  50%  { transform: translateX(200%)  skewX(-20deg); }
-  100% { transform: translateX(-200%) skewX(-20deg); }
+.num::after {
+  animation-delay: 3.5s;
+  opacity: 0.6;
+  background: linear-gradient(
+    80deg,
+    transparent 25%,
+    rgba(200,240,255,0.5) 50%,
+    transparent 75%
+  );
 }
 
-/* Tick flash effect */
+@keyframes jellyShine {
+  0%, 100% { transform: translateX(-180%) skewX(-18deg); }
+  50%      { transform: translateX(180%)  skewX(-18deg); }
+}
+
+/* Cool tick effect: quick glow + subtle squash/stretch */
 .num {
-  transition: filter 0.18s ease, transform 0.18s ease;
+  transition: transform 0.22s cubic-bezier(0.68, -0.55, 0.265, 1.55), filter 0.22s ease;
 }
 .num.changed {
-  filter: brightness(1.5) drop-shadow(0 0 30px rgba(180,220,255,1));
-  transform: scale(1.12);
+  transform: perspective(400px) translateZ(12px) scale(1.18) translateY(-4px);
+  filter: brightness(1.6) drop-shadow(0 0 35px rgba(160,220,255,0.95));
 }
 
 .label{
-  font-size:14px;
-  margin-top:10px;
+  font-size:11px;
+  margin-top:6px;
   text-transform:uppercase;
-  opacity:0.88;
-  letter-spacing:1.5px;
-  color: #c0e0ff;
-  text-shadow:0 2px 8px rgba(0,0,0,0.6);
+  opacity:0.85;
+  letter-spacing:1.2px;
+  color: #b0d8ff;
+  text-shadow:0 1px 6px rgba(0,0,0,0.5);
 }
 
-/* Launch buttons */
+/* Launch buttons (smaller to match) */
 .launch-buttons{
   display:none;
-  margin-top:32px;
-  gap:18px;
+  margin-top:24px;
+  gap:14px;
   justify-content:center;
   flex-wrap:wrap;
 }
 .launch-btn{
-  padding:14px 32px;
+  padding:10px 24px;
   border-radius:999px;
   color:#fff;
-  font-size:16px;
+  font-size:14px;
   font-weight:700;
   text-decoration:none;
-  background:rgba(255,255,255,0.09);
-  border:1px solid rgba(180,220,255,0.25);
-  backdrop-filter:blur(16px);
-  -webkit-backdrop-filter:blur(16px);
-  box-shadow: inset 0 2px 4px rgba(255,255,255,0.4), 0 10px 30px rgba(0,0,0,0.45);
-  transition:.35s ease;
+  background:rgba(255,255,255,0.08);
+  border:1px solid rgba(160,210,255,0.22);
+  backdrop-filter:blur(14px);
+  box-shadow: inset 0 1.5px 3px rgba(255,255,255,0.35), 0 8px 24px rgba(0,0,0,0.4);
+  transition:.3s ease;
 }
 .launch-btn:hover{
-  background:rgba(255,255,255,0.16);
-  transform:translateY(-4px) scale(1.08);
-  box-shadow: inset 0 2px 5px rgba(255,255,255,0.5), 0 0 35px rgba(100,180,255,0.5);
+  background:rgba(255,255,255,0.14);
+  transform:translateY(-3px) scale(1.06);
+  box-shadow: inset 0 2px 4px rgba(255,255,255,0.45), 0 0 30px rgba(100,180,255,0.45);
 }
 
 /* Confetti */
 .confetti{
   position:fixed;
   top:-10px;
-  width:8px;
-  height:14px;
+  width:7px;
+  height:12px;
   animation:fall linear forwards;
   z-index:9999;
 }
@@ -235,22 +242,10 @@ header:hover{
   <h1 class="title">Grand Theft Auto VI</h1>
   <div class="subtitle">RELEASE COUNTDOWN – NOVEMBER 19TH, 2026</div>
   <div class="clock">
-    <div class="unit">
-      <div class="num" id="days">0</div>
-      <div class="label">DAYS</div>
-    </div>
-    <div class="unit">
-      <div class="num" id="hours">0</div>
-      <div class="label">HOURS</div>
-    </div>
-    <div class="unit">
-      <div class="num" id="minutes">0</div>
-      <div class="label">MINUTES</div>
-    </div>
-    <div class="unit">
-      <div class="num" id="seconds">0</div>
-      <div class="label">SECONDS</div>
-    </div>
+    <div class="unit"><div class="num" id="days">0</div><div class="label">DAYS</div></div>
+    <div class="unit"><div class="num" id="hours">0</div><div class="label">HOURS</div></div>
+    <div class="unit"><div class="num" id="minutes">0</div><div class="label">MINUTES</div></div>
+    <div class="unit"><div class="num" id="seconds">0</div><div class="label">SECONDS</div></div>
   </div>
   <div class="launch-buttons" id="launchButtons">
     <a href="preorder" class="launch-btn">Pre-Order</a>
@@ -270,14 +265,14 @@ const secondsEl = document.getElementById('seconds');
 function pad(n){return String(n).padStart(2,'0')}
 
 function celebrate(){
-  for(let i=0;i<140;i++){
+  for(let i=0;i<160;i++){
     const c = document.createElement('div');
     c.className='confetti';
     c.style.left = Math.random()*100+'vw';
-    c.style.background = `hsl(${Math.random()*360},90%,65%)`;
-    c.style.animationDuration = 2.5+Math.random()*2.5+'s';
+    c.style.background = `hsl(${Math.random()*50 + 180},90%,65%)`; // cyan-blue tones
+    c.style.animationDuration = 2+Math.random()*3+'s';
     document.body.appendChild(c);
-    setTimeout(()=>c.remove(),5000);
+    setTimeout(()=>c.remove(),6000);
   }
 }
 
@@ -296,7 +291,7 @@ function updateNumber(el, newVal) {
     el.classList.add('changed');
     setTimeout(() => {
       el.textContent = str;
-      setTimeout(() => el.classList.remove('changed'), 350);
+      setTimeout(() => el.classList.remove('changed'), 400);
     }, 100);
   } else {
     el.textContent = str;
