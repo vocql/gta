@@ -15,9 +15,9 @@ html,body{height:100%;overflow:hidden}
 body{
   font-family:'Orbitron',sans-serif;
   background:
-  linear-gradient(135deg, rgba(255,77,210,0.15), rgba(0,255,224,0.10)),
-  url('gta/jason.jpg') center/cover no-repeat fixed;
-  background-blend-mode: overlay;;
+    linear-gradient(135deg, rgba(255,77,210,0.15), rgba(0,255,224,0.10)),
+    url('gta/jason.jpg') center/cover no-repeat fixed;
+  background-blend-mode: overlay;
   color:#fff;
   display:flex;
   align-items:center;
@@ -25,6 +25,7 @@ body{
   background-position:center 40%;
 }
 
+/* ================= NAVBAR ================= */
 header {
   position: fixed;
   top: 12px;
@@ -35,14 +36,14 @@ header {
   gap: 12px;
   padding: 8px 14px;
   border-radius: 999px;
-  background: rgba(0,0,0,0.25); /* semi-transparent */
-  backdrop-filter: blur(8px);     /* frosted glass effect */
-  box-shadow: 0 6px 18px rgba(0,0,0,0.35);
+  background: rgba(0, 0, 0, 0.25);   /* semi-transparent */
+  backdrop-filter: blur(8px);         /* frosted glass effect */
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
   transition: 0.25s;
 }
 
 header:hover {
-  box-shadow: 0 12px 40px rgba(255,77,210,0.45);
+  box-shadow: 0 12px 40px rgba(255, 77, 210, 0.35); /* pinkish glow on hover */
 }
 
 .nav-btn {
@@ -51,17 +52,17 @@ header:hover {
   color: #fff;
   font-weight: 600;
   text-decoration: none;
-  background: rgba(255,255,255,0.08);
-  border: 1px solid rgba(255,255,255,0.18);
-  box-shadow: inset 0 1.2px 1.5px rgba(255,255,255,0.4), 0 4px 18px rgba(0,0,0,0.3);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: inset 0 1.2px 1.5px rgba(255, 255, 255, 0.4),
+              0 4px 18px rgba(0, 0, 0, 0.3);
   transition: 0.25s;
 }
 
 .nav-btn:hover {
-  background: rgba(255,255,255,0.14);
+  background: rgba(255, 255, 255, 0.14);
   transform: scale(1.05);
 }
-
 
 /* ================= COUNTDOWN CARD ================= */
 .countdown-wrap {
@@ -72,11 +73,9 @@ header:hover {
   width: 88%;
   max-width: 600px;
   margin-top: 120px;
-  
-  /* Change these */
-  background: rgba(0,0,0,0.25); /* slight dark background to show border */
-  border: 2px solid #fff;       /* white border */
-  box-shadow: 0 0 16px rgba(255,255,255,0.3); /* optional glow effect */
+  background: rgba(0,0,0,0.25);  /* semi-transparent dark background */
+  border: 2px solid #fff;        /* white border */
+  box-shadow: 0 0 16px rgba(255,255,255,0.3); /* subtle glow */
 }
 
 .title{
@@ -289,3 +288,4 @@ setInterval(updateCountdown,1000);
 
 </body>
 </html>
+
