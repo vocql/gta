@@ -23,144 +23,130 @@ body{
 }
 header {
   position: fixed;
-  top: 18px;
+  top: 12px;
   left: 50%;
   transform: translateX(-50%);
   z-index: 50;
   display: flex;
-  gap: 12px;
-  padding: 8px 14px;
+  gap: 8px;
+  padding: 6px 10px;
   border-radius: 999px;
-  background: rgba(0, 0, 0, 0.25);
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
-  transition: 0.25s;
-}
-header:hover {
-  box-shadow: 0 12px 40px rgba(255, 77, 210, 0.35);
+  background: rgba(0, 0, 0, 0.3);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
 }
 .nav-btn {
-  padding: 9px 17px;
+  padding: 6px 12px;
   border-radius: 999px;
   color: #fff;
   font-weight: 600;
+  font-size: 13px;
   text-decoration: none;
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  box-shadow: inset 0 1.2px 1.5px rgba(255, 255, 255, 0.4),
-              0 4px 18px rgba(0, 0, 0, 0.3);
-  transition: 0.25s;
+  background: rgba(255, 255, 255, 0.09);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: 0.2s;
 }
-.nav-btn:hover {
-  background: rgba(255, 255, 255, 0.14);
-  transform: scale(1.05);
-}
+.nav-btn:hover { background: rgba(255, 255, 255, 0.16); transform: scale(1.04); }
 .countdown-wrap {
-  backdrop-filter: blur(4px);
-  border-radius: 20px;
-  padding: 26px 34px 80px 34px;
+  backdrop-filter: blur(5px);
+  border-radius: 16px;
+  padding: 16px 24px 50px 24px;
   text-align: center;
-  width: 88%;
-  max-width: 900px; /* wider to fit 5 units comfortably */
-  margin-top: 120px;
-  background: rgba(0,0,0,0.25);
-  border: 2px solid #fff;
-  box-shadow: 0 0 16px rgba(255,255,255,0.3);
+  width: 90%;
+  max-width: 520px;
+  margin-top: 80px;
+  background: rgba(0,0,0,0.3);
+  border: 1.5px solid rgba(255,255,255,0.4);
+  box-shadow: 0 0 12px rgba(255,255,255,0.25);
   position: relative;
 }
 .title{
-  font-size:32px;
+  font-size:24px;
   font-weight:900;
-  margin-bottom:6px;
-  letter-spacing:1px;
+  margin-bottom:3px;
+  letter-spacing:0.6px;
 }
 .subtitle{
-  font-size:14px;
-  opacity:.85;
-  letter-spacing:1px;
-  margin-bottom:24px;
+  font-size:10px;
+  opacity:.8;
+  letter-spacing:0.7px;
+  margin-bottom:14px;
   text-transform:uppercase;
 }
 .clock{
   display:flex;
-  gap:10px;
+  gap:6px;
   justify-content:center;
   flex-wrap:wrap;
-  margin-bottom:20px;
+  margin-bottom:12px;
 }
 .unit{
-  min-width:78px;
-  padding:12px 8px;
-  border-radius:12px;
-  background:rgba(0,0,0,0.35);
-  border:1px solid rgba(255,255,255,0.15);
+  min-width:55px;
+  padding:8px 5px;
+  border-radius:9px;
+  background:rgba(0,0,0,0.45);
+  border:1px solid rgba(255,255,255,0.12);
 }
 .num{
-  font-size:36px;
+  font-size:22px;
   font-weight:900;
   color:#fff;
   line-height:1;
-  text-shadow: 0 0 6px rgba(255,255,255,0.35),0 0 14px rgba(255,255,255,0.15);
+  text-shadow: 0 0 4px rgba(255,255,255,0.4),0 0 10px rgba(255,255,255,0.2);
 }
 .label{
-  font-size:11px;
-  margin-top:6px;
+  font-size:8px;
+  margin-top:4px;
   text-transform:uppercase;
-  opacity:.8;
-  letter-spacing:1px;
+  opacity:.75;
+  letter-spacing:0.8px;
 }
 .toggle-btn {
   position: absolute;
-  bottom: 18px;
-  right: 18px;
-  width: 42px;
-  height: 42px;
-  background: rgba(255,255,255,0.10);
-  border: 1px solid rgba(255,255,255,0.25);
-  border-radius: 12px;
+  bottom: 12px;
+  right: 12px;
+  width: 32px;
+  height: 32px;
+  background: rgba(255,255,255,0.12);
+  border: 1px solid rgba(255,255,255,0.28);
+  border-radius: 9px;
   color: #fff;
-  font-size: 20px;
+  font-size: 16px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: all 0.22s;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.35);
+  transition: all 0.2s;
 }
 .toggle-btn:hover {
-  background: rgba(255,255,255,0.20);
-  transform: scale(1.10);
-  box-shadow: 0 4px 12px rgba(255,77,210,0.30);
+  background: rgba(255,255,255,0.22);
+  transform: scale(1.15);
 }
 .launch-buttons{
   display:none;
-  margin-top:24px;
-  gap:14px;
+  margin-top:16px;
+  gap:10px;
   justify-content:center;
-  flex-wrap:wrap;
 }
 .launch-btn{
-  padding:12px 24px;
+  padding:8px 18px;
   border-radius:999px;
   color:#fff;
-  font-size:14px;
+  font-size:12px;
   font-weight:700;
   text-decoration:none;
-  background:rgba(255,255,255,0.08);
-  border:1px solid rgba(255,255,255,0.2);
-  box-shadow:inset 0 1.2px 1.5px rgba(255,255,255,0.4),0 6px 18px rgba(0,0,0,0.35);
-  backdrop-filter:blur(12px);
-  transition:.25s ease;
+  background:rgba(255,255,255,0.09);
+  border:1px solid rgba(255,255,255,0.22);
+  transition:.2s;
 }
 .launch-btn:hover {
-  background:rgba(255,255,255,0.14);
-  transform:translateY(-2px) scale(1.06);
-  box-shadow:inset 0 1.2px 1.5px rgba(255,255,255,0.45),0 0 22px rgba(255,255,255,0.35);
+  background:rgba(255,255,255,0.18);
+  transform:scale(1.05);
 }
 .confetti{
   position:fixed;
   top:-10px;
-  width:8px;
-  height:14px;
+  width:6px;
+  height:12px;
   animation:fall linear forwards;
   z-index:9999;
 }
@@ -188,7 +174,7 @@ header:hover {
     <div class="unit"><div class="num" id="val2">06</div><div class="label" id="lbl2">HOURS</div></div>
     <div class="unit"><div class="num" id="val3">12</div><div class="label" id="lbl3">MINUTES</div></div>
     <div class="unit"><div class="num" id="val4">15</div><div class="label" id="lbl4">SECONDS</div></div>
-    <div class="unit" id="val5Container"><div class="num" id="val5">00</div><div class="label" id="lbl5">MONTHS</div></div>
+    <div class="unit" id="val5Container"><div class="num" id="val5">00</div><div class="label" id="lbl5">SECONDS</div></div>
   </div>
 
   <div class="toggle-btn" id="toggleBtn" title="Switch to months view">🕒</div>
@@ -221,14 +207,14 @@ const toggleBtn = document.getElementById('toggleBtn');
 function pad(n){return String(n).padStart(2,'0')}
 
 function celebrate(){
-  for(let i=0;i<120;i++){
+  for(let i=0;i<80;i++){
     const c = document.createElement('div');
     c.className = 'confetti';
     c.style.left = Math.random()*100+'vw';
     c.style.background = `hsl(${200+Math.random()*40},20%,90%)`;
-    c.style.animationDuration = (2+Math.random()*3)+'s';
+    c.style.animationDuration = (1.5+Math.random()*2)+'s';
     document.body.appendChild(c);
-    setTimeout(()=>c.remove(),5000);
+    setTimeout(()=>c.remove(),4000);
   }
 }
 
@@ -287,7 +273,6 @@ function updateCountdown(){
     val2.textContent = pad(Math.floor((diffSec % 86400) / 3600));
     val3.textContent = pad(Math.floor((diffSec % 3600) / 60));
     val4.textContent = pad(diffSec % 60);
-    // fifth box stays hidden in days mode
     val5Container.classList.add('hidden');
 
     lbl1.textContent = 'DAYS';
