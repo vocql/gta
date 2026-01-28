@@ -21,6 +21,7 @@ body{
   justify-content:center;
   background-position:center 40%;
 }
+/* ================= NAVBAR ================= */
 header {
   position: fixed;
   top: 18px;
@@ -54,17 +55,19 @@ header:hover {
   background: rgba(255, 255, 255, 0.14);
   transform: scale(1.05);
 }
+/* ================= COUNTDOWN CARD ================= */
 .countdown-wrap {
   backdrop-filter: blur(4px);
   border-radius: 20px;
   padding: 26px 34px;
   text-align: center;
   width: 88%;
-  max-width: 780px; /* slightly wider to fit 5 items nicely */
+  max-width: 620px;
   margin-top: 120px;
   background: rgba(0,0,0,0.25);
   border: 2px solid #fff;
   box-shadow: 0 0 16px rgba(255,255,255,0.3);
+  position: relative;
 }
 .title{
   font-size:32px;
@@ -79,12 +82,13 @@ header:hover {
   margin-bottom:24px;
   text-transform:uppercase;
 }
+/* Countdown */
 .clock{
   display:flex;
   gap:12px;
   justify-content:center;
   flex-wrap:nowrap;
-  margin-bottom:16px;
+  margin-bottom:24px;
 }
 .unit{
   min-width:78px;
@@ -107,26 +111,31 @@ header:hover {
   opacity:.8;
   letter-spacing:1px;
 }
+/* Toggle button - bottom right corner */
 .toggle-btn {
-  width: 52px;
-  height: 52px;
-  background: rgba(0,0,0,0.40);
-  border: 1px solid rgba(255,255,255,0.20);
-  border-radius: 12px;
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  width: 54px;
+  height: 54px;
+  background: rgba(255,255,255,0.09);
+  border: 1px solid rgba(255,255,255,0.28);
+  border-radius: 14px;
   color: #fff;
   font-size: 26px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: all 0.2s;
-  box-shadow: inset 0 2px 4px rgba(0,0,0,0.4);
+  transition: all 0.22s;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.4);
 }
 .toggle-btn:hover {
-  background: rgba(255,255,255,0.12);
-  transform: scale(1.05);
+  background: rgba(255,255,255,0.18);
+  transform: scale(1.08);
+  box-shadow: 0 6px 16px rgba(255,77,210,0.35);
 }
-/* Launch buttons etc. unchanged */
+/* Launch buttons */
 .launch-buttons{
   display:none;
   margin-top:24px;
@@ -150,7 +159,9 @@ header:hover {
 .launch-btn:hover {
   background:rgba(255,255,255,0.14);
   transform:translateY(-2px) scale(1.06);
+  box-shadow:inset 0 1.2px 1.5px rgba(255,255,255,0.45),0 0 22px rgba(255,255,255,0.35);
 }
+/* Confetti */
 .confetti{
   position:fixed;
   top:-10px;
@@ -182,8 +193,9 @@ header:hover {
     <div class="unit"><div class="num" id="val2">06</div><div class="label" id="lbl2">HOURS</div></div>
     <div class="unit"><div class="num" id="val3">12</div><div class="label" id="lbl3">MINUTES</div></div>
     <div class="unit"><div class="num" id="val4">15</div><div class="label" id="lbl4">SECONDS</div></div>
-    <div class="toggle-btn" id="toggleBtn" title="Toggle to months view">🕒</div>
   </div>
+
+  <div class="toggle-btn" id="toggleBtn" title="Switch to months view">🕒</div>
 
   <div class="launch-buttons" id="launchButtons">
     <a href="preorder" class="launch-btn">Pre-Order</a>
@@ -193,94 +205,101 @@ header:hover {
 </section>
 
 <script>
-const target = new Date('2026-11-19T00:00:00');
-let launched = false;
-let monthsMode = false;
+const targetDate = new Date('2026-11-19T00:00:00');
+let hasLaunched = false;
+let showMonths = false;
 
-const v1 = document.getElementById('val1'), l1 = document.getElementById('lbl1');
-const v2 = document.getElementById('val2'), l2 = document.getElementById('lbl2');
-const v3 = document.getElementById('val3'), l3 = document.getElementById('lbl3');
-const v4 = document.getElementById('val4'), l4 = document.getElementById('lbl4');
-const toggle = document.getElementById('toggleBtn');
+const val1 = document.getElementById('val1');
+const val2 = document.getElementById('val2');
+const val3 = document.getElementById('val3');
+const val4 = document.getElementById('val4');
+const lbl1 = document.getElementById('lbl1');
+const lbl2 = document.getElementById('lbl2');
+const lbl3 = document.getElementById('lbl3');
+const lbl4 = document.getElementById('lbl4');
+const toggleBtn = document.getElementById('toggleBtn');
 
-function pad(n) { return n.toString().padStart(2, '0'); }
+function pad(n){return String(n).padStart(2,'0')}
 
-function celebrate() {
-  for (let i = 0; i < 120; i++) {
+function celebrate(){
+  for(let i=0;i<120;i++){
     const c = document.createElement('div');
     c.className = 'confetti';
-    c.style.left = Math.random() * 100 + 'vw';
-    c.style.background = `hsl(${200 + Math.random() * 40},20%,90%)`;
-    c.style.animationDuration = (2 + Math.random() * 3) + 's';
+    c.style.left = Math.random()*100+'vw';
+    c.style.background = `hsl(${200+Math.random()*40},20%,90%)`;
+    c.style.animationDuration = (2+Math.random()*3)+'s';
     document.body.appendChild(c);
-    setTimeout(() => c.remove(), 5000);
+    setTimeout(()=>c.remove(),5000);
   }
 }
 
-function launchMode() {
-  if (launched) return;
-  launched = true;
+function enterLaunchMode(){
+  if(hasLaunched) return;
+  hasLaunched = true;
   document.getElementById('clock').style.display = 'none';
+  toggleBtn.style.display = 'none';
   document.getElementById('launchButtons').style.display = 'flex';
   document.querySelector('.subtitle').textContent = 'NOW AVAILABLE – WELCOME TO LEONIDA';
   celebrate();
 }
 
-function monthsAndDays(now, targ) {
-  let months = (targ.getFullYear() - now.getFullYear()) * 12 + (targ.getMonth() - now.getMonth());
-  let days = targ.getDate() - now.getDate();
+function getMonthsAndDays(now, target) {
+  let months = (target.getFullYear() - now.getFullYear()) * 12 + (target.getMonth() - now.getMonth());
+  let days = target.getDate() - now.getDate();
   if (days < 0) {
     months--;
-    const prevLastDay = new Date(now.getFullYear(), now.getMonth(), 0).getDate();
-    days += prevLastDay;
+    const lastDayPrev = new Date(now.getFullYear(), now.getMonth(), 0).getDate();
+    days += lastDayPrev;
   }
-  return {months, days};
+  return { months, days };
 }
 
-function update() {
+function updateCountdown(){
   const now = new Date();
-  const diff = target - now;
-  if (diff <= 0) return launchMode();
+  const diffMs = targetDate - now;
+  if(diffMs <= 0){
+    enterLaunchMode();
+    return;
+  }
 
-  const sec = Math.floor(diff / 1000);
-  const totalDays = Math.floor(sec / 86400);
+  const diffSec = Math.floor(diffMs / 1000);
 
-  if (monthsMode) {
-    const {months, days} = monthsAndDays(now, target);
-    const hrs = Math.floor((sec % 86400) / 3600);
-    const min = Math.floor((sec % 3600) / 60);
+  if(showMonths){
+    const { months, days } = getMonthsAndDays(now, targetDate);
+    const hours = Math.floor((diffSec % 86400) / 3600);
+    const mins  = Math.floor((diffSec % 3600) / 60);
 
-    v1.textContent = months;
-    v2.textContent = pad(days);
-    v3.textContent = pad(hrs);
-    v4.textContent = pad(min);
+    val1.textContent = months;
+    val2.textContent = pad(days);
+    val3.textContent = pad(hours);
+    val4.textContent = pad(mins);
 
-    l1.textContent = 'MONTHS';
-    l2.textContent = 'DAYS';
-    l3.textContent = 'HOURS';
-    l4.textContent = 'MINUTES';
+    lbl1.textContent = 'MONTHS';
+    lbl2.textContent = 'DAYS';
+    lbl3.textContent = 'HOURS';
+    lbl4.textContent = 'MINUTES';
   } else {
-    v1.textContent = totalDays;
-    v2.textContent = pad(Math.floor((sec % 86400) / 3600));
-    v3.textContent = pad(Math.floor((sec % 3600) / 60));
-    v4.textContent = pad(sec % 60);
+    val1.textContent = Math.floor(diffSec / 86400);
+    val2.textContent = pad(Math.floor((diffSec % 86400) / 3600));
+    val3.textContent = pad(Math.floor((diffSec % 3600) / 60));
+    val4.textContent = pad(diffSec % 60);
 
-    l1.textContent = 'DAYS';
-    l2.textContent = 'HOURS';
-    l3.textContent = 'MINUTES';
-    l4.textContent = 'SECONDS';
+    lbl1.textContent = 'DAYS';
+    lbl2.textContent = 'HOURS';
+    lbl3.textContent = 'MINUTES';
+    lbl4.textContent = 'SECONDS';
   }
 }
 
-toggle.addEventListener('click', () => {
-  monthsMode = !monthsMode;
-  toggle.textContent = monthsMode ? '📅' : '🕒';
-  toggle.title = monthsMode ? 'Show days & seconds' : 'Show months & days';
-  update();
+toggleBtn.addEventListener('click', () => {
+  showMonths = !showMonths;
+  toggleBtn.textContent = showMonths ? '📅' : '🕒';
+  toggleBtn.title = showMonths ? 'Switch to days view' : 'Switch to months view';
+  updateCountdown();
 });
 
-update();
-setInterval(update, 1000);
+updateCountdown();
+setInterval(updateCountdown, 1000);
 </script>
 </body>
 </html>
