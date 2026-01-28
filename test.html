@@ -57,10 +57,10 @@ header:hover {
 .countdown-wrap {
   backdrop-filter: blur(4px);
   border-radius: 20px;
-  padding: 26px 34px 70px 34px; /* extra bottom space for button */
+  padding: 26px 34px 80px 34px;
   text-align: center;
   width: 88%;
-  max-width: 720px; /* wider for 5 units */
+  max-width: 900px; /* wider to fit 5 units comfortably */
   margin-top: 120px;
   background: rgba(0,0,0,0.25);
   border: 2px solid #fff;
@@ -84,7 +84,7 @@ header:hover {
   display:flex;
   gap:10px;
   justify-content:center;
-  flex-wrap:wrap; /* better on mobile/small screens */
+  flex-wrap:wrap;
   margin-bottom:20px;
 }
 .unit{
@@ -167,6 +167,7 @@ header:hover {
 @keyframes fall{
   to{transform:translateY(110vh) rotate(720deg);opacity:0;}
 }
+.hidden { display: none !important; }
 </style>
 </head>
 <body>
@@ -187,6 +188,7 @@ header:hover {
     <div class="unit"><div class="num" id="val2">06</div><div class="label" id="lbl2">HOURS</div></div>
     <div class="unit"><div class="num" id="val3">12</div><div class="label" id="lbl3">MINUTES</div></div>
     <div class="unit"><div class="num" id="val4">15</div><div class="label" id="lbl4">SECONDS</div></div>
+    <div class="unit" id="val5Container"><div class="num" id="val5">00</div><div class="label" id="lbl5">MONTHS</div></div>
   </div>
 
   <div class="toggle-btn" id="toggleBtn" title="Switch to months view">🕒</div>
@@ -207,10 +209,13 @@ const val1 = document.getElementById('val1');
 const val2 = document.getElementById('val2');
 const val3 = document.getElementById('val3');
 const val4 = document.getElementById('val4');
+const val5 = document.getElementById('val5');
 const lbl1 = document.getElementById('lbl1');
 const lbl2 = document.getElementById('lbl2');
 const lbl3 = document.getElementById('lbl3');
 const lbl4 = document.getElementById('lbl4');
+const lbl5 = document.getElementById('lbl5');
+const val5Container = document.getElementById('val5Container');
 const toggleBtn = document.getElementById('toggleBtn');
 
 function pad(n){return String(n).padStart(2,'0')}
@@ -267,17 +272,23 @@ function updateCountdown(){
     val1.textContent = months;
     val2.textContent = pad(days);
     val3.textContent = pad(hours);
-    val4.textContent = pad(mins);  // ← minutes now shown here
+    val4.textContent = pad(mins);
+    val5.textContent = pad(secs);
 
     lbl1.textContent = 'MONTHS';
     lbl2.textContent = 'DAYS';
     lbl3.textContent = 'HOURS';
-    lbl4.textContent = 'MINUTES';  // fixed label
+    lbl4.textContent = 'MINUTES';
+    lbl5.textContent = 'SECONDS';
+
+    val5Container.classList.remove('hidden');
   } else {
     val1.textContent = Math.floor(diffSec / 86400);
     val2.textContent = pad(Math.floor((diffSec % 86400) / 3600));
     val3.textContent = pad(Math.floor((diffSec % 3600) / 60));
     val4.textContent = pad(diffSec % 60);
+    // fifth box stays hidden in days mode
+    val5Container.classList.add('hidden');
 
     lbl1.textContent = 'DAYS';
     lbl2.textContent = 'HOURS';
