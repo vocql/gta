@@ -21,6 +21,7 @@ body{
   justify-content:center;
   background-position:center 40%;
 }
+
 /* ================= NAVBAR ================= */
 header {
   position: fixed;
@@ -55,6 +56,7 @@ header:hover {
   background: rgba(255, 255, 255, 0.14);
   transform: scale(1.05);
 }
+
 /* ================= COUNTDOWN CARD ================= */
 .countdown-wrap {
   backdrop-filter: blur(1px);
@@ -224,26 +226,28 @@ header:hover {
   border-color: rgba(255,255,255,0.8);
 }
 
-/* Control buttons in middle of wheel */
+/* Control buttons in the middle of the wheel */
 #controls-center {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   display: flex;
-  gap: 12px;
+  gap: 16px;
   z-index: 100;
 }
 
 .control-btn {
-  width: 70px;
-  height: 70px;
+  width: 80px;
+  height: 80px;
   background: rgba(255, 255, 255, 0.15);
   border: 1px solid rgba(255, 255, 255, 0.4);
   border-radius: 50%;
   color: #fff;
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -318,7 +322,7 @@ header:hover {
 </div>
 
 <script>
-// Your countdown script (unchanged)
+// Countdown script (unchanged)
 const targetDate = new Date('2026-11-18T00:00:00');
 let hasLaunched = false;
 const daysEl = document.getElementById('days');
@@ -360,32 +364,34 @@ function updateCountdown(){
 updateCountdown();
 setInterval(updateCountdown, 1000);
 
-// Radio logic - invisible audio + shuffle
+// Radio logic - background audio + skip + shuffle
 const radioStations = [
   { name: "Wildstyle", songs: [
     "audio/wildstyle/pump_me_up.mp3",
     "audio/wildstyle/one_for_the_treble.mp3",
     "audio/wildstyle/clear.mp3",
-    "audio/wildstyle/al_naafiysh.mp3"
-    // add all your tracks...
+    "audio/wildstyle/al_naafiysh.mp3",
+    // add more...
   ]},
   { name: "Flash FM", songs: [
     "audio/flash/out_of_touch.mp3",
     "audio/flash/dance_hall_days.mp3",
     "audio/flash/self_control.mp3",
-    "audio/flash/call_me.mp3"
+    "audio/flash/call_me.mp3",
+    // ...
   ]},
   { name: "Fever 105", songs: [
     "audio/fever/and_the_beat_goes_on.mp3",
     "audio/fever/act_like_you_know.mp3",
-    "audio/fever/get_down_saturday_night.mp3"
+    "audio/fever/get_down_saturday_night.mp3",
+    // ...
   ]},
   { name: "V-Rock", songs: [
     "audio/vrock/you_got_another_thing.mp3",
     "audio/vrock/too_young_to_fall.mp3",
-    "audio/vrock/peace_sells.mp3"
+    "audio/vrock/peace_sells.mp3",
+    // ...
   ]},
-  // ... other stations (add your real MP3 paths)
   { name: "Radio Espantoso", songs: [] },
   { name: "Emotion 98.3", songs: [] },
   { name: "Wave 103", songs: [] },
