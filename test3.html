@@ -22,6 +22,7 @@ body{
   align-items:center;
   justify-content:center;
   background-position:center 40%;
+  cursor:pointer; /* subtle hint something happens on click */
 }
 
 /* ================= NAVBAR ================= */
@@ -106,15 +107,6 @@ header{
   margin-top:6px;
   opacity:.8;
 }
-
-/* ================= MUSIC PLAYER ================= */
-audio{
-  position:fixed;
-  bottom:20px;
-  right:20px;
-  z-index:100;
-  opacity:0.85;
-}
 </style>
 </head>
 
@@ -141,12 +133,13 @@ audio{
   </div>
 </section>
 
-<!-- ================= SIMPLE MUSIC PLAYER ================= -->
-<audio autoplay muted loop controls>
-  <source src="music/nightcall.mp3" type="audio/mpeg">
+<!-- 🔊 BACKGROUND MUSIC (NO PLAYER) -->
+<audio id="bgMusic" loop>
+  <source src="music/night.mp3" type="audio/mpeg">
 </audio>
 
 <script>
+/* ===== Countdown ===== */
 const targetDate = new Date('2026-11-18T00:00:00');
 
 const daysEl = document.getElementById('days');
@@ -159,7 +152,6 @@ function pad(n){return String(n).padStart(2,'0');}
 function updateCountdown(){
   const now = new Date();
   const diff = Math.floor((targetDate - now) / 1000);
-
   if(diff <= 0) return;
 
   daysEl.textContent = Math.floor(diff / 86400);
@@ -170,6 +162,14 @@ function updateCountdown(){
 
 updateCountdown();
 setInterval(updateCountdown, 1000);
+
+/* ===== Click Anywhere to Play Music ===== */
+const music = document.getElementById('bgMusic');
+
+document.addEventListener('click', () => {
+  music.volume = 0.45;
+  music.play();
+}, { once:true });
 </script>
 
 </body>
