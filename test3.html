@@ -16,41 +16,13 @@
 html, body {
   height: 100%;
   overflow: hidden;
-  cursor: none;               /* Completely hide default cursor */
+  cursor: none; /* Hide real cursor */
 }
 
-/* Vice City neon glow + trail cursor */
-body::before {
-  content: "";
-  position: fixed;
-  pointer-events: none;
-  width: 40px;
-  height: 40px;
-  background: radial-gradient(circle at 35% 35%, #ff2ea5, #00f0ff 55%, transparent 75%);
-  border: 2px solid #ff69b4;
-  border-radius: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 999999;
-  box-shadow: 
-    0 0 15px #ff2ea5,
-    0 0 30px #00f0ff,
-    inset 0 0 10px rgba(255, 46, 165, 0.6);
-  mix-blend-mode: screen;
-  opacity: 0.92;
-  transition: transform 0.12s ease-out, opacity 0.2s;
-  will-change: transform;
-}
-
-/* Slightly stronger glow on hover / clickable areas */
-a:hover ~ body::before,
-button:hover ~ body::before,
-.nav-btn:hover ~ body::before {
-  transform: translate(-50%, -50%) scale(1.4);
-  box-shadow: 
-    0 0 25px #ff2ea5,
-    0 0 50px #00f0ff,
-    inset 0 0 15px rgba(255, 46, 165, 0.8);
-  opacity: 1;
+/* Vice City neon glow cursor using CSS variables for position */
+:root {
+  --mouse-x: 0px;
+  --mouse-y: 0px;
 }
 
 body {
@@ -64,6 +36,40 @@ body {
   align-items: center;
   justify-content: center;
   background-position: center 40%;
+  position: relative;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  left: var(--mouse-x);
+  top: var(--mouse-y);
+  width: 44px;
+  height: 44px;
+  background: radial-gradient(circle at 35% 35%, #ff1493, #00ffff 60%, transparent 75%);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 999999;
+  transform: translate(-50%, -50%);
+  box-shadow: 
+    0 0 16px #ff1493,
+    0 0 32px #00ffff,
+    inset 0 0 10px rgba(255, 20, 147, 0.75);
+  mix-blend-mode: screen;
+  opacity: 0.92;
+  transition: transform 0.15s ease-out, opacity 0.25s, box-shadow 0.25s;
+}
+
+/* Hover: bigger, brighter neon glow */
+a:hover ~ body::before,
+.nav-btn:hover ~ body::before,
+.countdown-wrap:hover ~ body::before {
+  transform: translate(-50%, -50%) scale(1.6);
+  box-shadow: 
+    0 0 28px #ff1493,
+    0 0 56px #00ffff,
+    inset 0 0 16px rgba(255, 20, 147, 0.9);
+  opacity: 1;
 }
 
 /* ================= NAVBAR ================= */
@@ -178,7 +184,7 @@ header {
 </audio>
 
 <script>
-// Countdown
+// Countdown timer
 const targetDate = new Date('2026-11-18T00:00:00');
 const daysEl    = document.getElementById('days');
 const hoursEl   = document.getElementById('hours');
@@ -200,12 +206,18 @@ function updateCountdown() {
 updateCountdown();
 setInterval(updateCountdown, 1000);
 
-// Click to play music
+// Play music on first click
 const music = document.getElementById('bgMusic');
 document.addEventListener('click', () => {
   music.volume = 0.45;
   music.play();
 }, { once: true });
+
+// Mouse follower for neon glow (using CSS vars)
+document.addEventListener('mousemove', (e) => {
+  document.documentElement.style.setProperty('--mouse-x', e.clientX + 'px');
+  document.documentElement.style.setProperty('--mouse-y', e.clientY + 'px');
+});
 </script>
 </body>
 </html>
