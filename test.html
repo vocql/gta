@@ -1,3 +1,158 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>VI | Home</title>
+<link rel="icon" href="gta/npc/lucia.jpg" type="image/jpg">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;overflow:hidden}
+body{
+  font-family:'Orbitron',sans-serif;
+  background:
+    linear-gradient(135deg, rgba(255,77,210,0.15), rgba(0,255,224,0.10)),
+    url('gta/jason.jpg') center/cover no-repeat fixed;
+  background-blend-mode: overlay;
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background-position:center 40%;
+}
+/* ================= NAVBAR ================= */
+header {
+  position: fixed;
+  top: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 50;
+  display: flex;
+  gap: 12px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.25);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+  transition: 0.25s;
+}
+header:hover {
+  box-shadow: 0 12px 40px rgba(255, 77, 210, 0.35);
+}
+.nav-btn {
+  padding: 9px 17px;
+  border-radius: 999px;
+  color: #fff;
+  font-weight: 600;
+  text-decoration: none;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: inset 0 1.2px 1.5px rgba(255, 255, 255, 0.4),
+              0 4px 18px rgba(0, 0, 0, 0.3);
+  transition: 0.25s;
+}
+.nav-btn:hover {
+  background: rgba(255, 255, 255, 0.14);
+  transform: scale(1.05);
+}
+/* ================= COUNTDOWN CARD ================= */
+.countdown-wrap {
+  backdrop-filter: blur(1px);
+  border-radius: 20px;
+  padding: 26px 34px;
+  text-align: center;
+  width: 88%;
+  max-width: 600px;
+  margin-top: 120px;
+  background: rgba(0,0,0,0.25);
+  border: 2px solid #fff;
+  box-shadow: 0 0 16px rgba(255,255,255,0.3);
+}
+.title{
+  font-size:32px;
+  font-weight:900;
+  margin-bottom:6px;
+  letter-spacing:1px;
+}
+.subtitle{
+  font-size:14px;
+  opacity:.85;
+  letter-spacing:1px;
+  margin-bottom:24px;
+  text-transform:uppercase;
+}
+/* Countdown */
+.clock{
+  display:flex;
+  gap:12px;
+  justify-content:center;
+  flex-wrap:nowrap;
+  margin-bottom:24px;
+}
+.unit{
+  min-width:72px;
+  padding:12px 10px;
+  border-radius:12px;
+  background:rgba(0,0,0,0.35);
+  border:1px solid rgba(255,255,255,0.15);
+}
+.num{
+  font-size:32px;
+  font-weight:900;
+  color:#fff;
+  line-height:1;
+  text-shadow: 0 0 6px rgba(255,255,255,0.35),0 0 14px rgba(255,255,255,0.15);
+}
+.label{
+  font-size:11px;
+  margin-top:6px;
+  text-transform:uppercase;
+  opacity:.8;
+  letter-spacing:1px;
+}
+/* Launch buttons */
+.launch-buttons{
+  display:none;
+  margin-top:24px;
+  gap:14px;
+  justify-content:center;
+  flex-wrap:wrap;
+}
+.launch-btn{
+  padding:12px 24px;
+  border-radius:999px;
+  color:#fff;
+  font-size:14px;
+  font-weight:700;
+  text-decoration:none;
+  background:rgba(255,255,255,0.08);
+  border:1px solid rgba(255,255,255,0.2);
+  box-shadow:inset 0 1.2px 1.5px rgba(255,255,255,0.4),0 6px 18px rgba(0,0,0,0.35);
+  backdrop-filter:blur(12px);
+  transition:.25s ease;
+}
+.launch-btn:hover {
+  background:rgba(255,255,255,0.14);
+  transform:translateY(-2px) scale(1.06);
+  box-shadow:inset 0 1.2px 1.5px rgba(255,255,255,0.45),0 0 22px rgba(255,255,255,0.35);
+}
+/* Confetti */
+.confetti{
+  position:fixed;
+  top:-10px;
+  width:8px;
+  height:14px;
+  animation:fall linear forwards;
+  z-index:9999;
+}
+@keyframes fall{
+  to{
+    transform:translateY(110vh) rotate(720deg);
+    opacity:0;
+  }
+}
+</style>
+</head>
 <body>
 <header>
   <a href="index" class="nav-btn">Home</a>
@@ -16,42 +171,72 @@
     <div class="unit"><div class="num" id="minutes">00</div><div class="label">MINUTES</div></div>
     <div class="unit"><div class="num" id="seconds">00</div><div class="label">SECONDS</div></div>
   </div>
+  <div class="launch-buttons" id="launchButtons">
+    <a href="preorder" class="launch-btn">Pre-Order</a>
+    <a href="map" class="launch-btn">Map</a>
+    <a href="trailers" class="launch-btn">Trailers</a>
+  </div>
 </section>
 
-<!-- 🔊 BACKGROUND MUSIC (NO PLAYER) -->
+<!-- Background music (Vice City night vibe - loops quietly) -->
 <audio id="bgMusic" loop>
   <source src="music/night.mp3" type="audio/mpeg">
 </audio>
 
 <script>
-/* ===== Countdown ===== */
 const targetDate = new Date('2026-11-18T00:00:00');
+let hasLaunched = false;
 const daysEl = document.getElementById('days');
 const hoursEl = document.getElementById('hours');
 const minutesEl = document.getElementById('minutes');
 const secondsEl = document.getElementById('seconds');
-function pad(n){return String(n).padStart(2,'0');}
+
+function pad(n){return String(n).padStart(2,'0')}
+
+function celebrate(){
+  for(let i=0;i<120;i++){
+    const c = document.createElement('div');
+    c.className = 'confetti';
+    c.style.left = Math.random()*100+'vw';
+    c.style.background = `hsl(${200+Math.random()*40},20%,90%)`;
+    c.style.animationDuration = (2+Math.random()*3)+'s';
+    document.body.appendChild(c);
+    setTimeout(()=>c.remove(),5000);
+  }
+}
+
+function enterLaunchMode(){
+  if(hasLaunched) return;
+  hasLaunched = true;
+  document.querySelector('.clock').style.display = 'none';
+  document.getElementById('launchButtons').style.display = 'flex';
+  document.querySelector('.subtitle').textContent = 'NOW AVAILABLE – WELCOME TO LEONIDA';
+  celebrate();
+}
+
 function updateCountdown(){
   const now = new Date();
-  const diff = Math.floor((targetDate - now) / 1000);
-  if(diff <= 0) return;
+  const diff = Math.floor((targetDate - now)/1000);
+  if(diff <= 0){
+    enterLaunchMode();
+    return;
+  }
   daysEl.textContent = Math.floor(diff / 86400);
   hoursEl.textContent = pad(Math.floor((diff % 86400) / 3600));
   minutesEl.textContent = pad(Math.floor((diff % 3600) / 60));
   secondsEl.textContent = pad(diff % 60);
 }
+
 updateCountdown();
 setInterval(updateCountdown, 1000);
 
-/* ===== Click Anywhere to Play Music + Effects ===== */
+// Play music on first user interaction (click/tap anywhere)
 const music = document.getElementById('bgMusic');
 document.addEventListener('click', () => {
-  music.volume = 0.45;
-  music.play().then(() => {
-    document.body.classList.add('music-playing');
-  }).catch(err => {
-    console.log("Playback failed:", err);
-  });
+  if (!music.src) return; // safety check
+  music.volume = 0.35;     // quiet ambient level
+  music.play().catch(() => {}); // ignore autoplay blocks
 }, { once: true });
 </script>
 </body>
+</html>
