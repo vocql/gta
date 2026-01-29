@@ -224,6 +224,39 @@ header:hover {
   border-color: rgba(255,255,255,0.8);
 }
 
+/* Control buttons in middle of wheel */
+#controls-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  gap: 12px;
+  z-index: 100;
+}
+
+.control-btn {
+  width: 70px;
+  height: 70px;
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 50%;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  transition: all 0.25s;
+}
+.control-btn:hover {
+  background: rgba(255, 255, 255, 0.25);
+  transform: scale(1.1);
+}
+
 #current-radio-info {
   position: fixed;
   bottom: 580px;
@@ -241,11 +274,6 @@ header:hover {
 }
 #current-radio-info.active {
   opacity: 1;
-}
-
-#radio-player audio {
-  width: 100%;
-  margin-top: 10px;
 }
 </style>
 </head>
@@ -277,12 +305,16 @@ header:hover {
 <!-- Radio Wheel -->
 <div id="radio-toggle">📻</div>
 <div id="radio-wheel-container">
-  <div class="radio-wheel" id="radio-wheel"></div>
+  <div class="radio-wheel" id="radio-wheel">
+    <div id="controls-center">
+      <div class="control-btn" id="skip-btn">SKIP</div>
+      <div class="control-btn" id="shuffle-btn">SHUFFLE</div>
+    </div>
+  </div>
 </div>
 <div id="current-radio-info">
   <h2 id="radio-station-name">Select a station</h2>
-  <p id="current-song">—</p>
-  <div id="radio-player"></div>
+  <p id="current-song">Playing in background...</p>
 </div>
 
 <script>
@@ -328,40 +360,37 @@ function updateCountdown(){
 updateCountdown();
 setInterval(updateCountdown, 1000);
 
-// Radio logic with MP3 playlists
+// Radio logic - invisible audio + shuffle
 const radioStations = [
   { name: "Wildstyle", songs: [
-    "audio/wildstyle/song1.mp3",  // e.g. "Trouble Funk - Pump Me Up"
-    "audio/wildstyle/song2.mp3",  // add as many as you want
-    // ... more tracks
+    "audio/wildstyle/pump_me_up.mp3",
+    "audio/wildstyle/one_for_the_treble.mp3",
+    "audio/wildstyle/clear.mp3",
+    "audio/wildstyle/al_naafiysh.mp3"
+    // add all your tracks...
   ]},
   { name: "Flash FM", songs: [
-    "audio/flashfm/song1.mp3",    // "Out of Touch" etc.
-    "audio/flashfm/song2.mp3",
-    // ...
+    "audio/flash/out_of_touch.mp3",
+    "audio/flash/dance_hall_days.mp3",
+    "audio/flash/self_control.mp3",
+    "audio/flash/call_me.mp3"
   ]},
   { name: "Fever 105", songs: [
-    "audio/fever/song1.mp3",
-    // ...
+    "audio/fever/and_the_beat_goes_on.mp3",
+    "audio/fever/act_like_you_know.mp3",
+    "audio/fever/get_down_saturday_night.mp3"
   ]},
   { name: "V-Rock", songs: [
-    "audio/vrock/song1.mp3",
-    // ...
+    "audio/vrock/you_got_another_thing.mp3",
+    "audio/vrock/too_young_to_fall.mp3",
+    "audio/vrock/peace_sells.mp3"
   ]},
-  { name: "Radio Espantoso", songs: [
-    "audio/espantoso/song1.mp3",
-    // ...
-  ]},
-  { name: "Emotion 98.3", songs: [
-    "audio/emotion/song1.mp3",
-    // ...
-  ]},
-  { name: "Wave 103", songs: [
-    "audio/wave/song1.mp3",
-    // ...
-  ]},
-  { name: "K-Chat", songs: [] },     // talk show – add clips or leave empty
-  { name: "VCPR", songs: [] }        // talk – same
+  // ... other stations (add your real MP3 paths)
+  { name: "Radio Espantoso", songs: [] },
+  { name: "Emotion 98.3", songs: [] },
+  { name: "Wave 103", songs: [] },
+  { name: "K-Chat", songs: [] },
+  { name: "VCPR", songs: [] }
 ];
 
 const wheel = document.getElementById('radio-wheel');
@@ -370,7 +399,8 @@ const container = document.getElementById('radio-wheel-container');
 const info = document.getElementById('current-radio-info');
 const stationNameEl = document.getElementById('radio-station-name');
 const songEl = document.getElementById('current-song');
-const playerDiv = document.getElementById('radio-player');
+const skipBtn = document.getElementById('skip-btn');
+const shuffleBtn = document.getElementById('shuffle-btn');
 
 let currentAudio = null;
 let currentPlaylist = [];
@@ -392,6 +422,15 @@ radioStations.forEach((station, i) => {
   wheel.appendChild(stationEl);
 });
 
+function shuffleArray(array) {
+  const shuffled = [...array];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  return shuffled;
+}
+
 function playStation(station) {
   if (currentAudio) {
     currentAudio.pause();
@@ -402,46 +441,73 @@ function playStation(station) {
   currentIndex = 0;
   currentStationName = station.name;
 
+  stationNameEl.textContent = currentStationName;
+
   if (currentPlaylist.length === 0) {
-    stationNameEl.textContent = currentStationName;
-    songEl.textContent = "(No tracks or talk station)";
+    songEl.textContent = "(Talk station - no music)";
     info.classList.add('active');
-    playerDiv.innerHTML = '';
     return;
   }
 
-  stationNameEl.textContent = currentStationName;
-  playNextSong();
+  songEl.textContent = "Playing in background...";
   info.classList.add('active');
+  playNextSong();
 }
 
 function playNextSong() {
   if (currentIndex >= currentPlaylist.length) currentIndex = 0;
 
   const src = currentPlaylist[currentIndex];
-  songEl.textContent = src.split('/').pop().replace('.mp3', ''); // show filename as song title (customize later)
+  const fileName = src.split('/').pop().replace('.mp3', '').replace(/_/g, ' ');
 
-  const audio = new Audio(src);
-  audio.controls = true;           // optional: show native controls
-  audio.autoplay = true;
-  audio.loop = false;
+  songEl.textContent = fileName || "Track " + (currentIndex + 1);
 
-  audio.onended = () => {
+  currentAudio = new Audio(src);
+  currentAudio.autoplay = true;
+  currentAudio.loop = false;
+  currentAudio.volume = 0.6;
+
+  currentAudio.onended = () => {
     currentIndex++;
     playNextSong();
   };
-
-  playerDiv.innerHTML = '';
-  playerDiv.appendChild(audio);
-  currentAudio = audio;
 }
+
+skipBtn.onclick = () => {
+  if (currentAudio && currentPlaylist.length > 0) {
+    currentAudio.pause();
+    currentIndex++;
+    playNextSong();
+  }
+};
+
+shuffleBtn.onclick = () => {
+  if (currentPlaylist.length > 1) {
+    currentPlaylist = shuffleArray(currentPlaylist);
+    currentIndex = 0;
+    if (currentAudio) currentAudio.pause();
+    playNextSong();
+    songEl.textContent = songEl.textContent + " (shuffled)";
+    setTimeout(() => {
+      if (songEl.textContent.includes("(shuffled)")) {
+        songEl.textContent = songEl.textContent.replace(" (shuffled)", "");
+      }
+    }, 3000);
+  } else if (currentPlaylist.length === 0) {
+    songEl.textContent = "Select a station first";
+    setTimeout(() => {
+      if (songEl.textContent === "Select a station first") {
+        songEl.textContent = "Playing in background...";
+      }
+    }, 2000);
+  }
+};
 
 toggle.onclick = () => {
   container.classList.toggle('active');
   if (!container.classList.contains('active')) {
     if (currentAudio) currentAudio.pause();
     info.classList.remove('active');
-    playerDiv.innerHTML = '';
   }
 };
 </script>
