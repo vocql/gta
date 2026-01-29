@@ -6,11 +6,14 @@
 <title>VI | Home</title>
 <link rel="icon" href="gta/npc/lucia.jpg" type="image/jpg">
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
-
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-html,body{height:100%;overflow:hidden}
-
+html,body{
+  height:100%;
+  overflow:hidden;
+  /* Custom GTA VI Logo cursor (PNG) - site-wide */
+  cursor: url('gta/vicur.png') 16 16, auto;
+}
 body{
   font-family:'Orbitron',sans-serif;
   background:
@@ -22,7 +25,13 @@ body{
   align-items:center;
   justify-content:center;
   background-position:center 40%;
-  cursor:pointer; /* subtle hint something happens on click */
+  /* Fallback if image fails to load anywhere */
+  cursor: url('gta/gta-vi-pointer.png') 16 16, auto;
+}
+/* Hover states keep the custom cursor but use pointer fallback for semantics */
+a:hover,
+.nav-btn:hover {
+  cursor: url('gta/gta-vi-pointer.png') 16 16, pointer;
 }
 
 /* ================= NAVBAR ================= */
@@ -39,7 +48,6 @@ header{
   background:rgba(0,0,0,0.25);
   box-shadow:0 6px 18px rgba(0,0,0,0.35);
 }
-
 .nav-btn{
   padding:9px 17px;
   border-radius:999px;
@@ -50,12 +58,10 @@ header{
   border:1px solid rgba(255,255,255,0.18);
   transition:0.25s;
 }
-
 .nav-btn:hover{
   background:rgba(255,255,255,0.14);
   transform:scale(1.05);
 }
-
 /* ================= COUNTDOWN ================= */
 .countdown-wrap{
   backdrop-filter:blur(1px);
@@ -69,26 +75,22 @@ header{
   border:2px solid #fff;
   box-shadow:0 0 16px rgba(255,255,255,0.3);
 }
-
 .title{
   font-size:32px;
   font-weight:900;
   margin-bottom:6px;
 }
-
 .subtitle{
   font-size:14px;
   opacity:.85;
   margin-bottom:24px;
   text-transform:uppercase;
 }
-
 .clock{
   display:flex;
   gap:12px;
   justify-content:center;
 }
-
 .unit{
   min-width:72px;
   padding:12px 10px;
@@ -96,12 +98,10 @@ header{
   background:rgba(0,0,0,0.35);
   border:1px solid rgba(255,255,255,0.15);
 }
-
 .num{
   font-size:32px;
   font-weight:900;
 }
-
 .label{
   font-size:11px;
   margin-top:6px;
@@ -109,9 +109,7 @@ header{
 }
 </style>
 </head>
-
 <body>
-
 <header>
   <a href="index" class="nav-btn">Home</a>
   <a href="map" class="nav-btn">Map</a>
@@ -120,11 +118,9 @@ header{
   <a href="screenshots" class="nav-btn">Screenshots</a>
   <a href="trailers" class="nav-btn">Trailers</a>
 </header>
-
 <section class="countdown-wrap">
   <h1 class="title">Grand Theft Auto VI</h1>
   <div class="subtitle">RELEASE COUNTDOWN – NOVEMBER 19TH, 2026</div>
-
   <div class="clock">
     <div class="unit"><div class="num" id="days">000</div><div class="label">DAYS</div></div>
     <div class="unit"><div class="num" id="hours">00</div><div class="label">HOURS</div></div>
@@ -132,45 +128,35 @@ header{
     <div class="unit"><div class="num" id="seconds">00</div><div class="label">SECONDS</div></div>
   </div>
 </section>
-
 <!-- 🔊 BACKGROUND MUSIC (NO PLAYER) -->
 <audio id="bgMusic" loop>
   <source src="music/night.mp3" type="audio/mpeg">
 </audio>
-
 <script>
 /* ===== Countdown ===== */
 const targetDate = new Date('2026-11-18T00:00:00');
-
 const daysEl = document.getElementById('days');
 const hoursEl = document.getElementById('hours');
 const minutesEl = document.getElementById('minutes');
 const secondsEl = document.getElementById('seconds');
-
 function pad(n){return String(n).padStart(2,'0');}
-
 function updateCountdown(){
   const now = new Date();
   const diff = Math.floor((targetDate - now) / 1000);
   if(diff <= 0) return;
-
   daysEl.textContent = Math.floor(diff / 86400);
   hoursEl.textContent = pad(Math.floor((diff % 86400) / 3600));
   minutesEl.textContent = pad(Math.floor((diff % 3600) / 60));
   secondsEl.textContent = pad(diff % 60);
 }
-
 updateCountdown();
 setInterval(updateCountdown, 1000);
-
 /* ===== Click Anywhere to Play Music ===== */
 const music = document.getElementById('bgMusic');
-
 document.addEventListener('click', () => {
   music.volume = 0.45;
   music.play();
 }, { once:true });
 </script>
-
 </body>
 </html>
