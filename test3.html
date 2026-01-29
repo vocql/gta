@@ -7,109 +7,151 @@
 <link rel="icon" href="gta/npc/lucia.jpg" type="image/jpg">
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
-html,body{
-  height:100%;
-  overflow:hidden;
-  /* Custom GTA VI Logo cursor (PNG) - site-wide */
-  cursor: url('gta/vicur.png') 16 16, auto;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
-body{
-  font-family:'Orbitron',sans-serif;
+
+html, body {
+  height: 100%;
+  overflow: hidden;
+  cursor: none;               /* Completely hide default cursor */
+}
+
+/* Vice City neon glow + trail cursor */
+body::before {
+  content: "";
+  position: fixed;
+  pointer-events: none;
+  width: 40px;
+  height: 40px;
+  background: radial-gradient(circle at 35% 35%, #ff2ea5, #00f0ff 55%, transparent 75%);
+  border: 2px solid #ff69b4;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 999999;
+  box-shadow: 
+    0 0 15px #ff2ea5,
+    0 0 30px #00f0ff,
+    inset 0 0 10px rgba(255, 46, 165, 0.6);
+  mix-blend-mode: screen;
+  opacity: 0.92;
+  transition: transform 0.12s ease-out, opacity 0.2s;
+  will-change: transform;
+}
+
+/* Slightly stronger glow on hover / clickable areas */
+a:hover ~ body::before,
+button:hover ~ body::before,
+.nav-btn:hover ~ body::before {
+  transform: translate(-50%, -50%) scale(1.4);
+  box-shadow: 
+    0 0 25px #ff2ea5,
+    0 0 50px #00f0ff,
+    inset 0 0 15px rgba(255, 46, 165, 0.8);
+  opacity: 1;
+}
+
+body {
+  font-family: 'Orbitron', sans-serif;
   background:
     linear-gradient(135deg, rgba(255,77,210,0.15), rgba(0,255,224,0.10)),
     url('gta/jason.jpg') center/cover no-repeat fixed;
   background-blend-mode: overlay;
-  color:#fff;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  background-position:center 40%;
-  /* Fallback if image fails to load anywhere */
-  cursor: url('gta/gta-vi-pointer.png') 16 16, auto;
-}
-/* Hover states keep the custom cursor but use pointer fallback for semantics */
-a:hover,
-.nav-btn:hover {
-  cursor: url('gta/gta-vi-pointer.png') 16 16, pointer;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-position: center 40%;
 }
 
 /* ================= NAVBAR ================= */
-header{
-  position:fixed;
-  top:18px;
-  left:50%;
-  transform:translateX(-50%);
-  z-index:50;
-  display:flex;
-  gap:12px;
-  padding:8px 14px;
-  border-radius:999px;
-  background:rgba(0,0,0,0.25);
-  box-shadow:0 6px 18px rgba(0,0,0,0.35);
+header {
+  position: fixed;
+  top: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 50;
+  display: flex;
+  gap: 12px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: rgba(0,0,0,0.25);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.35);
 }
-.nav-btn{
-  padding:9px 17px;
-  border-radius:999px;
-  color:#fff;
-  font-weight:600;
-  text-decoration:none;
-  background:rgba(255,255,255,0.08);
-  border:1px solid rgba(255,255,255,0.18);
-  transition:0.25s;
+
+.nav-btn {
+  padding: 9px 17px;
+  border-radius: 999px;
+  color: #fff;
+  font-weight: 600;
+  text-decoration: none;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.18);
+  transition: 0.25s;
 }
-.nav-btn:hover{
-  background:rgba(255,255,255,0.14);
-  transform:scale(1.05);
+
+.nav-btn:hover {
+  background: rgba(255,255,255,0.14);
+  transform: scale(1.05);
 }
+
 /* ================= COUNTDOWN ================= */
-.countdown-wrap{
-  backdrop-filter:blur(1px);
-  border-radius:20px;
-  padding:26px 34px;
-  text-align:center;
-  width:88%;
-  max-width:600px;
-  margin-top:120px;
-  background:rgba(0,0,0,0.25);
-  border:2px solid #fff;
-  box-shadow:0 0 16px rgba(255,255,255,0.3);
+.countdown-wrap {
+  backdrop-filter: blur(1px);
+  border-radius: 20px;
+  padding: 26px 34px;
+  text-align: center;
+  width: 88%;
+  max-width: 600px;
+  margin-top: 120px;
+  background: rgba(0,0,0,0.25);
+  border: 2px solid #fff;
+  box-shadow: 0 0 16px rgba(255,255,255,0.3);
 }
-.title{
-  font-size:32px;
-  font-weight:900;
-  margin-bottom:6px;
+
+.title {
+  font-size: 32px;
+  font-weight: 900;
+  margin-bottom: 6px;
 }
-.subtitle{
-  font-size:14px;
-  opacity:.85;
-  margin-bottom:24px;
-  text-transform:uppercase;
+
+.subtitle {
+  font-size: 14px;
+  opacity: .85;
+  margin-bottom: 24px;
+  text-transform: uppercase;
 }
-.clock{
-  display:flex;
-  gap:12px;
-  justify-content:center;
+
+.clock {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
 }
-.unit{
-  min-width:72px;
-  padding:12px 10px;
-  border-radius:12px;
-  background:rgba(0,0,0,0.35);
-  border:1px solid rgba(255,255,255,0.15);
+
+.unit {
+  min-width: 72px;
+  padding: 12px 10px;
+  border-radius: 12px;
+  background: rgba(0,0,0,0.35);
+  border: 1px solid rgba(255,255,255,0.15);
 }
-.num{
-  font-size:32px;
-  font-weight:900;
+
+.num {
+  font-size: 32px;
+  font-weight: 900;
 }
-.label{
-  font-size:11px;
-  margin-top:6px;
-  opacity:.8;
+
+.label {
+  font-size: 11px;
+  margin-top: 6px;
+  opacity: .8;
 }
 </style>
 </head>
 <body>
+
 <header>
   <a href="index" class="nav-btn">Home</a>
   <a href="map" class="nav-btn">Map</a>
@@ -118,6 +160,7 @@ header{
   <a href="screenshots" class="nav-btn">Screenshots</a>
   <a href="trailers" class="nav-btn">Trailers</a>
 </header>
+
 <section class="countdown-wrap">
   <h1 class="title">Grand Theft Auto VI</h1>
   <div class="subtitle">RELEASE COUNTDOWN – NOVEMBER 19TH, 2026</div>
@@ -128,35 +171,41 @@ header{
     <div class="unit"><div class="num" id="seconds">00</div><div class="label">SECONDS</div></div>
   </div>
 </section>
-<!-- 🔊 BACKGROUND MUSIC (NO PLAYER) -->
+
+<!-- Background music -->
 <audio id="bgMusic" loop>
   <source src="music/night.mp3" type="audio/mpeg">
 </audio>
+
 <script>
-/* ===== Countdown ===== */
+// Countdown
 const targetDate = new Date('2026-11-18T00:00:00');
-const daysEl = document.getElementById('days');
-const hoursEl = document.getElementById('hours');
+const daysEl    = document.getElementById('days');
+const hoursEl   = document.getElementById('hours');
 const minutesEl = document.getElementById('minutes');
 const secondsEl = document.getElementById('seconds');
-function pad(n){return String(n).padStart(2,'0');}
-function updateCountdown(){
+
+function pad(n) { return String(n).padStart(2, '0'); }
+
+function updateCountdown() {
   const now = new Date();
   const diff = Math.floor((targetDate - now) / 1000);
-  if(diff <= 0) return;
-  daysEl.textContent = Math.floor(diff / 86400);
-  hoursEl.textContent = pad(Math.floor((diff % 86400) / 3600));
+  if (diff <= 0) return;
+  daysEl.textContent    = Math.floor(diff / 86400);
+  hoursEl.textContent   = pad(Math.floor((diff % 86400) / 3600));
   minutesEl.textContent = pad(Math.floor((diff % 3600) / 60));
   secondsEl.textContent = pad(diff % 60);
 }
+
 updateCountdown();
 setInterval(updateCountdown, 1000);
-/* ===== Click Anywhere to Play Music ===== */
+
+// Click to play music
 const music = document.getElementById('bgMusic');
 document.addEventListener('click', () => {
   music.volume = 0.45;
   music.play();
-}, { once:true });
+}, { once: true });
 </script>
 </body>
 </html>
