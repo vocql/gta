@@ -1,161 +1,3 @@
-<!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>VI | Home</title>
-<link rel="icon" href="gta/npc/lucia.jpg" type="image/jpg">
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
-<style>
-*{margin:0;padding:0;box-sizing:border-box}
-html,body{height:100%;overflow:hidden}
-body{
-  font-family:'Orbitron',sans-serif;
-  background:
-    linear-gradient(135deg, rgba(255,77,210,0.15), rgba(0,255,224,0.10)),
-    url('gta/jason.jpg') center/cover no-repeat fixed;
-  background-blend-mode: overlay;
-  color:#fff;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  background-position:center 40%;
-}
-header {
-  position: fixed;
-  top: 12px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 50;
-  display: flex;
-  gap: 8px;
-  padding: 6px 10px;
-  border-radius: 999px;
-  background: rgba(0, 0, 0, 0.3);
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
-}
-.nav-btn {
-  padding: 6px 12px;
-  border-radius: 999px;
-  color: #fff;
-  font-weight: 600;
-  font-size: 13px;
-  text-decoration: none;
-  background: rgba(255, 255, 255, 0.09);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  transition: 0.2s;
-}
-.nav-btn:hover { background: rgba(255, 255, 255, 0.16); transform: scale(1.04); }
-.countdown-wrap {
-  backdrop-filter: blur(5px);
-  border-radius: 16px;
-  padding: 16px 24px 50px 24px;
-  text-align: center;
-  width: 90%;
-  max-width: 520px;
-  margin-top: 80px;
-  background: rgba(0,0,0,0.3);
-  border: 1.5px solid rgba(255,255,255,0.4);
-  box-shadow: 0 0 12px rgba(255,255,255,0.25);
-  position: relative;
-}
-.title{
-  font-size:24px;
-  font-weight:900;
-  margin-bottom:3px;
-  letter-spacing:0.6px;
-}
-.subtitle{
-  font-size:10px;
-  opacity:.8;
-  letter-spacing:0.7px;
-  margin-bottom:14px;
-  text-transform:uppercase;
-}
-.clock{
-  display:flex;
-  gap:6px;
-  justify-content:center;
-  flex-wrap:wrap;
-  margin-bottom:12px;
-}
-.unit{
-  min-width:55px;
-  padding:8px 5px;
-  border-radius:9px;
-  background:rgba(0,0,0,0.45);
-  border:1px solid rgba(255,255,255,0.12);
-}
-.num{
-  font-size:22px;
-  font-weight:900;
-  color:#fff;
-  line-height:1;
-  text-shadow: 0 0 4px rgba(255,255,255,0.4),0 0 10px rgba(255,255,255,0.2);
-}
-.label{
-  font-size:8px;
-  margin-top:4px;
-  text-transform:uppercase;
-  opacity:.75;
-  letter-spacing:0.8px;
-}
-.toggle-btn {
-  position: absolute;
-  bottom: 12px;
-  right: 12px;
-  width: 32px;
-  height: 32px;
-  background: rgba(255,255,255,0.12);
-  border: 1px solid rgba(255,255,255,0.28);
-  border-radius: 9px;
-  color: #fff;
-  font-size: 16px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-.toggle-btn:hover {
-  background: rgba(255,255,255,0.22);
-  transform: scale(1.15);
-}
-.launch-buttons{
-  display:none;
-  margin-top:16px;
-  gap:10px;
-  justify-content:center;
-}
-.launch-btn{
-  padding:8px 18px;
-  border-radius:999px;
-  color:#fff;
-  font-size:12px;
-  font-weight:700;
-  text-decoration:none;
-  background:rgba(255,255,255,0.09);
-  border:1px solid rgba(255,255,255,0.22);
-  transition:.2s;
-}
-.launch-btn:hover {
-  background:rgba(255,255,255,0.18);
-  transform:scale(1.05);
-}
-.confetti{
-  position:fixed;
-  top:-10px;
-  width:6px;
-  height:12px;
-  animation:fall linear forwards;
-  z-index:9999;
-}
-@keyframes fall{
-  to{transform:translateY(110vh) rotate(720deg);opacity:0;}
-}
-.hidden { display: none !important; }
-</style>
-</head>
 <body>
 <header>
   <a href="index" class="nav-btn">Home</a>
@@ -168,129 +10,48 @@ header {
 <section class="countdown-wrap">
   <h1 class="title">Grand Theft Auto VI</h1>
   <div class="subtitle">RELEASE COUNTDOWN – NOVEMBER 19TH, 2026</div>
-  
-  <div class="clock" id="clock">
-    <div class="unit"><div class="num" id="val1">295</div><div class="label" id="lbl1">DAYS</div></div>
-    <div class="unit"><div class="num" id="val2">06</div><div class="label" id="lbl2">HOURS</div></div>
-    <div class="unit"><div class="num" id="val3">12</div><div class="label" id="lbl3">MINUTES</div></div>
-    <div class="unit"><div class="num" id="val4">15</div><div class="label" id="lbl4">SECONDS</div></div>
-    <div class="unit" id="val5Container"><div class="num" id="val5">00</div><div class="label" id="lbl5">SECONDS</div></div>
-  </div>
-
-  <div class="toggle-btn" id="toggleBtn" title="Switch to months view">🕒</div>
-
-  <div class="launch-buttons" id="launchButtons">
-    <a href="preorder" class="launch-btn">Pre-Order</a>
-    <a href="map" class="launch-btn">Map</a>
-    <a href="trailers" class="launch-btn">Trailers</a>
+  <div class="clock">
+    <div class="unit"><div class="num" id="days">000</div><div class="label">DAYS</div></div>
+    <div class="unit"><div class="num" id="hours">00</div><div class="label">HOURS</div></div>
+    <div class="unit"><div class="num" id="minutes">00</div><div class="label">MINUTES</div></div>
+    <div class="unit"><div class="num" id="seconds">00</div><div class="label">SECONDS</div></div>
   </div>
 </section>
 
+<!-- 🔊 BACKGROUND MUSIC (NO PLAYER) -->
+<audio id="bgMusic" loop>
+  <source src="music/night.mp3" type="audio/mpeg">
+</audio>
+
 <script>
-const targetDate = new Date('2026-11-19T00:00:00');
-let hasLaunched = false;
-let showMonths = false;
-
-const val1 = document.getElementById('val1');
-const val2 = document.getElementById('val2');
-const val3 = document.getElementById('val3');
-const val4 = document.getElementById('val4');
-const val5 = document.getElementById('val5');
-const lbl1 = document.getElementById('lbl1');
-const lbl2 = document.getElementById('lbl2');
-const lbl3 = document.getElementById('lbl3');
-const lbl4 = document.getElementById('lbl4');
-const lbl5 = document.getElementById('lbl5');
-const val5Container = document.getElementById('val5Container');
-const toggleBtn = document.getElementById('toggleBtn');
-
-function pad(n){return String(n).padStart(2,'0')}
-
-function celebrate(){
-  for(let i=0;i<80;i++){
-    const c = document.createElement('div');
-    c.className = 'confetti';
-    c.style.left = Math.random()*100+'vw';
-    c.style.background = `hsl(${200+Math.random()*40},20%,90%)`;
-    c.style.animationDuration = (1.5+Math.random()*2)+'s';
-    document.body.appendChild(c);
-    setTimeout(()=>c.remove(),4000);
-  }
-}
-
-function enterLaunchMode(){
-  if(hasLaunched) return;
-  hasLaunched = true;
-  document.getElementById('clock').style.display = 'none';
-  toggleBtn.style.display = 'none';
-  document.getElementById('launchButtons').style.display = 'flex';
-  document.querySelector('.subtitle').textContent = 'NOW AVAILABLE – WELCOME TO LEONIDA';
-  celebrate();
-}
-
-function getMonthsAndDays(now, target) {
-  let months = (target.getFullYear() - now.getFullYear()) * 12 + (target.getMonth() - now.getMonth());
-  let days = target.getDate() - now.getDate();
-  if (days < 0) {
-    months--;
-    const lastDayPrev = new Date(now.getFullYear(), now.getMonth(), 0).getDate();
-    days += lastDayPrev;
-  }
-  return { months, days };
-}
-
+/* ===== Countdown ===== */
+const targetDate = new Date('2026-11-18T00:00:00');
+const daysEl = document.getElementById('days');
+const hoursEl = document.getElementById('hours');
+const minutesEl = document.getElementById('minutes');
+const secondsEl = document.getElementById('seconds');
+function pad(n){return String(n).padStart(2,'0');}
 function updateCountdown(){
   const now = new Date();
-  const diffMs = targetDate - now;
-  if(diffMs <= 0){
-    enterLaunchMode();
-    return;
-  }
-
-  const diffSec = Math.floor(diffMs / 1000);
-
-  if(showMonths){
-    const { months, days } = getMonthsAndDays(now, targetDate);
-    const hours = Math.floor((diffSec % 86400) / 3600);
-    const mins  = Math.floor((diffSec % 3600) / 60);
-    const secs  = diffSec % 60;
-
-    val1.textContent = months;
-    val2.textContent = pad(days);
-    val3.textContent = pad(hours);
-    val4.textContent = pad(mins);
-    val5.textContent = pad(secs);
-
-    lbl1.textContent = 'MONTHS';
-    lbl2.textContent = 'DAYS';
-    lbl3.textContent = 'HOURS';
-    lbl4.textContent = 'MINUTES';
-    lbl5.textContent = 'SECONDS';
-
-    val5Container.classList.remove('hidden');
-  } else {
-    val1.textContent = Math.floor(diffSec / 86400);
-    val2.textContent = pad(Math.floor((diffSec % 86400) / 3600));
-    val3.textContent = pad(Math.floor((diffSec % 3600) / 60));
-    val4.textContent = pad(diffSec % 60);
-    val5Container.classList.add('hidden');
-
-    lbl1.textContent = 'DAYS';
-    lbl2.textContent = 'HOURS';
-    lbl3.textContent = 'MINUTES';
-    lbl4.textContent = 'SECONDS';
-  }
+  const diff = Math.floor((targetDate - now) / 1000);
+  if(diff <= 0) return;
+  daysEl.textContent = Math.floor(diff / 86400);
+  hoursEl.textContent = pad(Math.floor((diff % 86400) / 3600));
+  minutesEl.textContent = pad(Math.floor((diff % 3600) / 60));
+  secondsEl.textContent = pad(diff % 60);
 }
-
-toggleBtn.addEventListener('click', () => {
-  showMonths = !showMonths;
-  toggleBtn.textContent = showMonths ? '📅' : '🕒';
-  toggleBtn.title = showMonths ? 'Switch to days view' : 'Switch to months view';
-  updateCountdown();
-});
-
 updateCountdown();
 setInterval(updateCountdown, 1000);
+
+/* ===== Click Anywhere to Play Music + Effects ===== */
+const music = document.getElementById('bgMusic');
+document.addEventListener('click', () => {
+  music.volume = 0.45;
+  music.play().then(() => {
+    document.body.classList.add('music-playing');
+  }).catch(err => {
+    console.log("Playback failed:", err);
+  });
+}, { once: true });
 </script>
 </body>
-</html>
