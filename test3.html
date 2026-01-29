@@ -6,9 +6,11 @@
 <title>VI | Home</title>
 <link rel="icon" href="gta/npc/lucia.jpg" type="image/jpg">
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
+
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{height:100%;overflow:hidden}
+
 body{
   font-family:'Orbitron',sans-serif;
   background:
@@ -23,74 +25,69 @@ body{
 }
 
 /* ================= NAVBAR ================= */
-header {
-  position: fixed;
-  top: 18px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 50;
-  display: flex;
-  gap: 12px;
-  padding: 8px 14px;
-  border-radius: 999px;
-  background: rgba(0, 0, 0, 0.25);
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
-  transition: 0.25s;
-}
-header:hover {
-  box-shadow: 0 12px 40px rgba(255, 77, 210, 0.35);
-}
-.nav-btn {
-  padding: 9px 17px;
-  border-radius: 999px;
-  color: #fff;
-  font-weight: 600;
-  text-decoration: none;
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  box-shadow: inset 0 1.2px 1.5px rgba(255, 255, 255, 0.4),
-              0 4px 18px rgba(0, 0, 0, 0.3);
-  transition: 0.25s;
-}
-.nav-btn:hover {
-  background: rgba(255, 255, 255, 0.14);
-  transform: scale(1.05);
+header{
+  position:fixed;
+  top:18px;
+  left:50%;
+  transform:translateX(-50%);
+  z-index:50;
+  display:flex;
+  gap:12px;
+  padding:8px 14px;
+  border-radius:999px;
+  background:rgba(0,0,0,0.25);
+  box-shadow:0 6px 18px rgba(0,0,0,0.35);
 }
 
-/* ================= COUNTDOWN CARD ================= */
-.countdown-wrap {
-  backdrop-filter: blur(1px);
-  border-radius: 20px;
-  padding: 26px 34px;
-  text-align: center;
-  width: 88%;
-  max-width: 600px;
-  margin-top: 120px;
-  background: rgba(0,0,0,0.25);
-  border: 2px solid #fff;
-  box-shadow: 0 0 16px rgba(255,255,255,0.3);
+.nav-btn{
+  padding:9px 17px;
+  border-radius:999px;
+  color:#fff;
+  font-weight:600;
+  text-decoration:none;
+  background:rgba(255,255,255,0.08);
+  border:1px solid rgba(255,255,255,0.18);
+  transition:0.25s;
 }
+
+.nav-btn:hover{
+  background:rgba(255,255,255,0.14);
+  transform:scale(1.05);
+}
+
+/* ================= COUNTDOWN ================= */
+.countdown-wrap{
+  backdrop-filter:blur(1px);
+  border-radius:20px;
+  padding:26px 34px;
+  text-align:center;
+  width:88%;
+  max-width:600px;
+  margin-top:120px;
+  background:rgba(0,0,0,0.25);
+  border:2px solid #fff;
+  box-shadow:0 0 16px rgba(255,255,255,0.3);
+}
+
 .title{
   font-size:32px;
   font-weight:900;
   margin-bottom:6px;
-  letter-spacing:1px;
 }
+
 .subtitle{
   font-size:14px;
   opacity:.85;
-  letter-spacing:1px;
   margin-bottom:24px;
   text-transform:uppercase;
 }
-/* Countdown */
+
 .clock{
   display:flex;
   gap:12px;
   justify-content:center;
-  flex-wrap:nowrap;
-  margin-bottom:24px;
 }
+
 .unit{
   min-width:72px;
   padding:12px 10px;
@@ -98,190 +95,31 @@ header:hover {
   background:rgba(0,0,0,0.35);
   border:1px solid rgba(255,255,255,0.15);
 }
+
 .num{
   font-size:32px;
   font-weight:900;
-  color:#fff;
-  line-height:1;
-  text-shadow: 0 0 6px rgba(255,255,255,0.35),0 0 14px rgba(255,255,255,0.15);
 }
+
 .label{
   font-size:11px;
   margin-top:6px;
-  text-transform:uppercase;
   opacity:.8;
-  letter-spacing:1px;
 }
-/* Launch buttons */
-.launch-buttons{
-  display:none;
-  margin-top:24px;
-  gap:14px;
-  justify-content:center;
-  flex-wrap:wrap;
-}
-.launch-btn{
-  padding:12px 24px;
-  border-radius:999px;
-  color:#fff;
-  font-size:14px;
-  font-weight:700;
-  text-decoration:none;
-  background:rgba(255,255,255,0.08);
-  border:1px solid rgba(255,255,255,0.2);
-  box-shadow:inset 0 1.2px 1.5px rgba(255,255,255,0.4),0 6px 18px rgba(0,0,0,0.35);
-  backdrop-filter:blur(12px);
-  transition:.25s ease;
-}
-.launch-btn:hover {
-  background:rgba(255,255,255,0.14);
-  transform:translateY(-2px) scale(1.06);
-  box-shadow:inset 0 1.2px 1.5px rgba(255,255,255,0.45),0 0 22px rgba(255,255,255,0.35);
-}
-/* Confetti */
-.confetti{
+
+/* ================= MUSIC PLAYER ================= */
+audio{
   position:fixed;
-  top:-10px;
-  width:8px;
-  height:14px;
-  animation:fall linear forwards;
-  z-index:9999;
-}
-@keyframes fall{
-  to{
-    transform:translateY(110vh) rotate(720deg);
-    opacity:0;
-  }
-}
-
-/* ================= RADIO WHEEL ================= */
-#radio-toggle {
-  position: fixed;
-  bottom: 30px;
-  right: 30px;
-  width: 70px;
-  height: 70px;
-  background: rgba(255, 255, 255, 0.12);
-  border: 1px solid rgba(255, 255, 255, 0.35);
-  border-radius: 50%;
-  color: #fff;
-  font-size: 32px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  z-index: 10000;
-  backdrop-filter: blur(8px);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-  transition: all 0.25s;
-}
-#radio-toggle:hover {
-  background: rgba(255, 255, 255, 0.20);
-  transform: scale(1.08);
-}
-
-#radio-wheel-container {
-  position: fixed;
-  bottom: 130px;
-  right: 30px;
-  width: 420px;
-  height: 420px;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.4s ease;
-  z-index: 9999;
-}
-#radio-wheel-container.active {
-  opacity: 1;
-  pointer-events: all;
-}
-
-.radio-wheel {
-  width: 100%;
-  height: 100%;
-  position: relative;
-}
-
-.radio-station {
-  position: absolute;
-  width: 100px;
-  height: 100px;
-  background: rgba(0, 0, 0, 0.50);
-  border: 2px solid rgba(255,255,255,0.4);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  font-size: 11px;
-  font-weight: 700;
-  color: #fff;
-  cursor: pointer;
-  transition: all 0.25s;
-  backdrop-filter: blur(6px);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
-}
-.radio-station:hover {
-  transform: scale(1.12);
-  border-color: rgba(255,255,255,0.8);
-}
-
-/* Control buttons in the middle of the wheel */
-#controls-center {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  display: flex;
-  gap: 16px;
-  z-index: 100;
-}
-
-.control-btn {
-  width: 80px;
-  height: 80px;
-  background: rgba(255, 255, 255, 0.15);
-  border: 1px solid rgba(255, 255, 255, 0.4);
-  border-radius: 50%;
-  color: #fff;
-  font-size: 12px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  backdrop-filter: blur(8px);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-  transition: all 0.25s;
-}
-.control-btn:hover {
-  background: rgba(255, 255, 255, 0.25);
-  transform: scale(1.1);
-}
-
-#current-radio-info {
-  position: fixed;
-  bottom: 580px;
-  right: 30px;
-  background: rgba(0,0,0,0.60);
-  padding: 15px 20px;
-  border-radius: 15px;
-  border: 1px solid rgba(255,255,255,0.3);
-  width: 360px;
-  text-align: center;
-  opacity: 0;
-  transition: opacity 0.4s;
-  z-index: 9998;
-  backdrop-filter: blur(8px);
-}
-#current-radio-info.active {
-  opacity: 1;
+  bottom:20px;
+  right:20px;
+  z-index:100;
+  opacity:0.85;
 }
 </style>
 </head>
+
 <body>
+
 <header>
   <a href="index" class="nav-btn">Home</a>
   <a href="map" class="nav-btn">Map</a>
@@ -290,232 +128,49 @@ header:hover {
   <a href="screenshots" class="nav-btn">Screenshots</a>
   <a href="trailers" class="nav-btn">Trailers</a>
 </header>
+
 <section class="countdown-wrap">
   <h1 class="title">Grand Theft Auto VI</h1>
   <div class="subtitle">RELEASE COUNTDOWN – NOVEMBER 19TH, 2026</div>
+
   <div class="clock">
     <div class="unit"><div class="num" id="days">000</div><div class="label">DAYS</div></div>
     <div class="unit"><div class="num" id="hours">00</div><div class="label">HOURS</div></div>
     <div class="unit"><div class="num" id="minutes">00</div><div class="label">MINUTES</div></div>
     <div class="unit"><div class="num" id="seconds">00</div><div class="label">SECONDS</div></div>
   </div>
-  <div class="launch-buttons" id="launchButtons">
-    <a href="preorder" class="launch-btn">Pre-Order</a>
-    <a href="map" class="launch-btn">Map</a>
-    <a href="trailers" class="launch-btn">Trailers</a>
-  </div>
 </section>
 
-<!-- Radio Wheel -->
-<div id="radio-toggle">📻</div>
-<div id="radio-wheel-container">
-  <div class="radio-wheel" id="radio-wheel">
-    <div id="controls-center">
-      <div class="control-btn" id="skip-btn">SKIP</div>
-      <div class="control-btn" id="shuffle-btn">SHUFFLE</div>
-    </div>
-  </div>
-</div>
-<div id="current-radio-info">
-  <h2 id="radio-station-name">Select a station</h2>
-  <p id="current-song">Playing in background...</p>
-</div>
+<!-- ================= SIMPLE MUSIC PLAYER ================= -->
+<audio autoplay muted loop controls>
+  <source src="music/nightcall.mp3" type="audio/mpeg">
+</audio>
 
 <script>
-// Countdown script (unchanged)
 const targetDate = new Date('2026-11-18T00:00:00');
-let hasLaunched = false;
+
 const daysEl = document.getElementById('days');
 const hoursEl = document.getElementById('hours');
 const minutesEl = document.getElementById('minutes');
 const secondsEl = document.getElementById('seconds');
-function pad(n){return String(n).padStart(2,'0')}
-function celebrate(){
-  for(let i=0;i<120;i++){
-    const c = document.createElement('div');
-    c.className = 'confetti';
-    c.style.left = Math.random()*100+'vw';
-    c.style.background = `hsl(${200+Math.random()*40},20%,90%)`;
-    c.style.animationDuration = (2+Math.random()*3)+'s';
-    document.body.appendChild(c);
-    setTimeout(()=>c.remove(),5000);
-  }
-}
-function enterLaunchMode(){
-  if(hasLaunched) return;
-  hasLaunched = true;
-  document.querySelector('.clock').style.display = 'none';
-  document.getElementById('launchButtons').style.display = 'flex';
-  document.querySelector('.subtitle').textContent = 'NOW AVAILABLE – WELCOME TO LEONIDA';
-  celebrate();
-}
+
+function pad(n){return String(n).padStart(2,'0');}
+
 function updateCountdown(){
   const now = new Date();
-  const diff = Math.floor((targetDate - now)/1000);
-  if(diff <= 0){
-    enterLaunchMode();
-    return;
-  }
+  const diff = Math.floor((targetDate - now) / 1000);
+
+  if(diff <= 0) return;
+
   daysEl.textContent = Math.floor(diff / 86400);
   hoursEl.textContent = pad(Math.floor((diff % 86400) / 3600));
   minutesEl.textContent = pad(Math.floor((diff % 3600) / 60));
   secondsEl.textContent = pad(diff % 60);
 }
+
 updateCountdown();
 setInterval(updateCountdown, 1000);
-
-// Radio logic - background audio + skip + shuffle
-const radioStations = [
-  { name: "Wildstyle", songs: [
-    "audio/wildstyle/pump_me_up.mp3",
-    "audio/wildstyle/one_for_the_treble.mp3",
-    "audio/wildstyle/clear.mp3",
-    "audio/wildstyle/al_naafiysh.mp3",
-    // add more...
-  ]},
-  { name: "Flash FM", songs: [
-    "audio/flash/out_of_touch.mp3",
-    "audio/flash/dance_hall_days.mp3",
-    "audio/flash/self_control.mp3",
-    "audio/flash/call_me.mp3",
-    // ...
-  ]},
-  { name: "Fever 105", songs: [
-    "audio/fever/and_the_beat_goes_on.mp3",
-    "audio/fever/act_like_you_know.mp3",
-    "audio/fever/get_down_saturday_night.mp3",
-    // ...
-  ]},
-  { name: "V-Rock", songs: [
-    "audio/vrock/you_got_another_thing.mp3",
-    "audio/vrock/too_young_to_fall.mp3",
-    "audio/vrock/peace_sells.mp3",
-    // ...
-  ]},
-  { name: "Radio Espantoso", songs: [] },
-  { name: "Emotion 98.3", songs: [] },
-  { name: "Wave 103", songs: [] },
-  { name: "K-Chat", songs: [] },
-  { name: "VCPR", songs: [] }
-];
-
-const wheel = document.getElementById('radio-wheel');
-const toggle = document.getElementById('radio-toggle');
-const container = document.getElementById('radio-wheel-container');
-const info = document.getElementById('current-radio-info');
-const stationNameEl = document.getElementById('radio-station-name');
-const songEl = document.getElementById('current-song');
-const skipBtn = document.getElementById('skip-btn');
-const shuffleBtn = document.getElementById('shuffle-btn');
-
-let currentAudio = null;
-let currentPlaylist = [];
-let currentIndex = 0;
-let currentStationName = '';
-
-radioStations.forEach((station, i) => {
-  const angle = (i / radioStations.length) * 360 - 90;
-  const radius = 170;
-  const x = 210 + radius * Math.cos(angle * Math.PI / 180);
-  const y = 210 + radius * Math.sin(angle * Math.PI / 180);
-
-  const stationEl = document.createElement('div');
-  stationEl.className = 'radio-station';
-  stationEl.style.left = `${x}px`;
-  stationEl.style.top = `${y}px`;
-  stationEl.textContent = station.name;
-  stationEl.onclick = () => playStation(station);
-  wheel.appendChild(stationEl);
-});
-
-function shuffleArray(array) {
-  const shuffled = [...array];
-  for (let i = shuffled.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-  }
-  return shuffled;
-}
-
-function playStation(station) {
-  if (currentAudio) {
-    currentAudio.pause();
-    currentAudio = null;
-  }
-
-  currentPlaylist = station.songs;
-  currentIndex = 0;
-  currentStationName = station.name;
-
-  stationNameEl.textContent = currentStationName;
-
-  if (currentPlaylist.length === 0) {
-    songEl.textContent = "(Talk station - no music)";
-    info.classList.add('active');
-    return;
-  }
-
-  songEl.textContent = "Playing in background...";
-  info.classList.add('active');
-  playNextSong();
-}
-
-function playNextSong() {
-  if (currentIndex >= currentPlaylist.length) currentIndex = 0;
-
-  const src = currentPlaylist[currentIndex];
-  const fileName = src.split('/').pop().replace('.mp3', '').replace(/_/g, ' ');
-
-  songEl.textContent = fileName || "Track " + (currentIndex + 1);
-
-  currentAudio = new Audio(src);
-  currentAudio.autoplay = true;
-  currentAudio.loop = false;
-  currentAudio.volume = 0.6;
-
-  currentAudio.onended = () => {
-    currentIndex++;
-    playNextSong();
-  };
-}
-
-skipBtn.onclick = () => {
-  if (currentAudio && currentPlaylist.length > 0) {
-    currentAudio.pause();
-    currentIndex++;
-    playNextSong();
-  }
-};
-
-shuffleBtn.onclick = () => {
-  if (currentPlaylist.length > 1) {
-    currentPlaylist = shuffleArray(currentPlaylist);
-    currentIndex = 0;
-    if (currentAudio) currentAudio.pause();
-    playNextSong();
-    songEl.textContent = songEl.textContent + " (shuffled)";
-    setTimeout(() => {
-      if (songEl.textContent.includes("(shuffled)")) {
-        songEl.textContent = songEl.textContent.replace(" (shuffled)", "");
-      }
-    }, 3000);
-  } else if (currentPlaylist.length === 0) {
-    songEl.textContent = "Select a station first";
-    setTimeout(() => {
-      if (songEl.textContent === "Select a station first") {
-        songEl.textContent = "Playing in background...";
-      }
-    }, 2000);
-  }
-};
-
-toggle.onclick = () => {
-  container.classList.toggle('active');
-  if (!container.classList.contains('active')) {
-    if (currentAudio) currentAudio.pause();
-    info.classList.remove('active');
-  }
-};
 </script>
+
 </body>
 </html>
