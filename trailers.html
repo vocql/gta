@@ -13,16 +13,14 @@
       padding: 0;
       box-sizing: border-box;
     }
-
     html, body {
       height: 100%;
     }
-
     body {
       font-family: 'Orbitron', system-ui, sans-serif;
       background:
-      linear-gradient(135deg, rgba(255,77,210,0.15), rgba(0,255,224,0.10)),
-      url('gta/jason.jpg') center/cover no-repeat fixed;
+        linear-gradient(135deg, rgba(255,77,210,0.15), rgba(0,255,224,0.10)),
+        url('gta/jason.jpg') center/cover no-repeat fixed;
       background-blend-mode: overlay;
       color: #fff;
       min-height: 100vh;
@@ -31,56 +29,40 @@
       align-items: center;
     }
 
-   /* NAVBAR - matched to your home page */
-header{
-  position:fixed;
-  top:12px;
-  left:50%;
-  transform:translateX(-50%);
-  z-index:50;
-  display:flex;
-  gap:12px;
-  padding:8px 14px;
-  border-radius:999px;
-  background:rgba(0,0,0,0.25);
-  box-shadow:0 6px 18px rgba(0,0,0,0.35);
-}
-
+    header {
+      position: fixed;
+      top: 12px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 50;
+      display: flex;
+      gap: 12px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: rgba(0,0,0,0.25);
+      box-shadow: 0 6px 18px rgba(0,0,0,0.35);
+    }
     header:hover {
       box-shadow: 0 12px 40px rgba(255, 77, 210, 0.35);
     }
 
-  /* NAVBAR - matched to your home page */
-header{
-  position:fixed;
-  top:12px;
-  left:50%;
-  transform:translateX(-50%);
-  z-index:50;
-  display:flex;
-  gap:12px;
-  padding:8px 14px;
-  border-radius:999px;
-  background:rgba(0,0,0,0.25);
-  box-shadow:0 6px 18px rgba(0,0,0,0.35);
-}
-.nav-btn{
-  padding:9px 17px;
-  border-radius:999px;
-  color:#fff;
-  font-weight:600;
-  text-decoration:none;
-  background:rgba(255,255,255,0.08);
-  border:1px solid rgba(255,255,255,0.18);
-  box-shadow:
-    inset 0 1.2px 1.5px rgba(255,255,255,0.4),
-    0 4px 18px rgba(0,0,0,0.3);
-  transition:.25s;
-}
-.nav-btn:hover{
-  background:rgba(255,255,255,0.14);
-  transform:scale(1.05);
-}
+    .nav-btn {
+      padding: 9px 17px;
+      border-radius: 999px;
+      color: #fff;
+      font-weight: 600;
+      text-decoration: none;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.18);
+      box-shadow:
+        inset 0 1.2px 1.5px rgba(255,255,255,0.4),
+        0 4px 18px rgba(0,0,0,0.3);
+      transition: .25s;
+    }
+    .nav-btn:hover {
+      background: rgba(255,255,255,0.14);
+      transform: scale(1.05);
+    }
 
     .page {
       position: relative;
@@ -90,10 +72,9 @@ header{
       padding: 0 20px;
       animation: fadeIn 1.1s ease-out;
     }
-
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(30px); }
-      to   { opacity: 1; transform: translateY(0); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     h1 {
@@ -130,20 +111,44 @@ header{
                   0 0 20px rgba(0, 255, 224, 0.25);
     }
 
+    /* Yellow NEW pill badge */
+    .new-badge {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      background: #ffeb3b; /* bright yellow */
+      color: #000;
+      font-size: 0.82rem;
+      font-weight: 900;
+      padding: 6px 14px;
+      border-radius: 999px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      pointer-events: none;
+      z-index: 5;
+    }
+
     .video-wrapper {
       position: relative;
-      padding-top: 56.25%; /* 16:9 */
+      padding-top: 56.25%; /* 16:9 aspect ratio */
       background: #111;
     }
 
-    .video-wrapper iframe {
+    .video-wrapper iframe,
+    #overlayVideo {
       position: absolute;
       inset: 0;
       width: 100%;
       height: 100%;
       border: none;
       border-radius: 18px 18px 0 0;
-      pointer-events: none; /* Prevent interaction with preview iframe */
+      pointer-events: none; /* only for preview iframes */
+    }
+
+    #overlayVideo {
+      pointer-events: auto; /* allow interaction in modal */
+      border-radius: 20px;
     }
 
     .card-info {
@@ -171,20 +176,9 @@ header{
       pointer-events: none;
       transition: opacity 0.4s ease;
     }
-
     .overlay.active {
       opacity: 1;
       pointer-events: auto;
-    }
-
-    .overlay iframe {
-      width: 92vw;
-      max-width: 1400px;
-      height: 78vh;
-      max-height: 85vh;
-      border: none;
-      border-radius: 20px;
-      box-shadow: 0 0 80px rgba(255,255,255,0.15);
     }
 
     .close-btn {
@@ -202,7 +196,6 @@ header{
       cursor: pointer;
       transition: all 0.3s ease;
     }
-
     .close-btn:hover {
       background: rgba(255, 77, 210, 0.4);
       transform: scale(1.12);
@@ -215,7 +208,6 @@ header{
       }
       h1 { font-size: clamp(2.8rem, 9vw, 3.8rem); }
     }
-
     @media (max-width: 480px) {
       header {
         padding: 8px 14px;
@@ -231,7 +223,6 @@ header{
   </style>
 </head>
 <body>
-
   <header role="navigation" aria-label="Main navigation">
     <a href="index" class="nav-btn">Home</a>
     <a href="map" class="nav-btn">Map</a>
@@ -243,12 +234,16 @@ header{
 
   <main class="page">
     <h1>GTA VI Trailers</h1>
-
     <div class="trailers-grid">
       <div class="trailer-card" data-video="https://www.youtube.com/embed/QdBZY2fkU-0?autoplay=1&rel=0" tabindex="0" role="button" aria-label="Play Trailer 1">
         <div class="video-wrapper">
-          <iframe src="https://www.youtube.com/embed/QdBZY2fkU-0?mute=1&controls=0" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen title="GTA VI Trailer 1"></iframe>
-          <!-- Removed the pink play button overlay -->
+          <iframe 
+            src="https://www.youtube.com/embed/QdBZY2fkU-0?mute=1&controls=0" 
+            loading="lazy" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen" 
+            allowfullscreen 
+            title="GTA VI Trailer 1">
+          </iframe>
         </div>
         <div class="card-info">
           <h2>Trailer 1 – Reveal</h2>
@@ -256,22 +251,33 @@ header{
       </div>
 
       <div class="trailer-card" data-video="https://www.youtube.com/embed/VQRLujxTm3c?autoplay=1&rel=0" tabindex="0" role="button" aria-label="Play Trailer 2">
+        <div class="new-badge">NEW</div>
         <div class="video-wrapper">
-          <iframe src="https://www.youtube.com/embed/VQRLujxTm3c?mute=1&controls=0" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen title="GTA VI Trailer 2"></iframe>
-          <!-- Removed the pink play button overlay -->
+          <iframe 
+            src="https://www.youtube.com/embed/VQRLujxTm3c?mute=1&controls=0" 
+            loading="lazy" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen" 
+            allowfullscreen 
+            title="GTA VI Trailer 2">
+          </iframe>
         </div>
         <div class="card-info">
           <h2>Trailer 2 – Jason & Lucia</h2>
         </div>
       </div>
 
-      <!-- Add more cards here when Trailer 3 / Gameplay drops -->
+      <!-- Add more trailer cards here as needed -->
     </div>
   </main>
 
   <div class="overlay" id="videoOverlay" aria-hidden="true">
     <button class="close-btn" id="closeOverlay" aria-label="Close video">✕</button>
-    <iframe id="overlayVideo" src="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    <iframe 
+      id="overlayVideo" 
+      src="" 
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen" 
+      allowfullscreen
+    ></iframe>
   </div>
 
   <script>
@@ -288,7 +294,7 @@ header{
     function closeVideo() {
       overlay.classList.remove("active");
       overlay.setAttribute("aria-hidden", "true");
-      overlayVideo.src = ""; // stop video
+      overlayVideo.src = ""; // stop video and clear src
     }
 
     document.querySelectorAll(".trailer-card").forEach(card => {
@@ -296,11 +302,7 @@ header{
         const url = card.dataset.video;
         if (url) openVideo(url);
       };
-
-      // Click anywhere on the card to open full-screen video
       card.addEventListener("click", play);
-
-      // Keyboard accessibility
       card.addEventListener("keydown", e => {
         if (e.key === "Enter" || e.key === " ") {
           e.preventDefault();
@@ -313,7 +315,6 @@ header{
     overlay.addEventListener("click", e => {
       if (e.target === overlay) closeVideo();
     });
-
     document.addEventListener("keydown", e => {
       if (e.key === "Escape" && overlay.classList.contains("active")) {
         closeVideo();
