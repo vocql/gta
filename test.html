@@ -28,7 +28,6 @@
       flex-direction: column;
       align-items: center;
     }
-
     header {
       position: fixed;
       top: 12px;
@@ -45,7 +44,6 @@
     header:hover {
       box-shadow: 0 12px 40px rgba(255, 77, 210, 0.35);
     }
-
     .nav-btn {
       padding: 9px 17px;
       border-radius: 999px;
@@ -63,7 +61,6 @@
       background: rgba(255,255,255,0.14);
       transform: scale(1.05);
     }
-
     .page {
       position: relative;
       z-index: 10;
@@ -76,7 +73,6 @@
       from { opacity: 0; transform: translateY(30px); }
       to { opacity: 1; transform: translateY(0); }
     }
-
     h1 {
       text-align: center;
       font-size: clamp(3.2rem, 7vw, 4.8rem);
@@ -86,13 +82,11 @@
       text-shadow: 0 6px 20px rgba(0,0,0,0.8), 0 0 20px rgba(255,77,210,0.4);
       letter-spacing: -1px;
     }
-
     .trailers-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
       gap: 32px;
     }
-
     .trailer-card {
       position: relative;
       background: rgba(0, 0, 0, 0.62);
@@ -103,20 +97,17 @@
       transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
       cursor: pointer;
     }
-
     .trailer-card:hover {
       transform: translateY(-12px) scale(1.03);
       box-shadow: 0 24px 60px rgba(0,0,0,0.8),
                   0 0 40px rgba(255, 77, 210, 0.45),
                   0 0 20px rgba(0, 255, 224, 0.25);
     }
-
-    /* Yellow NEW pill badge */
     .new-badge {
       position: absolute;
       top: 12px;
       right: 12px;
-      background: #ffeb3b; /* bright yellow */
+      background: #ffeb3b;
       color: #000;
       font-size: 0.82rem;
       font-weight: 900;
@@ -128,34 +119,33 @@
       pointer-events: none;
       z-index: 5;
     }
-
     .video-wrapper {
       position: relative;
-      padding-top: 56.25%; /* 16:9 aspect ratio */
+      padding-top: 56.25%; /* 16:9 */
       background: #111;
     }
-
-    .video-wrapper iframe,
-    #overlayVideo {
+    .video-wrapper iframe {
       position: absolute;
       inset: 0;
       width: 100%;
       height: 100%;
       border: none;
       border-radius: 18px 18px 0 0;
-      pointer-events: none; /* only for preview iframes */
+      pointer-events: none; /* Prevent clicks on preview */
     }
-
     #overlayVideo {
-      pointer-events: auto; /* allow interaction in modal */
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
       border-radius: 20px;
+      pointer-events: auto;
     }
-
     .card-info {
       padding: 20px 16px;
       text-align: center;
     }
-
     .trailer-card h2 {
       font-size: 1.4rem;
       font-weight: 700;
@@ -163,7 +153,6 @@
       color: #fff;
       text-shadow: 0 2px 10px rgba(255,255,255,0.2);
     }
-
     .overlay {
       position: fixed;
       inset: 0;
@@ -180,7 +169,6 @@
       opacity: 1;
       pointer-events: auto;
     }
-
     .close-btn {
       position: absolute;
       top: 24px;
@@ -200,7 +188,6 @@
       background: rgba(255, 77, 210, 0.4);
       transform: scale(1.12);
     }
-
     @media (max-width: 820px) {
       .trailers-grid {
         grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
@@ -235,13 +222,13 @@
   <main class="page">
     <h1>GTA VI Trailers</h1>
     <div class="trailers-grid">
-      <div class="trailer-card" data-video="https://www.youtube.com/embed/QdBZY2fkU-0?autoplay=1&rel=0" tabindex="0" role="button" aria-label="Play Trailer 1">
+      <div class="trailer-card" data-video="https://www.youtube.com/embed/QdBZY2fkU-0" tabindex="0" role="button" aria-label="Play Trailer 1">
         <div class="video-wrapper">
-          <iframe 
-            src="https://www.youtube.com/embed/QdBZY2fkU-0?mute=1&controls=0" 
-            loading="lazy" 
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen" 
-            allowfullscreen 
+          <iframe
+            src="https://www.youtube.com/embed/QdBZY2fkU-0?mute=1&controls=0"
+            loading="lazy"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
+            allowfullscreen
             title="GTA VI Trailer 1">
           </iframe>
         </div>
@@ -250,14 +237,14 @@
         </div>
       </div>
 
-      <div class="trailer-card" data-video="https://www.youtube.com/embed/VQRLujxTm3c?autoplay=1&rel=0" tabindex="0" role="button" aria-label="Play Trailer 2">
+      <div class="trailer-card" data-video="https://www.youtube.com/embed/VQRLujxTm3c" tabindex="0" role="button" aria-label="Play Trailer 2">
         <div class="new-badge">NEW</div>
         <div class="video-wrapper">
-          <iframe 
-            src="https://www.youtube.com/embed/VQRLujxTm3c?mute=1&controls=0" 
-            loading="lazy" 
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen" 
-            allowfullscreen 
+          <iframe
+            src="https://www.youtube.com/embed/VQRLujxTm3c?mute=1&controls=0"
+            loading="lazy"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
+            allowfullscreen
             title="GTA VI Trailer 2">
           </iframe>
         </div>
@@ -265,17 +252,15 @@
           <h2>Trailer 2 – Jason & Lucia</h2>
         </div>
       </div>
-
-      <!-- Add more trailer cards here as needed -->
     </div>
   </main>
 
   <div class="overlay" id="videoOverlay" aria-hidden="true">
     <button class="close-btn" id="closeOverlay" aria-label="Close video">✕</button>
-    <iframe 
-      id="overlayVideo" 
-      src="" 
-      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen" 
+    <iframe
+      id="overlayVideo"
+      src=""
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
       allowfullscreen
     ></iframe>
   </div>
@@ -285,8 +270,10 @@
     const overlayVideo = document.getElementById("overlayVideo");
     const closeBtn = document.getElementById("closeOverlay");
 
-    function openVideo(url) {
-      overlayVideo.src = url;
+    function openVideo(baseUrl) {
+      // Add params for modal playback: autoplay + mute (required for auto-start in most browsers)
+      const urlWithParams = baseUrl + "?autoplay=1&mute=1&rel=0";
+      overlayVideo.src = urlWithParams;
       overlay.classList.add("active");
       overlay.setAttribute("aria-hidden", "false");
     }
@@ -294,13 +281,13 @@
     function closeVideo() {
       overlay.classList.remove("active");
       overlay.setAttribute("aria-hidden", "true");
-      overlayVideo.src = ""; // stop video and clear src
+      overlayVideo.src = ""; // Clears and stops the video completely
     }
 
     document.querySelectorAll(".trailer-card").forEach(card => {
+      const baseUrl = card.dataset.video;
       const play = () => {
-        const url = card.dataset.video;
-        if (url) openVideo(url);
+        if (baseUrl) openVideo(baseUrl);
       };
       card.addEventListener("click", play);
       card.addEventListener("keydown", e => {
