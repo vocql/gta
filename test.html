@@ -111,13 +111,13 @@
                   0 0 20px rgba(0, 255, 224, 0.25);
     }
 
-    /* NEW badge pill */
+    /* Yellow NEW pill badge */
     .new-badge {
       position: absolute;
       top: 12px;
       right: 12px;
-      background: #ffeb3b;               /* bright yellow */
-      color: #000;                        /* black text for contrast */
+      background: #ffeb3b; /* bright yellow */
+      color: #000;
       font-size: 0.82rem;
       font-weight: 900;
       padding: 6px 14px;
@@ -131,17 +131,24 @@
 
     .video-wrapper {
       position: relative;
-      padding-top: 56.25%; /* 16:9 */
+      padding-top: 56.25%; /* 16:9 aspect ratio */
       background: #111;
     }
-    .video-wrapper iframe {
+
+    .video-wrapper iframe,
+    #overlayVideo {
       position: absolute;
       inset: 0;
       width: 100%;
       height: 100%;
       border: none;
       border-radius: 18px 18px 0 0;
-      pointer-events: none;
+      pointer-events: none; /* only for preview iframes */
+    }
+
+    #overlayVideo {
+      pointer-events: auto; /* allow interaction in modal */
+      border-radius: 20px;
     }
 
     .card-info {
@@ -172,15 +179,6 @@
     .overlay.active {
       opacity: 1;
       pointer-events: auto;
-    }
-    .overlay iframe {
-      width: 92vw;
-      max-width: 1400px;
-      height: 78vh;
-      max-height: 85vh;
-      border: none;
-      border-radius: 20px;
-      box-shadow: 0 0 80px rgba(255,255,255,0.15);
     }
 
     .close-btn {
@@ -239,7 +237,13 @@
     <div class="trailers-grid">
       <div class="trailer-card" data-video="https://www.youtube.com/embed/QdBZY2fkU-0?autoplay=1&rel=0" tabindex="0" role="button" aria-label="Play Trailer 1">
         <div class="video-wrapper">
-          <iframe src="https://www.youtube.com/embed/QdBZY2fkU-0?mute=1&controls=0" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen title="GTA VI Trailer 1"></iframe>
+          <iframe 
+            src="https://www.youtube.com/embed/QdBZY2fkU-0?mute=1&controls=0" 
+            loading="lazy" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen" 
+            allowfullscreen 
+            title="GTA VI Trailer 1">
+          </iframe>
         </div>
         <div class="card-info">
           <h2>Trailer 1 – Reveal</h2>
@@ -247,22 +251,33 @@
       </div>
 
       <div class="trailer-card" data-video="https://www.youtube.com/embed/VQRLujxTm3c?autoplay=1&rel=0" tabindex="0" role="button" aria-label="Play Trailer 2">
-        <div class="new-badge">NEW</div>   <!-- ← yellow pill badge here -->
+        <div class="new-badge">NEW</div>
         <div class="video-wrapper">
-          <iframe src="https://www.youtube.com/embed/VQRLujxTm3c?mute=1&controls=0" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen title="GTA VI Trailer 2"></iframe>
+          <iframe 
+            src="https://www.youtube.com/embed/VQRLujxTm3c?mute=1&controls=0" 
+            loading="lazy" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen" 
+            allowfullscreen 
+            title="GTA VI Trailer 2">
+          </iframe>
         </div>
         <div class="card-info">
           <h2>Trailer 2 – Jason & Lucia</h2>
         </div>
       </div>
 
-      <!-- Add more cards here when Trailer 3 / Gameplay drops -->
+      <!-- Add more trailer cards here as needed -->
     </div>
   </main>
 
   <div class="overlay" id="videoOverlay" aria-hidden="true">
     <button class="close-btn" id="closeOverlay" aria-label="Close video">✕</button>
-    <iframe id="overlayVideo" src="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    <iframe 
+      id="overlayVideo" 
+      src="" 
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen" 
+      allowfullscreen
+    ></iframe>
   </div>
 
   <script>
@@ -279,7 +294,7 @@
     function closeVideo() {
       overlay.classList.remove("active");
       overlay.setAttribute("aria-hidden", "true");
-      overlayVideo.src = "";
+      overlayVideo.src = ""; // stop video and clear src
     }
 
     document.querySelectorAll(".trailer-card").forEach(card => {
