@@ -12,7 +12,7 @@
     body {
       font-family: 'Orbitron', sans-serif;
       background:
-        linear-gradient(135deg, rgba(255,77,210,0.15), rgba(0,255,224,0.10)),
+        linear-gradient(135deg, rgba(255,77,210,0.12), rgba(0,255,224,0.08)),
         url('gta/jason.jpg') center/cover no-repeat fixed;
       background-blend-mode: overlay;
       color: #fff;
@@ -33,7 +33,7 @@
       gap: 12px;
       padding: 8px 14px;
       border-radius: 999px;
-      background: rgba(0, 0, 0, 0.25);
+      background: rgba(0, 0, 0, 0.28);
       box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
       transition: 0.25s;
     }
@@ -46,15 +46,15 @@
       color: #fff;
       font-weight: 600;
       text-decoration: none;
-      background: rgba(255, 255, 255, 0.08);
-      border: 1px solid rgba(255, 255, 255, 0.18);
-      box-shadow: inset 0 1.2px 1.5px rgba(255, 255, 255, 0.4),
+      background: rgba(255, 255, 255, 0.07);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      box-shadow: inset 0 1px 1.5px rgba(255, 255, 255, 0.3),
                   0 4px 18px rgba(0, 0, 0, 0.3);
       transition: 0.25s;
     }
     .nav-btn:hover {
-      background: rgba(255, 255, 255, 0.14);
-      transform: scale(1.05);
+      background: rgba(255, 255, 255, 0.13);
+      transform: scale(1.04);
     }
 
     /* ================= COUNTDOWN CARD ================= */
@@ -67,8 +67,8 @@
       max-width: 600px;
       margin-top: 120px;
       background: rgba(0,0,0,0.25);
-      border: 2px solid #fff;
-      box-shadow: 0 0 16px rgba(255,255,255,0.3);
+      border: 2px solid rgba(255,255,255,0.18);
+      box-shadow: 0 0 16px rgba(255,255,255,0.25);
     }
     .title {
       font-size: 32px;
@@ -84,12 +84,10 @@
       text-transform: uppercase;
     }
 
-    /* Countdown */
     .clock {
       display: flex;
       gap: 12px;
       justify-content: center;
-      flex-wrap: nowrap;
       margin-bottom: 24px;
     }
     .unit {
@@ -97,14 +95,14 @@
       padding: 12px 10px;
       border-radius: 12px;
       background: rgba(0,0,0,0.35);
-      border: 1px solid rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.14);
     }
     .num {
       font-size: 32px;
       font-weight: 900;
       color: #fff;
       line-height: 1;
-      text-shadow: 0 0 6px rgba(255,255,255,0.35), 0 0 14px rgba(255,255,255,0.15);
+      text-shadow: 0 0 6px rgba(255,255,255,0.3);
     }
     .label {
       font-size: 11px;
@@ -114,7 +112,6 @@
       letter-spacing: 1px;
     }
 
-    /* Launch buttons */
     .launch-buttons {
       display: none;
       margin-top: 24px;
@@ -130,18 +127,16 @@
       font-weight: 700;
       text-decoration: none;
       background: rgba(255,255,255,0.08);
-      border: 1px solid rgba(255,255,255,0.2);
-      box-shadow: inset 0 1.2px 1.5px rgba(255,255,255,0.4), 0 6px 18px rgba(0,0,0,0.35);
+      border: 1px solid rgba(255,255,255,0.18);
+      box-shadow: inset 0 1px 1.5px rgba(255,255,255,0.35), 0 6px 18px rgba(0,0,0,0.35);
       backdrop-filter: blur(12px);
       transition: .25s ease;
     }
     .launch-btn:hover {
       background: rgba(255,255,255,0.14);
-      transform: translateY(-2px) scale(1.06);
-      box-shadow: inset 0 1.2px 1.5px rgba(255,255,255,0.45), 0 0 22px rgba(255,255,255,0.35);
+      transform: translateY(-2px) scale(1.05);
     }
 
-    /* Confetti */
     .confetti {
       position: fixed;
       top: -10px;
@@ -151,91 +146,85 @@
       z-index: 9999;
     }
     @keyframes fall {
-      to {
-        transform: translateY(110vh) rotate(720deg);
-        opacity: 0;
-      }
+      to { transform: translateY(110vh) rotate(720deg); opacity: 0; }
     }
 
-    /* ================= MARKETING ANNOUNCEMENT OVERLAY ================= */
+    /* ================= CLEANER HYPE OVERLAY ================= */
     .welcome-overlay {
       position: fixed;
       inset: 0;
-      background: rgba(0,0,0,0.65);
-      backdrop-filter: blur(4px);
+      background: rgba(0,0,0,0.68);
+      backdrop-filter: blur(6px);
       display: flex;
       align-items: center;
       justify-content: center;
       z-index: 1000;
       opacity: 0;
       visibility: hidden;
-      transition: opacity 0.7s ease;
+      transition: opacity 0.8s ease;
     }
     .welcome-overlay.active {
       opacity: 1;
       visibility: visible;
     }
     .welcome-modal {
-      position: relative;
       width: 90%;
-      max-width: 620px;
-      background: rgba(20,20,35,0.48);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
+      max-width: 640px;
+      background: rgba(18, 18, 38, 0.52);
+      backdrop-filter: blur(24px);
       border: 1px solid rgba(255,255,255,0.14);
-      border-radius: 24px;
-      padding: 40px 32px;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.6),
-                  inset 0 0 30px rgba(255,77,210,0.09);
-      color: #ffffff;
+      border-radius: 32px;
+      padding: 64px 40px;
       text-align: center;
-      animation: popIn 0.7s cubic-bezier(0.34,1.56,0.64,1);
+      animation: fadeInScale 0.9s ease-out;
     }
-    @keyframes popIn {
-      from { transform: scale(0.75); opacity: 0; }
-      to   { transform: scale(1);    opacity: 1; }
+    @keyframes fadeInScale {
+      from { opacity: 0; transform: scale(0.88) translateY(30px); }
+      to   { opacity: 1; transform: scale(1) translateY(0); }
     }
 
     h2 {
-      font-size: 42px;
+      font-size: 52px;
       font-weight: 900;
-      letter-spacing: 2px;
-      margin-bottom: 16px;
-      background: linear-gradient(90deg, #ff4dd2, #00ffe0, #ff4dd2);
+      letter-spacing: 5px;
+      margin-bottom: 28px;
+      background: linear-gradient(90deg, #ff4dd2, #00ffe0);
       -webkit-background-clip: text;
+      background-clip: text;
       -webkit-text-fill-color: transparent;
-      background-size: 200% auto;
-      animation: gradientFlow 6s linear infinite;
-    }
-    @keyframes gradientFlow {
-      0% { background-position: 0% center; }
-      100% { background-position: 200% center; }
+      text-shadow: 0 0 25px rgba(255,77,210,0.35);
     }
 
     .announce-text {
-      font-size: 20px;
+      font-size: 24px;
       font-weight: 700;
       line-height: 1.5;
-      margin-bottom: 32px;
+      margin-bottom: 48px;
       color: #ffffff;
-      text-shadow: 0 0 10px rgba(0,255,224,0.4);
+      opacity: 0.96;
+    }
+
+    .highlight {
+      color: #00ffe0;
+      font-weight: 900;
     }
 
     .got-it-btn {
       background: linear-gradient(90deg, #ff4dd2, #00ffe0);
       color: #000;
       border: none;
-      padding: 16px 56px;
-      font-size: 18px;
-      font-weight: 700;
+      padding: 18px 64px;
+      font-size: 19px;
+      font-weight: 800;
+      letter-spacing: 1px;
       border-radius: 999px;
       cursor: pointer;
-      transition: all 0.3s;
-      box-shadow: 0 8px 24px rgba(255,77,210,0.45);
+      transition: all 0.35s ease;
+      box-shadow: 0 8px 32px rgba(255,77,210,0.4);
     }
     .got-it-btn:hover {
-      transform: scale(1.07);
-      box-shadow: 0 14px 36px rgba(0,255,224,0.55);
+      transform: translateY(-3px) scale(1.06);
+      box-shadow: 0 16px 48px rgba(0,255,224,0.55);
     }
   </style>
 </head>
@@ -266,19 +255,19 @@
     </div>
   </section>
 
-  <!-- Marketing Announcement Overlay (no close button) -->
+  <!-- Cleaner announcement overlay -->
   <div id="welcomeOverlay" class="welcome-overlay">
     <div class="welcome-modal">
-      <h2>GTA VI</h2>
+      <h2>IT'S COMING</h2>
       <div class="announce-text">
-        MARKETING FOR GTA 6<br>STARTS THIS MAY–AUGUST
+        GTA VI MARKETING BEGINS<br>
+        <span class="highlight">MAY – AUGUST 2026</span>
       </div>
-      <button class="got-it-btn" onclick="closeWelcome()">Got it – Let's go!</button>
+      <button class="got-it-btn" onclick="closeWelcome()">I'M READY</button>
     </div>
   </div>
 
   <script>
-    // Countdown logic
     const targetDate = new Date('2026-11-19T00:00:00');
     let hasLaunched = false;
 
@@ -323,7 +312,6 @@
       secondsEl.textContent = pad(diff % 60);
     }
 
-    // Overlay logic (still shows once per session, no close button)
     function showWelcome() {
       if (!sessionStorage.getItem('gta6_welcome_seen')) {
         document.getElementById('welcomeOverlay').classList.add('active');
@@ -335,7 +323,6 @@
       sessionStorage.setItem('gta6_welcome_seen', 'true');
     }
 
-    // Initialize
     updateCountdown();
     setInterval(updateCountdown, 1000);
     window.addEventListener('load', showWelcome);
