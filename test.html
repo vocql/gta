@@ -16,7 +16,7 @@ body{
   background:
     linear-gradient(135deg, rgba(255,77,210,0.15), rgba(0,255,224,0.10)),
     url('gta/jason.jpg') center/cover no-repeat fixed;
-  background-blend-mode: overlay;
+  background-blend-mode:overlay;
   color:#fff;
   display:flex;
   align-items:center;
@@ -24,7 +24,7 @@ body{
   background-position:center 40%;
 }
 
-/* NAVBAR */
+/* ================= NAVBAR ================= */
 header{
   position:fixed;
   top:18px;
@@ -48,70 +48,110 @@ header{
   border:1px solid rgba(255,255,255,0.18);
   transition:.25s;
 }
-.nav-btn:hover{background:rgba(255,255,255,0.14);transform:scale(1.05)}
+.nav-btn:hover{
+  background:rgba(255,255,255,0.14);
+  transform:scale(1.05);
+}
 
-/* MENU */
+/* ================= PREMIUM MENU ================= */
 .menu-wrap{
   position:fixed;
   top:18px;
   left:18px;
   z-index:55;
   display:flex;
-  align-items:center;
+  align-items:flex-start;
 }
+
 .menu-btn{
-  width:42px;
-  height:42px;
-  border-radius:50%;
-  background:rgba(0,0,0,0.25);
-  border:1px solid rgba(255,255,255,0.18);
+  width:46px;
+  height:46px;
+  border-radius:14px;
+  background:rgba(0,0,0,0.32);
+  border:1px solid rgba(255,255,255,0.2);
   color:#fff;
   font-size:20px;
   cursor:pointer;
+  transition:.25s;
 }
+.menu-btn:hover{
+  background:rgba(255,255,255,0.12);
+  transform:translateY(-1px);
+}
+
 .menu-panel{
-  margin-left:12px;
-  min-width:240px;
-  padding:16px;
-  border-radius:18px;
-  background:rgba(0,0,0,0.28);
+  margin-left:14px;
+  width:280px;
+  padding:18px;
+  border-radius:22px;
+  background:rgba(0,0,0,0.32);
   border:1px solid rgba(255,255,255,0.18);
-  box-shadow:0 10px 30px rgba(0,0,0,0.45);
+  box-shadow:
+    0 18px 40px rgba(0,0,0,0.55),
+    inset 0 1px 0 rgba(255,255,255,0.08);
   display:none;
+  animation:menuIn .25s ease forwards;
 }
 .menu-panel.active{display:block}
 
-.menu-section{margin-bottom:16px}
-.menu-title{
-  font-size:12px;
-  letter-spacing:1px;
-  opacity:.7;
-  margin-bottom:8px;
+@keyframes menuIn{
+  from{opacity:0;transform:translateX(-6px)}
+  to{opacity:1;transform:none}
 }
+
+.menu-section{margin-bottom:18px}
+.menu-title{
+  font-size:11px;
+  letter-spacing:2px;
+  opacity:.55;
+  margin-bottom:10px;
+  text-transform:uppercase;
+}
+
 .menu-link{
-  display:block;
-  padding:8px 12px;
-  border-radius:10px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:10px 14px;
+  border-radius:14px;
   text-decoration:none;
   color:#fff;
-  font-size:13px;
-  background:rgba(255,255,255,0.06);
-  margin-bottom:6px;
+  font-size:14px;
+  background:rgba(255,255,255,0.05);
+  margin-bottom:8px;
+  transition:.2s;
 }
-.menu-link:hover{background:rgba(255,255,255,0.14)}
+.menu-link:hover{
+  background:rgba(255,255,255,0.14);
+  transform:translateX(4px);
+}
+
+.menu-divider{
+  height:1px;
+  background:linear-gradient(
+    to right,
+    transparent,
+    rgba(255,255,255,0.18),
+    transparent
+  );
+  margin:14px 0;
+}
 
 .toggle{
   display:flex;
-  justify-content:space-between;
   align-items:center;
-  padding:8px 12px;
-  border-radius:10px;
+  justify-content:space-between;
+  padding:10px 14px;
+  border-radius:14px;
   background:rgba(255,255,255,0.06);
-  font-size:13px;
+  font-size:14px;
   cursor:pointer;
+  transition:.2s;
 }
+.toggle:hover{background:rgba(255,255,255,0.16)}
+.toggle span{font-weight:700;letter-spacing:1px}
 
-/* COUNTDOWN */
+/* ================= COUNTDOWN ================= */
 .countdown-wrap{
   border-radius:20px;
   padding:26px 34px;
@@ -125,7 +165,12 @@ header{
 }
 .title{font-size:32px;font-weight:900;margin-bottom:6px}
 .subtitle{font-size:14px;opacity:.85;margin-bottom:24px}
-.clock{display:flex;gap:12px;justify-content:center}
+
+.clock{
+  display:flex;
+  gap:12px;
+  justify-content:center;
+}
 .unit{
   min-width:72px;
   padding:12px;
@@ -147,11 +192,11 @@ header{
 
 <!-- MENU -->
 <div class="menu-wrap">
-  <button class="menu-btn" onclick="toggleMenu()">☰</button>
+  <button class="menu-btn">☰</button>
 
   <div class="menu-panel" id="menuPanel">
     <div class="menu-section">
-      <div class="menu-title">PAGES</div>
+      <div class="menu-title">Pages</div>
       <a class="menu-link" href="index">Home</a>
       <a class="menu-link" href="map">Map</a>
       <a class="menu-link" href="characters">Characters</a>
@@ -160,15 +205,18 @@ header{
       <a class="menu-link" href="trailers">Trailers</a>
     </div>
 
+    <div class="menu-divider"></div>
+
     <div class="menu-section">
-      <div class="menu-title">SETTINGS</div>
-      <div class="toggle" onclick="toggleMusic(this)">
+      <div class="menu-title">Settings</div>
+      <div class="toggle" id="musicToggle">
         Soundtrack <span id="musicState">OFF</span>
       </div>
     </div>
   </div>
 </div>
 
+<!-- NAVBAR -->
 <header>
   <a href="index" class="nav-btn">Home</a>
   <a href="map" class="nav-btn">Map</a>
@@ -178,6 +226,7 @@ header{
   <a href="trailers" class="nav-btn">Trailers</a>
 </header>
 
+<!-- COUNTDOWN -->
 <section class="countdown-wrap">
   <h1 class="title">Grand Theft Auto VI</h1>
   <div class="subtitle">RELEASE COUNTDOWN – NOVEMBER 19TH, 2026</div>
@@ -192,43 +241,65 @@ header{
 
 <script>
 /* MENU */
-function toggleMenu(){
-  document.getElementById('menuPanel').classList.toggle('active');
-}
+const menuBtn = document.querySelector('.menu-btn');
+const menuPanel = document.getElementById('menuPanel');
+
+menuBtn.onclick = (e)=>{
+  e.stopPropagation();
+  menuPanel.classList.toggle('active');
+};
+
+document.addEventListener('click',()=>{
+  menuPanel.classList.remove('active');
+});
+
+document.addEventListener('keydown',(e)=>{
+  if(e.key==='Escape') menuPanel.classList.remove('active');
+});
 
 /* MUSIC */
 const music = document.getElementById('bgMusic');
-let musicOn = false;
-let userInteracted = false;
+const musicToggle = document.getElementById('musicToggle');
+const musicState = document.getElementById('musicState');
 
-function toggleMusic(el){
-  if(!userInteracted){
-    music.play().catch(()=>{});
-    userInteracted = true;
-  }
+let musicOn=false;
+let audioUnlocked=false;
 
-  musicOn = !musicOn;
+function unlockAudio(){
+  if(audioUnlocked) return;
+  music.volume=0.35;
+  music.play().then(()=>{
+    music.pause();
+    audioUnlocked=true;
+  }).catch(()=>{});
+}
+document.addEventListener('pointerdown',unlockAudio,{once:true});
+document.addEventListener('keydown',unlockAudio,{once:true});
+
+musicToggle.onclick=(e)=>{
+  e.stopPropagation();
+  if(!audioUnlocked) unlockAudio();
+  musicOn=!musicOn;
   if(musicOn){
-    music.volume = 0.35;
     music.play();
-    document.getElementById('musicState').textContent = 'ON';
+    musicState.textContent='ON';
   }else{
     music.pause();
-    document.getElementById('musicState').textContent = 'OFF';
+    musicState.textContent='OFF';
   }
-}
+};
 
-/* Countdown */
-const targetDate = new Date('2026-11-18T00:00:00');
+/* COUNTDOWN */
+const targetDate=new Date('2026-11-18T00:00:00');
 const d=document.getElementById('days'),
-h=document.getElementById('hours'),
-m=document.getElementById('minutes'),
-s=document.getElementById('seconds');
+      h=document.getElementById('hours'),
+      m=document.getElementById('minutes'),
+      s=document.getElementById('seconds');
 
 function pad(n){return String(n).padStart(2,'0')}
 function update(){
   const diff=Math.floor((targetDate-new Date())/1000);
-  if(diff<=0)return;
+  if(diff<=0) return;
   d.textContent=Math.floor(diff/86400);
   h.textContent=pad(Math.floor(diff%86400/3600));
   m.textContent=pad(Math.floor(diff%3600/60));
