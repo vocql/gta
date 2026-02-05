@@ -1,142 +1,177 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>VI | Home</title>
-<link rel="icon" href="gta/npc/lucia.jpg">
+<link rel="icon" href="gta/npc/lucia.jpg" type="image/jpg">
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{height:100%;overflow:hidden}
 
+:root{
+  --menu-bg-opacity:.32;
+  --menu-blur:12px;
+  --menu-scale:1;
+  --overlay-darkness:.15;
+}
+
 body{
   font-family:'Orbitron',sans-serif;
   background:
-    linear-gradient(135deg, rgba(255,77,210,.15), rgba(0,255,224,.10)),
+    linear-gradient(
+      135deg,
+      rgba(0,0,0,var(--overlay-darkness)),
+      rgba(0,0,0,var(--overlay-darkness))
+    ),
+    linear-gradient(135deg, rgba(255,77,210,0.15), rgba(0,255,224,0.10)),
     url('gta/jason.jpg') center/cover no-repeat fixed;
   background-blend-mode:overlay;
   color:#fff;
   display:flex;
-  justify-content:center;
   align-items:center;
+  justify-content:center;
+  background-position:center 40%;
 }
 
-/* NAVBAR */
+/* ================= NAVBAR ================= */
 header{
   position:fixed;
   top:18px;
   left:50%;
   transform:translateX(-50%);
+  z-index:50;
   display:flex;
   gap:12px;
   padding:8px 14px;
   border-radius:999px;
-  background:rgba(0,0,0,.25);
-  z-index:40;
+  background:rgba(0,0,0,0.25);
+  box-shadow:0 6px 18px rgba(0,0,0,0.35);
 }
 .nav-btn{
   padding:9px 17px;
   border-radius:999px;
-  text-decoration:none;
   color:#fff;
-  background:rgba(255,255,255,.08);
+  font-weight:600;
+  text-decoration:none;
+  background:rgba(255,255,255,0.08);
+  border:1px solid rgba(255,255,255,0.18);
+  transition:.25s;
+}
+.nav-btn:hover{
+  background:rgba(255,255,255,0.14);
+  transform:scale(1.05);
 }
 
-/* AUDIO */
-audio{display:none}
-
-/* MENU BUTTON */
-.menu-btn{
+/* ================= MENU ================= */
+.menu-wrap{
   position:fixed;
   top:18px;
   left:18px;
+  z-index:55;
+  display:flex;
+  align-items:flex-start;
+}
+
+.menu-btn{
   width:46px;
   height:46px;
   border-radius:14px;
-  background:rgba(0,0,0,.32);
-  border:1px solid rgba(255,255,255,.2);
+  background:rgba(0,0,0,0.32);
+  border:1px solid rgba(255,255,255,0.2);
   color:#fff;
   font-size:20px;
   cursor:pointer;
-  z-index:60;
 }
 
-/* PAUSE MENU */
-.pause-menu{
-  position:fixed;
-  top:70px;
-  left:18px;
-  width:300px;
+.menu-panel{
+  margin-left:14px;
+  width:280px;
   padding:18px;
   border-radius:22px;
-  background:rgba(0,0,0,.35);
-  border:1px solid rgba(255,255,255,.18);
-  box-shadow:0 25px 50px rgba(0,0,0,.6);
+  background:rgba(0,0,0,var(--menu-bg-opacity));
+  backdrop-filter:blur(var(--menu-blur));
+  transform:scale(var(--menu-scale));
+  border:1px solid rgba(255,255,255,0.18);
+  box-shadow:0 18px 40px rgba(0,0,0,0.55);
   display:none;
-  z-index:55;
+}
+.menu-panel.active{display:block}
+
+.menu-title{
+  font-size:11px;
+  letter-spacing:2px;
+  opacity:.55;
+  margin-bottom:10px;
+  text-transform:uppercase;
 }
 
-.pause-menu.active{display:block}
-
-/* LIST */
-.menu-list{
-  position:relative;
+.menu-link,.toggle{
   display:flex;
-  flex-direction:column;
-  gap:8px;
-}
-
-/* SELECTOR BAR */
-.selector{
-  position:absolute;
-  left:0;
-  width:100%;
-  height:44px;
-  border-radius:14px;
-  background:rgba(255,255,255,.14);
-  transition:.25s ease;
-  z-index:0;
-}
-
-/* ITEMS */
-.menu-item{
-  position:relative;
-  height:44px;
-  padding:0 16px;
-  display:flex;
-  align-items:center;
   justify-content:space-between;
+  padding:10px 14px;
+  border-radius:14px;
+  background:rgba(255,255,255,0.06);
+  margin-bottom:8px;
+  color:#fff;
   cursor:pointer;
-  z-index:1;
-  font-size:14px;
+  text-decoration:none;
 }
-.menu-item span{
-  opacity:.85;
-  font-weight:700;
+.menu-link:hover,.toggle:hover{
+  background:rgba(255,255,255,0.16);
 }
 
-/* COUNTDOWN */
+/* ================= SETTINGS PANEL ================= */
+.settings-panel{
+  margin-left:14px;
+  width:320px;
+  padding:18px;
+  border-radius:22px;
+  background:rgba(0,0,0,0.45);
+  backdrop-filter:blur(16px);
+  border:1px solid rgba(255,255,255,0.2);
+  box-shadow:0 22px 50px rgba(0,0,0,.65);
+  display:none;
+}
+.settings-panel.active{display:block}
+
+.setting{
+  margin-bottom:16px;
+}
+.setting label{
+  font-size:12px;
+  opacity:.8;
+  display:block;
+  margin-bottom:6px;
+}
+.setting input[type=range]{
+  width:100%;
+}
+
+/* ================= COUNTDOWN ================= */
 .countdown-wrap{
-  margin-top:120px;
-  padding:26px 34px;
   border-radius:20px;
-  background:rgba(0,0,0,.25);
-  border:2px solid #fff;
+  padding:26px 34px;
   text-align:center;
+  width:88%;
+  max-width:600px;
+  margin-top:120px;
+  background:rgba(0,0,0,0.25);
+  border:2px solid #fff;
 }
-.clock{
-  display:flex;
-  gap:12px;
-}
+.title{font-size:32px;font-weight:900}
+.subtitle{font-size:14px;opacity:.85;margin-bottom:24px}
+.clock{display:flex;gap:12px;justify-content:center}
 .unit{
   min-width:72px;
   padding:12px;
   border-radius:12px;
-  background:rgba(0,0,0,.35);
+  background:rgba(0,0,0,0.35);
 }
 .num{font-size:32px;font-weight:900}
+.label{font-size:11px;opacity:.8}
 </style>
 </head>
 
@@ -146,111 +181,143 @@ audio{display:none}
   <source src="music/night.mp3" type="audio/mpeg">
 </audio>
 
-<button class="menu-btn">☰</button>
+<div class="menu-wrap">
+  <button class="menu-btn">☰</button>
 
-<div class="pause-menu" id="pauseMenu">
-  <div class="menu-list" id="menuList">
-    <div class="selector" id="selector"></div>
+  <div class="menu-panel" id="menuPanel">
+    <div class="menu-title">Pages</div>
+    <a class="menu-link" href="index">Home</a>
+    <a class="menu-link" href="map">Map</a>
+    <a class="menu-link" href="characters">Characters</a>
+    <a class="menu-link" href="places">Places</a>
+    <a class="menu-link" href="screenshots">Screenshots</a>
+    <a class="menu-link" href="trailers">Trailers</a>
 
-    <div class="menu-item" data-action="index">Home</div>
-    <div class="menu-item" data-action="map">Map</div>
-    <div class="menu-item" data-action="characters">Characters</div>
-    <div class="menu-item" data-action="places">Places</div>
-    <div class="menu-item" data-action="screenshots">Screenshots</div>
-    <div class="menu-item" data-action="trailers">Trailers</div>
-    <div class="menu-item" data-action="music">
+    <div class="menu-title" style="margin-top:14px">Settings</div>
+    <div class="toggle" id="musicToggle">
       Soundtrack <span id="musicState">OFF</span>
+    </div>
+    <div class="toggle" id="openSettings">Menu Settings →</div>
+  </div>
+
+  <div class="settings-panel" id="settingsPanel">
+    <div class="menu-title">Menu Visibility</div>
+
+    <div class="setting">
+      <label>Menu Opacity</label>
+      <input type="range" min="0.15" max="0.8" step="0.01" id="menuOpacity">
+    </div>
+
+    <div class="setting">
+      <label>Menu Blur</label>
+      <input type="range" min="0" max="24" step="1" id="menuBlur">
+    </div>
+
+    <div class="setting">
+      <label>Menu Scale</label>
+      <input type="range" min="0.9" max="1.05" step="0.01" id="menuScale">
+    </div>
+
+    <div class="setting">
+      <label>Background Darkening</label>
+      <input type="range" min="0" max="0.4" step="0.01" id="bgDark">
     </div>
   </div>
 </div>
 
 <header>
-  <a class="nav-btn" href="index">Home</a>
-  <a class="nav-btn" href="map">Map</a>
-  <a class="nav-btn" href="characters">Characters</a>
-  <a class="nav-btn" href="places">Places</a>
+  <a href="index" class="nav-btn">Home</a>
+  <a href="map" class="nav-btn">Map</a>
+  <a href="characters" class="nav-btn">Characters</a>
+  <a href="places" class="nav-btn">Places</a>
+  <a href="screenshots" class="nav-btn">Screenshots</a>
+  <a href="trailers" class="nav-btn">Trailers</a>
 </header>
 
 <section class="countdown-wrap">
+  <h1 class="title">Grand Theft Auto VI</h1>
+  <div class="subtitle">RELEASE COUNTDOWN – NOVEMBER 19TH, 2026</div>
   <div class="clock">
-    <div class="unit"><div class="num" id="days">000</div></div>
-    <div class="unit"><div class="num" id="hours">00</div></div>
-    <div class="unit"><div class="num" id="minutes">00</div></div>
-    <div class="unit"><div class="num" id="seconds">00</div></div>
+    <div class="unit"><div class="num" id="days">000</div><div class="label">DAYS</div></div>
+    <div class="unit"><div class="num" id="hours">00</div><div class="label">HOURS</div></div>
+    <div class="unit"><div class="num" id="minutes">00</div><div class="label">MINUTES</div></div>
+    <div class="unit"><div class="num" id="seconds">00</div><div class="label">SECONDS</div></div>
   </div>
 </section>
 
 <script>
 /* MENU */
 const menuBtn=document.querySelector('.menu-btn');
-const pauseMenu=document.getElementById('pauseMenu');
-const items=[...document.querySelectorAll('.menu-item')];
-const selector=document.getElementById('selector');
-let index=0;
-
-function updateSelector(){
-  const el=items[index];
-  selector.style.top=el.offsetTop+'px';
-}
-updateSelector();
-
-menuBtn.onclick=()=>{
-  pauseMenu.classList.toggle('active');
-  updateSelector();
+const menuPanel=document.getElementById('menuPanel');
+const settingsPanel=document.getElementById('settingsPanel');
+menuBtn.onclick=e=>{
+  e.stopPropagation();
+  menuPanel.classList.toggle('active');
+  settingsPanel.classList.remove('active');
 };
-
-items.forEach((item,i)=>{
-  item.addEventListener('mouseenter',()=>{
-    index=i;
-    updateSelector();
-  });
-  item.addEventListener('click',()=>{
-    const action=item.dataset.action;
-    if(action==='music'){toggleMusic();return;}
-    if(action) location.href=action;
-  });
+document.addEventListener('click',()=>{
+  menuPanel.classList.remove('active');
+  settingsPanel.classList.remove('active');
 });
 
-/* KEYBOARD */
-document.addEventListener('keydown',(e)=>{
-  if(!pauseMenu.classList.contains('active')) return;
-  if(e.key==='ArrowDown'){index=(index+1)%items.length}
-  if(e.key==='ArrowUp'){index=(index-1+items.length)%items.length}
-  if(e.key==='Enter'){items[index].click()}
-  if(e.key==='Escape'){pauseMenu.classList.remove('active')}
-  updateSelector();
-});
+/* SETTINGS OPEN */
+document.getElementById('openSettings').onclick=e=>{
+  e.stopPropagation();
+  settingsPanel.classList.toggle('active');
+};
 
 /* MUSIC */
 const music=document.getElementById('bgMusic');
+const musicToggle=document.getElementById('musicToggle');
 const musicState=document.getElementById('musicState');
-let musicOn=false, unlocked=false;
-
-function unlock(){
-  if(unlocked) return;
-  music.volume=.35;
-  music.play().then(()=>{music.pause();unlocked=true});
-}
+let musicOn=false,unlocked=false;
+function unlock(){if(unlocked)return;music.volume=.35;music.play().then(()=>music.pause());unlocked=true}
 document.addEventListener('pointerdown',unlock,{once:true});
-
-function toggleMusic(){
+musicToggle.onclick=e=>{
+  e.stopPropagation();
   unlock();
   musicOn=!musicOn;
-  if(musicOn){music.play();musicState.textContent='ON'}
-  else{music.pause();musicState.textContent='OFF'}
+  musicOn?(music.play(),musicState.textContent='ON'):(music.pause(),musicState.textContent='OFF');
+};
+
+/* SETTINGS LOGIC */
+const root=document.documentElement;
+const save=(k,v)=>localStorage.setItem(k,v);
+const load=(k,d)=>localStorage.getItem(k)||d;
+
+menuOpacity.value=load('menuOpacity','.32');
+menuBlur.value=load('menuBlur','12');
+menuScale.value=load('menuScale','1');
+bgDark.value=load('bgDark','.15');
+
+function apply(){
+  root.style.setProperty('--menu-bg-opacity',menuOpacity.value);
+  root.style.setProperty('--menu-blur',menuBlur.value+'px');
+  root.style.setProperty('--menu-scale',menuScale.value);
+  root.style.setProperty('--overlay-darkness',bgDark.value);
 }
+[menuOpacity,menuBlur,menuScale,bgDark].forEach(i=>{
+  i.oninput=()=>{
+    save(i.id,i.value);
+    apply();
+  };
+});
+apply();
 
 /* COUNTDOWN */
-const target=new Date('2026-11-18T00:00:00');
-const d=days,h=hours,m=minutes,s=seconds;
-function pad(n){return String(n).padStart(2,'0')}
+const t=new Date('2026-11-18T00:00:00');
+const d=document.getElementById('days'),
+h=document.getElementById('hours'),
+m=document.getElementById('minutes'),
+s=document.getElementById('seconds');
+const pad=n=>String(n).padStart(2,'0');
 setInterval(()=>{
-  const diff=(target-new Date())/1000;
-  if(diff<=0)return;
-  d.textContent=Math.floor(diff/86400);
-  h.textContent=pad(diff%86400/3600|0);
-  m.textContent=pad(diff%3600/60|0);
-  s.textContent=pad(diff|0);
+  const x=(t-new Date())/1000;
+  if(x<=0)return;
+  d.textContent=Math.floor(x/86400);
+  h.textContent=pad(x%86400/3600|0);
+  m.textContent=pad(x%3600/60|0);
+  s.textContent=pad(x%60|0);
 },1000);
 </script>
 
