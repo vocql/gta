@@ -8,40 +8,50 @@
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-:root{
-  --menu-bg-opacity:.32;
-  --menu-blur:12px;
-  --menu-scale:1;
-  --overlay-darkness:.15;
-}
 html,body{height:100%}
 body{
   font-family:'Orbitron',sans-serif;
   background:
-    linear-gradient(135deg, rgba(0,0,0,var(--overlay-darkness)), rgba(0,0,0,var(--overlay-darkness))),
-    linear-gradient(135deg, rgba(255,77,210,0.15), rgba(0,255,224,0.10)),
-    url('gta/jason.jpg') center/cover no-repeat fixed;
+  linear-gradient(135deg, rgba(255,77,210,0.15), rgba(0,255,224,0.10)),
+  url('gta/jason.jpg') center/cover no-repeat fixed;
   background-blend-mode: overlay;
   color:#fff;
   min-height:100vh;
 }
 
-/* MENU STYLES same as above */
-.menu-wrap{ position:fixed; top:18px; left:18px; z-index:55; display:flex; align-items:flex-start; }
-.menu-btn{ width:46px; height:46px; border-radius:14px; background:rgba(0,0,0,0.32); border:1px solid rgba(255,255,255,0.2); color:#fff; font-size:20px; cursor:pointer; transition:.2s; }
-.menu-btn:hover{transform:scale(1.08)}
-.menu-panel{ margin-left:14px; width:280px; padding:18px; border-radius:22px; background:rgba(0,0,0,var(--menu-bg-opacity)); backdrop-filter:blur(var(--menu-blur)); transform:scale(var(--menu-scale)); border:1px solid rgba(255,255,255,0.18); box-shadow:0 18px 40px rgba(0,0,0,0.55); display:none; }
-.menu-panel.active{display:block}
-.menu-title{ font-size:11px; letter-spacing:2px; opacity:.55; margin-bottom:10px; text-transform:uppercase; }
-.menu-link,.toggle{ display:flex; justify-content:space-between; padding:10px 14px; border-radius:14px; background:rgba(255,255,255,0.06); margin-bottom:8px; color:#fff; cursor:pointer; text-decoration:none; transition:.2s; }
-.menu-link:hover,.toggle:hover{ background:rgba(255,255,255,0.16); }
-.settings-panel{ margin-left:14px; width:320px; padding:18px; border-radius:22px; background:rgba(0,0,0,0.45); backdrop-filter:blur(16px); border:1px solid rgba(255,255,255,0.2); box-shadow:0 22px 50px rgba(0,0,0,.65); display:none; }
-.settings-panel.active{display:block}
-.setting{margin-bottom:16px;}
-.setting label{font-size:12px; opacity:.8; display:block; margin-bottom:6px;}
-.setting input[type=range]{width:100%;}
+ /* NAVBAR - matched to your home page */
+header{
+  position:fixed;
+  top:12px;
+  left:50%;
+  transform:translateX(-50%);
+  z-index:50;
+  display:flex;
+  gap:12px;
+  padding:8px 14px;
+  border-radius:999px;
+  background:rgba(0,0,0,0.25);
+  box-shadow:0 6px 18px rgba(0,0,0,0.35);
+}
+.nav-btn{
+  padding:9px 17px;
+  border-radius:999px;
+  color:#fff;
+  font-weight:600;
+  text-decoration:none;
+  background:rgba(255,255,255,0.08);
+  border:1px solid rgba(255,255,255,0.18);
+  box-shadow:
+    inset 0 1.2px 1.5px rgba(255,255,255,0.4),
+    0 4px 18px rgba(0,0,0,0.3);
+  transition:.25s;
+}
+.nav-btn:hover{
+  background:rgba(255,255,255,0.14);
+  transform:scale(1.05);
+}
 
-/* PAGE CONTENT */
+/* PAGE */
 .page{
   width:clamp(900px,90vw,1440px);
   margin:140px auto 100px;
@@ -59,6 +69,8 @@ h1{
   grid-template-columns:repeat(auto-fill,minmax(340px,1fr));
   gap:32px;
 }
+
+/* SQUARE CARDS */
 .character-card{
   aspect-ratio: 1 / 1;
   border-radius:22px;
@@ -98,6 +110,8 @@ h1{
   text-shadow:0 4px 12px rgba(0,0,0,.95);
   letter-spacing:1px;
 }
+
+/* MODAL */
 .modal{
   position:fixed;
   inset:0;
@@ -110,7 +124,10 @@ h1{
   transition:.4s;
   z-index:999;
 }
-.modal.active{opacity:1;pointer-events:auto;}
+.modal.active{
+  opacity:1;
+  pointer-events:auto;
+}
 .modal-content{
   background:rgba(8,8,18,.97);
   border-radius:24px;
@@ -125,56 +142,114 @@ h1{
   box-shadow:0 40px 100px rgba(0,0,0,1);
   position:relative;
 }
-.modal.active .modal-content{transform:scale(1);}
-.modal img{width:100%;border-radius:18px;object-fit:cover;box-shadow:0 10px 30px rgba(0,0,0,.6);}
-.modal h2{font-size:clamp(32px,4vw,40px);margin-bottom:20px;text-shadow:0 4px 12px rgba(0,0,0,.8);}
-.modal p{font-size:17px;line-height:1.65;opacity:.92;}
-.close-btn{position:absolute;top:20px;right:24px;font-size:32px;cursor:pointer;opacity:.75;color:#fff;}
+.modal.active .modal-content{
+  transform:scale(1);
+}
+.modal img{
+  width:100%;
+  border-radius:18px;
+  object-fit:cover;
+  box-shadow:0 10px 30px rgba(0,0,0,.6);
+}
+.modal h2{
+  font-size:clamp(32px,4vw,40px);
+  margin-bottom:20px;
+  text-shadow:0 4px 12px rgba(0,0,0,.8);
+}
+.modal p{
+  font-size:17px;
+  line-height:1.65;
+  opacity:.92;
+}
+.close-btn{
+  position:absolute;
+  top:20px;
+  right:24px;
+  font-size:32px;
+  cursor:pointer;
+  opacity:.75;
+  color:#fff;
+}
 .close-btn:hover{opacity:1}
-@media(max-width:900px){.modal-content{grid-template-columns:1fr;padding:28px;}.page{margin:120px auto 80px;}}
-@media(max-width:600px){.character-list{grid-template-columns:1fr;}}
-  </style>
+
+/* MOBILE */
+@media(max-width:900px){
+  .modal-content{grid-template-columns:1fr; padding:28px;}
+  .page{margin:120px auto 80px;}
+}
+@media(max-width:600px){
+  .character-list{grid-template-columns:1fr;}
+}
+</style>
 </head>
 <body>
-
-<audio id="bgMusic" loop>
-  <source src="music/night.mp3" type="audio/mpeg">
-</audio>
-
-<div class="menu-wrap">
-  <button class="menu-btn">☰</button>
-  <div class="menu-panel" id="menuPanel">
-    <div class="menu-title">Pages</div>
-    <a class="menu-link" href="index">Home</a>
-    <a class="menu-link" href="map">Map</a>
-    <a class="menu-link" href="characters">Characters</a>
-    <a class="menu-link" href="places">Places</a>
-    <a class="menu-link" href="screenshots">Screenshots</a>
-    <a class="menu-link" href="trailers">Trailers</a>
-    <div class="menu-title" style="margin-top:14px">Settings</div>
-    <div class="toggle" id="musicToggle">
-      Soundtrack <span id="musicState">OFF</span>
-    </div>
-    <div class="toggle" id="openSettings">Menu Settings →</div>
-  </div>
-  <div class="settings-panel" id="settingsPanel">
-    <div class="menu-title">Menu Visibility</div>
-    <div class="setting"><label>Menu Opacity</label><input type="range" min="0.15" max="0.8" step="0.01" id="menuOpacity" value="0.32"></div>
-    <div class="setting"><label>Menu Blur</label><input type="range" min="0" max="24" step="1" id="menuBlur" value="12"></div>
-    <div class="setting"><label>Menu Scale</label><input type="range" min="0.9" max="1.05" step="0.01" id="menuScale" value="1"></div>
-    <div class="setting"><label>Background Darkening</label><input type="range" min="0" max="0.4" step="0.01" id="bgDark" value="0.15"></div>
-  </div>
-</div>
+<header>
+  <a href="index" class="nav-btn">Home</a>
+  <a href="map" class="nav-btn">Map</a>
+  <a href="characters" class="nav-btn">Characters</a>
+  <a href="places" class="nav-btn">Places</a>
+  <a href="screenshots" class="nav-btn">Screenshots</a>
+  <a href="trailers" class="nav-btn">Trailers</a>
+</header>
 
 <main class="page">
 <h1>GTA VI — Characters</h1>
 <div class="character-list">
-  <!-- ... all character cards remain exactly the same ... -->
-  <div class="character-card" data-name="Lucia" data-img="gta/npc/lucia.jpg" data-desc="..."><!-- content --></div>
-  <!-- ... rest of your characters ... -->
+
+  <div class="character-card" data-name="Lucia" data-img="gta/npc/lucia.jpg" data-desc="Lucia Caminos was raised on the unforgiving streets of Liberty City, where her father instilled in her the art of self-defense from a young age—skills that ultimately sent her to Leonida Penitentiary following a brutal confrontation while protecting her family. Released unexpectedly through a rare stroke of fortune, she is now single-minded in her determination to rewrite her future and deliver the comfortable, secure life her mother always envisioned for her.">
+    <img src="gta/npc/lucia.jpg" alt="Lucia">
+    <div class="card-overlay"><h2>Lucia</h2></div>
+  </div>
+
+  <div class="character-card" data-name="Jason" data-img="gta/npc/jason.jpg" data-desc="Jason Duval grew up surrounded by grifters and crooks in the Keys, joined the army to escape his troubled past, but returned to Leonida and fell back into drug running for local kingpins like Brian Heder. Sharp, deadly, and craving an easier life, he now lives rent-free on one of Brian's properties in exchange for handling dirty work — but meeting Lucia might change everything for better or worse. Their Bonnie-and-Clyde-style romance pulls him deeper into high-stakes crime, where every choice could lead to freedom or ruin.">
+    <img src="gta/npc/jason.jpg" alt="Jason">
+    <div class="card-overlay"><h2>Jason</h2></div>
+  </div>
+
+  <div class="character-card" data-name="Dre'Quan Preist" data-img="gta/npc/dre.jpg" data-desc="Dre'Quan Priest started as a street hustler dealing to survive, but music was always the real dream — he transitioned from gangster life to running Only Raw Records, signing hot talent like Real Dimez to chase Vice City's big stage. Partnered with Boobie Ike, he's booking acts and building an empire, leaving behind street deals for studio sessions and hits that could elevate them both. Ambitious and savvy, Dre'Quan bridges the gap between Vice City's underground and its legitimate spotlight, always one track away from making it big.">
+    <img src="gta/npc/dre.jpg" alt="Dre'Quan Preist">
+    <div class="card-overlay"><h2>Dre'Quan Preist</h2></div>
+  </div>
+
+  <div class="character-card" data-name="Stefanie" data-img="gta/npc/stefanie.png" data-desc="Stefanie works as a social worker for Leonida Corrections, dealing daily with a deeply broken prison system that chews up lives and spits them out unchanged. Frustrated by endless bureaucracy and lack of real reform, she's reached her breaking point and is ready to bend — or outright break — the rules to actually help those caught in the cycle. Her quiet determination hides a growing willingness to take risks, potentially crossing paths with Lucia and others in ways that blur the line between savior and outlaw.">
+    <img src="gta/npc/stefanie.png" alt="Stefanie">
+    <div class="card-overlay"><h2>Stefanie</h2></div>
+  </div>
+
+  <div class="character-card" data-name="Cal Hampton" data-img="gta/npc/cal.png" data-desc="Cal Hampton is Jason's longtime paranoid buddy who rarely leaves home, preferring to spend his days monitoring Coast Guard radio chatter, cracking open beers, and diving into private browser tabs for 'research.' His casual paranoia keeps him isolated but informed, making him a reluctant ally when bigger scores pull Jason — and by extension Cal — back into the chaos. Despite his reclusive nature, Cal's tech-savvy and street smarts make him surprisingly useful when the outside world forces its way in.">
+    <img src="gta/npc/cal.png" alt="Cal Hampton">
+    <div class="card-overlay"><h2>Cal Hampton</h2></div>
+  </div>
+
+  <div class="character-card" data-name="Boobie Ike" data-img="gta/npc/boobie.png" data-desc="Boobie Ike is a Vice City legend who clawed his way from the streets to build a sprawling empire of real estate, the Jack of Hearts strip club, and a recording studio through smarts, charm, and ruthless business sense. All smiles on the surface, he's deeply invested in turning Only Raw Records into a powerhouse alongside Dre'Quan Priest — but cross him, and the wide grin hides a deadly serious operator. His connections span Vice City's underworld and legitimate world, making him a key player in any big move.">
+    <img src="gta/npc/boobie.png" alt="Boobie Ike">
+    <div class="card-overlay"><h2>Boobie Ike</h2></div>
+  </div>
+
+  <div class="character-card" data-name="Roxy" data-img="gta/npc/dimez.webp" data-desc="Bae-Luxe and Roxy, known together as Real Dimez, have been high-school friends who turned shaking down local dealers into viral rap tracks and massive social media clout. Signed to Dre'Quan Priest's Only Raw Records under Boobie Ike's umbrella, they're fighting to drop the next big hit while staying relevant in Vice City's cutthroat music scene. Their street-hustle-to-stardom story blends raw talent, relentless promo, and the constant pressure of fame — one wrong move could end it all.">
+    <img src="gta/npc/dimez.webp" alt="Roxy">
+    <div class="card-overlay"><h2>Roxy</h2></div>
+  </div>
+
+  <div class="character-card" data-name="Raul Bautista" data-img="gta/npc/raul.png" data-desc="Raul Bautista is a veteran bank robber known for his old-school charm, ice-cold precision, and a reckless streak that keeps jobs exciting — and dangerous. Always scouting for the perfect crew to pull off the next big score, he thrives on high-risk heists and the thrill of the getaway. His experience makes him a valuable ally, but his impulsive side could turn any plan sideways in Leonida's unpredictable criminal landscape.">
+    <img src="gta/npc/raul.png" alt="Raul Bautista">
+    <div class="card-overlay"><h2>Raul Bautista</h2></div>
+  </div>
+
+  <div class="character-card" data-name="Brian Heder" data-img="gta/npc/brian.png" data-desc="Brian Heder is an old-school drug kingpin from the glory days of Keys smuggling, now running operations from his boat yard with his third wife Lori while letting younger crews handle the frontline risks. He provides Jason Duval a rent-free spot in exchange for muscle and favors, maintaining a deep, ruthless empire that still pulls strings across Leonida. Laid-back on the surface but always calculating, Brian embodies the enduring power of classic organized crime in a changing world.">
+    <img src="gta/npc/brian.png" alt="Brian Heder">
+    <div class="card-overlay"><h2>Brian Heder</h2></div>
+  </div>
+
+  <div class="character-card" data-name="Luxe" data-img="gta/npc/luxe.webp" data-desc="Luxe is one half of the viral rap duo Real Dimez, turning street-smart dealer shake-downs into bars, fame, and a relentless social media presence that caught Dre'Quan Priest's eye. Signed to Only Raw Records, she's fiercely ambitious and hungry to claim the throne in Vice City's music game alongside Roxy. Her raw talent and hustle make her a rising star, but the pressure of staying relevant — and the dangers of the streets she came from — keep every move high-stakes.">
+    <img src="gta/npc/luxe.webp" alt="Luxe">
+    <div class="card-overlay"><h2>Luxe</h2></div>
+  </div>
+
 </div>
 </main>
 
+<!-- MODAL -->
 <div class="modal" id="modal">
   <div class="modal-content">
     <span class="close-btn" id="closeBtn">✕</span>
@@ -187,10 +262,6 @@ h1{
 </div>
 
 <script>
-// same menu + music + settings script as in the MAP page
-// ... paste the entire <script> block from the MAP example above here ...
-
-// plus your existing modal script
 const cards = document.querySelectorAll('.character-card');
 const modal = document.getElementById('modal');
 const modalImg = document.getElementById('modalImg');
@@ -206,8 +277,11 @@ cards.forEach(card => {
     modal.classList.add('active');
   };
 });
+
 closeBtn.onclick = () => modal.classList.remove('active');
-modal.onclick = e => { if (e.target === modal) modal.classList.remove('active'); };
+modal.onclick = e => {
+  if (e.target === modal) modal.classList.remove('active');
+};
 </script>
 </body>
 </html>
