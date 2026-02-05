@@ -1,233 +1,258 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>VI | Home</title>
-<link rel="icon" href="gta/npc/lucia.jpg" type="image/jpg">
+<link rel="icon" href="gta/npc/lucia.jpg">
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
+
 <style>
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;overflow:hidden}
 
-html, body {
-  height: 100%;
-  overflow: hidden;
-  cursor: none; /* Hide real cursor */
-}
-
-/* Vice City neon colors as variables */
-:root {
-  --neon-pink: #ff0066;
-  --neon-teal: #00f0ff;
-  --mouse-x: 0px;
-  --mouse-y: 0px;
-}
-
-body {
-  font-family: 'Orbitron', sans-serif;
+body{
+  font-family:'Orbitron',sans-serif;
   background:
-    linear-gradient(135deg, rgba(255,77,210,0.12), rgba(0,255,224,0.08)),
+    linear-gradient(135deg, rgba(255,77,210,.15), rgba(0,255,224,.10)),
     url('gta/jason.jpg') center/cover no-repeat fixed;
-  background-blend-mode: overlay;
-  color: #fff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-position: center 40%;
+  background-blend-mode:overlay;
+  color:#fff;
+  display:flex;
+  justify-content:center;
+  align-items:center;
 }
 
-/* Neon cursor glow - smaller & sharper */
-body::before {
-  content: "";
-  position: fixed;
-  left: var(--mouse-x);
-  top: var(--mouse-y);
-  width: 24px;
-  height: 24px;
-  background: radial-gradient(circle at 40% 40%, var(--neon-pink), var(--neon-teal) 50%, transparent 70%);
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: 999999;
-  transform: translate(-50%, -50%);
-  box-shadow: 
-    0 0 10px var(--neon-pink),
-    0 0 20px var(--neon-teal),
-    0 0 30px var(--neon-teal),
-    inset 0 0 6px rgba(255, 0, 102, 0.8);
-  mix-blend-mode: screen;
-  opacity: 0.95;
-  animation: pulse 2.5s infinite ease-in-out;
-  transition: transform 0.12s ease-out, box-shadow 0.18s;
+/* NAVBAR */
+header{
+  position:fixed;
+  top:18px;
+  left:50%;
+  transform:translateX(-50%);
+  display:flex;
+  gap:12px;
+  padding:8px 14px;
+  border-radius:999px;
+  background:rgba(0,0,0,.25);
+  z-index:40;
+}
+.nav-btn{
+  padding:9px 17px;
+  border-radius:999px;
+  text-decoration:none;
+  color:#fff;
+  background:rgba(255,255,255,.08);
 }
 
-/* Subtle pulsing glow animation */
-@keyframes pulse {
-  0%, 100% { opacity: 0.92; box-shadow: 0 0 10px var(--neon-pink), 0 0 20px var(--neon-teal), 0 0 30px var(--neon-teal); }
-  50%      { opacity: 1;    box-shadow: 0 0 14px var(--neon-pink), 0 0 28px var(--neon-teal), 0 0 42px var(--neon-teal); }
+/* AUDIO */
+audio{display:none}
+
+/* MENU BUTTON */
+.menu-btn{
+  position:fixed;
+  top:18px;
+  left:18px;
+  width:46px;
+  height:46px;
+  border-radius:14px;
+  background:rgba(0,0,0,.32);
+  border:1px solid rgba(255,255,255,.2);
+  color:#fff;
+  font-size:20px;
+  cursor:pointer;
+  z-index:60;
 }
 
-/* Hover: scale up slightly + brighter */
-a:hover ~ body::before,
-.nav-btn:hover ~ body::before {
-  transform: translate(-50%, -50%) scale(1.4);
-  box-shadow: 
-    0 0 16px var(--neon-pink),
-    0 0 32px var(--neon-teal),
-    0 0 48px var(--neon-teal),
-    inset 0 0 10px rgba(255, 0, 102, 0.9);
-  opacity: 1;
+/* PAUSE MENU */
+.pause-menu{
+  position:fixed;
+  top:70px;
+  left:18px;
+  width:300px;
+  padding:18px;
+  border-radius:22px;
+  background:rgba(0,0,0,.35);
+  border:1px solid rgba(255,255,255,.18);
+  box-shadow:0 25px 50px rgba(0,0,0,.6);
+  display:none;
+  z-index:55;
 }
 
-/* ================= NAVBAR ================= */
-header {
-  position: fixed;
-  top: 18px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 50;
-  display: flex;
-  gap: 12px;
-  padding: 8px 14px;
-  border-radius: 999px;
-  background: rgba(0,0,0,0.3);
-  box-shadow: 0 6px 18px rgba(0,0,0,0.4);
+.pause-menu.active{display:block}
+
+/* LIST */
+.menu-list{
+  position:relative;
+  display:flex;
+  flex-direction:column;
+  gap:8px;
 }
 
-.nav-btn {
-  padding: 9px 17px;
-  border-radius: 999px;
-  color: #fff;
-  font-weight: 600;
-  text-decoration: none;
-  background: rgba(255,255,255,0.08);
-  border: 1px solid rgba(255,255,255,0.2);
-  transition: 0.25s;
+/* SELECTOR BAR */
+.selector{
+  position:absolute;
+  left:0;
+  width:100%;
+  height:44px;
+  border-radius:14px;
+  background:rgba(255,255,255,.14);
+  transition:.25s ease;
+  z-index:0;
 }
 
-.nav-btn:hover {
-  background: rgba(255,255,255,0.15);
-  transform: scale(1.05);
+/* ITEMS */
+.menu-item{
+  position:relative;
+  height:44px;
+  padding:0 16px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  cursor:pointer;
+  z-index:1;
+  font-size:14px;
+}
+.menu-item span{
+  opacity:.85;
+  font-weight:700;
 }
 
-/* ================= COUNTDOWN ================= */
-.countdown-wrap {
-  backdrop-filter: blur(1px);
-  border-radius: 20px;
-  padding: 26px 34px;
-  text-align: center;
-  width: 88%;
-  max-width: 600px;
-  margin-top: 120px;
-  background: rgba(0,0,0,0.3);
-  border: 2px solid rgba(255,255,255,0.3);
-  box-shadow: 0 0 20px rgba(255,255,255,0.2);
+/* COUNTDOWN */
+.countdown-wrap{
+  margin-top:120px;
+  padding:26px 34px;
+  border-radius:20px;
+  background:rgba(0,0,0,.25);
+  border:2px solid #fff;
+  text-align:center;
 }
-
-.title {
-  font-size: 32px;
-  font-weight: 900;
-  margin-bottom: 6px;
+.clock{
+  display:flex;
+  gap:12px;
 }
-
-.subtitle {
-  font-size: 14px;
-  opacity: .85;
-  margin-bottom: 24px;
-  text-transform: uppercase;
+.unit{
+  min-width:72px;
+  padding:12px;
+  border-radius:12px;
+  background:rgba(0,0,0,.35);
 }
-
-.clock {
-  display: flex;
-  gap: 12px;
-  justify-content: center;
-}
-
-.unit {
-  min-width: 72px;
-  padding: 12px 10px;
-  border-radius: 12px;
-  background: rgba(0,0,0,0.4);
-  border: 1px solid rgba(255,255,255,0.15);
-}
-
-.num {
-  font-size: 32px;
-  font-weight: 900;
-}
-
-.label {
-  font-size: 11px;
-  margin-top: 6px;
-  opacity: .8;
-}
+.num{font-size:32px;font-weight:900}
 </style>
 </head>
+
 <body>
 
-<header>
-  <a href="index" class="nav-btn">Home</a>
-  <a href="map" class="nav-btn">Map</a>
-  <a href="characters" class="nav-btn">Characters</a>
-  <a href="places" class="nav-btn">Places</a>
-  <a href="screenshots" class="nav-btn">Screenshots</a>
-  <a href="trailers" class="nav-btn">Trailers</a>
-</header>
-
-<section class="countdown-wrap">
-  <h1 class="title">Grand Theft Auto VI</h1>
-  <div class="subtitle">RELEASE COUNTDOWN – NOVEMBER 19TH, 2026</div>
-  <div class="clock">
-    <div class="unit"><div class="num" id="days">000</div><div class="label">DAYS</div></div>
-    <div class="unit"><div class="num" id="hours">00</div><div class="label">HOURS</div></div>
-    <div class="unit"><div class="num" id="minutes">00</div><div class="label">MINUTES</div></div>
-    <div class="unit"><div class="num" id="seconds">00</div><div class="label">SECONDS</div></div>
-  </div>
-</section>
-
-<!-- Background music -->
 <audio id="bgMusic" loop>
   <source src="music/night.mp3" type="audio/mpeg">
 </audio>
 
+<button class="menu-btn">☰</button>
+
+<div class="pause-menu" id="pauseMenu">
+  <div class="menu-list" id="menuList">
+    <div class="selector" id="selector"></div>
+
+    <div class="menu-item" data-action="index">Home</div>
+    <div class="menu-item" data-action="map">Map</div>
+    <div class="menu-item" data-action="characters">Characters</div>
+    <div class="menu-item" data-action="places">Places</div>
+    <div class="menu-item" data-action="screenshots">Screenshots</div>
+    <div class="menu-item" data-action="trailers">Trailers</div>
+    <div class="menu-item" data-action="music">
+      Soundtrack <span id="musicState">OFF</span>
+    </div>
+  </div>
+</div>
+
+<header>
+  <a class="nav-btn" href="index">Home</a>
+  <a class="nav-btn" href="map">Map</a>
+  <a class="nav-btn" href="characters">Characters</a>
+  <a class="nav-btn" href="places">Places</a>
+</header>
+
+<section class="countdown-wrap">
+  <div class="clock">
+    <div class="unit"><div class="num" id="days">000</div></div>
+    <div class="unit"><div class="num" id="hours">00</div></div>
+    <div class="unit"><div class="num" id="minutes">00</div></div>
+    <div class="unit"><div class="num" id="seconds">00</div></div>
+  </div>
+</section>
+
 <script>
-// Countdown timer
-const targetDate = new Date('2026-11-18T00:00:00');
-const daysEl    = document.getElementById('days');
-const hoursEl   = document.getElementById('hours');
-const minutesEl = document.getElementById('minutes');
-const secondsEl = document.getElementById('seconds');
+/* MENU */
+const menuBtn=document.querySelector('.menu-btn');
+const pauseMenu=document.getElementById('pauseMenu');
+const items=[...document.querySelectorAll('.menu-item')];
+const selector=document.getElementById('selector');
+let index=0;
 
-function pad(n) { return String(n).padStart(2, '0'); }
+function updateSelector(){
+  const el=items[index];
+  selector.style.top=el.offsetTop+'px';
+}
+updateSelector();
 
-function updateCountdown() {
-  const now = new Date();
-  const diff = Math.floor((targetDate - now) / 1000);
-  if (diff <= 0) return;
-  daysEl.textContent    = Math.floor(diff / 86400);
-  hoursEl.textContent   = pad(Math.floor((diff % 86400) / 3600));
-  minutesEl.textContent = pad(Math.floor((diff % 3600) / 60));
-  secondsEl.textContent = pad(diff % 60);
+menuBtn.onclick=()=>{
+  pauseMenu.classList.toggle('active');
+  updateSelector();
+};
+
+items.forEach((item,i)=>{
+  item.addEventListener('mouseenter',()=>{
+    index=i;
+    updateSelector();
+  });
+  item.addEventListener('click',()=>{
+    const action=item.dataset.action;
+    if(action==='music'){toggleMusic();return;}
+    if(action) location.href=action;
+  });
+});
+
+/* KEYBOARD */
+document.addEventListener('keydown',(e)=>{
+  if(!pauseMenu.classList.contains('active')) return;
+  if(e.key==='ArrowDown'){index=(index+1)%items.length}
+  if(e.key==='ArrowUp'){index=(index-1+items.length)%items.length}
+  if(e.key==='Enter'){items[index].click()}
+  if(e.key==='Escape'){pauseMenu.classList.remove('active')}
+  updateSelector();
+});
+
+/* MUSIC */
+const music=document.getElementById('bgMusic');
+const musicState=document.getElementById('musicState');
+let musicOn=false, unlocked=false;
+
+function unlock(){
+  if(unlocked) return;
+  music.volume=.35;
+  music.play().then(()=>{music.pause();unlocked=true});
+}
+document.addEventListener('pointerdown',unlock,{once:true});
+
+function toggleMusic(){
+  unlock();
+  musicOn=!musicOn;
+  if(musicOn){music.play();musicState.textContent='ON'}
+  else{music.pause();musicState.textContent='OFF'}
 }
 
-updateCountdown();
-setInterval(updateCountdown, 1000);
-
-// Play music on first click
-const music = document.getElementById('bgMusic');
-document.addEventListener('click', () => {
-  music.volume = 0.45;
-  music.play();
-}, { once: true });
-
-// Update mouse position for neon glow
-document.addEventListener('mousemove', (e) => {
-  document.documentElement.style.setProperty('--mouse-x', e.clientX + 'px');
-  document.documentElement.style.setProperty('--mouse-y', e.clientY + 'px');
-});
+/* COUNTDOWN */
+const target=new Date('2026-11-18T00:00:00');
+const d=days,h=hours,m=minutes,s=seconds;
+function pad(n){return String(n).padStart(2,'0')}
+setInterval(()=>{
+  const diff=(target-new Date())/1000;
+  if(diff<=0)return;
+  d.textContent=Math.floor(diff/86400);
+  h.textContent=pad(diff%86400/3600|0);
+  m.textContent=pad(diff%3600/60|0);
+  s.textContent=pad(diff|0);
+},1000);
 </script>
+
 </body>
 </html>
