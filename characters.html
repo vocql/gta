@@ -18,7 +18,6 @@ body{
   color:#fff;
   min-height:100vh;
 }
-
  /* NAVBAR - matched to your home page */
 header{
   position:fixed;
@@ -50,7 +49,6 @@ header{
   background:rgba(255,255,255,0.14);
   transform:scale(1.05);
 }
-
 /* PAGE */
 .page{
   width:clamp(900px,90vw,1440px);
@@ -69,7 +67,6 @@ h1{
   grid-template-columns:repeat(auto-fill,minmax(340px,1fr));
   gap:32px;
 }
-
 /* SQUARE CARDS */
 .character-card{
   aspect-ratio: 1 / 1;
@@ -110,7 +107,6 @@ h1{
   text-shadow:0 4px 12px rgba(0,0,0,.95);
   letter-spacing:1px;
 }
-
 /* MODAL */
 .modal{
   position:fixed;
@@ -171,7 +167,6 @@ h1{
   color:#fff;
 }
 .close-btn:hover{opacity:1}
-
 /* MOBILE */
 @media(max-width:900px){
   .modal-content{grid-template-columns:1fr; padding:28px;}
@@ -191,64 +186,51 @@ h1{
   <a href="screenshots" class="nav-btn">Screenshots</a>
   <a href="trailers" class="nav-btn">Trailers</a>
 </header>
-
 <main class="page">
 <h1>GTA VI — Characters</h1>
 <div class="character-list">
-
   <div class="character-card" data-name="Lucia" data-img="gta/npc/lucia.jpg" data-desc="Lucia Caminos was raised on the unforgiving streets of Liberty City, where her father instilled in her the art of self-defense from a young age—skills that ultimately sent her to Leonida Penitentiary following a brutal confrontation while protecting her family. Released unexpectedly through a rare stroke of fortune, she is now single-minded in her determination to rewrite her future and deliver the comfortable, secure life her mother always envisioned for her.">
     <img src="gta/npc/lucia.jpg" alt="Lucia">
     <div class="card-overlay"><h2>Lucia</h2></div>
   </div>
-
   <div class="character-card" data-name="Jason" data-img="gta/npc/jason.jpg" data-desc="Jason Duval grew up surrounded by grifters and crooks in the Keys, joined the army to escape his troubled past, but returned to Leonida and fell back into drug running for local kingpins like Brian Heder. Sharp, deadly, and craving an easier life, he now lives rent-free on one of Brian's properties in exchange for handling dirty work — but meeting Lucia might change everything for better or worse. Their Bonnie-and-Clyde-style romance pulls him deeper into high-stakes crime, where every choice could lead to freedom or ruin.">
     <img src="gta/npc/jason.jpg" alt="Jason">
     <div class="card-overlay"><h2>Jason</h2></div>
   </div>
-
   <div class="character-card" data-name="Dre'Quan Preist" data-img="gta/npc/dre.jpg" data-desc="Dre'Quan Priest started as a street hustler dealing to survive, but music was always the real dream — he transitioned from gangster life to running Only Raw Records, signing hot talent like Real Dimez to chase Vice City's big stage. Partnered with Boobie Ike, he's booking acts and building an empire, leaving behind street deals for studio sessions and hits that could elevate them both. Ambitious and savvy, Dre'Quan bridges the gap between Vice City's underground and its legitimate spotlight, always one track away from making it big.">
     <img src="gta/npc/dre.jpg" alt="Dre'Quan Preist">
     <div class="card-overlay"><h2>Dre'Quan Preist</h2></div>
   </div>
-
   <div class="character-card" data-name="Stefanie" data-img="gta/npc/stefanie.png" data-desc="Stefanie works as a social worker for Leonida Corrections, dealing daily with a deeply broken prison system that chews up lives and spits them out unchanged. Frustrated by endless bureaucracy and lack of real reform, she's reached her breaking point and is ready to bend — or outright break — the rules to actually help those caught in the cycle. Her quiet determination hides a growing willingness to take risks, potentially crossing paths with Lucia and others in ways that blur the line between savior and outlaw.">
     <img src="gta/npc/stefanie.png" alt="Stefanie">
     <div class="card-overlay"><h2>Stefanie</h2></div>
   </div>
-
   <div class="character-card" data-name="Cal Hampton" data-img="gta/npc/cal.png" data-desc="Cal Hampton is Jason's longtime paranoid buddy who rarely leaves home, preferring to spend his days monitoring Coast Guard radio chatter, cracking open beers, and diving into private browser tabs for 'research.' His casual paranoia keeps him isolated but informed, making him a reluctant ally when bigger scores pull Jason — and by extension Cal — back into the chaos. Despite his reclusive nature, Cal's tech-savvy and street smarts make him surprisingly useful when the outside world forces its way in.">
     <img src="gta/npc/cal.png" alt="Cal Hampton">
     <div class="card-overlay"><h2>Cal Hampton</h2></div>
   </div>
-
   <div class="character-card" data-name="Boobie Ike" data-img="gta/npc/boobie.png" data-desc="Boobie Ike is a Vice City legend who clawed his way from the streets to build a sprawling empire of real estate, the Jack of Hearts strip club, and a recording studio through smarts, charm, and ruthless business sense. All smiles on the surface, he's deeply invested in turning Only Raw Records into a powerhouse alongside Dre'Quan Priest — but cross him, and the wide grin hides a deadly serious operator. His connections span Vice City's underworld and legitimate world, making him a key player in any big move.">
     <img src="gta/npc/boobie.png" alt="Boobie Ike">
     <div class="card-overlay"><h2>Boobie Ike</h2></div>
   </div>
-
   <div class="character-card" data-name="Roxy" data-img="gta/npc/dimez.webp" data-desc="Bae-Luxe and Roxy, known together as Real Dimez, have been high-school friends who turned shaking down local dealers into viral rap tracks and massive social media clout. Signed to Dre'Quan Priest's Only Raw Records under Boobie Ike's umbrella, they're fighting to drop the next big hit while staying relevant in Vice City's cutthroat music scene. Their street-hustle-to-stardom story blends raw talent, relentless promo, and the constant pressure of fame — one wrong move could end it all.">
     <img src="gta/npc/dimez.webp" alt="Roxy">
     <div class="card-overlay"><h2>Roxy</h2></div>
   </div>
-
   <div class="character-card" data-name="Raul Bautista" data-img="gta/npc/raul.png" data-desc="Raul Bautista is a veteran bank robber known for his old-school charm, ice-cold precision, and a reckless streak that keeps jobs exciting — and dangerous. Always scouting for the perfect crew to pull off the next big score, he thrives on high-risk heists and the thrill of the getaway. His experience makes him a valuable ally, but his impulsive side could turn any plan sideways in Leonida's unpredictable criminal landscape.">
     <img src="gta/npc/raul.png" alt="Raul Bautista">
     <div class="card-overlay"><h2>Raul Bautista</h2></div>
   </div>
-
   <div class="character-card" data-name="Brian Heder" data-img="gta/npc/brian.png" data-desc="Brian Heder is an old-school drug kingpin from the glory days of Keys smuggling, now running operations from his boat yard with his third wife Lori while letting younger crews handle the frontline risks. He provides Jason Duval a rent-free spot in exchange for muscle and favors, maintaining a deep, ruthless empire that still pulls strings across Leonida. Laid-back on the surface but always calculating, Brian embodies the enduring power of classic organized crime in a changing world.">
     <img src="gta/npc/brian.png" alt="Brian Heder">
     <div class="card-overlay"><h2>Brian Heder</h2></div>
   </div>
-
   <div class="character-card" data-name="Luxe" data-img="gta/npc/luxe.webp" data-desc="Luxe is one half of the viral rap duo Real Dimez, turning street-smart dealer shake-downs into bars, fame, and a relentless social media presence that caught Dre'Quan Priest's eye. Signed to Only Raw Records, she's fiercely ambitious and hungry to claim the throne in Vice City's music game alongside Roxy. Her raw talent and hustle make her a rising star, but the pressure of staying relevant — and the dangers of the streets she came from — keep every move high-stakes.">
     <img src="gta/npc/luxe.webp" alt="Luxe">
     <div class="card-overlay"><h2>Luxe</h2></div>
   </div>
-
 </div>
 </main>
-
 <!-- MODAL -->
 <div class="modal" id="modal">
   <div class="modal-content">
@@ -260,7 +242,6 @@ h1{
     </div>
   </div>
 </div>
-
 <script>
 const cards = document.querySelectorAll('.character-card');
 const modal = document.getElementById('modal');
@@ -268,7 +249,6 @@ const modalImg = document.getElementById('modalImg');
 const modalTitle = document.getElementById('modalTitle');
 const modalDesc = document.getElementById('modalDesc');
 const closeBtn = document.getElementById('closeBtn');
-
 cards.forEach(card => {
   card.onclick = () => {
     modalImg.src = card.dataset.img;
@@ -277,7 +257,6 @@ cards.forEach(card => {
     modal.classList.add('active');
   };
 });
-
 closeBtn.onclick = () => modal.classList.remove('active');
 modal.onclick = e => {
   if (e.target === modal) modal.classList.remove('active');
