@@ -24,7 +24,7 @@ body{
   background-position:center 40%;
 }
 
-/* ================= NAVBAR ================= */
+/* NAVBAR */
 header{
   position:fixed;
   top:18px;
@@ -38,7 +38,6 @@ header{
   background:rgba(0,0,0,0.25);
   box-shadow:0 6px 18px rgba(0,0,0,0.35);
 }
-
 .nav-btn{
   padding:9px 17px;
   border-radius:999px;
@@ -51,7 +50,7 @@ header{
 }
 .nav-btn:hover{background:rgba(255,255,255,0.14);transform:scale(1.05)}
 
-/* ================= TOP-LEFT MENU ================= */
+/* MENU */
 .menu-wrap{
   position:fixed;
   top:18px;
@@ -60,21 +59,16 @@ header{
   display:flex;
   align-items:center;
 }
-
 .menu-btn{
-  height:42px;
   width:42px;
+  height:42px;
   border-radius:50%;
   background:rgba(0,0,0,0.25);
   border:1px solid rgba(255,255,255,0.18);
   color:#fff;
   font-size:20px;
   cursor:pointer;
-  display:flex;
-  align-items:center;
-  justify-content:center;
 }
-
 .menu-panel{
   margin-left:12px;
   min-width:240px;
@@ -85,19 +79,15 @@ header{
   box-shadow:0 10px 30px rgba(0,0,0,0.45);
   display:none;
 }
-
 .menu-panel.active{display:block}
 
-.menu-section{
-  margin-bottom:16px;
-}
+.menu-section{margin-bottom:16px}
 .menu-title{
   font-size:12px;
   letter-spacing:1px;
   opacity:.7;
   margin-bottom:8px;
 }
-
 .menu-link{
   display:block;
   padding:8px 12px;
@@ -118,9 +108,10 @@ header{
   border-radius:10px;
   background:rgba(255,255,255,0.06);
   font-size:13px;
+  cursor:pointer;
 }
 
-/* ================= COUNTDOWN CARD ================= */
+/* COUNTDOWN */
 .countdown-wrap{
   border-radius:20px;
   padding:26px 34px;
@@ -132,16 +123,9 @@ header{
   border:2px solid #fff;
   box-shadow:0 0 16px rgba(255,255,255,0.3);
 }
-
 .title{font-size:32px;font-weight:900;margin-bottom:6px}
 .subtitle{font-size:14px;opacity:.85;margin-bottom:24px}
-
-/* Countdown */
-.clock{
-  display:flex;
-  gap:12px;
-  justify-content:center;
-}
+.clock{display:flex;gap:12px;justify-content:center}
 .unit{
   min-width:72px;
   padding:12px;
@@ -155,6 +139,11 @@ header{
 </head>
 
 <body>
+
+<!-- AUDIO -->
+<audio id="bgMusic" loop>
+  <source src="music/night.mp3" type="audio/mpeg">
+</audio>
 
 <!-- MENU -->
 <div class="menu-wrap">
@@ -173,9 +162,9 @@ header{
 
     <div class="menu-section">
       <div class="menu-title">SETTINGS</div>
-      <div class="toggle">Ambient FX <span>ON</span></div>
-      <div class="toggle">UI Animations <span>ON</span></div>
-      <div class="toggle">Soundtrack <span>OFF</span></div>
+      <div class="toggle" onclick="toggleMusic(this)">
+        Soundtrack <span id="musicState">OFF</span>
+      </div>
     </div>
   </div>
 </div>
@@ -202,11 +191,52 @@ header{
 </section>
 
 <script>
+/* MENU */
 function toggleMenu(){
   document.getElementById('menuPanel').classList.toggle('active');
 }
+
+/* MUSIC */
+const music = document.getElementById('bgMusic');
+let musicOn = false;
+let userInteracted = false;
+
+function toggleMusic(el){
+  if(!userInteracted){
+    music.play().catch(()=>{});
+    userInteracted = true;
+  }
+
+  musicOn = !musicOn;
+  if(musicOn){
+    music.volume = 0.35;
+    music.play();
+    document.getElementById('musicState').textContent = 'ON';
+  }else{
+    music.pause();
+    document.getElementById('musicState').textContent = 'OFF';
+  }
+}
+
+/* Countdown */
+const targetDate = new Date('2026-11-18T00:00:00');
+const d=document.getElementById('days'),
+h=document.getElementById('hours'),
+m=document.getElementById('minutes'),
+s=document.getElementById('seconds');
+
+function pad(n){return String(n).padStart(2,'0')}
+function update(){
+  const diff=Math.floor((targetDate-new Date())/1000);
+  if(diff<=0)return;
+  d.textContent=Math.floor(diff/86400);
+  h.textContent=pad(Math.floor(diff%86400/3600));
+  m.textContent=pad(Math.floor(diff%3600/60));
+  s.textContent=pad(diff%60);
+}
+update();
+setInterval(update,1000);
 </script>
 
 </body>
 </html>
-
