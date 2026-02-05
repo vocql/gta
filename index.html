@@ -9,23 +9,12 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{height:100%;overflow:hidden}
-:root{
-  --menu-bg-opacity:.32;
-  --menu-blur:12px;
-  --menu-scale:1;
-  --overlay-darkness:.15;
-}
 body{
   font-family:'Orbitron',sans-serif;
   background:
-    linear-gradient(
-      135deg,
-      rgba(0,0,0,var(--overlay-darkness)),
-      rgba(0,0,0,var(--overlay-darkness))
-    ),
     linear-gradient(135deg, rgba(255,77,210,0.15), rgba(0,255,224,0.10)),
     url('gta/jason.jpg') center/cover no-repeat fixed;
-  background-blend-mode:overlay;
+  background-blend-mode: overlay;
   color:#fff;
   display:flex;
   align-items:center;
@@ -33,178 +22,138 @@ body{
   background-position:center 40%;
 }
 /* ================= NAVBAR ================= */
-header{
-  position:fixed;
-  top:18px;
-  left:50%;
-  transform:translateX(-50%);
-  z-index:50;
-  display:flex;
-  gap:12px;
-  padding:8px 14px;
-  border-radius:999px;
-  background:rgba(0,0,0,0.25);
-  box-shadow:0 6px 18px rgba(0,0,0,0.35);
+header {
+  position: fixed;
+  top: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 50;
+  display: flex;
+  gap: 12px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.25);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+  transition: 0.25s;
 }
-.nav-btn{
-  padding:9px 17px;
-  border-radius:999px;
-  color:#fff;
-  font-weight:600;
-  text-decoration:none;
-  background:rgba(255,255,255,0.08);
-  border:1px solid rgba(255,255,255,0.18);
-  transition:.25s;
+header:hover {
+  box-shadow: 0 12px 40px rgba(255, 77, 210, 0.35);
 }
-.nav-btn:hover{
-  background:rgba(255,255,255,0.14);
-  transform:scale(1.05);
+.nav-btn {
+  padding: 9px 17px;
+  border-radius: 999px;
+  color: #fff;
+  font-weight: 600;
+  text-decoration: none;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: inset 0 1.2px 1.5px rgba(255, 255, 255, 0.4),
+              0 4px 18px rgba(0, 0, 0, 0.3);
+  transition: 0.25s;
 }
-/* ================= MENU ================= */
-.menu-wrap{
-  position:fixed;
-  top:18px;
-  left:18px;
-  z-index:55;
-  display:flex;
-  align-items:flex-start;
+.nav-btn:hover {
+  background: rgba(255, 255, 255, 0.14);
+  transform: scale(1.05);
 }
-.menu-btn{
-  width:46px;
-  height:46px;
-  border-radius:14px;
-  background:rgba(0,0,0,0.32);
-  border:1px solid rgba(255,255,255,0.2);
-  color:#fff;
-  font-size:20px;
-  cursor:pointer;
+/* ================= COUNTDOWN CARD ================= */
+.countdown-wrap {
+  backdrop-filter: blur(1px);
+  border-radius: 20px;
+  padding: 26px 34px;
+  text-align: center;
+  width: 88%;
+  max-width: 600px;
+  margin-top: 120px;
+  background: rgba(0,0,0,0.25);
+  border: 2px solid #fff;
+  box-shadow: 0 0 16px rgba(255,255,255,0.3);
 }
-.menu-panel{
-  margin-left:14px;
-  width:280px;
-  padding:18px;
-  border-radius:22px;
-  background:rgba(0,0,0,var(--menu-bg-opacity));
-  backdrop-filter:blur(var(--menu-blur));
-  transform:scale(var(--menu-scale));
-  border:1px solid rgba(255,255,255,0.18);
-  box-shadow:0 18px 40px rgba(0,0,0,0.55);
-  display:none;
+.title{
+  font-size:32px;
+  font-weight:900;
+  margin-bottom:6px;
+  letter-spacing:1px;
 }
-.menu-panel.active{display:block}
-.menu-title{
-  font-size:11px;
-  letter-spacing:2px;
-  opacity:.55;
-  margin-bottom:10px;
+.subtitle{
+  font-size:14px;
+  opacity:.85;
+  letter-spacing:1px;
+  margin-bottom:24px;
   text-transform:uppercase;
 }
-.menu-link,.toggle{
+/* Countdown */
+.clock{
   display:flex;
-  justify-content:space-between;
-  padding:10px 14px;
-  border-radius:14px;
-  background:rgba(255,255,255,0.06);
-  margin-bottom:8px;
-  color:#fff;
-  cursor:pointer;
-  text-decoration:none;
+  gap:12px;
+  justify-content:center;
+  flex-wrap:nowrap;
+  margin-bottom:24px;
 }
-.menu-link:hover,.toggle:hover{
-  background:rgba(255,255,255,0.16);
-}
-/* ================= SETTINGS PANEL ================= */
-.settings-panel{
-  margin-left:14px;
-  width:320px;
-  padding:18px;
-  border-radius:22px;
-  background:rgba(0,0,0,0.45);
-  backdrop-filter:blur(16px);
-  border:1px solid rgba(255,255,255,0.2);
-  box-shadow:0 22px 50px rgba(0,0,0,.65);
-  display:none;
-}
-.settings-panel.active{display:block}
-.setting{
-  margin-bottom:16px;
-}
-.setting label{
-  font-size:12px;
-  opacity:.8;
-  display:block;
-  margin-bottom:6px;
-}
-.setting input[type=range]{
-  width:100%;
-}
-/* ================= COUNTDOWN ================= */
-.countdown-wrap{
-  border-radius:20px;
-  padding:26px 34px;
-  text-align:center;
-  width:88%;
-  max-width:600px;
-  margin-top:120px;
-  background:rgba(0,0,0,0.25);
-  border:2px solid #fff;
-}
-.title{font-size:32px;font-weight:900}
-.subtitle{font-size:14px;opacity:.85;margin-bottom:24px}
-.clock{display:flex;gap:12px;justify-content:center}
 .unit{
   min-width:72px;
-  padding:12px;
+  padding:12px 10px;
   border-radius:12px;
   background:rgba(0,0,0,0.35);
+  border:1px solid rgba(255,255,255,0.15);
 }
-.num{font-size:32px;font-weight:900}
-.label{font-size:11px;opacity:.8}
+.num{
+  font-size:32px;
+  font-weight:900;
+  color:#fff;
+  line-height:1;
+  text-shadow: 0 0 6px rgba(255,255,255,0.35),0 0 14px rgba(255,255,255,0.15);
+}
+.label{
+  font-size:11px;
+  margin-top:6px;
+  text-transform:uppercase;
+  opacity:.8;
+  letter-spacing:1px;
+}
+/* Launch buttons */
+.launch-buttons{
+  display:none;
+  margin-top:24px;
+  gap:14px;
+  justify-content:center;
+  flex-wrap:wrap;
+}
+.launch-btn{
+  padding:12px 24px;
+  border-radius:999px;
+  color:#fff;
+  font-size:14px;
+  font-weight:700;
+  text-decoration:none;
+  background:rgba(255,255,255,0.08);
+  border:1px solid rgba(255,255,255,0.2);
+  box-shadow:inset 0 1.2px 1.5px rgba(255,255,255,0.4),0 6px 18px rgba(0,0,0,0.35);
+  backdrop-filter:blur(12px);
+  transition:.25s ease;
+}
+.launch-btn:hover {
+  background:rgba(255,255,255,0.14);
+  transform:translateY(-2px) scale(1.06);
+  box-shadow:inset 0 1.2px 1.5px rgba(255,255,255,0.45),0 0 22px rgba(255,255,255,0.35);
+}
+/* Confetti */
+.confetti{
+  position:fixed;
+  top:-10px;
+  width:8px;
+  height:14px;
+  animation:fall linear forwards;
+  z-index:9999;
+}
+@keyframes fall{
+  to{
+    transform:translateY(110vh) rotate(720deg);
+    opacity:0;
+  }
+}
 </style>
 </head>
 <body>
-<audio id="bgMusic" loop>
-  <source src="music/night.mp3" type="audio/mpeg">
-</audio>
-
-<div class="menu-wrap">
-  <button class="menu-btn">☰</button>
-  <div class="menu-panel" id="menuPanel">
-    <div class="menu-title">Pages</div>
-    <a class="menu-link" href="index">Home</a>
-    <a class="menu-link" href="map">Map</a>
-    <a class="menu-link" href="characters">Characters</a>
-    <a class="menu-link" href="places">Places</a>
-    <a class="menu-link" href="screenshots">Screenshots</a>
-    <a class="menu-link" href="trailers">Trailers</a>
-    <div class="menu-title" style="margin-top:14px">Settings</div>
-    <div class="toggle" id="musicToggle">
-      Soundtrack <span id="musicState">OFF</span>
-    </div>
-    <div class="toggle" id="openSettings">Menu Settings →</div>
-  </div>
-
-  <div class="settings-panel" id="settingsPanel">
-    <div class="menu-title">Menu Visibility</div>
-    <div class="setting">
-      <label>Menu Opacity</label>
-      <input type="range" min="0.15" max="0.8" step="0.01" id="menuOpacity" value="0.32">
-    </div>
-    <div class="setting">
-      <label>Menu Blur</label>
-      <input type="range" min="0" max="24" step="1" id="menuBlur" value="12">
-    </div>
-    <div class="setting">
-      <label>Menu Scale</label>
-      <input type="range" min="0.9" max="1.05" step="0.01" id="menuScale" value="1">
-    </div>
-    <div class="setting">
-      <label>Background Darkening</label>
-      <input type="range" min="0" max="0.4" step="0.01" id="bgDark" value="0.15">
-    </div>
-  </div>
-</div>
-
 <header>
   <a href="index" class="nav-btn">Home</a>
   <a href="map" class="nav-btn">Map</a>
@@ -213,7 +162,7 @@ header{
   <a href="screenshots" class="nav-btn">Screenshots</a>
   <a href="trailers" class="nav-btn">Trailers</a>
 </header>
-  
+
 <section class="countdown-wrap">
   <h1 class="title">Grand Theft Auto VI</h1>
   <div class="subtitle">RELEASE COUNTDOWN – NOVEMBER 19TH, 2026</div>
@@ -223,141 +172,62 @@ header{
     <div class="unit"><div class="num" id="minutes">00</div><div class="label">MINUTES</div></div>
     <div class="unit"><div class="num" id="seconds">00</div><div class="label">SECONDS</div></div>
   </div>
+  <div class="launch-buttons" id="launchButtons">
+    <a href="preorder" class="launch-btn">Pre-Order</a>
+    <a href="map" class="launch-btn">Map</a>
+    <a href="trailers" class="launch-btn">Trailers</a>
+  </div>
 </section>
 
 <script>
-/* ================= MENU & SETTINGS HANDLING ================= */
-
-const menuBtn = document.querySelector('.menu-btn');
-const menuPanel = document.getElementById('menuPanel');
-const settingsPanel = document.getElementById('settingsPanel');
-
-// Close both panels when clicking outside the menu-wrap area
-document.addEventListener('click', (e) => {
-  if (!e.target.closest('.menu-wrap')) {
-    menuPanel.classList.remove('active');
-    settingsPanel.classList.remove('active');
-  }
-});
-
-// Prevent clicks inside panels from closing them
-menuPanel.addEventListener('click', e => e.stopPropagation());
-settingsPanel.addEventListener('click', e => e.stopPropagation());
-
-// Especially important for sliders and toggles
-document.querySelectorAll('.menu-panel *, .settings-panel *').forEach(el => {
-  el.addEventListener('mousedown', e => e.stopPropagation());
-  el.addEventListener('pointerdown', e => e.stopPropagation());
-  el.addEventListener('click', e => e.stopPropagation());
-});
-
-// Menu button toggle
-menuBtn.onclick = (e) => {
-  e.stopPropagation();
-  menuPanel.classList.toggle('active');
-  // Optional: close settings when opening main menu
-  // settingsPanel.classList.remove('active');
-};
-
-// Open settings
-document.getElementById('openSettings').onclick = (e) => {
-  e.stopPropagation();
-  settingsPanel.classList.toggle('active');
-};
-
-/* ================= MUSIC ================= */
-
-const music = document.getElementById('bgMusic');
-const musicToggle = document.getElementById('musicToggle');
-const musicState = document.getElementById('musicState');
-let musicOn = false;
-let unlocked = false;
-
-function unlockAudio() {
-  if (unlocked) return;
-  music.volume = 0.35;
-  music.play().then(() => music.pause()).catch(() => {});
-  unlocked = true;
-}
-
-document.addEventListener('pointerdown', unlockAudio, {once: true});
-
-musicToggle.onclick = (e) => {
-  e.stopPropagation();
-  unlockAudio();
-  musicOn = !musicOn;
-  if (musicOn) {
-    music.play();
-    musicState.textContent = 'ON';
-  } else {
-    music.pause();
-    musicState.textContent = 'OFF';
-  }
-};
-
-/* ================= SETTINGS ================= */
-
-const root = document.documentElement;
-
-const save = (key, value) => localStorage.setItem(key, value);
-const load = (key, defaultValue) => localStorage.getItem(key) || defaultValue;
-
-const menuOpacity = document.getElementById('menuOpacity');
-const menuBlur    = document.getElementById('menuBlur');
-const menuScale   = document.getElementById('menuScale');
-const bgDark      = document.getElementById('bgDark');
-
-// Load saved values
-menuOpacity.value = load('menuOpacity', '0.32');
-menuBlur.value    = load('menuBlur', '12');
-menuScale.value   = load('menuScale', '1');
-bgDark.value      = load('bgDark', '0.15');
-
-function applySettings() {
-  root.style.setProperty('--menu-bg-opacity', menuOpacity.value);
-  root.style.setProperty('--menu-blur', menuBlur.value + 'px');
-  root.style.setProperty('--menu-scale', menuScale.value);
-  root.style.setProperty('--overlay-darkness', bgDark.value);
-}
-
-// Update on change
-[menuOpacity, menuBlur, menuScale, bgDark].forEach(input => {
-  input.addEventListener('input', () => {
-    save(input.id, input.value);
-    applySettings();
-  });
-});
-
-// Initial apply
-applySettings();
-
-/* ================= COUNTDOWN ================= */
-
 const targetDate = new Date('2026-11-18T00:00:00');
-const daysEl   = document.getElementById('days');
-const hoursEl  = document.getElementById('hours');
+let hasLaunched = false;
+
+const daysEl    = document.getElementById('days');
+const hoursEl   = document.getElementById('hours');
 const minutesEl = document.getElementById('minutes');
 const secondsEl = document.getElementById('seconds');
 
-const pad = n => String(n).padStart(2, '0');
+function pad(n){return String(n).padStart(2,'0')}
 
-setInterval(() => {
+function celebrate(){
+  for(let i=0;i<120;i++){
+    const c = document.createElement('div');
+    c.className = 'confetti';
+    c.style.left = Math.random()*100+'vw';
+    c.style.background = `hsl(${200+Math.random()*40},20%,90%)`;
+    c.style.animationDuration = (2+Math.random()*3)+'s';
+    document.body.appendChild(c);
+    setTimeout(()=>c.remove(),5000);
+  }
+}
+
+function enterLaunchMode(){
+  if(hasLaunched) return;
+  hasLaunched = true;
+  document.querySelector('.clock').style.display = 'none';
+  document.getElementById('launchButtons').style.display = 'flex';
+  document.querySelector('.subtitle').textContent = 'NOW AVAILABLE – WELCOME TO LEONIDA';
+  celebrate();
+}
+
+function updateCountdown(){
   const now = new Date();
-  let diff = (targetDate - now) / 1000;
+  const diff = Math.floor((targetDate - now)/1000);
 
-  if (diff <= 0) {
-    daysEl.textContent = '000';
-    hoursEl.textContent = '00';
-    minutesEl.textContent = '00';
-    secondsEl.textContent = '00';
+  if(diff <= 0){
+    enterLaunchMode();
     return;
   }
 
-  daysEl.textContent = Math.floor(diff / 86400);
-  hoursEl.textContent = pad(Math.floor((diff % 86400) / 3600));
+  daysEl.textContent    = Math.floor(diff / 86400);
+  hoursEl.textContent   = pad(Math.floor((diff % 86400) / 3600));
   minutesEl.textContent = pad(Math.floor((diff % 3600) / 60));
-  secondsEl.textContent = pad(Math.floor(diff % 60));
-}, 1000);
+  secondsEl.textContent = pad(diff % 60);
+}
+
+updateCountdown();
+setInterval(updateCountdown, 1000);
 </script>
 </body>
 </html>
