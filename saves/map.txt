@@ -160,12 +160,6 @@ header{
         sandbox="allow-same-origin allow-scripts allow-forms allow-popups"
       ></iframe>
 
-      <!-- Fallback if embed blocked -->
-      <div class="fallback" id="fallback">
-        Sorry, the map could not be embedded. You can <a href="https://map.stateofleonida.net/" target="_blank">view it here</a>.
-      </div>
-    </div>
-  </div>
 
   <script>
     // Detect if iframe is blocked
