@@ -1,163 +1,175 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>VI | Home</title>
-<link rel="icon" href="gta/npc/lucia.jpg" type="image/jpg">
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
-<style>
-  /* your existing styles remain unchanged */
-  *{margin:0;padding:0;box-sizing:border-box}
-  html,body{height:100%;overflow:hidden}
-  body{
-    font-family:'Orbitron',sans-serif;
-    background:
-      linear-gradient(135deg, rgba(255,77,210,0.15), rgba(0,255,224,0.10)),
-      url('gta/jason.jpg') center/cover no-repeat fixed;
-    background-blend-mode: overlay;
-    color:#fff;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    background-position:center 40%;
-  }
-  /* ... rest of your styles ... */
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>404 | VI</title>
+  <link rel="icon" href="gta/npc/lucia.jpg" type="image/jpg">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
   
-  /* Optional: very subtle volume control hint (can be removed) */
-  #audio-control {
-    position: fixed;
-    bottom: 16px;
-    right: 16px;
-    z-index: 100;
-    background: rgba(0,0,0,0.4);
-    padding: 8px 14px;
-    border-radius: 999px;
-    font-size: 13px;
-    opacity: 0.7;
-    pointer-events: none;
-  }
-</style>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    html, body {
+      height: 100%;
+      overflow: hidden;
+    }
+    
+    body {
+      font-family: 'Orbitron', sans-serif;
+      background: 
+        linear-gradient(135deg, rgba(255,77,210,0.12), rgba(0,255,224,0.08)),
+        url('gta/jason.jpg') center/cover no-repeat fixed;
+      background-blend-mode: overlay;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      background-position: center 40%;
+    }
+    
+    .error-container {
+      max-width: 720px;
+      padding: 40px 20px;
+      backdrop-filter: blur(6px);
+      background: rgba(0, 0, 0, 0.35);
+      border: 2px solid rgba(255, 255, 255, 0.18);
+      border-radius: 24px;
+      box-shadow: 
+        0 0 40px rgba(255, 77, 210, 0.25),
+        inset 0 0 20px rgba(0, 255, 224, 0.08);
+    }
+    
+    .error-code {
+      font-size: 140px;
+      font-weight: 900;
+      line-height: 0.9;
+      letter-spacing: -8px;
+      background: linear-gradient(90deg, #ff4dd2, #00ffe0, #ff4dd2);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 0 30px rgba(255, 77, 210, 0.6);
+      margin-bottom: 16px;
+    }
+    
+    .error-title {
+      font-size: 48px;
+      font-weight: 700;
+      margin-bottom: 20px;
+      letter-spacing: 2px;
+    }
+    
+    .error-message {
+      font-size: 20px;
+      opacity: 0.9;
+      margin-bottom: 36px;
+      line-height: 1.5;
+    }
+    
+    .glitch {
+      position: relative;
+      animation: glitch 3s infinite;
+    }
+    
+    .glitch::before,
+    .glitch::after {
+      content: attr(data-text);
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0.8;
+    }
+    
+    .glitch::before {
+      left: 2px;
+      text-shadow: -2px 0 #ff4dd2;
+      clip: rect(0, 900px, 0, 0);
+      animation: glitch-anim 2s infinite linear alternate-reverse;
+    }
+    
+    .glitch::after {
+      left: -2px;
+      text-shadow: 2px 0 #00ffe0;
+      clip: rect(0, 900px, 0, 0);
+      animation: glitch-anim2 3s infinite linear alternate-reverse;
+    }
+    
+    .back-btn {
+      display: inline-block;
+      padding: 14px 36px;
+      font-size: 18px;
+      font-weight: 700;
+      color: #fff;
+      text-decoration: none;
+      background: rgba(255, 255, 255, 0.08);
+      border: 2px solid rgba(0, 255, 224, 0.4);
+      border-radius: 999px;
+      backdrop-filter: blur(10px);
+      box-shadow: 
+        inset 0 1px 4px rgba(255,255,255,0.25),
+        0 8px 30px rgba(0, 255, 224, 0.25);
+      transition: all 0.3s ease;
+    }
+    
+    .back-btn:hover {
+      transform: translateY(-3px) scale(1.05);
+      background: rgba(255, 255, 255, 0.15);
+      border-color: #00ffe0;
+      box-shadow: 
+        inset 0 1px 6px rgba(255,255,255,0.4),
+        0 12px 40px rgba(0, 255, 224, 0.45);
+    }
+    
+    @keyframes glitch {
+      0%, 100% { transform: translate(0); }
+      20% { transform: translate(-2px, 2px); }
+      40% { transform: translate(2px, -2px); }
+      60% { transform: translate(-1px, 1px); }
+      80% { transform: translate(1px, -1px); }
+    }
+    
+    @keyframes glitch-anim {
+      0% { clip: rect(42px, 9999px, 84px, 0); }
+      5% { clip: rect(17px, 9999px, 94px, 0); }
+      10% { clip: rect(63px, 9999px, 104px, 0); }
+      /* ... more random values possible ... */
+      100% { clip: rect(79px, 9999px, 119px, 0); }
+    }
+    
+    @keyframes glitch-anim2 {
+      0% { clip: rect(65px, 9999px, 119px, 0); }
+      5% { clip: rect(38px, 9999px, 77px, 0); }
+      10% { clip: rect(86px, 9999px, 108px, 0); }
+      /* ... */
+      100% { clip: rect(25px, 9999px, 102px, 0); }
+    }
+    
+    @media (max-width: 600px) {
+      .error-code { font-size: 100px; }
+      .error-title { font-size: 36px; }
+      .error-message { font-size: 18px; }
+    }
+  </style>
 </head>
 <body>
 
-<!-- Audio element - placed early in body -->
-<audio id="bgm" loop preload="auto">
-  <source src="music/night.mp3" type="audio/mpeg">
-  Your browser does not support the audio element.
-</audio>
-
-<!-- Optional small indicator (can be removed) -->
-<div id="audio-control">♪ playing</div>
-
-<header>
-  <a href="index" class="nav-btn">Home</a>
-  <a href="map" class="nav-btn">Map</a>
-  <a href="characters" class="nav-btn">Characters</a>
-  <a href="places" class="nav-btn">Places</a>
-  <a href="screenshots" class="nav-btn">Screenshots</a>
-  <a href="trailers" class="nav-btn">Trailers</a>
-</header>
-
-<section class="countdown-wrap">
-  <h1 class="title">Grand Theft Auto VI</h1>
-  <div class="subtitle">RELEASE COUNTDOWN – NOVEMBER 19TH, 2026</div>
-  <div class="clock">
-    <div class="unit"><div class="num" id="days">000</div><div class="label">DAYS</div></div>
-    <div class="unit"><div class="num" id="hours">00</div><div class="label">HOURS</div></div>
-    <div class="unit"><div class="num" id="minutes">00</div><div class="label">MINUTES</div></div>
-    <div class="unit"><div class="num" id="seconds">00</div><div class="label">SECONDS</div></div>
+  <div class="error-container">
+    <div class="error-code glitch" data-text="404">404</div>
+    <h1 class="error-title">PAGE NOT FOUND</h1>
+    <p class="error-message">
+      The page you're looking for seems to have driven off into Vice City...<br>
+      or maybe it's just lost somewhere in Leonida.
+    </p>
+    
+    <a href="index" class="back-btn">RETURN TO HOME</a>
   </div>
-  <div class="launch-buttons" id="launchButtons">
-    <a href="preorder" class="launch-btn">Pre-Order</a>
-    <a href="map" class="launch-btn">Map</a>
-    <a href="trailers" class="launch-btn">Trailers</a>
-  </div>
-</section>
 
-<script>
-// Audio autoplay handling
-const audio = document.getElementById('bgm');
-
-// Try to play immediately
-function tryPlayAudio() {
-  audio.play()
-    .then(() => {
-      // Successfully started playing
-      console.log("Background music started");
-    })
-    .catch(err => {
-      // Most common reason: browser autoplay policy (needs user interaction)
-      console.log("Autoplay prevented:", err);
-      
-      // Fallback: play on first user interaction
-      const resumeAudio = () => {
-        audio.play().catch(()=>{});
-        document.removeEventListener('click', resumeAudio);
-        document.removeEventListener('touchstart', resumeAudio);
-      };
-      document.addEventListener('click', resumeAudio);
-      document.addEventListener('touchstart', resumeAudio);
-    });
-}
-
-// Start attempting playback right away
-tryPlayAudio();
-
-// Also try again when page becomes visible (good for mobile / tab switch)
-document.addEventListener('visibilitychange', () => {
-  if (document.visibilityState === 'visible' && audio.paused) {
-    tryPlayAudio();
-  }
-});
-
-// Your existing countdown code
-const targetDate = new Date('2026-11-18T00:00:00');
-let hasLaunched = false;
-const daysEl = document.getElementById('days');
-const hoursEl = document.getElementById('hours');
-const minutesEl = document.getElementById('minutes');
-const secondsEl = document.getElementById('seconds');
-
-function pad(n){return String(n).padStart(2,'0')}
-
-function celebrate(){
-  for(let i=0;i<120;i++){
-    const c = document.createElement('div');
-    c.className = 'confetti';
-    c.style.left = Math.random()*100+'vw';
-    c.style.background = `hsl(${200+Math.random()*40},20%,90%)`;
-    c.style.animationDuration = (2+Math.random()*3)+'s';
-    document.body.appendChild(c);
-    setTimeout(()=>c.remove(),5000);
-  }
-}
-
-function enterLaunchMode(){
-  if(hasLaunched) return;
-  hasLaunched = true;
-  document.querySelector('.clock').style.display = 'none';
-  document.getElementById('launchButtons').style.display = 'flex';
-  document.querySelector('.subtitle').textContent = 'NOW AVAILABLE – WELCOME TO LEONIDA';
-  celebrate();
-  // Optional: you could also increase volume or change track here when it launches
-}
-
-function updateCountdown(){
-  const now = new Date();
-  const diff = Math.floor((targetDate - now)/1000);
-  if(diff <= 0){
-    enterLaunchMode();
-    return;
-  }
-  daysEl.textContent = Math.floor(diff / 86400);
-  hoursEl.textContent = pad(Math.floor((diff % 86400) / 3600));
-  minutesEl.textContent = pad(Math.floor((diff % 3600) / 60));
-  secondsEl.textContent = pad(diff % 60);
-}
-
-updateCountdown();
-setInterval(updateCountdown, 1000);
-</script>
 </body>
 </html>
