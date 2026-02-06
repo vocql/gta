@@ -6,76 +6,101 @@
   <title>404 | VI</title>
   <link rel="icon" href="gta/npc/lucia.jpg" type="image/jpg">
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
-  
+
   <style>
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
     }
-    
+
     html, body {
       height: 100%;
       overflow: hidden;
     }
-    
+
     body {
       font-family: 'Orbitron', sans-serif;
-      background: 
-        linear-gradient(135deg, rgba(255,77,210,0.12), rgba(0,255,224,0.08)),
+      background:
+        linear-gradient(135deg, rgba(255,77,210,0.12), rgba(0,255,224,0.07)),
         url('gta/jason.jpg') center/cover no-repeat fixed;
       background-blend-mode: overlay;
-      color: #fff;
+      color: #ffffff;
       display: flex;
       align-items: center;
       justify-content: center;
-      text-align: center;
       background-position: center 40%;
     }
-    
+
     .error-container {
-      max-width: 720px;
-      padding: 40px 20px;
-      backdrop-filter: blur(6px);
-      background: rgba(0, 0, 0, 0.35);
-      border: 2px solid rgba(255, 255, 255, 0.18);
+      width: 90%;
+      max-width: 620px;
+      padding: 50px 35px;
       border-radius: 24px;
+      background: rgba(0, 0, 0, 0.22);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
       box-shadow: 
-        0 0 40px rgba(255, 77, 210, 0.25),
-        inset 0 0 20px rgba(0, 255, 224, 0.08);
+        0 8px 32px rgba(0, 0, 0, 0.35),
+        inset 0 0 20px rgba(255, 255, 255, 0.03);
+      text-align: center;
     }
-    
+
     .error-code {
       font-size: 140px;
       font-weight: 900;
-      line-height: 0.9;
-      letter-spacing: -8px;
+      line-height: 0.85;
+      letter-spacing: -6px;
       background: linear-gradient(90deg, #ff4dd2, #00ffe0, #ff4dd2);
       -webkit-background-clip: text;
+      background-clip: text;
       -webkit-text-fill-color: transparent;
-      text-shadow: 0 0 30px rgba(255, 77, 210, 0.6);
-      margin-bottom: 16px;
+      text-shadow: 0 0 30px rgba(255, 77, 210, 0.5);
+      margin-bottom: 12px;
     }
-    
+
     .error-title {
-      font-size: 48px;
+      font-size: 42px;
       font-weight: 700;
-      margin-bottom: 20px;
-      letter-spacing: 2px;
+      letter-spacing: 3px;
+      margin-bottom: 18px;
+      opacity: 0.95;
     }
-    
+
     .error-message {
-      font-size: 20px;
-      opacity: 0.9;
-      margin-bottom: 36px;
-      line-height: 1.5;
+      font-size: 18px;
+      line-height: 1.6;
+      opacity: 0.82;
+      margin-bottom: 40px;
     }
-    
+
+    .back-btn {
+      display: inline-block;
+      padding: 14px 38px;
+      font-size: 17px;
+      font-weight: 700;
+      color: white;
+      text-decoration: none;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(0, 255, 224, 0.35);
+      border-radius: 999px;
+      backdrop-filter: blur(10px);
+      transition: all 0.3s ease;
+    }
+
+    .back-btn:hover {
+      background: rgba(255, 255, 255, 0.13);
+      border-color: rgba(0, 255, 224, 0.7);
+      transform: translateY(-3px);
+      box-shadow: 0 12px 30px rgba(0, 255, 224, 0.35);
+    }
+
     .glitch {
       position: relative;
-      animation: glitch 3s infinite;
+      animation: glitch-skew 4s infinite;
     }
-    
+
     .glitch::before,
     .glitch::after {
       content: attr(data-text);
@@ -84,77 +109,53 @@
       left: 0;
       width: 100%;
       height: 100%;
-      opacity: 0.8;
+      opacity: 0.7;
     }
-    
+
     .glitch::before {
-      left: 2px;
-      text-shadow: -2px 0 #ff4dd2;
-      clip: rect(0, 900px, 0, 0);
-      animation: glitch-anim 2s infinite linear alternate-reverse;
+      left: 3px;
+      text-shadow: -3px 0 #ff4dd2;
+      clip: rect(0, 9999px, 0, 0);
+      animation: glitch-anim 2.5s infinite linear alternate-reverse;
     }
-    
+
     .glitch::after {
-      left: -2px;
-      text-shadow: 2px 0 #00ffe0;
-      clip: rect(0, 900px, 0, 0);
-      animation: glitch-anim2 3s infinite linear alternate-reverse;
+      left: -3px;
+      text-shadow: 3px 0 #00ffe0;
+      clip: rect(0, 9999px, 0, 0);
+      animation: glitch-anim2 3.2s infinite linear alternate-reverse;
     }
-    
-    .back-btn {
-      display: inline-block;
-      padding: 14px 36px;
-      font-size: 18px;
-      font-weight: 700;
-      color: #fff;
-      text-decoration: none;
-      background: rgba(255, 255, 255, 0.08);
-      border: 2px solid rgba(0, 255, 224, 0.4);
-      border-radius: 999px;
-      backdrop-filter: blur(10px);
-      box-shadow: 
-        inset 0 1px 4px rgba(255,255,255,0.25),
-        0 8px 30px rgba(0, 255, 224, 0.25);
-      transition: all 0.3s ease;
+
+    @keyframes glitch-skew {
+      0%, 100% { transform: skew(0deg); }
+      10% { transform: skew(2deg); }
+      20% { transform: skew(-2deg); }
+      30% { transform: skew(1deg); }
     }
-    
-    .back-btn:hover {
-      transform: translateY(-3px) scale(1.05);
-      background: rgba(255, 255, 255, 0.15);
-      border-color: #00ffe0;
-      box-shadow: 
-        inset 0 1px 6px rgba(255,255,255,0.4),
-        0 12px 40px rgba(0, 255, 224, 0.45);
-    }
-    
-    @keyframes glitch {
-      0%, 100% { transform: translate(0); }
-      20% { transform: translate(-2px, 2px); }
-      40% { transform: translate(2px, -2px); }
-      60% { transform: translate(-1px, 1px); }
-      80% { transform: translate(1px, -1px); }
-    }
-    
+
     @keyframes glitch-anim {
-      0% { clip: rect(42px, 9999px, 84px, 0); }
-      5% { clip: rect(17px, 9999px, 94px, 0); }
-      10% { clip: rect(63px, 9999px, 104px, 0); }
-      /* ... more random values possible ... */
-      100% { clip: rect(79px, 9999px, 119px, 0); }
+      0%   { clip: rect(30px, 9999px, 90px, 0); }
+      20%  { clip: rect(85px, 9999px, 130px, 0); }
+      40%  { clip: rect(10px, 9999px, 60px, 0); }
+      60%  { clip: rect(70px, 9999px, 140px, 0); }
+      80%  { clip: rect(40px, 9999px, 100px, 0); }
+      100% { clip: rect(55px, 9999px, 115px, 0); }
     }
-    
+
     @keyframes glitch-anim2 {
-      0% { clip: rect(65px, 9999px, 119px, 0); }
-      5% { clip: rect(38px, 9999px, 77px, 0); }
-      10% { clip: rect(86px, 9999px, 108px, 0); }
-      /* ... */
-      100% { clip: rect(25px, 9999px, 102px, 0); }
+      0%   { clip: rect(65px, 9999px, 120px, 0); }
+      20%  { clip: rect(25px, 9999px, 80px, 0); }
+      40%  { clip: rect(95px, 9999px, 145px, 0); }
+      60%  { clip: rect(5px, 9999px, 55px, 0); }
+      80%  { clip: rect(75px, 9999px, 135px, 0); }
+      100% { clip: rect(45px, 9999px, 105px, 0); }
     }
-    
+
     @media (max-width: 600px) {
-      .error-code { font-size: 100px; }
-      .error-title { font-size: 36px; }
-      .error-message { font-size: 18px; }
+      .error-code   { font-size: 110px; }
+      .error-title  { font-size: 34px; }
+      .error-message { font-size: 16px; }
+      .error-container { padding: 40px 25px; }
     }
   </style>
 </head>
@@ -164,11 +165,11 @@
     <div class="error-code glitch" data-text="404">404</div>
     <h1 class="error-title">PAGE NOT FOUND</h1>
     <p class="error-message">
-      The page you're looking for seems to have driven off into Vice City...<br>
-      or maybe it's just lost somewhere in Leonida.
+      Looks like you took a wrong turn in Leonida...<br>
+      This road doesn't exist — yet.
     </p>
-    
-    <a href="index" class="back-btn">RETURN TO HOME</a>
+
+    <a href="index" class="back-btn">BACK TO VICE CITY</a>
   </div>
 
 </body>
