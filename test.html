@@ -4,12 +4,14 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>VI | Home</title>
+
 <link rel="icon" href="gta/npc/lucia.jpg" type="image/jpg">
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{height:100%;overflow:hidden}
+
 body{
   font-family:'Orbitron',sans-serif;
   background:
@@ -24,44 +26,49 @@ body{
 }
 
 /* ================= NAVBAR ================= */
-header {
-  position: fixed;
-  top: 18px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 50;
-  display: flex;
-  gap: 12px;
-  padding: 8px 14px;
-  border-radius: 999px;
-  background: rgba(0, 0, 0, 0.25);
+header{
+  position:fixed;
+  top:18px;
+  left:50%;
+  transform:translateX(-50%);
+  z-index:50;
+  display:flex;
+  gap:12px;
+  padding:8px 14px;
+  border-radius:999px;
+  background:rgba(0,0,0,0.25);
 }
-.nav-btn {
-  padding: 9px 17px;
-  border-radius: 999px;
-  color: #fff;
-  font-weight: 600;
-  text-decoration: none;
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.18);
+.nav-btn{
+  padding:9px 17px;
+  border-radius:999px;
+  color:#fff;
+  font-weight:600;
+  text-decoration:none;
+  background:rgba(255,255,255,0.08);
+  border:1px solid rgba(255,255,255,0.18);
 }
-.nav-btn:hover { transform: scale(1.05); }
+.nav-btn:hover{transform:scale(1.05)}
 
 /* ================= COUNTDOWN ================= */
-.countdown-wrap {
-  backdrop-filter: blur(1px);
-  border-radius: 20px;
-  padding: 26px 34px;
-  text-align: center;
-  width: 88%;
-  max-width: 600px;
-  margin-top: 120px;
-  background: rgba(0,0,0,0.25);
-  border: 2px solid #fff;
+.countdown-wrap{
+  backdrop-filter:blur(1px);
+  border-radius:20px;
+  padding:26px 34px;
+  text-align:center;
+  width:88%;
+  max-width:600px;
+  margin-top:120px;
+  background:rgba(0,0,0,0.25);
+  border:2px solid #fff;
 }
 .title{font-size:32px;font-weight:900}
 .subtitle{font-size:14px;margin:10px 0 24px}
-.clock{display:flex;gap:12px;justify-content:center}
+
+.clock{
+  display:flex;
+  gap:12px;
+  justify-content:center;
+}
 .unit{
   min-width:72px;
   padding:12px;
@@ -71,9 +78,9 @@ header {
 .num{font-size:32px;font-weight:900}
 .label{font-size:11px;opacity:.8}
 
-/* ================= MUSIC WHEEL (PILL STYLE) ================= */
+/* ================= MUSIC PILLS ================= */
 
-/* Invisible trigger zone */
+/* invisible trigger */
 .music-trigger{
   position:fixed;
   bottom:18px;
@@ -84,17 +91,17 @@ header {
   z-index:200;
 }
 
-/* Container */
+/* pill container */
 .music-wheel{
   position:fixed;
-  bottom:20px;
+  bottom:18px;
   left:70px;
   display:flex;
   gap:8px;
   opacity:0;
   pointer-events:none;
-  transition:opacity .25s ease, transform .25s ease;
   transform:translateX(-10px);
+  transition:.25s ease;
 }
 
 .music-wheel.active{
@@ -103,7 +110,7 @@ header {
   transform:translateX(0);
 }
 
-/* Pill buttons */
+/* pills */
 .music-item{
   padding:8px 14px;
   border-radius:999px;
@@ -114,9 +121,7 @@ header {
   border:1px solid rgba(255,255,255,0.25);
   backdrop-filter:blur(8px);
   cursor:pointer;
-  transition:background .2s, transform .2s;
 }
-
 .music-item:hover{
   background:rgba(255,255,255,0.25);
   transform:translateY(-1px);
@@ -151,46 +156,59 @@ header {
 <div class="music-trigger" id="musicTrigger"></div>
 
 <div class="music-wheel" id="musicWheel">
-  <div class="music-item" data-song="music/loading.mp3">Hot Together</div>
+  <div class="music-item" data-song="music/together.mp3">Hot Together</div>
+  <div class="music-item" data-song="music/long.mp3">Love Is A Long Road</div>
   <div class="music-item" data-song="music/night.mp3">Night</div>
-  <div class="music-item" data-song="music/poison_arrow.mp3">Self Control</div>
-  <div class="music-item" data-song="music/obsession.mp3">Obsession</div>
-  <div class="music-item" data-song="music/i_ran.mp3">I Ran</div>
+  <div class="music-item" data-song="music/ocean.mp3">Ocean Breeze</div>
+  <div class="music-item" data-song="music/self.mp3">Self Control</div>
+  <div class="music-item" data-song="music/atomic.mp3">Atomic</div>
+  <div class="music-item" data-song="music/sun.mp3">Sun Glasses At Night</div>
+  <div class="music-item" data-song="music/all.mp3">All Night Long</div>
 </div>
 
 <audio id="musicPlayer"></audio>
 
 <script>
-/* Countdown */
-const targetDate=new Date('2026-11-18T00:00:00');
-const d=document.getElementById('days'),
-h=document.getElementById('hours'),
-m=document.getElementById('minutes'),
-s=document.getElementById('seconds');
-const pad=n=>String(n).padStart(2,'0');
-setInterval(()=>{
-  const diff=(targetDate-new Date())/1000;
-  if(diff<=0) return;
-  d.textContent=Math.floor(diff/86400);
-  h.textContent=pad(diff/3600%24);
-  m.textContent=pad(diff/60%60);
-  s.textContent=pad(diff%60);
-},1000);
+/* ===== COUNTDOWN (RESTORED) ===== */
+const targetDate = new Date('2026-11-18T00:00:00');
 
-/* Music pills */
-const trigger=document.getElementById('musicTrigger');
-const wheel=document.getElementById('musicWheel');
-const player=document.getElementById('musicPlayer');
-let open=false;
+const daysEl    = document.getElementById('days');
+const hoursEl   = document.getElementById('hours');
+const minutesEl = document.getElementById('minutes');
+const secondsEl = document.getElementById('seconds');
 
-trigger.onclick=()=>{
-  open=!open;
-  wheel.classList.toggle('active',open);
+function pad(n){return String(n).padStart(2,'0')}
+
+function updateCountdown(){
+  const now = new Date();
+  const diff = Math.floor((targetDate - now) / 1000);
+
+  if(diff <= 0) return;
+
+  daysEl.textContent    = Math.floor(diff / 86400);
+  hoursEl.textContent   = pad(Math.floor((diff % 86400) / 3600));
+  minutesEl.textContent = pad(Math.floor((diff % 3600) / 60));
+  secondsEl.textContent = pad(diff % 60);
+}
+
+updateCountdown();
+setInterval(updateCountdown, 1000);
+
+/* ===== MUSIC ===== */
+const trigger = document.getElementById('musicTrigger');
+const wheel   = document.getElementById('musicWheel');
+const player  = document.getElementById('musicPlayer');
+
+let open = false;
+
+trigger.onclick = () => {
+  open = !open;
+  wheel.classList.toggle('active', open);
 };
 
 document.querySelectorAll('.music-item').forEach(btn=>{
-  btn.onclick=()=>{
-    player.src=btn.dataset.song;
+  btn.onclick = () => {
+    player.src = btn.dataset.song;
     player.play();
   };
 });
@@ -198,5 +216,3 @@ document.querySelectorAll('.music-item').forEach(btn=>{
 
 </body>
 </html>
-
-
