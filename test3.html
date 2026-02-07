@@ -123,22 +123,26 @@ header:hover {
   transform:translateX(0);
 }
 
-/* pills */
+/* pills - match navbar style */
 .music-item{
-  padding:8px 14px;
+  padding:9px 17px;
   border-radius:999px;
   font-size:12px;
   font-weight:600;
   white-space:nowrap;
-  background:rgba(255,255,255,0.12);
-  border:1px solid rgba(255,255,255,0.25);
-  backdrop-filter:blur(8px);
-  cursor:pointer;
+  background: rgba(255,255,255,0.08);       /* same as nav button */
+  border: 1px solid rgba(255,255,255,0.18); /* same as nav button */
+  box-shadow: inset 0 1.2px 1.5px rgba(255,255,255,0.4), 0 4px 18px rgba(0,0,0,0.3);
+  backdrop-filter: blur(8px);
+  cursor: pointer;
   flex-shrink:0;
+  transition: 0.25s ease;
 }
+
 .music-item:hover{
-  background:rgba(255,255,255,0.25);
-  transform:translateY(-1px);
+  background: rgba(255,255,255,0.14);       /* match hover nav button */
+  transform: translateY(-1px) scale(1.05);
+  box-shadow: inset 0 1.2px 1.5px rgba(255,255,255,0.45), 0 4px 20px rgba(0,0,0,0.35);
 }
 
 /* Scrollbar styling */
