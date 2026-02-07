@@ -1,176 +1,230 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>404 | VI</title>
-  <link rel="icon" href="gta/npc/lucia.jpg" type="image/jpg">
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>VI | Home</title>
 
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+<link rel="icon" href="gta/npc/lucia.jpg" type="image/jpg">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
 
-    html, body {
-      height: 100%;
-      overflow: hidden;
-    }
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;overflow:hidden}
 
-    body {
-      font-family: 'Orbitron', sans-serif;
-      background:
-        linear-gradient(135deg, rgba(255,77,210,0.12), rgba(0,255,224,0.07)),
-        url('gta/jason.jpg') center/cover no-repeat fixed;
-      background-blend-mode: overlay;
-      color: #ffffff;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background-position: center 40%;
-    }
+body{
+  font-family:'Orbitron',sans-serif;
+  background:
+    linear-gradient(135deg, rgba(255,77,210,0.15), rgba(0,255,224,0.10)),
+    url('gta/jason.jpg') center/cover no-repeat fixed;
+  background-blend-mode: overlay;
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background-position:center 40%;
+}
 
-    .error-container {
-      width: 90%;
-      max-width: 620px;
-      padding: 50px 35px;
-      border-radius: 24px;
-      background: rgba(0, 0, 0, 0.22);
-      border: 1px solid rgba(255, 255, 255, 0.14);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      box-shadow: 
-        0 8px 32px rgba(0, 0, 0, 0.35),
-        inset 0 0 20px rgba(255, 255, 255, 0.03);
-      text-align: center;
-    }
+/* ================= NAVBAR ================= */
+header{
+  position:fixed;
+  top:18px;
+  left:50%;
+  transform:translateX(-50%);
+  z-index:50;
+  display:flex;
+  gap:12px;
+  padding:8px 14px;
+  border-radius:999px;
+  background:rgba(0,0,0,0.25);
+}
+.nav-btn{
+  padding:9px 17px;
+  border-radius:999px;
+  color:#fff;
+  font-weight:600;
+  text-decoration:none;
+  background:rgba(255,255,255,0.08);
+  border:1px solid rgba(255,255,255,0.18);
+}
+.nav-btn:hover{transform:scale(1.05)}
 
-    .error-code {
-      font-size: 140px;
-      font-weight: 900;
-      line-height: 0.85;
-      letter-spacing: -6px;
-      background: linear-gradient(90deg, #ff4dd2, #00ffe0, #ff4dd2);
-      -webkit-background-clip: text;
-      background-clip: text;
-      -webkit-text-fill-color: transparent;
-      text-shadow: 0 0 30px rgba(255, 77, 210, 0.5);
-      margin-bottom: 12px;
-    }
+/* ================= COUNTDOWN ================= */
+.countdown-wrap{
+  backdrop-filter:blur(1px);
+  border-radius:20px;
+  padding:26px 34px;
+  text-align:center;
+  width:88%;
+  max-width:600px;
+  margin-top:120px;
+  background:rgba(0,0,0,0.25);
+  border:2px solid #fff;
+}
+.title{font-size:32px;font-weight:900}
+.subtitle{font-size:14px;margin:10px 0 24px}
 
-    .error-title {
-      font-size: 42px;
-      font-weight: 700;
-      letter-spacing: 3px;
-      margin-bottom: 18px;
-      opacity: 0.95;
-    }
+.clock{
+  display:flex;
+  gap:12px;
+  justify-content:center;
+}
+.unit{
+  min-width:72px;
+  padding:12px;
+  border-radius:12px;
+  background:rgba(0,0,0,0.35);
+}
+.num{font-size:32px;font-weight:900}
+.label{font-size:11px;opacity:.8}
 
-    .error-message {
-      font-size: 18px;
-      line-height: 1.6;
-      opacity: 0.82;
-      margin-bottom: 40px;
-    }
+/* ================= MUSIC ================= */
 
-    .back-btn {
-      display: inline-block;
-      padding: 14px 38px;
-      font-size: 17px;
-      font-weight: 700;
-      color: white;
-      text-decoration: none;
-      background: rgba(255, 255, 255, 0.06);
-      border: 1px solid rgba(0, 255, 224, 0.35);
-      border-radius: 999px;
-      backdrop-filter: blur(10px);
-      transition: all 0.3s ease;
-    }
+/* Invisible trigger */
+.music-trigger{
+  position:fixed;
+  bottom:18px;
+  left:18px;
+  width:40px;
+  height:40px;
+  cursor:pointer;
+  z-index:200;
+}
 
-    .back-btn:hover {
-      background: rgba(255, 255, 255, 0.13);
-      border-color: rgba(0, 255, 224, 0.7);
-      transform: translateY(-3px);
-      box-shadow: 0 12px 30px rgba(0, 255, 224, 0.35);
-    }
+/* pill container */
+.music-wheel{
+  position:fixed;
+  bottom:18px;
+  left:70px;
+  display:flex;
+  gap:8px;
+  max-width:calc(100% - 90px);
+  overflow-x:auto;
+  padding-bottom:4px;
+  opacity:0;
+  pointer-events:none;
+  transform:translateX(-10px);
+  transition:.25s ease;
+}
+.music-wheel.active{
+  opacity:1;
+  pointer-events:auto;
+  transform:translateX(0);
+}
 
-    .glitch {
-      position: relative;
-      animation: glitch-skew 4s infinite;
-    }
+/* pills */
+.music-item{
+  padding:8px 14px;
+  border-radius:999px;
+  font-size:12px;
+  font-weight:600;
+  white-space:nowrap;
+  background:rgba(255,255,255,0.12);
+  border:1px solid rgba(255,255,255,0.25);
+  backdrop-filter:blur(8px);
+  cursor:pointer;
+  flex-shrink:0;
+}
+.music-item:hover{
+  background:rgba(255,255,255,0.25);
+  transform:translateY(-1px);
+}
 
-    .glitch::before,
-    .glitch::after {
-      content: attr(data-text);
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      opacity: 0.7;
-    }
-
-    .glitch::before {
-      left: 3px;
-      text-shadow: -3px 0 #ff4dd2;
-      clip: rect(0, 9999px, 0, 0);
-      animation: glitch-anim 2.5s infinite linear alternate-reverse;
-    }
-
-    .glitch::after {
-      left: -3px;
-      text-shadow: 3px 0 #00ffe0;
-      clip: rect(0, 9999px, 0, 0);
-      animation: glitch-anim2 3.2s infinite linear alternate-reverse;
-    }
-
-    @keyframes glitch-skew {
-      0%, 100% { transform: skew(0deg); }
-      10% { transform: skew(2deg); }
-      20% { transform: skew(-2deg); }
-      30% { transform: skew(1deg); }
-    }
-
-    @keyframes glitch-anim {
-      0%   { clip: rect(30px, 9999px, 90px, 0); }
-      20%  { clip: rect(85px, 9999px, 130px, 0); }
-      40%  { clip: rect(10px, 9999px, 60px, 0); }
-      60%  { clip: rect(70px, 9999px, 140px, 0); }
-      80%  { clip: rect(40px, 9999px, 100px, 0); }
-      100% { clip: rect(55px, 9999px, 115px, 0); }
-    }
-
-    @keyframes glitch-anim2 {
-      0%   { clip: rect(65px, 9999px, 120px, 0); }
-      20%  { clip: rect(25px, 9999px, 80px, 0); }
-      40%  { clip: rect(95px, 9999px, 145px, 0); }
-      60%  { clip: rect(5px, 9999px, 55px, 0); }
-      80%  { clip: rect(75px, 9999px, 135px, 0); }
-      100% { clip: rect(45px, 9999px, 105px, 0); }
-    }
-
-    @media (max-width: 600px) {
-      .error-code   { font-size: 110px; }
-      .error-title  { font-size: 34px; }
-      .error-message { font-size: 16px; }
-      .error-container { padding: 40px 25px; }
-    }
-  </style>
+/* Scrollbar styling */
+.music-wheel::-webkit-scrollbar{
+  height:6px;
+}
+.music-wheel::-webkit-scrollbar-track{background:transparent;}
+.music-wheel::-webkit-scrollbar-thumb{
+  background: rgba(255,255,255,0.3);
+  border-radius:3px;
+}
+</style>
 </head>
+
 <body>
 
-  <div class="error-container">
-    <div class="error-code glitch" data-text="404">404</div>
-    <h1 class="error-title">PAGE NOT FOUND</h1>
-    <p class="error-message">
-      Looks like you took a wrong turn in Leonida...<br>
-      This road doesn't exist — yet.
-    </p>
+<header>
+  <a href="index" class="nav-btn">Home</a>
+  <a href="map" class="nav-btn">Map</a>
+  <a href="characters" class="nav-btn">Characters</a>
+  <a href="places" class="nav-btn">Places</a>
+  <a href="screenshots" class="nav-btn">Screenshots</a>
+  <a href="trailers" class="nav-btn">Trailers</a>
+</header>
 
-    <a href="index" class="back-btn">BACK TO VICE CITY</a>
+<section class="countdown-wrap">
+  <h1 class="title">Grand Theft Auto VI</h1>
+  <div class="subtitle">RELEASE COUNTDOWN – NOVEMBER 19TH, 2026</div>
+
+  <div class="clock">
+    <div class="unit"><div class="num" id="days">000</div><div class="label">DAYS</div></div>
+    <div class="unit"><div class="num" id="hours">00</div><div class="label">HOURS</div></div>
+    <div class="unit"><div class="num" id="minutes">00</div><div class="label">MINUTES</div></div>
+    <div class="unit"><div class="num" id="seconds">00</div><div class="label">SECONDS</div></div>
   </div>
+</section>
+
+<!-- Invisible Music Trigger -->
+<div class="music-trigger" id="musicTrigger"></div>
+
+<!-- Music Pills -->
+<div class="music-wheel" id="musicWheel">
+  <div class="music-item" data-song="music/together.mp3">Hot Together</div>
+  <div class="music-item" data-song="music/long.mp3">Love Is A Long Road</div>
+  <div class="music-item" data-song="music/night.mp3">Night</div>
+  <div class="music-item" data-song="music/ocean.mp3">Ocean Breeze</div>
+  <div class="music-item" data-song="music/self.mp3">Self Control</div>
+  <div class="music-item" data-song="music/atomic.mp3">Atomic</div>
+  <div class="music-item" data-song="music/sun.mp3">Sun Glasses At Night</div>
+  <div class="music-item" data-song="music/all.mp3">All Night Long</div>
+</div>
+
+<audio id="musicPlayer"></audio>
+
+<script>
+/* ===== COUNTDOWN ===== */
+const targetDate = new Date('2026-11-18T00:00:00');
+const daysEl = document.getElementById('days');
+const hoursEl = document.getElementById('hours');
+const minutesEl = document.getElementById('minutes');
+const secondsEl = document.getElementById('seconds');
+
+function pad(n){ return String(n).padStart(2,'0'); }
+
+function updateCountdown(){
+  const now = new Date();
+  const diff = Math.floor((targetDate - now)/1000);
+  if(diff<=0) return;
+
+  daysEl.textContent = Math.floor(diff/86400);
+  hoursEl.textContent = pad(Math.floor(diff/3600%24));
+  minutesEl.textContent = pad(Math.floor(diff/60%60));
+  secondsEl.textContent = pad(diff%60);
+}
+
+updateCountdown();
+setInterval(updateCountdown,1000);
+
+/* ===== MUSIC ===== */
+const trigger = document.getElementById('musicTrigger');
+const wheel = document.getElementById('musicWheel');
+const player = document.getElementById('musicPlayer');
+
+let open = false;
+trigger.onclick = () => {
+  open = !open;
+  wheel.classList.toggle('active', open);
+};
+
+document.querySelectorAll('.music-item').forEach(btn=>{
+  btn.onclick = () => {
+    player.src = btn.dataset.song;
+    player.play();
+  };
+});
+</script>
 
 </body>
 </html>
+
