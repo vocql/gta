@@ -35,7 +35,6 @@ header {
   padding: 8px 14px;
   border-radius: 999px;
   background: rgba(0, 0, 0, 0.25);
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
 }
 .nav-btn {
   padding: 9px 17px;
@@ -45,13 +44,8 @@ header {
   text-decoration: none;
   background: rgba(255, 255, 255, 0.08);
   border: 1px solid rgba(255, 255, 255, 0.18);
-  box-shadow: inset 0 1.2px 1.5px rgba(255, 255, 255, 0.4),
-              0 4px 18px rgba(0, 0, 0, 0.3);
 }
-.nav-btn:hover {
-  background: rgba(255, 255, 255, 0.14);
-  transform: scale(1.05);
-}
+.nav-btn:hover { transform: scale(1.05); }
 
 /* ================= COUNTDOWN ================= */
 .countdown-wrap {
@@ -77,42 +71,55 @@ header {
 .num{font-size:32px;font-weight:900}
 .label{font-size:11px;opacity:.8}
 
-/* ================= MUSIC WHEEL ================= */
+/* ================= MUSIC WHEEL (PILL STYLE) ================= */
+
+/* Invisible trigger zone */
 .music-trigger{
   position:fixed;
   bottom:18px;
   left:18px;
-  width:44px;
-  height:44px;
+  width:40px;
+  height:40px;
   cursor:pointer;
   z-index:200;
 }
 
+/* Container */
 .music-wheel{
   position:fixed;
-  bottom:70px;
+  bottom:20px;
   left:70px;
+  display:flex;
+  gap:8px;
+  opacity:0;
   pointer-events:none;
+  transition:opacity .25s ease, transform .25s ease;
+  transform:translateX(-10px);
 }
 
 .music-wheel.active{
+  opacity:1;
   pointer-events:auto;
+  transform:translateX(0);
 }
 
+/* Pill buttons */
 .music-item{
-  position:absolute;
-  width:42px;
-  height:42px;
-  border-radius:50%;
-  background:rgba(255,255,255,0.15);
+  padding:8px 14px;
+  border-radius:999px;
+  font-size:12px;
+  font-weight:600;
+  white-space:nowrap;
+  background:rgba(255,255,255,0.12);
   border:1px solid rgba(255,255,255,0.25);
   backdrop-filter:blur(8px);
   cursor:pointer;
-  transition:transform .25s, background .25s;
+  transition:background .2s, transform .2s;
 }
 
 .music-item:hover{
-  background:rgba(255,255,255,0.3);
+  background:rgba(255,255,255,0.25);
+  transform:translateY(-1px);
 }
 </style>
 </head>
@@ -140,60 +147,50 @@ header {
   </div>
 </section>
 
-<!-- MUSIC WHEEL -->
+<!-- MUSIC -->
 <div class="music-trigger" id="musicTrigger"></div>
 
 <div class="music-wheel" id="musicWheel">
-  <div class="music-item" data-song="music/night.mp3"></div>
-  <div class="music-item" data-song="music/loading.mp3"></div>
-  <div class="music-item" data-song="music/song3.mp3"></div>
-  <div class="music-item" data-song="music/song4.mp3"></div>
-  <div class="music-item" data-song="music/song5.mp3"></div>
+  <div class="music-item" data-song="music/loading.mp3">Hot Together</div>
+  <div class="music-item" data-song="music/night.mp3">Night</div>
+  <div class="music-item" data-song="music/poison_arrow.mp3">Self Control</div>
+  <div class="music-item" data-song="music/obsession.mp3">Obsession</div>
+  <div class="music-item" data-song="music/i_ran.mp3">I Ran</div>
 </div>
 
 <audio id="musicPlayer"></audio>
 
 <script>
-const targetDate = new Date('2026-11-18T00:00:00');
-const daysEl=document.getElementById('days');
-const hoursEl=document.getElementById('hours');
-const minutesEl=document.getElementById('minutes');
-const secondsEl=document.getElementById('seconds');
-
-function pad(n){return String(n).padStart(2,'0')}
-
-function updateCountdown(){
-  const now=new Date();
-  const diff=Math.floor((targetDate-now)/1000);
+/* Countdown */
+const targetDate=new Date('2026-11-18T00:00:00');
+const d=document.getElementById('days'),
+h=document.getElementById('hours'),
+m=document.getElementById('minutes'),
+s=document.getElementById('seconds');
+const pad=n=>String(n).padStart(2,'0');
+setInterval(()=>{
+  const diff=(targetDate-new Date())/1000;
   if(diff<=0) return;
-  daysEl.textContent=Math.floor(diff/86400);
-  hoursEl.textContent=pad(Math.floor((diff%86400)/3600));
-  minutesEl.textContent=pad(Math.floor((diff%3600)/60));
-  secondsEl.textContent=pad(diff%60);
-}
-setInterval(updateCountdown,1000);
-updateCountdown();
+  d.textContent=Math.floor(diff/86400);
+  h.textContent=pad(diff/3600%24);
+  m.textContent=pad(diff/60%60);
+  s.textContent=pad(diff%60);
+},1000);
 
-/* MUSIC WHEEL LOGIC */
+/* Music pills */
 const trigger=document.getElementById('musicTrigger');
 const wheel=document.getElementById('musicWheel');
-const items=document.querySelectorAll('.music-item');
 const player=document.getElementById('musicPlayer');
 let open=false;
 
 trigger.onclick=()=>{
   open=!open;
   wheel.classList.toggle('active',open);
-  items.forEach((item,i)=>{
-    const angle=(Math.PI*2/items.length)*i;
-    const r=open?80:0;
-    item.style.transform=`translate(${Math.cos(angle)*r}px,${Math.sin(angle)*r}px)`;
-  });
 };
 
-items.forEach(item=>{
-  item.onclick=()=>{
-    player.src=item.dataset.song;
+document.querySelectorAll('.music-item').forEach(btn=>{
+  btn.onclick=()=>{
+    player.src=btn.dataset.song;
     player.play();
   };
 });
@@ -201,4 +198,5 @@ items.forEach(item=>{
 
 </body>
 </html>
+
 
