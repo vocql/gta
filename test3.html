@@ -52,7 +52,7 @@ header:hover { box-shadow: 0 12px 40px rgba(255, 77, 210, 0.35); }
 }
 .nav-btn:hover { background: rgba(255, 255, 255, 0.14); transform: scale(1.05); }
 
-/* VOLUME + MINI SETTINGS */
+/* VOLUME CONTROL - now matches navbar style */
 .volume-control {
   position: fixed;
   top: 18px;
@@ -60,28 +60,37 @@ header:hover { box-shadow: 0 12px 40px rgba(255, 77, 210, 0.35); }
   z-index: 50;
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
-  gap: 10px;
-  padding: 10px 16px;
-  border-radius: 16px;
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  box-shadow: inset 0 1.2px 1.5px rgba(255,255,255,0.4),
-              0 4px 18px rgba(0,0,0,0.3);
+  gap: 12px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.25);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+  border: none;
   opacity: 0;
   pointer-events: none;
   transform: translateY(-20px);
   transition: all 0.3s ease;
 }
-.volume-control.active { opacity: 1; pointer-events: auto; transform: translateY(0); }
+.volume-control.active {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+.volume-control:hover {
+  box-shadow: 0 12px 40px rgba(255, 77, 210, 0.35);
+}
 
 .volume-row {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
 }
 
-.volume-label { font-size: 12px; font-weight: 600; opacity: 0.9; }
+.volume-label {
+  font-size: 12px;
+  font-weight: 600;
+  opacity: 0.9;
+}
 
 .volume-slider {
   width: 140px;
@@ -91,7 +100,10 @@ header:hover { box-shadow: 0 12px 40px rgba(255, 77, 210, 0.35); }
   border-radius: 999px;
   outline: none;
   cursor: pointer;
+  transition: background 0.25s;
 }
+.volume-slider:hover { background: rgba(255,255,255,0.28); }
+
 .volume-slider::-webkit-slider-thumb {
   -webkit-appearance: none;
   width: 18px;
@@ -99,48 +111,48 @@ header:hover { box-shadow: 0 12px 40px rgba(255, 77, 210, 0.35); }
   background: linear-gradient(135deg, #ff4dd2, #00ffe0);
   border-radius: 50%;
   cursor: pointer;
-  box-shadow: 0 0 12px #ff4dd2aa, 0 0 20px #00ffe0aa, inset 0 0 4px #ffffff88;
-  transition: all 0.18s;
+  box-shadow: 0 0 12px rgba(255, 77, 210, 0.7), 0 0 20px rgba(0, 255, 224, 0.5);
+  transition: all 0.2s;
 }
 .volume-slider::-webkit-slider-thumb:hover {
-  transform: scale(1.25);
-  box-shadow: 0 0 18px #ff4dd2cc, 0 0 28px #00ffe0cc;
+  transform: scale(1.2);
+  box-shadow: 0 0 18px rgba(255, 77, 210, 0.9), 0 0 28px rgba(0, 255, 224, 0.7);
 }
 
-/* Mini settings under volume */
-.mini-settings {
+/* Mini equalizer settings under volume */
+.eq-settings {
   display: flex;
-  flex-direction: column;
-  gap: 6px;
-  width: 100%;
-  padding-top: 6px;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
-.effect-pill {
-  padding: 7px 14px;
+.eq-pill {
+  padding: 7px 15px;
   border-radius: 999px;
   font-size: 11.5px;
   font-weight: 500;
-  background: rgba(255,255,255,0.07);
-  border: 1px solid rgba(255,255,255,0.14);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.18);
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all 0.25s;
   text-align: center;
-  user-select: none;
+  min-width: 100px;
 }
 
-.effect-pill.active {
+.eq-pill.active {
   background: rgba(255, 77, 210, 0.22);
-  border-color: rgba(255, 77, 210, 0.5);
+  border-color: rgba(255, 77, 210, 0.45);
   color: #ff4dd2;
   box-shadow: 0 0 12px rgba(255, 77, 210, 0.4);
 }
 
-.effect-pill:hover:not(.active) {
-  background: rgba(255,255,255,0.12);
+.eq-pill:hover:not(.active) {
+  background: rgba(255, 255, 255, 0.14);
+  transform: scale(1.03);
 }
 
-/* MENU TRIGGER - invisible again */
+/* MENU TRIGGER - invisible */
 .menu-trigger {
   position: fixed;
   bottom: 16px;
@@ -267,10 +279,11 @@ header:hover { box-shadow: 0 12px 40px rgba(255, 77, 210, 0.35); }
     <input type="range" min="0" max="1" step="0.01" value="0.7" class="volume-slider" id="volumeSlider">
   </div>
 
-  <!-- Mini settings under volume -->
-  <div class="mini-settings">
-    <div class="effect-pill" data-effect="reverb" data-state="off">Reverb</div>
-    <div class="effect-pill" data-effect="slowed" data-state="off">Slowed</div>
+  <!-- Equalizer presets -->
+  <div class="eq-settings">
+    <div class="eq-pill active" data-eq="normal">Normal</div>
+    <div class="eq-pill" data-eq="bass">Bass Boost</div>
+    <div class="eq-pill" data-eq="treble">Treble Boost</div>
   </div>
 </div>
 
@@ -330,7 +343,7 @@ header:hover { box-shadow: 0 12px 40px rgba(255, 77, 210, 0.35); }
 <audio id="musicPlayer"></audio>
 
 <script>
-// COUNTDOWN - original (days only)
+// COUNTDOWN
 const targetDate = new Date('2026-11-18T00:00:00');
 const daysEl    = document.getElementById('days');
 const hoursEl   = document.getElementById('hours');
@@ -343,8 +356,8 @@ function updateCountdown(){
   const now = new Date();
   const diff = Math.floor((targetDate - now)/1000);
   if(diff<=0) return;
-  daysEl.textContent    = Math.floor(diff/86400);
-  hoursEl.textContent   = pad(Math.floor(diff/3600%24));
+  daysEl.textContent = Math.floor(diff/86400);
+  hoursEl.textContent = pad(Math.floor(diff/3600%24));
   minutesEl.textContent = pad(Math.floor(diff/60%60));
   secondsEl.textContent = pad(diff%60);
 }
@@ -380,25 +393,22 @@ volumeSlider.addEventListener('input', () => {
 
 player.volume = 0.7;
 
-// Reverb & Slowed toggles
-document.querySelectorAll('.effect-pill').forEach(pill => {
-  const effect = pill.dataset.effect;
-  const saved = localStorage.getItem(`effect_${effect}`);
-  if (saved) {
-    pill.dataset.state = saved;
-    pill.classList.toggle('active', saved === 'on');
+// Equalizer presets
+document.querySelectorAll('.eq-pill').forEach(pill => {
+  const preset = pill.dataset.eq;
+  const saved = localStorage.getItem('eq-preset');
+  if (saved && saved === preset) {
+    pill.classList.add('active');
   }
 
   pill.onclick = () => {
-    const next = pill.dataset.state === 'on' ? 'off' : 'on';
-    pill.dataset.state = next;
-    pill.classList.toggle('active', next === 'on');
-    localStorage.setItem(`effect_${effect}`, next);
+    document.querySelectorAll('.eq-pill').forEach(p => p.classList.remove('active'));
+    pill.classList.add('active');
+    localStorage.setItem('eq-preset', preset);
 
-    // Here you could later add real audio processing
-    // Example (needs Web Audio API):
-    // if (effect === 'reverb' && next === 'on') { addReverbToPlayer(); }
-    // if (effect === 'slowed' && next === 'on') { slowDownPlayback(); }
+     if (preset === 'bass') { applyBassBoost(); }
+     if (preset === 'treble') { applyTrebleBoost(); }
+     if (preset === 'normal') { resetEQ(); }
   };
 });
 </script>
