@@ -20,9 +20,10 @@ body{
   align-items:center;
   justify-content:center;
   background-position:center 40%;
+  transition: background-image 0.8s ease;
 }
 
-/* NAVBAR unchanged */
+/* NAVBAR */
 header {
   position: fixed;
   top: 18px;
@@ -52,7 +53,7 @@ header:hover { box-shadow: 0 12px 40px rgba(255, 77, 210, 0.35); }
 }
 .nav-btn:hover { background: rgba(255, 255, 255, 0.14); transform: scale(1.05); }
 
-/* VOLUME unchanged */
+/* VOLUME */
 .volume-control {
   position: fixed;
   top: 18px;
@@ -74,7 +75,7 @@ header:hover { box-shadow: 0 12px 40px rgba(255, 77, 210, 0.35); }
 }
 .volume-control.active { opacity: 1; pointer-events: auto; transform: translateY(0); }
 
-/* MENU unchanged */
+/* MENU */
 .menu-trigger {
   position: fixed;
   bottom: 16px;
@@ -140,7 +141,7 @@ header:hover { box-shadow: 0 12px 40px rgba(255, 77, 210, 0.35); }
 
 .tab-pane h3 { font-size: 15px; margin-bottom: 12px; color: #ff4dd2; }
 
-/* Background thumbs unchanged */
+/* Background thumbs */
 .bg-thumbs {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -201,7 +202,7 @@ header:hover { box-shadow: 0 12px 40px rgba(255, 77, 210, 0.35); }
 .setting-pill[data-state="on"]::after { color: #00ffe0; }
 .setting-pill[data-state="off"]::after { color: #ff4dd2; }
 
-/* Music list unchanged */
+/* Music list */
 .music-list {
   display: flex;
   flex-direction: column;
@@ -225,14 +226,14 @@ header:hover { box-shadow: 0 12px 40px rgba(255, 77, 210, 0.35); }
 .tab-pane::-webkit-scrollbar { width: 5px; }
 .tab-pane::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.25); border-radius: 5px; }
 
-/* Countdown - fits both modes */
+/* Countdown */
 .countdown-wrap {
   backdrop-filter: blur(1px);
   border-radius: 20px;
   padding: 26px 34px;
   text-align: center;
   width: 88%;
-  max-width: 680px; /* slightly wider to fit months nicely */
+  max-width: 680px;
   margin-top: 120px;
   background: rgba(0,0,0,0.25);
   border: 2px solid #fff;
@@ -273,7 +274,7 @@ header:hover { box-shadow: 0 12px 40px rgba(255, 77, 210, 0.35); }
 
 <section class="countdown-wrap">
   <h1 class="title">Grand Theft Auto VI</h1>
-  <div class="subtitle">RELEASE COUNTDOWN – NOVEMBER 19TH, 2026</div>
+  <div class="subtitle">RELEASE COUNTDOWN – NOVEMBER 18TH, 2026</div>
   <div class="clock">
     <div class="unit"><div class="num" id="months">00</div><div class="label">Months</div></div>
     <div class="unit"><div class="num" id="days">000</div><div class="label">Days</div></div>
@@ -297,9 +298,31 @@ header:hover { box-shadow: 0 12px 40px rgba(255, 77, 210, 0.35); }
     <div class="tab-pane active" id="tab-music">
       <h3>Radio</h3>
       <div class="music-list" id="musicWheel">
-        <!-- your songs here – unchanged -->
         <div class="music-item" data-song="music/together.mp3">Hot Together</div>
-        <!-- ... all other songs ... -->
+        <div class="music-item" data-song="music/long.mp3">Love Is A Long Road</div>
+        <div class="music-item" data-song="music/night.mp3">Night</div>
+        <div class="music-item" data-song="music/ocean.mp3">Ocean Breeze</div>
+        <div class="music-item" data-song="music/self.mp3">Self Control</div>
+        <div class="music-item" data-song="music/tomic.mp3">Atomic</div>
+        <div class="music-item" data-song="music/sun.mp3">Sun Glasses At Night</div>
+        <div class="music-item" data-song="music/all.mp3">All Night Long</div>
+        <div class="music-item" data-song="music/shame.mp3">Shame</div>
+        <div class="music-item" data-song="music/vice.mp3">Vice City</div>
+        <div class="music-item" data-song="music/earth.mp3">I Walk This Earth All By Myself</div>
+        <div class="music-item" data-song="music/heart.mp3">Owner Of A Lonely Heart</div>
+        <div class="music-item" data-song="music/tempt.mp3">Tempted</div>
+        <div class="music-item" data-song="music/arrow.mp3">Poison Arrow</div>
+        <div class="music-item" data-song="music/crime.mp3">Is It A Crime</div>
+        <div class="music-item" data-song="music/are.mp3">Here We Are</div>
+        <div class="music-item" data-song="music/fire.mp3">Through The Fire</div>
+        <div class="music-item" data-song="music/mine.mp3">Heart Of Mine</div>
+        <div class="music-item" data-song="music/fly.mp3">Fly Away</div>
+        <div class="music-item" data-song="music/nobody.mp3">Ain't Nobody</div>
+        <div class="music-item" data-song="music/you.mp3">Thinking Of You</div>
+        <div class="music-item" data-song="music/love.mp3">Sweet Love</div>
+        <div class="music-item" data-song="music/remember.mp3">I Still Remember You</div>
+        <div class="music-item" data-song="music/gamble.mp3">Gamble With My Love</div>
+        <div class="music-item" data-song="music/suki.mp3">Sukiyaki</div>
       </div>
     </div>
 
@@ -312,18 +335,31 @@ header:hover { box-shadow: 0 12px 40px rgba(255, 77, 210, 0.35); }
         <div class="bg-thumb" data-bg="gta/lucia.jpg">
           <img src="gta/lucia.jpg" alt="Lucia">
         </div>
-        <!-- add more as needed -->
+        <div class="bg-thumb" data-bg="gta/vice-city-neon.jpg">
+          <img src="gta/vice-city-neon.jpg" alt="Vice Neon">
+        </div>
+        <!-- add more thumbnails here -->
       </div>
     </div>
 
-    <!-- Settings tab with countdown toggle -->
     <div class="tab-pane" id="tab-settings">
-      <h3>Page Settings</h3>
+      <h3>Settings</h3>
       <div class="settings-group">
         <div class="setting-pill" data-setting="countdown-months" data-state="off">
           Show months in countdown
         </div>
-        <!-- you can add more toggles here later -->
+        <div class="setting-pill" data-setting="glass-blur" data-state="on">
+          Glass / Blur Effect
+        </div>
+        <div class="setting-pill" data-setting="neon-glow" data-state="on">
+          Neon Glow
+        </div>
+        <div class="setting-pill" data-setting="gradient" data-state="on">
+          Color Gradient Overlay
+        </div>
+        <div class="setting-pill" data-setting="outside-close" data-state="on">
+          Close menu on outside click
+        </div>
       </div>
     </div>
 
@@ -333,8 +369,8 @@ header:hover { box-shadow: 0 12px 40px rgba(255, 77, 210, 0.35); }
 <audio id="musicPlayer"></audio>
 
 <script>
-// ─── COUNTDOWN LOGIC ───────────────────────────────────────────────────────
-const targetDate = new Date('2026-11-18T00:00:00'); // ← back to Nov 18
+// COUNTDOWN
+const targetDate = new Date('2026-11-18T00:00:00');
 
 const monthsEl   = document.getElementById('months');
 const daysEl     = document.getElementById('days');
@@ -363,8 +399,9 @@ function updateCountdown() {
   if (showMonths) {
     months = Math.floor(diff / (86400 * 30.436875));
     diff -= months * 86400 * 30.436875;
+    monthsEl.textContent = pad(months);
   } else {
-    monthsEl.textContent = "00"; // hide when off
+    monthsEl.textContent = "00";
   }
 
   const days    = Math.floor(diff / 86400); diff -= days * 86400;
@@ -372,8 +409,7 @@ function updateCountdown() {
   const minutes = Math.floor(diff / 60);
   const seconds = diff % 60;
 
-  if (showMonths) monthsEl.textContent = pad(months);
-  daysEl.textContent    = days.toString().padStart(3, '0');
+  daysEl.textContent    = days.toString().padStart(showMonths ? 3 : 3, '0');
   hoursEl.textContent   = pad(hours);
   minutesEl.textContent = pad(minutes);
   secondsEl.textContent = pad(seconds);
@@ -382,7 +418,7 @@ function updateCountdown() {
 updateCountdown();
 setInterval(updateCountdown, 1000);
 
-// ─── MENU & TABS (unchanged) ──────────────────────────────────────────────
+// MENU & TABS
 const menuTrigger   = document.getElementById('menuTrigger');
 const menuPanel     = document.getElementById('menuPanel');
 const volumeControl = document.getElementById('volumeControl');
@@ -407,7 +443,7 @@ document.querySelectorAll('.tab-btn').forEach(btn => {
   };
 });
 
-// Music playback (unchanged)
+// Music
 document.querySelectorAll('.music-item').forEach(item => {
   item.onclick = () => {
     player.src = item.dataset.song;
@@ -422,25 +458,33 @@ volumeSlider.addEventListener('input', () => {
 
 player.volume = 0.7;
 
-// ─── SETTINGS TOGGLE ──────────────────────────────────────────────────────
+// Background change
+document.querySelectorAll('.bg-thumb').forEach(thumb => {
+  thumb.onclick = () => {
+    document.querySelectorAll('.bg-thumb').forEach(t => t.classList.remove('active'));
+    thumb.classList.add('active');
+    const bg = thumb.dataset.bg;
+    document.body.style.backgroundImage = `linear-gradient(135deg, rgba(255,77,210,0.15), rgba(0,255,224,0.10)), url('${bg}')`;
+  };
+});
+
+// Settings toggle
 document.querySelectorAll('.setting-pill').forEach(pill => {
-  // Load saved state
-  const setting = pill.dataset.setting;
-  const saved = localStorage.getItem(setting);
+  const key = pill.dataset.setting;
+  const saved = localStorage.getItem(key);
   if (saved) {
     pill.dataset.state = saved;
     pill.classList.toggle('active', saved === 'on');
   }
 
   pill.onclick = () => {
-    const current = pill.dataset.state;
-    const next = current === 'on' ? 'off' : 'on';
+    const next = pill.dataset.state === 'on' ? 'off' : 'on';
     pill.dataset.state = next;
     pill.classList.toggle('active', next === 'on');
-    localStorage.setItem(setting, next);
+    localStorage.setItem(key, next);
 
-    // Re-run countdown to update display
-    if (setting === 'countdown-months') {
+    // Refresh countdown when months toggle changes
+    if (key === 'countdown-months') {
       updateCountdown();
     }
   };
