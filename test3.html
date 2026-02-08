@@ -58,55 +58,65 @@ header:hover { box-shadow: 0 12px 40px rgba(255, 77, 210, 0.35); }
   left: 16px;
   width: 44px;
   height: 44px;
-  border-radius: 999px;
-  background: rgba(0,0,0,0.25);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
   border: 1px solid rgba(255, 255, 255, 0.18);
-  box-shadow: 0 6px 18px rgba(0,0,0,0.35);
+  box-shadow: inset 0 1.2px 1.5px rgba(255,255,255,0.4), 0 4px 18px rgba(0,0,0,0.3);
   cursor: pointer;
-  z-index: 50;
+  z-index: 200;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 20px;
+  font-size: 18px;
   transition: all 0.25s;
 }
-.menu-trigger:hover { transform: scale(1.08); }
+.menu-trigger:hover { background: rgba(255, 255, 255, 0.14); transform: scale(1.08); }
 
 .menu-panel {
   position: fixed;
   bottom: 72px;
   left: 16px;
+  width: 340px;
+  max-height: 70vh;
+  border-radius: 999px; /* pill style */
+  overflow: hidden;
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  padding: 10px;
-  border-radius: 999px;
-  background: rgba(0,0,0,0.0); /* fully transparent */
+  gap: 6px;
+  padding: 12px;
+  background: rgba(0,0,0,0.0); /* transparent */
   pointer-events: none;
   opacity: 0;
   transform: translateY(15px) scale(0.96);
-  transition: all 0.25s ease;
-  z-index: 40;
+  transition: all 0.28s ease;
+  z-index: 190;
 }
 .menu-panel.active { 
-  pointer-events: auto; 
   opacity: 1; 
+  pointer-events: auto; 
   transform: translateY(0) scale(1); 
 }
 
-/* Menu buttons styled like navbar */
-.menu-btn {
+/* Music list - buttons styled like navbar pills */
+.music-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.music-item {
   padding: 7px 14px;
   border-radius: 999px;
-  font-size: 13px;
-  font-weight: 600;
-  text-decoration: none;
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  box-shadow: inset 0 1.2px 1.5px rgba(255, 255, 255, 0.4), 0 4px 18px rgba(0, 0, 0, 0.3);
-  transition: 0.25s;
+  font-size: 12.5px;
+  font-weight: 500;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.18);
+  cursor: pointer;
+  transition: all 0.25s;
 }
-.menu-btn:hover { background: rgba(255, 255, 255, 0.14); transform: scale(1.05); }
+.music-item:hover {
+  background: rgba(255,255,255,0.14);
+  transform: scale(1.05);
+}
 
 /* ================= COUNTDOWN ================= */
 .countdown-wrap{
@@ -153,13 +163,36 @@ header:hover { box-shadow: 0 12px 40px rgba(255, 77, 210, 0.35); }
 <div class="menu-trigger" id="menuTrigger">☰</div>
 
 <div class="menu-panel" id="menuPanel">
-  <a href="index" class="menu-btn">Home</a>
-  <a href="map" class="menu-btn">Map</a>
-  <a href="characters" class="menu-btn">Characters</a>
-  <a href="places" class="menu-btn">Places</a>
-  <a href="screenshots" class="menu-btn">Screenshots</a>
-  <a href="trailers" class="menu-btn">Trailers</a>
+  <div class="music-list" id="musicWheel">
+    <div class="music-item" data-song="music/together.mp3">Hot Together</div>
+    <div class="music-item" data-song="music/long.mp3">Love Is A Long Road</div>
+    <div class="music-item" data-song="music/night.mp3">Night</div>
+    <div class="music-item" data-song="music/ocean.mp3">Ocean Breeze</div>
+    <div class="music-item" data-song="music/self.mp3">Self Control</div>
+    <div class="music-item" data-song="music/tomic.mp3">Atomic</div>
+    <div class="music-item" data-song="music/sun.mp3">Sun Glasses At Night</div>
+    <div class="music-item" data-song="music/all.mp3">All Night Long</div>
+    <div class="music-item" data-song="music/shame.mp3">Shame</div>
+    <div class="music-item" data-song="music/vice.mp3">Vice City</div>
+    <div class="music-item" data-song="music/earth.mp3">I Walk This Earth All By Myself</div>
+    <div class="music-item" data-song="music/heart.mp3">Owner Of A Lonely Heart</div>
+    <div class="music-item" data-song="music/tempt.mp3">Tempted</div>
+    <div class="music-item" data-song="music/arrow.mp3">Poison Arrow</div>
+    <div class="music-item" data-song="music/crime.mp3">Is It A Crime</div>
+    <div class="music-item" data-song="music/are.mp3">Here We Are</div>
+    <div class="music-item" data-song="music/fire.mp3">Through The Fire</div>
+    <div class="music-item" data-song="music/mine.mp3">Heart Of Mine</div>
+    <div class="music-item" data-song="music/fly.mp3">Fly Away</div>
+    <div class="music-item" data-song="music/nobody.mp3">Ain't Nobody</div>
+    <div class="music-item" data-song="music/you.mp3">Thinking Of You</div>
+    <div class="music-item" data-song="music/love.mp3">Sweet Love</div>
+    <div class="music-item" data-song="music/remember.mp3">I Still Remember You</div>
+    <div class="music-item" data-song="music/gamble.mp3">Gamble With My Love</div>
+    <div class="music-item" data-song="music/suki.mp3">Sukiyaki</div>
+  </div>
 </div>
+
+<audio id="musicPlayer"></audio>
 
 <script>
 // COUNTDOWN
@@ -182,11 +215,22 @@ updateCountdown();
 setInterval(updateCountdown,1000);
 
 // MENU TOGGLE
-const menuTrigger = document.getElementById('menuTrigger');
-const menuPanel   = document.getElementById('menuPanel');
+const menuTrigger   = document.getElementById('menuTrigger');
+const menuPanel     = document.getElementById('menuPanel');
+const player        = document.getElementById('musicPlayer');
+
 menuTrigger.onclick = () => {
   menuPanel.classList.toggle('active');
 };
+
+// Music play
+document.querySelectorAll('.music-item').forEach(btn => {
+  btn.onclick = () => {
+    player.src = btn.dataset.song;
+    player.volume = 0.7;
+    player.play();
+  };
+});
 </script>
 </body>
 </html>
