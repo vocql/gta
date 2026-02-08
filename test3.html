@@ -20,10 +20,9 @@ body{
   align-items:center;
   justify-content:center;
   background-position:center 40%;
-  transition: background 0.6s ease;
 }
 
-/* ================= NAVBAR (restored original) ================= */
+/* ================= NAVBAR ================= */
 header {
   position: fixed;
   top: 18px;
@@ -38,9 +37,7 @@ header {
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
   transition: 0.25s;
 }
-header:hover {
-  box-shadow: 0 12px 40px rgba(255, 77, 210, 0.35);
-}
+header:hover { box-shadow: 0 12px 40px rgba(255, 77, 210, 0.35); }
 .nav-btn {
   padding: 9px 17px;
   border-radius: 999px;
@@ -53,10 +50,7 @@ header:hover {
               0 4px 18px rgba(0, 0, 0, 0.3);
   transition: 0.25s;
 }
-.nav-btn:hover {
-  background: rgba(255, 255, 255, 0.14);
-  transform: scale(1.05);
-}
+.nav-btn:hover { background: rgba(255, 255, 255, 0.14); transform: scale(1.05); }
 
 /* ================= VOLUME ================= */
 .volume-control {
@@ -79,7 +73,6 @@ header:hover {
   transition: all 0.3s ease;
 }
 .volume-control.active { opacity: 1; pointer-events: auto; transform: translateY(0); }
-.volume-control:hover { background: rgba(255, 255, 255, 0.14); }
 
 /* ================= MENU ================= */
 .menu-trigger {
@@ -123,10 +116,7 @@ header:hover {
 }
 .menu-panel.active { opacity: 1; pointer-events: auto; transform: translateY(0) scale(1); }
 
-.menu-tabs {
-  display: flex;
-  border-bottom: 1px solid rgba(255,255,255,0.14);
-}
+.menu-tabs { display: flex; border-bottom: 1px solid rgba(255,255,255,0.14); }
 .tab-btn {
   flex: 1;
   padding: 12px 0;
@@ -137,10 +127,7 @@ header:hover {
   font-size: 12.5px;
   cursor: pointer;
 }
-.tab-btn.active {
-  background: rgba(255,255,255,0.10);
-  color: #ff4dd2;
-}
+.tab-btn.active { background: rgba(255,255,255,0.10); color: #ff4dd2; }
 
 .tab-content { padding: 0; }
 .tab-pane {
@@ -151,22 +138,16 @@ header:hover {
 }
 .tab-pane.active { display: block; }
 
-.tab-pane h3 {
-  font-size: 15px;
-  margin-bottom: 14px;
-  color: #ff4dd2;
-}
+.tab-pane h3 { font-size: 15px; margin-bottom: 12px; color: #ff4dd2; }
 
 /* Background thumbnails */
 .bg-thumbs {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 12px;
-  margin-top: 8px;
 }
 .bg-thumb {
-  position: relative;
-  border-radius: 8px;
+  border-radius: 10px;
   overflow: hidden;
   cursor: pointer;
   border: 2px solid transparent;
@@ -174,32 +155,43 @@ header:hover {
 }
 .bg-thumb img {
   width: 100%;
-  height: 80px;
+  height: 90px;
   object-fit: cover;
-  display: block;
 }
 .bg-thumb.active {
   border-color: #ff4dd2;
   box-shadow: 0 0 12px rgba(255, 77, 210, 0.6);
 }
-.bg-thumb:hover:not(.active) {
-  transform: scale(1.04);
-}
+.bg-thumb:hover:not(.active) { transform: scale(1.05); }
 
-/* Compact settings */
-.option-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 8px 12px;
-  margin-bottom: 4px;
-  background: rgba(255,255,255,0.05);
-  border-radius: 8px;
-  font-size: 12.5px;
+/* Countdown - now with MONTHS */
+.countdown-wrap {
+  backdrop-filter: blur(1px);
+  border-radius: 20px;
+  padding: 26px 34px;
+  text-align: center;
+  width: 88%;
+  max-width: 640px;
+  margin-top: 120px;
+  background: rgba(0,0,0,0.25);
+  border: 2px solid #fff;
 }
-.option-item label { flex: 1; }
-.option-item input[type="checkbox"] { margin-left: 10px; }
-.option-item select { width: 110px; font-size: 11.5px; }
+.title { font-size: 32px; font-weight: 900; }
+.subtitle { font-size: 14px; margin: 10px 0 24px; }
+.clock {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+}
+.unit {
+  min-width: 80px;
+  padding: 12px 8px;
+  border-radius: 12px;
+  background: rgba(0,0,0,0.35);
+}
+.num { font-size: 32px; font-weight: 900; }
+.label { font-size: 11px; opacity: .8; text-transform: uppercase; }
 
 /* Music list */
 .music-list {
@@ -222,32 +214,8 @@ header:hover {
 }
 
 /* Scrollbar */
-.tab-pane::-webkit-scrollbar {
-  width: 5px;
-}
-.tab-pane::-webkit-scrollbar-thumb {
-  background: rgba(255,255,255,0.25);
-  border-radius: 5px;
-}
-
-/* ================= COUNTDOWN ================= */
-.countdown-wrap{
-  backdrop-filter:blur(1px);
-  border-radius:20px;
-  padding:26px 34px;
-  text-align:center;
-  width:88%;
-  max-width:600px;
-  margin-top:120px;
-  background:rgba(0,0,0,0.25);
-  border:2px solid #fff;
-}
-.title{font-size:32px;font-weight:900}
-.subtitle{font-size:14px;margin:10px 0 24px}
-.clock{display:flex;gap:12px;justify-content:center;}
-.unit{min-width:72px;padding:12px;border-radius:12px;background:rgba(0,0,0,0.35);}
-.num{font-size:32px;font-weight:900}
-.label{font-size:11px;opacity:.8}
+.tab-pane::-webkit-scrollbar { width: 5px; }
+.tab-pane::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.25); border-radius: 5px; }
 </style>
 </head>
 <body>
@@ -270,10 +238,11 @@ header:hover {
   <h1 class="title">Grand Theft Auto VI</h1>
   <div class="subtitle">RELEASE COUNTDOWN – NOVEMBER 19TH, 2026</div>
   <div class="clock">
-    <div class="unit"><div class="num" id="days">000</div><div class="label">DAYS</div></div>
-    <div class="unit"><div class="num" id="hours">00</div><div class="label">HOURS</div></div>
-    <div class="unit"><div class="num" id="minutes">00</div><div class="label">MINUTES</div></div>
-    <div class="unit"><div class="num" id="seconds">00</div><div class="label">SECONDS</div></div>
+    <div class="unit"><div class="num" id="months">00</div><div class="label">Months</div></div>
+    <div class="unit"><div class="num" id="days">000</div><div class="label">Days</div></div>
+    <div class="unit"><div class="num" id="hours">00</div><div class="label">Hours</div></div>
+    <div class="unit"><div class="num" id="minutes">00</div><div class="label">Minutes</div></div>
+    <div class="unit"><div class="num" id="seconds">00</div><div class="label">Seconds</div></div>
   </div>
 </section>
 
@@ -287,7 +256,6 @@ header:hover {
   </div>
 
   <div class="tab-content">
-
     <div class="tab-pane active" id="tab-music">
       <h3>Radio</h3>
       <div class="music-list" id="musicWheel">
@@ -319,7 +287,7 @@ header:hover {
       </div>
     </div>
 
-    <!-- Background Tab – images only -->
+    <!-- Background tab -->
     <div class="tab-pane" id="tab-background">
       <h3>Background</h3>
       <div class="bg-thumbs" id="bg-thumbs">
@@ -329,76 +297,69 @@ header:hover {
         <div class="bg-thumb" data-bg="gta/lucia.jpg">
           <img src="gta/lucia.jpg" alt="Lucia">
         </div>
-        <div class="bg-thumb" data-bg="gta/vice-city-neon.jpg">
-          <img src="gta/vice-city-neon.jpg" alt="Vice Neon">
-        </div>
-        <!-- add more thumbnails here when you have more images -->
+        <!-- Add more thumbnails here as needed -->
       </div>
     </div>
 
-    <!-- Settings Tab – compact -->
+    <!-- Settings tab -->
     <div class="tab-pane" id="tab-settings">
       <h3>Settings</h3>
-      <div class="option-item">
-        <label>Auto-play next song</label>
-        <input type="checkbox" id="autoplay-next" checked>
-      </div>
-      <div class="option-item">
-        <label>Remember last song</label>
-        <input type="checkbox" id="remember-song" checked>
-      </div>
-      <div class="option-item">
-        <label>Show song name</label>
-        <input type="checkbox" id="show-song-title" checked>
-      </div>
-      <div class="option-item">
-        <label>Close menu on click outside</label>
-        <input type="checkbox" id="close-on-outside" checked>
-      </div>
-      <div class="option-item">
-        <label>Volume step</label>
-        <select id="volume-step">
-          <option value="0.01">1%</option>
-          <option value="0.05" selected>5%</option>
-          <option value="0.1">10%</option>
-        </select>
-      </div>
-      <div class="option-item">
-        <label>Menu animation</label>
-        <select id="panel-animation">
-          <option value="slide">Slide</option>
-          <option value="fade">Fade</option>
-          <option value="scale">Scale</option>
-        </select>
-      </div>
+      <!-- Add your page settings pills here if you want -->
     </div>
-
   </div>
 </div>
 
 <audio id="musicPlayer"></audio>
 
 <script>
-// COUNTDOWN (unchanged)
-const targetDate = new Date('2026-11-18T00:00:00');
-const daysEl = document.getElementById('days');
-const hoursEl = document.getElementById('hours');
-const minutesEl = document.getElementById('minutes');
-const secondsEl = document.getElementById('seconds');
-function pad(n){ return String(n).padStart(2,'0'); }
-function updateCountdown(){
-  const now = new Date();
-  const diff = Math.floor((targetDate - now)/1000);
-  if(diff<=0) return;
-  daysEl.textContent = Math.floor(diff/86400);
-  hoursEl.textContent = pad(Math.floor(diff/3600%24));
-  minutesEl.textContent = pad(Math.floor(diff/60%60));
-  secondsEl.textContent = pad(diff%60);
-}
-updateCountdown();
-setInterval(updateCountdown,1000);
+// ─── COUNTDOWN WITH MONTHS ────────────────────────────────────────────────
+const targetDate = new Date('2026-11-19T00:00:00');
 
-// MENU + TABS
+const monthsEl   = document.getElementById('months');
+const daysEl     = document.getElementById('days');
+const hoursEl    = document.getElementById('hours');
+const minutesEl  = document.getElementById('minutes');
+const secondsEl  = document.getElementById('seconds');
+
+function pad(n) { return String(n).padStart(2, '0'); }
+
+function updateCountdown() {
+  const now = new Date();
+  let diff = Math.floor((targetDate - now) / 1000);
+
+  if (diff <= 0) {
+    monthsEl.textContent = "00";
+    daysEl.textContent   = "000";
+    hoursEl.textContent  = "00";
+    minutesEl.textContent = "00";
+    secondsEl.textContent = "00";
+    return;
+  }
+
+  // Calculate months (approximate - 30.44 days average)
+  const months = Math.floor(diff / (86400 * 30.436875));
+  diff -= months * 86400 * 30.436875;
+
+  const days    = Math.floor(diff / 86400);
+  diff         -= days * 86400;
+
+  const hours   = Math.floor(diff / 3600);
+  diff         -= hours * 3600;
+
+  const minutes = Math.floor(diff / 60);
+  const seconds = diff % 60;
+
+  monthsEl.textContent  = pad(months);
+  daysEl.textContent    = days.toString().padStart(3, '0');
+  hoursEl.textContent   = pad(hours);
+  minutesEl.textContent = pad(minutes);
+  secondsEl.textContent = pad(seconds);
+}
+
+updateCountdown();
+setInterval(updateCountdown, 1000);
+
+// ─── MENU & VOLUME (unchanged) ────────────────────────────────────────────
 const menuTrigger   = document.getElementById('menuTrigger');
 const menuPanel     = document.getElementById('menuPanel');
 const volumeControl = document.getElementById('volumeControl');
@@ -423,10 +384,10 @@ document.querySelectorAll('.tab-btn').forEach(btn => {
   };
 });
 
-// Music
-document.querySelectorAll('.music-item').forEach(btn => {
-  btn.onclick = () => {
-    player.src = btn.dataset.song;
+// Music playback
+document.querySelectorAll('.music-item').forEach(item => {
+  item.onclick = () => {
+    player.src = item.dataset.song;
     player.volume = parseFloat(volumeSlider.value) || 0.7;
     player.play();
   };
@@ -437,16 +398,6 @@ volumeSlider.addEventListener('input', () => {
 });
 
 player.volume = 0.7;
-
-// Background thumbnails
-document.querySelectorAll('.bg-thumb').forEach(thumb => {
-  thumb.onclick = () => {
-    document.querySelectorAll('.bg-thumb').forEach(t => t.classList.remove('active'));
-    thumb.classList.add('active');
-    const bg = thumb.dataset.bg;
-    document.body.style.backgroundImage = `url('${bg}')`;
-  };
-});
 </script>
 </body>
 </html>
