@@ -52,58 +52,32 @@ header:hover { box-shadow: 0 12px 40px rgba(255, 77, 210, 0.35); }
 }
 .nav-btn:hover { background: rgba(255, 255, 255, 0.14); transform: scale(1.05); }
 
-/* VOLUME CONTROL - now matches navbar style */
+/* VOLUME */
 .volume-control {
   position: fixed;
   top: 18px;
   right: 18px;
   z-index: 50;
   display: flex;
-  flex-direction: column;
+  align-items: center;
   gap: 12px;
   padding: 8px 14px;
   border-radius: 999px;
   background: rgba(0, 0, 0, 0.25);
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
-  border: none;
-  opacity: 0;
-  pointer-events: none;
-  transform: translateY(-20px);
-  transition: all 0.3s ease;
+  transition: 0.25s;
 }
-.volume-control.active {
-  opacity: 1;
-  pointer-events: auto;
-  transform: translateY(0);
-}
-.volume-control:hover {
-  box-shadow: 0 12px 40px rgba(255, 77, 210, 0.35);
-}
-
-.volume-row {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.volume-label {
-  font-size: 12px;
-  font-weight: 600;
-  opacity: 0.9;
-}
-
+.volume-control:hover { box-shadow: 0 12px 40px rgba(255, 77, 210, 0.35); }
+.volume-label { font-size: 12px; font-weight: 600; opacity: 0.9; }
 .volume-slider {
-  width: 140px;
+  width: 160px;
   -webkit-appearance: none;
   height: 6px;
   background: rgba(255,255,255,0.18);
   border-radius: 999px;
   outline: none;
   cursor: pointer;
-  transition: background 0.25s;
 }
-.volume-slider:hover { background: rgba(255,255,255,0.28); }
-
 .volume-slider::-webkit-slider-thumb {
   -webkit-appearance: none;
   width: 18px;
@@ -112,47 +86,12 @@ header:hover { box-shadow: 0 12px 40px rgba(255, 77, 210, 0.35); }
   border-radius: 50%;
   cursor: pointer;
   box-shadow: 0 0 12px rgba(255, 77, 210, 0.7), 0 0 20px rgba(0, 255, 224, 0.5);
-  transition: all 0.2s;
 }
 .volume-slider::-webkit-slider-thumb:hover {
   transform: scale(1.2);
-  box-shadow: 0 0 18px rgba(255, 77, 210, 0.9), 0 0 28px rgba(0, 255, 224, 0.7);
 }
 
-/* Mini equalizer settings under volume */
-.eq-settings {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-
-.eq-pill {
-  padding: 7px 15px;
-  border-radius: 999px;
-  font-size: 11.5px;
-  font-weight: 500;
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  cursor: pointer;
-  transition: all 0.25s;
-  text-align: center;
-  min-width: 100px;
-}
-
-.eq-pill.active {
-  background: rgba(255, 77, 210, 0.22);
-  border-color: rgba(255, 77, 210, 0.45);
-  color: #ff4dd2;
-  box-shadow: 0 0 12px rgba(255, 77, 210, 0.4);
-}
-
-.eq-pill:hover:not(.active) {
-  background: rgba(255, 255, 255, 0.14);
-  transform: scale(1.03);
-}
-
-/* MENU TRIGGER - invisible */
+/* INVISIBLE TRIGGER */
 .menu-trigger {
   position: fixed;
   bottom: 16px;
@@ -164,74 +103,68 @@ header:hover { box-shadow: 0 12px 40px rgba(255, 77, 210, 0.35); }
   z-index: 200;
 }
 
-/* MENU PANEL */
+/* MUSIC MENU PANEL - styled like navbar */
 .menu-panel {
   position: fixed;
   bottom: 72px;
   left: 16px;
-  width: 340px;
-  max-height: 70vh;
-  background: rgba(0, 0, 0, 0.52);
-  border: 1px solid rgba(255, 255, 255, 0.16);
-  border-radius: 14px;
-  box-shadow: 0 10px 40px rgba(0,0,0,0.55);
-  backdrop-filter: blur(10px);
-  overflow: hidden;
+  width: auto;
+  max-width: 90%;
+  background: rgba(0, 0, 0, 0.25);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+  border-radius: 999px;
+  padding: 8px 14px;
   opacity: 0;
   pointer-events: none;
-  transform: translateY(15px) scale(0.96);
-  transition: all 0.28s ease;
+  transform: translateY(10px);
+  transition: all 0.3s ease;
   z-index: 190;
-}
-.menu-panel.active { opacity: 1; pointer-events: auto; transform: translateY(0) scale(1); }
-
-.menu-tabs { display: flex; border-bottom: 1px solid rgba(255,255,255,0.14); }
-.tab-btn {
-  flex: 1;
-  padding: 12px 0;
-  background: transparent;
-  border: none;
-  color: white;
-  font-weight: 600;
-  font-size: 12.5px;
-  cursor: pointer;
-}
-.tab-btn.active { background: rgba(255,255,255,0.10); color: #ff4dd2; }
-
-.tab-content { padding: 0; }
-.tab-pane {
-  padding: 16px 18px;
-  max-height: calc(70vh - 54px);
-  overflow-y: auto;
-  display: none;
-}
-.tab-pane.active { display: block; }
-
-.tab-pane h3 { font-size: 15px; margin-bottom: 12px; color: #ff4dd2; }
-
-/* Music list */
-.music-list {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 8px;
+}
+.menu-panel.active {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+.menu-panel:hover { box-shadow: 0 12px 40px rgba(255, 77, 210, 0.35); }
+
+/* Music list inside pill panel */
+.music-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  max-width: 100%;
+  overflow-x: auto;
+  padding: 4px 0;
 }
 .music-item {
-  padding: 10px 14px;
-  border-radius: 10px;
-  font-size: 12.5px;
-  background: rgba(255,255,255,0.06);
-  border: 1px solid rgba(255,255,255,0.12);
+  padding: 9px 17px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.18);
+  box-shadow: inset 0 1.2px 1.5px rgba(255,255,255,0.4), 0 4px 18px rgba(0,0,0,0.3);
   cursor: pointer;
-  transition: all 0.2s;
+  transition: 0.25s;
 }
 .music-item:hover {
-  background: rgba(255,255,255,0.12);
-  transform: translateX(4px);
+  background: rgba(255,255,255,0.14);
+  transform: scale(1.05);
 }
 
-/* Scrollbar */
-.tab-pane::-webkit-scrollbar { width: 5px; }
-.tab-pane::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.25); border-radius: 5px; }
+/* Scrollbar for horizontal song list */
+.music-list::-webkit-scrollbar {
+  height: 6px;
+}
+.music-list::-webkit-scrollbar-track { background: transparent; }
+.music-list::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,0.3);
+  border-radius: 3px;
+}
 
 /* COUNTDOWN */
 .countdown-wrap{
@@ -278,13 +211,6 @@ header:hover { box-shadow: 0 12px 40px rgba(255, 77, 210, 0.35); }
     <span class="volume-label">VOL</span>
     <input type="range" min="0" max="1" step="0.01" value="0.7" class="volume-slider" id="volumeSlider">
   </div>
-
-  <!-- Equalizer presets -->
-  <div class="eq-settings">
-    <div class="eq-pill active" data-eq="normal">Normal</div>
-    <div class="eq-pill" data-eq="bass">Bass Boost</div>
-    <div class="eq-pill" data-eq="treble">Treble Boost</div>
-  </div>
 </div>
 
 <section class="countdown-wrap">
@@ -301,42 +227,35 @@ header:hover { box-shadow: 0 12px 40px rgba(255, 77, 210, 0.35); }
 <!-- Invisible trigger -->
 <div class="menu-trigger" id="menuTrigger"></div>
 
+<!-- Music panel styled like navbar -->
 <div class="menu-panel" id="menuPanel">
-  <div class="menu-tabs">
-    <button class="tab-btn active" data-tab="music">Music</button>
-  </div>
-
-  <div class="tab-content">
-    <div class="tab-pane active" id="tab-music">
-      <h3>Radio</h3>
-      <div class="music-list" id="musicWheel">
-        <div class="music-item" data-song="music/together.mp3">Hot Together</div>
-        <div class="music-item" data-song="music/long.mp3">Love Is A Long Road</div>
-        <div class="music-item" data-song="music/night.mp3">Night</div>
-        <div class="music-item" data-song="music/ocean.mp3">Ocean Breeze</div>
-        <div class="music-item" data-song="music/self.mp3">Self Control</div>
-        <div class="music-item" data-song="music/tomic.mp3">Atomic</div>
-        <div class="music-item" data-song="music/sun.mp3">Sun Glasses At Night</div>
-        <div class="music-item" data-song="music/all.mp3">All Night Long</div>
-        <div class="music-item" data-song="music/shame.mp3">Shame</div>
-        <div class="music-item" data-song="music/vice.mp3">Vice City</div>
-        <div class="music-item" data-song="music/earth.mp3">I Walk This Earth All By Myself</div>
-        <div class="music-item" data-song="music/heart.mp3">Owner Of A Lonely Heart</div>
-        <div class="music-item" data-song="music/tempt.mp3">Tempted</div>
-        <div class="music-item" data-song="music/arrow.mp3">Poison Arrow</div>
-        <div class="music-item" data-song="music/crime.mp3">Is It A Crime</div>
-        <div class="music-item" data-song="music/are.mp3">Here We Are</div>
-        <div class="music-item" data-song="music/fire.mp3">Through The Fire</div>
-        <div class="music-item" data-song="music/mine.mp3">Heart Of Mine</div>
-        <div class="music-item" data-song="music/fly.mp3">Fly Away</div>
-        <div class="music-item" data-song="music/nobody.mp3">Ain't Nobody</div>
-        <div class="music-item" data-song="music/you.mp3">Thinking Of You</div>
-        <div class="music-item" data-song="music/love.mp3">Sweet Love</div>
-        <div class="music-item" data-song="music/remember.mp3">I Still Remember You</div>
-        <div class="music-item" data-song="music/gamble.mp3">Gamble With My Love</div>
-        <div class="music-item" data-song="music/suki.mp3">Sukiyaki</div>
-      </div>
-    </div>
+  <h3 style="font-size:14px; margin: 6px 0 8px; text-align:center; opacity:0.9;">Radio</h3>
+  <div class="music-list" id="musicWheel">
+    <div class="music-item" data-song="music/together.mp3">Hot Together</div>
+    <div class="music-item" data-song="music/long.mp3">Love Is A Long Road</div>
+    <div class="music-item" data-song="music/night.mp3">Night</div>
+    <div class="music-item" data-song="music/ocean.mp3">Ocean Breeze</div>
+    <div class="music-item" data-song="music/self.mp3">Self Control</div>
+    <div class="music-item" data-song="music/tomic.mp3">Atomic</div>
+    <div class="music-item" data-song="music/sun.mp3">Sun Glasses At Night</div>
+    <div class="music-item" data-song="music/all.mp3">All Night Long</div>
+    <div class="music-item" data-song="music/shame.mp3">Shame</div>
+    <div class="music-item" data-song="music/vice.mp3">Vice City</div>
+    <div class="music-item" data-song="music/earth.mp3">I Walk This Earth All By Myself</div>
+    <div class="music-item" data-song="music/heart.mp3">Owner Of A Lonely Heart</div>
+    <div class="music-item" data-song="music/tempt.mp3">Tempted</div>
+    <div class="music-item" data-song="music/arrow.mp3">Poison Arrow</div>
+    <div class="music-item" data-song="music/crime.mp3">Is It A Crime</div>
+    <div class="music-item" data-song="music/are.mp3">Here We Are</div>
+    <div class="music-item" data-song="music/fire.mp3">Through The Fire</div>
+    <div class="music-item" data-song="music/mine.mp3">Heart Of Mine</div>
+    <div class="music-item" data-song="music/fly.mp3">Fly Away</div>
+    <div class="music-item" data-song="music/nobody.mp3">Ain't Nobody</div>
+    <div class="music-item" data-song="music/you.mp3">Thinking Of You</div>
+    <div class="music-item" data-song="music/love.mp3">Sweet Love</div>
+    <div class="music-item" data-song="music/remember.mp3">I Still Remember You</div>
+    <div class="music-item" data-song="music/gamble.mp3">Gamble With My Love</div>
+    <div class="music-item" data-song="music/suki.mp3">Sukiyaki</div>
   </div>
 </div>
 
@@ -392,25 +311,6 @@ volumeSlider.addEventListener('input', () => {
 });
 
 player.volume = 0.7;
-
-// Equalizer presets
-document.querySelectorAll('.eq-pill').forEach(pill => {
-  const preset = pill.dataset.eq;
-  const saved = localStorage.getItem('eq-preset');
-  if (saved && saved === preset) {
-    pill.classList.add('active');
-  }
-
-  pill.onclick = () => {
-    document.querySelectorAll('.eq-pill').forEach(p => p.classList.remove('active'));
-    pill.classList.add('active');
-    localStorage.setItem('eq-preset', preset);
-
-     if (preset === 'bass') { applyBassBoost(); }
-     if (preset === 'treble') { applyTrebleBoost(); }
-     if (preset === 'normal') { resetEQ(); }
-  };
-});
 </script>
 </body>
 </html>
