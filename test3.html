@@ -20,7 +20,6 @@ body{
   align-items:center;
   justify-content:center;
   background-position:center 40%;
-  transition: background-image 0.8s ease;
 }
 
 /* NAVBAR */
@@ -53,7 +52,7 @@ header:hover { box-shadow: 0 12px 40px rgba(255, 77, 210, 0.35); }
 }
 .nav-btn:hover { background: rgba(255, 255, 255, 0.14); transform: scale(1.05); }
 
-/* VOLUME */
+/* VOLUME SLIDER - cooler pink/cyan */
 .volume-control {
   position: fixed;
   top: 18px;
@@ -61,8 +60,8 @@ header:hover { box-shadow: 0 12px 40px rgba(255, 77, 210, 0.35); }
   z-index: 50;
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 7px 14px;
+  gap: 10px;
+  padding: 8px 16px;
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.08);
   border: 1px solid rgba(255, 255, 255, 0.18);
@@ -74,6 +73,45 @@ header:hover { box-shadow: 0 12px 40px rgba(255, 77, 210, 0.35); }
   transition: all 0.3s ease;
 }
 .volume-control.active { opacity: 1; pointer-events: auto; transform: translateY(0); }
+.volume-control:hover { box-shadow: inset 0 1.2px 1.5px rgba(255,255,255,0.45), 0 6px 24px rgba(255,77,210,0.3); }
+
+.volume-label {
+  font-size: 12px;
+  font-weight: 600;
+  opacity: 0.9;
+}
+
+.volume-slider {
+  width: 130px;
+  -webkit-appearance: none;
+  height: 7px;
+  background: rgba(255,255,255,0.18);
+  border-radius: 999px;
+  outline: none;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.volume-slider:hover { background: rgba(255,255,255,0.28); }
+
+.volume-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 20px;
+  height: 20px;
+  background: linear-gradient(135deg, #ff4dd2, #00ffe0);
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 
+    0 0 14px rgba(255, 77, 210, 0.7),
+    0 0 24px rgba(0, 255, 224, 0.5),
+    inset 0 0 4px rgba(255,255,255,0.7);
+  transition: all 0.2s;
+}
+.volume-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.25);
+  box-shadow: 
+    0 0 20px rgba(255, 77, 210, 0.9),
+    0 0 32px rgba(0, 255, 224, 0.7);
+}
 
 /* MENU */
 .menu-trigger {
@@ -102,7 +140,7 @@ header:hover { box-shadow: 0 12px 40px rgba(255, 77, 210, 0.35); }
   bottom: 72px;
   left: 16px;
   width: 340px;
-  max-height: 72vh;
+  max-height: 70vh;
   background: rgba(0, 0, 0, 0.52);
   border: 1px solid rgba(255, 255, 255, 0.16);
   border-radius: 14px;
@@ -133,74 +171,13 @@ header:hover { box-shadow: 0 12px 40px rgba(255, 77, 210, 0.35); }
 .tab-content { padding: 0; }
 .tab-pane {
   padding: 16px 18px;
-  max-height: calc(72vh - 54px);
+  max-height: calc(70vh - 54px);
   overflow-y: auto;
   display: none;
 }
 .tab-pane.active { display: block; }
 
 .tab-pane h3 { font-size: 15px; margin-bottom: 12px; color: #ff4dd2; }
-
-/* Background thumbs */
-.bg-thumbs {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 12px;
-}
-.bg-thumb {
-  border-radius: 10px;
-  overflow: hidden;
-  cursor: pointer;
-  border: 2px solid transparent;
-  transition: all 0.2s;
-}
-.bg-thumb img {
-  width: 100%;
-  height: 90px;
-  object-fit: cover;
-}
-.bg-thumb.active {
-  border-color: #ff4dd2;
-  box-shadow: 0 0 12px rgba(255, 77, 210, 0.6);
-}
-.bg-thumb:hover:not(.active) { transform: scale(1.05); }
-
-/* Setting pills */
-.settings-group {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-.setting-pill {
-  padding: 9px 16px;
-  border-radius: 999px;
-  font-size: 12.5px;
-  font-weight: 500;
-  background: rgba(255,255,255,0.06);
-  border: 1px solid rgba(255,255,255,0.13);
-  cursor: pointer;
-  transition: all 0.22s ease;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-.setting-pill:hover {
-  background: rgba(255,255,255,0.13);
-  transform: translateX(3px);
-}
-.setting-pill.active {
-  background: rgba(255, 77, 210, 0.18);
-  border-color: rgba(255, 77, 210, 0.4);
-  color: #ff4dd2;
-}
-.setting-pill::after {
-  content: attr(data-state);
-  font-size: 10px;
-  opacity: 0.7;
-  text-transform: uppercase;
-}
-.setting-pill[data-state="on"]::after { color: #00ffe0; }
-.setting-pill[data-state="off"]::after { color: #ff4dd2; }
 
 /* Music list */
 .music-list {
@@ -226,34 +203,33 @@ header:hover { box-shadow: 0 12px 40px rgba(255, 77, 210, 0.35); }
 .tab-pane::-webkit-scrollbar { width: 5px; }
 .tab-pane::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.25); border-radius: 5px; }
 
-/* Countdown */
-.countdown-wrap {
-  backdrop-filter: blur(1px);
-  border-radius: 20px;
-  padding: 26px 34px;
-  text-align: center;
-  width: 88%;
-  max-width: 680px;
-  margin-top: 120px;
-  background: rgba(0,0,0,0.25);
-  border: 2px solid #fff;
+/* COUNTDOWN - back to original (days only) */
+.countdown-wrap{
+  backdrop-filter:blur(1px);
+  border-radius:20px;
+  padding:26px 34px;
+  text-align:center;
+  width:88%;
+  max-width:600px;
+  margin-top:120px;
+  background:rgba(0,0,0,0.25);
+  border:2px solid #fff;
 }
-.title { font-size: 32px; font-weight: 900; }
-.subtitle { font-size: 14px; margin: 10px 0 24px; }
-.clock {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  justify-content: center;
+.title{font-size:32px;font-weight:900}
+.subtitle{font-size:14px;margin:10px 0 24px}
+.clock{
+  display:flex;
+  gap:12px;
+  justify-content:center;
 }
-.unit {
-  min-width: 80px;
-  padding: 12px 8px;
-  border-radius: 12px;
-  background: rgba(0,0,0,0.35);
+.unit{
+  min-width:72px;
+  padding:12px;
+  border-radius:12px;
+  background:rgba(0,0,0,0.35);
 }
-.num { font-size: 32px; font-weight: 900; }
-.label { font-size: 11px; opacity: .8; text-transform: uppercase; }
+.num{font-size:32px;font-weight:900}
+.label{font-size:11px;opacity:.8}
 </style>
 </head>
 <body>
@@ -276,11 +252,10 @@ header:hover { box-shadow: 0 12px 40px rgba(255, 77, 210, 0.35); }
   <h1 class="title">Grand Theft Auto VI</h1>
   <div class="subtitle">RELEASE COUNTDOWN – NOVEMBER 18TH, 2026</div>
   <div class="clock">
-    <div class="unit"><div class="num" id="months">00</div><div class="label">Months</div></div>
-    <div class="unit"><div class="num" id="days">000</div><div class="label">Days</div></div>
-    <div class="unit"><div class="num" id="hours">00</div><div class="label">Hours</div></div>
-    <div class="unit"><div class="num" id="minutes">00</div><div class="label">Minutes</div></div>
-    <div class="unit"><div class="num" id="seconds">00</div><div class="label">Seconds</div></div>
+    <div class="unit"><div class="num" id="days">000</div><div class="label">DAYS</div></div>
+    <div class="unit"><div class="num" id="hours">00</div><div class="label">HOURS</div></div>
+    <div class="unit"><div class="num" id="minutes">00</div><div class="label">MINUTES</div></div>
+    <div class="unit"><div class="num" id="seconds">00</div><div class="label">SECONDS</div></div>
   </div>
 </section>
 
@@ -289,12 +264,9 @@ header:hover { box-shadow: 0 12px 40px rgba(255, 77, 210, 0.35); }
 <div class="menu-panel" id="menuPanel">
   <div class="menu-tabs">
     <button class="tab-btn active" data-tab="music">Music</button>
-    <button class="tab-btn" data-tab="background">Background</button>
-    <button class="tab-btn" data-tab="settings">Settings</button>
   </div>
 
   <div class="tab-content">
-
     <div class="tab-pane active" id="tab-music">
       <h3>Radio</h3>
       <div class="music-list" id="musicWheel">
@@ -325,100 +297,34 @@ header:hover { box-shadow: 0 12px 40px rgba(255, 77, 210, 0.35); }
         <div class="music-item" data-song="music/suki.mp3">Sukiyaki</div>
       </div>
     </div>
-
-    <div class="tab-pane" id="tab-background">
-      <h3>Background</h3>
-      <div class="bg-thumbs" id="bg-thumbs">
-        <div class="bg-thumb active" data-bg="gta/jason.jpg">
-          <img src="gta/jason.jpg" alt="Jason">
-        </div>
-        <div class="bg-thumb" data-bg="gta/lucia.jpg">
-          <img src="gta/lucia.jpg" alt="Lucia">
-        </div>
-        <div class="bg-thumb" data-bg="gta/vice-city-neon.jpg">
-          <img src="gta/vice-city-neon.jpg" alt="Vice Neon">
-        </div>
-        <!-- add more thumbnails here -->
-      </div>
-    </div>
-
-    <div class="tab-pane" id="tab-settings">
-      <h3>Settings</h3>
-      <div class="settings-group">
-        <div class="setting-pill" data-setting="countdown-months" data-state="off">
-          Show months in countdown
-        </div>
-        <div class="setting-pill" data-setting="glass-blur" data-state="on">
-          Glass / Blur Effect
-        </div>
-        <div class="setting-pill" data-setting="neon-glow" data-state="on">
-          Neon Glow
-        </div>
-        <div class="setting-pill" data-setting="gradient" data-state="on">
-          Color Gradient Overlay
-        </div>
-        <div class="setting-pill" data-setting="outside-close" data-state="on">
-          Close menu on outside click
-        </div>
-      </div>
-    </div>
-
   </div>
 </div>
 
 <audio id="musicPlayer"></audio>
 
 <script>
-// COUNTDOWN
+// COUNTDOWN - original (days only)
 const targetDate = new Date('2026-11-18T00:00:00');
+const daysEl    = document.getElementById('days');
+const hoursEl   = document.getElementById('hours');
+const minutesEl = document.getElementById('minutes');
+const secondsEl = document.getElementById('seconds');
 
-const monthsEl   = document.getElementById('months');
-const daysEl     = document.getElementById('days');
-const hoursEl    = document.getElementById('hours');
-const minutesEl  = document.getElementById('minutes');
-const secondsEl  = document.getElementById('seconds');
+function pad(n){ return String(n).padStart(2,'0'); }
 
-function pad(n) { return String(n).padStart(2, '0'); }
-
-function updateCountdown() {
+function updateCountdown(){
   const now = new Date();
-  let diff = Math.floor((targetDate - now) / 1000);
-
-  if (diff <= 0) {
-    monthsEl.textContent = "00";
-    daysEl.textContent   = "000";
-    hoursEl.textContent  = "00";
-    minutesEl.textContent = "00";
-    secondsEl.textContent = "00";
-    return;
-  }
-
-  const showMonths = localStorage.getItem('countdown-months') === 'on';
-
-  let months = 0;
-  if (showMonths) {
-    months = Math.floor(diff / (86400 * 30.436875));
-    diff -= months * 86400 * 30.436875;
-    monthsEl.textContent = pad(months);
-  } else {
-    monthsEl.textContent = "00";
-  }
-
-  const days    = Math.floor(diff / 86400); diff -= days * 86400;
-  const hours   = Math.floor(diff / 3600);  diff -= hours * 3600;
-  const minutes = Math.floor(diff / 60);
-  const seconds = diff % 60;
-
-  daysEl.textContent    = days.toString().padStart(showMonths ? 3 : 3, '0');
-  hoursEl.textContent   = pad(hours);
-  minutesEl.textContent = pad(minutes);
-  secondsEl.textContent = pad(seconds);
+  const diff = Math.floor((targetDate - now)/1000);
+  if(diff <= 0) return;
+  daysEl.textContent = Math.floor(diff/86400);
+  hoursEl.textContent = pad(Math.floor(diff/3600%24));
+  minutesEl.textContent = pad(Math.floor(diff/60%60));
+  secondsEl.textContent = pad(diff%60);
 }
-
 updateCountdown();
-setInterval(updateCountdown, 1000);
+setInterval(updateCountdown,1000);
 
-// MENU & TABS
+// MENU (only music tab now)
 const menuTrigger   = document.getElementById('menuTrigger');
 const menuPanel     = document.getElementById('menuPanel');
 const volumeControl = document.getElementById('volumeControl');
@@ -433,20 +339,10 @@ menuTrigger.onclick = () => {
   volumeControl.classList.toggle('active', menuOpen);
 };
 
-document.querySelectorAll('.tab-btn').forEach(btn => {
-  btn.onclick = () => {
-    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-    document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
-    btn.classList.add('active');
-    document.getElementById(`tab-${btn.dataset.tab}`).classList.add('active');
-    volumeControl.classList.toggle('active', btn.dataset.tab === 'music' && menuOpen);
-  };
-});
-
 // Music
-document.querySelectorAll('.music-item').forEach(item => {
-  item.onclick = () => {
-    player.src = item.dataset.song;
+document.querySelectorAll('.music-item').forEach(btn => {
+  btn.onclick = () => {
+    player.src = btn.dataset.song;
     player.volume = parseFloat(volumeSlider.value) || 0.7;
     player.play();
   };
@@ -457,38 +353,6 @@ volumeSlider.addEventListener('input', () => {
 });
 
 player.volume = 0.7;
-
-// Background change
-document.querySelectorAll('.bg-thumb').forEach(thumb => {
-  thumb.onclick = () => {
-    document.querySelectorAll('.bg-thumb').forEach(t => t.classList.remove('active'));
-    thumb.classList.add('active');
-    const bg = thumb.dataset.bg;
-    document.body.style.backgroundImage = `linear-gradient(135deg, rgba(255,77,210,0.15), rgba(0,255,224,0.10)), url('${bg}')`;
-  };
-});
-
-// Settings toggle
-document.querySelectorAll('.setting-pill').forEach(pill => {
-  const key = pill.dataset.setting;
-  const saved = localStorage.getItem(key);
-  if (saved) {
-    pill.dataset.state = saved;
-    pill.classList.toggle('active', saved === 'on');
-  }
-
-  pill.onclick = () => {
-    const next = pill.dataset.state === 'on' ? 'off' : 'on';
-    pill.dataset.state = next;
-    pill.classList.toggle('active', next === 'on');
-    localStorage.setItem(key, next);
-
-    // Refresh countdown when months toggle changes
-    if (key === 'countdown-months') {
-      updateCountdown();
-    }
-  };
-});
 </script>
 </body>
 </html>
