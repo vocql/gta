@@ -38,7 +38,6 @@ header{
   border-radius:999px;
   background:rgba(0,0,0,0.25);
   border:1px solid rgba(255,255,255,0.18);
-  box-shadow:0 6px 18px rgba(0,0,0,0.35);
 }
 
 .nav-btn{
@@ -49,57 +48,9 @@ header{
   text-decoration:none;
   background:rgba(255,255,255,0.08);
   border:1px solid rgba(255,255,255,0.18);
-  box-shadow:inset 0 1px 1.5px rgba(255,255,255,0.4),
-             0 4px 18px rgba(0,0,0,0.3);
   transition:.25s;
 }
-
-.nav-btn:hover{
-  background:rgba(255,255,255,0.14);
-  transform:scale(1.05);
-}
-
-/* ================= SIDE MENU ================= */
-.side-menu{
-  position:fixed;
-  left:24px;
-  top:50%;
-  transform:translateY(-50%);
-  width:180px;
-  padding:16px;
-  border-radius:18px;
-
-  background:rgba(0,0,0,0.25);
-  border:1px solid rgba(255,255,255,0.18);
-  backdrop-filter:blur(10px);
-
-  display:flex;
-  flex-direction:column;
-  gap:12px;
-
-  box-shadow:0 8px 28px rgba(0,0,0,0.35);
-  z-index:40;
-}
-
-.side-btn{
-  text-align:center;
-  padding:12px 0;
-  border-radius:999px;
-  font-size:13px;
-  font-weight:600;
-  color:#fff;
-  text-decoration:none;
-  background:rgba(255,255,255,0.08);
-  border:1px solid rgba(255,255,255,0.18);
-  box-shadow:inset 0 1px 1.5px rgba(255,255,255,0.4),
-             0 4px 14px rgba(0,0,0,0.3);
-  transition:.25s;
-}
-
-.side-btn:hover{
-  background:rgba(255,255,255,0.14);
-  transform:scale(1.05);
-}
+.nav-btn:hover{background:rgba(255,255,255,0.14);transform:scale(1.05)}
 
 /* ================= COUNTDOWN ================= */
 .countdown-wrap{
@@ -118,18 +69,27 @@ header{
 
 .clock{
   display:flex;
-  gap:12px;
+  gap:14px;
   justify-content:center;
 }
 
 .unit{
-  min-width:72px;
+  width:110px;
   padding:12px;
   border-radius:12px;
   background:rgba(0,0,0,0.35);
+  text-align:center;
 }
 
-.num{font-size:32px;font-weight:900}
+.num{
+  display:block;
+  width:100%;
+  font-size:32px;
+  font-weight:900;
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum";
+}
+
 .label{font-size:11px;opacity:.8}
 
 /* ================= MUSIC ================= */
@@ -143,45 +103,52 @@ header{
   z-index:200;
 }
 
-.music-wheel{
+/* Music menu – FIXED */
+.music-menu{
   position:fixed;
   bottom:18px;
   left:70px;
+  width:240px;
+  padding:14px;
+  border-radius:18px;
+
+  background:rgba(0,0,0,0.25);
+  border:1px solid rgba(255,255,255,0.18);
+  backdrop-filter:blur(10px);
+
   display:flex;
-  gap:8px;
-  max-width:calc(100% - 90px);
-  overflow-x:auto;
-  padding-bottom:4px;
+  flex-direction:column;
+  gap:10px;
+
+  max-height:320px;
+  overflow-y:auto;
+
   opacity:0;
   pointer-events:none;
   transform:translateX(-10px);
   transition:.3s ease;
+  z-index:150;
 }
 
-.music-wheel.active{
+.music-menu.active{
   opacity:1;
   pointer-events:auto;
   transform:translateX(0);
 }
 
 .music-item{
-  padding:9px 17px;
+  padding:10px 14px;
   border-radius:999px;
   font-size:12px;
   font-weight:600;
-  white-space:nowrap;
   background:rgba(255,255,255,0.08);
   border:1px solid rgba(255,255,255,0.18);
-  box-shadow:inset 0 1px 1.5px rgba(255,255,255,0.4),
-             0 4px 18px rgba(0,0,0,0.3);
   cursor:pointer;
-  flex-shrink:0;
   transition:.25s;
 }
-
 .music-item:hover{
   background:rgba(255,255,255,0.14);
-  transform:scale(1.05);
+  transform:scale(1.04);
 }
 
 /* ================= VOLUME ================= */
@@ -200,15 +167,8 @@ header{
   pointer-events:none;
   transition:.3s;
 }
-
-.volume-control.active{
-  opacity:1;
-  pointer-events:auto;
-}
-
-.volume-slider{
-  width:120px;
-}
+.volume-control.active{opacity:1;pointer-events:auto}
+.volume-slider{width:120px}
 </style>
 </head>
 
@@ -223,33 +183,20 @@ header{
   <a href="trailers" class="nav-btn">Trailers</a>
 </header>
 
-<div class="side-menu">
-  <a href="map" class="side-btn">Map</a>
-  <a href="characters" class="side-btn">Characters</a>
-  <a href="places" class="side-btn">Places</a>
-  <a href="screenshots" class="side-btn">Screenshots</a>
-  <a href="trailers" class="side-btn">Trailers</a>
-</div>
-
-<div class="volume-control" id="volumeControl">
-  <span>VOL</span>
-  <input type="range" min="0" max="1" step="0.01" value="0.7" class="volume-slider" id="volumeSlider">
-</div>
-
 <section class="countdown-wrap">
   <h1 class="title">Grand Theft Auto VI</h1>
   <div class="subtitle">RELEASE COUNTDOWN – NOVEMBER 19TH, 2026</div>
   <div class="clock">
-    <div class="unit"><div class="num" id="days">000</div><div class="label">DAYS</div></div>
-    <div class="unit"><div class="num" id="hours">00</div><div class="label">HOURS</div></div>
-    <div class="unit"><div class="num" id="minutes">00</div><div class="label">MINUTES</div></div>
-    <div class="unit"><div class="num" id="seconds">00</div><div class="label">SECONDS</div></div>
+    <div class="unit"><span class="num" id="days">000</span><span class="label">DAYS</span></div>
+    <div class="unit"><span class="num" id="hours">00</span><span class="label">HOURS</span></div>
+    <div class="unit"><span class="num" id="minutes">00</span><span class="label">MINUTES</span></div>
+    <div class="unit"><span class="num" id="seconds">00</span><span class="label">SECONDS</span></div>
   </div>
 </section>
 
 <div class="music-trigger" id="musicTrigger"></div>
 
-<div class="music-wheel" id="musicWheel">
+<div class="music-menu" id="musicMenu">
   <div class="music-item" data-song="music/together.mp3">Hot Together</div>
   <div class="music-item" data-song="music/long.mp3">Love Is A Long Road</div>
   <div class="music-item" data-song="music/night.mp3">Night</div>
@@ -277,27 +224,35 @@ header{
   <div class="music-item" data-song="music/suki.mp3">Sukiyaki</div>
 </div>
 
+<div class="volume-control" id="volumeControl">
+  <span>VOL</span>
+  <input type="range" min="0" max="1" step="0.01" value="0.7" class="volume-slider" id="volumeSlider">
+</div>
+
 <audio id="musicPlayer"></audio>
 
 <script>
-const targetDate=new Date('2026-11-18T00:00:00');
-const d=document.getElementById('days');
-const h=document.getElementById('hours');
-const m=document.getElementById('minutes');
-const s=document.getElementById('seconds');
+/* COUNTDOWN – FIXED */
+const targetDate = new Date('2026-11-19T00:00:00');
+const d=document.getElementById('days'),
+      h=document.getElementById('hours'),
+      m=document.getElementById('minutes'),
+      s=document.getElementById('seconds');
 
-function pad(n){return String(n).padStart(2,'0')}
+function pad(n,l=2){return String(n).padStart(l,'0')}
+
 setInterval(()=>{
   const diff=Math.floor((targetDate-new Date())/1000);
-  if(diff<0)return;
-  d.textContent=Math.floor(diff/86400);
-  h.textContent=pad(diff/3600%24);
-  m.textContent=pad(diff/60%60);
+  if(diff<=0)return;
+  d.textContent=pad(Math.floor(diff/86400),3);
+  h.textContent=pad(Math.floor(diff/3600)%24);
+  m.textContent=pad(Math.floor(diff/60)%60);
   s.textContent=pad(diff%60);
 },1000);
 
+/* MUSIC */
 const trigger=document.getElementById('musicTrigger');
-const wheel=document.getElementById('musicWheel');
+const menu=document.getElementById('musicMenu');
 const vol=document.getElementById('volumeControl');
 const player=document.getElementById('musicPlayer');
 const slider=document.getElementById('volumeSlider');
@@ -305,20 +260,20 @@ let open=false;
 
 trigger.onclick=()=>{
   open=!open;
-  wheel.classList.toggle('active',open);
+  menu.classList.toggle('active',open);
   vol.classList.toggle('active',open);
 };
 
-document.querySelectorAll('.music-item').forEach(b=>{
-  b.onclick=()=>{
-    player.src=b.dataset.song;
+document.querySelectorAll('.music-item').forEach(btn=>{
+  btn.onclick=()=>{
+    player.src=btn.dataset.song;
     player.volume=slider.value;
     player.play();
   };
 });
 
 slider.oninput=()=>player.volume=slider.value;
-player.volume=.7;
+player.volume=0.7;
 </script>
 
 </body>
