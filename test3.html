@@ -1,27 +1,19 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>VI | Home</title>
 
-<link rel="icon" href="gta/npc/lucia.jpg" type="image/jpg">
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
 
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
-html,body{height:100%;overflow:hidden}
-
 body{
-  font-family:'Orbitron',sans-serif;
-  background:
-    linear-gradient(135deg, rgba(255,77,210,0.15), rgba(0,255,224,0.10)),
-    url('gta/jason.jpg') center/cover no-repeat fixed;
-  background-blend-mode:overlay;
+  margin:0;
+  font-family:Orbitron, sans-serif;
+  background:#000;
   color:#fff;
-  display:flex;
-  align-items:center;
-  justify-content:center;
+  height:100vh;
 }
 
 /* ================= ORIGINAL NAVBAR ================= */
@@ -35,13 +27,10 @@ header{
   gap:12px;
   padding:8px 14px;
   border-radius:999px;
-  background:rgba(0,0,0,0.25);
-  box-shadow:0 6px 18px rgba(0,0,0,0.35);
-  transition:.25s;
+  background:rgba(0,0,0,.25);
+  box-shadow:0 6px 18px rgba(0,0,0,.35);
 }
-header:hover{
-  box-shadow:0 12px 40px rgba(255,77,210,.35);
-}
+
 .nav-btn{
   padding:9px 17px;
   border-radius:999px;
@@ -84,38 +73,36 @@ header:hover{
 .num{font-size:32px;font-weight:900}
 .label{font-size:11px;opacity:.8}
 
-/* ================= RADIO ================= */
-
-/* Invisible trigger */
+/* ================= HIDDEN RADIO ================= */
 .music-trigger{
   position:fixed;
   bottom:18px;
   left:18px;
   width:42px;
   height:42px;
-  z-index:200;
   cursor:pointer;
+  z-index:200;
 }
 
-/* Radio panel (navbar glass style) */
 .radio-panel{
   position:fixed;
   bottom:18px;
   left:70px;
-  width:260px;
+  width:220px;
   max-height:360px;
   padding:12px;
   border-radius:22px;
-  background:rgba(0,0,0,0.25);
-  box-shadow:0 6px 18px rgba(0,0,0,0.35);
+  background:rgba(0,0,0,.25);
+  backdrop-filter:blur(2px);
+  box-shadow:0 6px 18px rgba(0,0,0,.35);
   display:flex;
   flex-direction:column;
-  gap:10px;
+  gap:8px;
   opacity:0;
   pointer-events:none;
   transform:translateX(-10px);
   transition:.25s ease;
-  overflow:hidden; /* prevents scroll bleed */
+  overflow:hidden;
 }
 .radio-panel.active{
   opacity:1;
@@ -123,7 +110,7 @@ header:hover{
   transform:translateX(0);
 }
 
-/* Volume */
+/* Volume slider */
 .volume-wrap{
   display:flex;
   align-items:center;
@@ -147,17 +134,17 @@ header:hover{
   box-shadow:0 0 10px #00ffe0;
 }
 
-/* Music list */
+/* Song list */
 .music-list{
   display:flex;
   flex-direction:column;
-  gap:8px;
+  gap:6px;
+  max-height:260px;
   overflow-y:auto;
-  padding-right:4px;
   overscroll-behavior:contain;
 }
 
-/* Smaller navbar-style pills */
+/* Song pills = navbar style & smaller */
 .music-item{
   padding:6px 13px;
   border-radius:999px;
@@ -166,21 +153,23 @@ header:hover{
   background:rgba(255,255,255,.08);
   border:1px solid rgba(255,255,255,.18);
   box-shadow:
-    inset 0 1px 1.2px rgba(255,255,255,.35),
+    inset 0 1.2px 1.2px rgba(255,255,255,.35),
     0 3px 12px rgba(0,0,0,.28);
   cursor:pointer;
   transition:.2s;
+  transform-origin:center;
+  will-change:transform;
 }
 .music-item:hover{
   background:rgba(255,255,255,.14);
-  transform:scale(1.04);
+  transform:scale(1.03);
 }
 
 /* Scrollbar */
-.music-list::-webkit-scrollbar{width:6px}
+.music-list::-webkit-scrollbar{width:4px;}
 .music-list::-webkit-scrollbar-thumb{
-  background:rgba(255,255,255,.35);
-  border-radius:3px;
+  background:rgba(255,255,255,.25);
+  border-radius:10px;
 }
 </style>
 </head>
@@ -188,12 +177,12 @@ header:hover{
 <body>
 
 <header>
-  <a href="index" class="nav-btn">Home</a>
-  <a href="map" class="nav-btn">Map</a>
-  <a href="characters" class="nav-btn">Characters</a>
-  <a href="places" class="nav-btn">Places</a>
-  <a href="screenshots" class="nav-btn">Screenshots</a>
-  <a href="trailers" class="nav-btn">Trailers</a>
+  <a class="nav-btn" href="#">Home</a>
+  <a class="nav-btn" href="#">Map</a>
+  <a class="nav-btn" href="#">Characters</a>
+  <a class="nav-btn" href="#">Places</a>
+  <a class="nav-btn" href="#">Screenshots</a>
+  <a class="nav-btn" href="#">Trailers</a>
 </header>
 
 <section class="countdown-wrap">
@@ -235,6 +224,10 @@ header:hover{
     <div class="music-item" data-song="music/fire.mp3">Through The Fire</div>
     <div class="music-item" data-song="music/mine.mp3">Heart Of Mine</div>
     <div class="music-item" data-song="music/nobody.mp3">Ain't Nobody</div>
+    <div class="music-item" data-song="music/you.mp3">Thinking Of You</div>
+    <div class="music-item" data-song="music/love.mp3">Sweet Love</div>
+    <div class="music-item" data-song="music/remember.mp3">I Still Remember You</div>
+    <div class="music-item" data-song="music/gamble.mp3">Gamble With My Love</div>
     <div class="music-item" data-song="music/suki.mp3">Sukiyaki</div>
   </div>
 </div>
@@ -258,7 +251,7 @@ setInterval(()=>{
   s.textContent=pad(diff%60);
 },1000);
 
-/* Radio */
+/* Radio toggle */
 const trigger=document.getElementById('musicTrigger');
 const panel=document.getElementById('radioPanel');
 const player=document.getElementById('musicPlayer');
@@ -274,5 +267,6 @@ document.querySelectorAll('.music-item').forEach(i=>{
 
 </body>
 </html>
+
 
 
