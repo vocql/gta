@@ -20,9 +20,10 @@ body{
   align-items:center;
   justify-content:center;
   background-position:center 40%;
+  transition: background 0.6s ease;
 }
 
-/* ================= NAVBAR ================= */
+/* ================= NAVBAR (restored original) ================= */
 header {
   position: fixed;
   top: 18px;
@@ -30,26 +31,32 @@ header {
   transform: translateX(-50%);
   z-index: 50;
   display: flex;
-  gap: 10px;
-  padding: 7px 12px;
+  gap: 12px;
+  padding: 8px 14px;
   border-radius: 999px;
   background: rgba(0, 0, 0, 0.25);
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
   transition: 0.25s;
 }
-header:hover { box-shadow: 0 12px 40px rgba(255, 77, 210, 0.35); }
+header:hover {
+  box-shadow: 0 12px 40px rgba(255, 77, 210, 0.35);
+}
 .nav-btn {
-  padding: 7px 14px;
+  padding: 9px 17px;
   border-radius: 999px;
-  font-size: 13px;
+  color: #fff;
   font-weight: 600;
   text-decoration: none;
   background: rgba(255, 255, 255, 0.08);
   border: 1px solid rgba(255, 255, 255, 0.18);
-  box-shadow: inset 0 1.2px 1.5px rgba(255, 255, 255, 0.4), 0 4px 18px rgba(0, 0, 0, 0.3);
+  box-shadow: inset 0 1.2px 1.5px rgba(255, 255, 255, 0.4),
+              0 4px 18px rgba(0, 0, 0, 0.3);
   transition: 0.25s;
 }
-.nav-btn:hover { background: rgba(255, 255, 255, 0.14); transform: scale(1.05); }
+.nav-btn:hover {
+  background: rgba(255, 255, 255, 0.14);
+  transform: scale(1.05);
+}
 
 /* ================= VOLUME ================= */
 .volume-control {
@@ -72,33 +79,7 @@ header:hover { box-shadow: 0 12px 40px rgba(255, 77, 210, 0.35); }
   transition: all 0.3s ease;
 }
 .volume-control.active { opacity: 1; pointer-events: auto; transform: translateY(0); }
-.volume-control:hover {
-  background: rgba(255, 255, 255, 0.14);
-  box-shadow: inset 0 1.2px 1.5px rgba(255,255,255,0.45), 0 4px 20px rgba(0,0,0,0.35);
-}
-.volume-label { font-size: 11px; font-weight: 600; opacity: 0.85; }
-.volume-slider {
-  width: 100px;
-  -webkit-appearance: none;
-  height: 5px;
-  background: rgba(255,255,255,0.14);
-  border-radius: 999px;
-  outline: none;
-  cursor: pointer;
-}
-.volume-slider:hover { background: rgba(255,255,255,0.22); }
-.volume-slider::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  width: 16px; height: 16px;
-  background: rgba(255, 77, 210, 0.9);
-  border-radius: 50%;
-  cursor: pointer;
-  box-shadow: 0 0 9px rgba(255, 77, 210, 0.7), inset 0 0 3px rgba(255,255,255,0.6);
-}
-.volume-slider::-webkit-slider-thumb:hover {
-  transform: scale(1.2);
-  background: rgba(0, 255, 224, 0.9);
-}
+.volume-control:hover { background: rgba(255, 255, 255, 0.14); }
 
 /* ================= MENU ================= */
 .menu-trigger {
@@ -120,14 +101,14 @@ header:hover { box-shadow: 0 12px 40px rgba(255, 77, 210, 0.35); }
   font-size: 18px;
   transition: all 0.25s;
 }
-.menu-trigger:hover { background: rgba(255, 255, 255, 0.14); transform: scale(1.08); }
+.menu-trigger:hover { transform: scale(1.08); }
 
 .menu-panel {
   position: fixed;
   bottom: 72px;
   left: 16px;
   width: 340px;
-  max-height: 70vh;
+  max-height: 72vh;
   background: rgba(0, 0, 0, 0.52);
   border: 1px solid rgba(255, 255, 255, 0.16);
   border-radius: 14px;
@@ -142,7 +123,6 @@ header:hover { box-shadow: 0 12px 40px rgba(255, 77, 210, 0.35); }
 }
 .menu-panel.active { opacity: 1; pointer-events: auto; transform: translateY(0) scale(1); }
 
-/* Tabs */
 .menu-tabs {
   display: flex;
   border-bottom: 1px solid rgba(255,255,255,0.14);
@@ -153,39 +133,75 @@ header:hover { box-shadow: 0 12px 40px rgba(255, 77, 210, 0.35); }
   background: transparent;
   border: none;
   color: white;
-  font-family: 'Orbitron', sans-serif;
   font-weight: 600;
   font-size: 12.5px;
   cursor: pointer;
-  transition: all 0.2s;
 }
 .tab-btn.active {
   background: rgba(255,255,255,0.10);
   color: #ff4dd2;
 }
-.tab-btn:hover:not(.active) { background: rgba(255,255,255,0.06); }
 
-/* Tab content */
-.tab-content {
-  padding: 0;
-}
+.tab-content { padding: 0; }
 .tab-pane {
   padding: 16px 18px;
-  max-height: calc(70vh - 54px);
+  max-height: calc(72vh - 54px);
   overflow-y: auto;
   display: none;
 }
 .tab-pane.active { display: block; }
 
-/* Tab titles */
 .tab-pane h3 {
   font-size: 15px;
   margin-bottom: 14px;
   color: #ff4dd2;
-  letter-spacing: 0.5px;
 }
 
-/* Music list - clean vertical list */
+/* Background thumbnails */
+.bg-thumbs {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-top: 8px;
+}
+.bg-thumb {
+  position: relative;
+  border-radius: 8px;
+  overflow: hidden;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: all 0.2s;
+}
+.bg-thumb img {
+  width: 100%;
+  height: 80px;
+  object-fit: cover;
+  display: block;
+}
+.bg-thumb.active {
+  border-color: #ff4dd2;
+  box-shadow: 0 0 12px rgba(255, 77, 210, 0.6);
+}
+.bg-thumb:hover:not(.active) {
+  transform: scale(1.04);
+}
+
+/* Compact settings */
+.option-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  margin-bottom: 4px;
+  background: rgba(255,255,255,0.05);
+  border-radius: 8px;
+  font-size: 12.5px;
+}
+.option-item label { flex: 1; }
+.option-item input[type="checkbox"] { margin-left: 10px; }
+.option-item select { width: 110px; font-size: 11.5px; }
+
+/* Music list */
 .music-list {
   display: flex;
   flex-direction: column;
@@ -195,11 +211,10 @@ header:hover { box-shadow: 0 12px 40px rgba(255, 77, 210, 0.35); }
   padding: 10px 14px;
   border-radius: 10px;
   font-size: 12.5px;
-  font-weight: 500;
   background: rgba(255,255,255,0.06);
   border: 1px solid rgba(255,255,255,0.12);
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.2s;
 }
 .music-item:hover {
   background: rgba(255,255,255,0.12);
@@ -210,7 +225,6 @@ header:hover { box-shadow: 0 12px 40px rgba(255, 77, 210, 0.35); }
 .tab-pane::-webkit-scrollbar {
   width: 5px;
 }
-.tab-pane::-webkit-scrollbar-track { background: transparent; }
 .tab-pane::-webkit-scrollbar-thumb {
   background: rgba(255,255,255,0.25);
   border-radius: 5px;
@@ -273,9 +287,9 @@ header:hover { box-shadow: 0 12px 40px rgba(255, 77, 210, 0.35); }
   </div>
 
   <div class="tab-content">
-    <!-- Music Tab -->
+
     <div class="tab-pane active" id="tab-music">
-      <h3>Radio Stations</h3>
+      <h3>Radio</h3>
       <div class="music-list" id="musicWheel">
         <div class="music-item" data-song="music/together.mp3">Hot Together</div>
         <div class="music-item" data-song="music/long.mp3">Love Is A Long Road</div>
@@ -305,38 +319,70 @@ header:hover { box-shadow: 0 12px 40px rgba(255, 77, 210, 0.35); }
       </div>
     </div>
 
-    <!-- Background Tab -->
+    <!-- Background Tab – images only -->
     <div class="tab-pane" id="tab-background">
       <h3>Background</h3>
-      <p style="opacity:0.7; line-height:1.5; margin-top:10px;">
-        Change wallpaper<br>
-        Adjust gradient overlay<br>
-        Toggle effects<br>
-        (coming soon)
-      </p>
+      <div class="bg-thumbs" id="bg-thumbs">
+        <div class="bg-thumb active" data-bg="gta/jason.jpg">
+          <img src="gta/jason.jpg" alt="Jason">
+        </div>
+        <div class="bg-thumb" data-bg="gta/lucia.jpg">
+          <img src="gta/lucia.jpg" alt="Lucia">
+        </div>
+        <div class="bg-thumb" data-bg="gta/vice-city-neon.jpg">
+          <img src="gta/vice-city-neon.jpg" alt="Vice Neon">
+        </div>
+        <!-- add more thumbnails here when you have more images -->
+      </div>
     </div>
 
-    <!-- Settings Tab -->
+    <!-- Settings Tab – compact -->
     <div class="tab-pane" id="tab-settings">
       <h3>Settings</h3>
-      <p style="opacity:0.7; line-height:1.5; margin-top:10px;">
-        Audio quality<br>
-        Auto-play next<br>
-        Theme options<br>
-        Keyboard shortcuts<br>
-        (coming soon)
-      </p>
+      <div class="option-item">
+        <label>Auto-play next song</label>
+        <input type="checkbox" id="autoplay-next" checked>
+      </div>
+      <div class="option-item">
+        <label>Remember last song</label>
+        <input type="checkbox" id="remember-song" checked>
+      </div>
+      <div class="option-item">
+        <label>Show song name</label>
+        <input type="checkbox" id="show-song-title" checked>
+      </div>
+      <div class="option-item">
+        <label>Close menu on click outside</label>
+        <input type="checkbox" id="close-on-outside" checked>
+      </div>
+      <div class="option-item">
+        <label>Volume step</label>
+        <select id="volume-step">
+          <option value="0.01">1%</option>
+          <option value="0.05" selected>5%</option>
+          <option value="0.1">10%</option>
+        </select>
+      </div>
+      <div class="option-item">
+        <label>Menu animation</label>
+        <select id="panel-animation">
+          <option value="slide">Slide</option>
+          <option value="fade">Fade</option>
+          <option value="scale">Scale</option>
+        </select>
+      </div>
     </div>
+
   </div>
 </div>
 
 <audio id="musicPlayer"></audio>
 
 <script>
-// COUNTDOWN
+// COUNTDOWN (unchanged)
 const targetDate = new Date('2026-11-18T00:00:00');
-const daysEl    = document.getElementById('days');
-const hoursEl   = document.getElementById('hours');
+const daysEl = document.getElementById('days');
+const hoursEl = document.getElementById('hours');
 const minutesEl = document.getElementById('minutes');
 const secondsEl = document.getElementById('seconds');
 function pad(n){ return String(n).padStart(2,'0'); }
@@ -352,7 +398,7 @@ function updateCountdown(){
 updateCountdown();
 setInterval(updateCountdown,1000);
 
-// MENU & TABS
+// MENU + TABS
 const menuTrigger   = document.getElementById('menuTrigger');
 const menuPanel     = document.getElementById('menuPanel');
 const volumeControl = document.getElementById('volumeControl');
@@ -371,10 +417,8 @@ document.querySelectorAll('.tab-btn').forEach(btn => {
   btn.onclick = () => {
     document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
     document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
-    
     btn.classList.add('active');
     document.getElementById(`tab-${btn.dataset.tab}`).classList.add('active');
-
     volumeControl.classList.toggle('active', btn.dataset.tab === 'music' && menuOpen);
   };
 });
@@ -393,6 +437,16 @@ volumeSlider.addEventListener('input', () => {
 });
 
 player.volume = 0.7;
+
+// Background thumbnails
+document.querySelectorAll('.bg-thumb').forEach(thumb => {
+  thumb.onclick = () => {
+    document.querySelectorAll('.bg-thumb').forEach(t => t.classList.remove('active'));
+    thumb.classList.add('active');
+    const bg = thumb.dataset.bg;
+    document.body.style.backgroundImage = `url('${bg}')`;
+  };
+});
 </script>
 </body>
 </html>
