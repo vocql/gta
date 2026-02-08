@@ -22,7 +22,7 @@ body{
   background-position:center 40%;
 }
 
-/* NAVBAR */
+/* NAVBAR (unchanged) */
 header {
   position: fixed;
   top: 18px;
@@ -103,42 +103,43 @@ header:hover { box-shadow: 0 12px 40px rgba(255, 77, 210, 0.35); }
   z-index: 200;
 }
 
-/* MUSIC MENU PANEL - styled like navbar */
-.menu-panel {
+/* MUSIC NAVBAR PANEL */
+.music-navbar {
   position: fixed;
-  bottom: 72px;
-  left: 16px;
-  width: auto;
-  max-width: 90%;
+  bottom: 16px;
+  left: 70px;
+  right: 18px;
+  height: 44px;
   background: rgba(0, 0, 0, 0.25);
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
   border-radius: 999px;
-  padding: 8px 14px;
+  padding: 0 14px;
   opacity: 0;
   pointer-events: none;
-  transform: translateY(10px);
+  display: flex;
+  align-items: center;
+  overflow-x: auto;
+  gap: 8px;
   transition: all 0.3s ease;
   z-index: 190;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
 }
-.menu-panel.active {
+.music-navbar.active {
   opacity: 1;
   pointer-events: auto;
-  transform: translateY(0);
 }
-.menu-panel:hover { box-shadow: 0 12px 40px rgba(255, 77, 210, 0.35); }
+.music-navbar:hover { box-shadow: 0 12px 40px rgba(255, 77, 210, 0.35); }
 
-/* Music list inside pill panel */
-.music-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  max-width: 100%;
-  overflow-x: auto;
-  padding: 4px 0;
+/* Scrollbar inside music bar */
+.music-navbar::-webkit-scrollbar {
+  height: 5px;
 }
+.music-navbar::-webkit-scrollbar-track { background: transparent; }
+.music-navbar::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,0.3);
+  border-radius: 5px;
+}
+
+/* Song pills inside the bar */
 .music-item {
   padding: 9px 17px;
   border-radius: 999px;
@@ -147,23 +148,14 @@ header:hover { box-shadow: 0 12px 40px rgba(255, 77, 210, 0.35); }
   white-space: nowrap;
   background: rgba(255,255,255,0.08);
   border: 1px solid rgba(255,255,255,0.18);
-  box-shadow: inset 0 1.2px 1.5px rgba(255,255,255,0.4), 0 4px 18px rgba(0,0,0,0.3);
+  box-shadow: inset 0 1.2px 1.5px rgba(255,255,255,0.4),
+              0 4px 18px rgba(0,0,0,0.3);
   cursor: pointer;
   transition: 0.25s;
 }
 .music-item:hover {
   background: rgba(255,255,255,0.14);
   transform: scale(1.05);
-}
-
-/* Scrollbar for horizontal song list */
-.music-list::-webkit-scrollbar {
-  height: 6px;
-}
-.music-list::-webkit-scrollbar-track { background: transparent; }
-.music-list::-webkit-scrollbar-thumb {
-  background: rgba(255,255,255,0.3);
-  border-radius: 3px;
 }
 
 /* COUNTDOWN */
@@ -227,36 +219,33 @@ header:hover { box-shadow: 0 12px 40px rgba(255, 77, 210, 0.35); }
 <!-- Invisible trigger -->
 <div class="menu-trigger" id="menuTrigger"></div>
 
-<!-- Music panel styled like navbar -->
-<div class="menu-panel" id="menuPanel">
-  <h3 style="font-size:14px; margin: 6px 0 8px; text-align:center; opacity:0.9;">Radio</h3>
-  <div class="music-list" id="musicWheel">
-    <div class="music-item" data-song="music/together.mp3">Hot Together</div>
-    <div class="music-item" data-song="music/long.mp3">Love Is A Long Road</div>
-    <div class="music-item" data-song="music/night.mp3">Night</div>
-    <div class="music-item" data-song="music/ocean.mp3">Ocean Breeze</div>
-    <div class="music-item" data-song="music/self.mp3">Self Control</div>
-    <div class="music-item" data-song="music/tomic.mp3">Atomic</div>
-    <div class="music-item" data-song="music/sun.mp3">Sun Glasses At Night</div>
-    <div class="music-item" data-song="music/all.mp3">All Night Long</div>
-    <div class="music-item" data-song="music/shame.mp3">Shame</div>
-    <div class="music-item" data-song="music/vice.mp3">Vice City</div>
-    <div class="music-item" data-song="music/earth.mp3">I Walk This Earth All By Myself</div>
-    <div class="music-item" data-song="music/heart.mp3">Owner Of A Lonely Heart</div>
-    <div class="music-item" data-song="music/tempt.mp3">Tempted</div>
-    <div class="music-item" data-song="music/arrow.mp3">Poison Arrow</div>
-    <div class="music-item" data-song="music/crime.mp3">Is It A Crime</div>
-    <div class="music-item" data-song="music/are.mp3">Here We Are</div>
-    <div class="music-item" data-song="music/fire.mp3">Through The Fire</div>
-    <div class="music-item" data-song="music/mine.mp3">Heart Of Mine</div>
-    <div class="music-item" data-song="music/fly.mp3">Fly Away</div>
-    <div class="music-item" data-song="music/nobody.mp3">Ain't Nobody</div>
-    <div class="music-item" data-song="music/you.mp3">Thinking Of You</div>
-    <div class="music-item" data-song="music/love.mp3">Sweet Love</div>
-    <div class="music-item" data-song="music/remember.mp3">I Still Remember You</div>
-    <div class="music-item" data-song="music/gamble.mp3">Gamble With My Love</div>
-    <div class="music-item" data-song="music/suki.mp3">Sukiyaki</div>
-  </div>
+<!-- Music bar styled like navbar -->
+<div class="music-navbar" id="musicNavbar">
+  <div class="music-item" data-song="music/together.mp3">Hot Together</div>
+  <div class="music-item" data-song="music/long.mp3">Love Is A Long Road</div>
+  <div class="music-item" data-song="music/night.mp3">Night</div>
+  <div class="music-item" data-song="music/ocean.mp3">Ocean Breeze</div>
+  <div class="music-item" data-song="music/self.mp3">Self Control</div>
+  <div class="music-item" data-song="music/tomic.mp3">Atomic</div>
+  <div class="music-item" data-song="music/sun.mp3">Sun Glasses At Night</div>
+  <div class="music-item" data-song="music/all.mp3">All Night Long</div>
+  <div class="music-item" data-song="music/shame.mp3">Shame</div>
+  <div class="music-item" data-song="music/vice.mp3">Vice City</div>
+  <div class="music-item" data-song="music/earth.mp3">I Walk This Earth All By Myself</div>
+  <div class="music-item" data-song="music/heart.mp3">Owner Of A Lonely Heart</div>
+  <div class="music-item" data-song="music/tempt.mp3">Tempted</div>
+  <div class="music-item" data-song="music/arrow.mp3">Poison Arrow</div>
+  <div class="music-item" data-song="music/crime.mp3">Is It A Crime</div>
+  <div class="music-item" data-song="music/are.mp3">Here We Are</div>
+  <div class="music-item" data-song="music/fire.mp3">Through The Fire</div>
+  <div class="music-item" data-song="music/mine.mp3">Heart Of Mine</div>
+  <div class="music-item" data-song="music/fly.mp3">Fly Away</div>
+  <div class="music-item" data-song="music/nobody.mp3">Ain't Nobody</div>
+  <div class="music-item" data-song="music/you.mp3">Thinking Of You</div>
+  <div class="music-item" data-song="music/love.mp3">Sweet Love</div>
+  <div class="music-item" data-song="music/remember.mp3">I Still Remember You</div>
+  <div class="music-item" data-song="music/gamble.mp3">Gamble With My Love</div>
+  <div class="music-item" data-song="music/suki.mp3">Sukiyaki</div>
 </div>
 
 <audio id="musicPlayer"></audio>
@@ -285,7 +274,7 @@ setInterval(updateCountdown,1000);
 
 // MENU & MUSIC
 const menuTrigger   = document.getElementById('menuTrigger');
-const menuPanel     = document.getElementById('menuPanel');
+const musicNavbar   = document.getElementById('musicNavbar');
 const volumeControl = document.getElementById('volumeControl');
 const player        = document.getElementById('musicPlayer');
 const volumeSlider  = document.getElementById('volumeSlider');
@@ -294,7 +283,7 @@ let menuOpen = false;
 
 menuTrigger.onclick = () => {
   menuOpen = !menuOpen;
-  menuPanel.classList.toggle('active', menuOpen);
+  musicNavbar.classList.toggle('active', menuOpen);
   volumeControl.classList.toggle('active', menuOpen);
 };
 
