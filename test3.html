@@ -8,13 +8,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
 
 <style>
-body{
-  margin:0;
-  font-family:Orbitron, sans-serif;
-  background:#000;
-  color:#fff;
-  height:100vh;
-}
+html,body{margin:0;padding:0;height:100%;font-family:'Orbitron',sans-serif;background:#000;color:#fff;overflow:hidden;}
 
 /* ================= ORIGINAL NAVBAR ================= */
 header{
@@ -30,7 +24,6 @@ header{
   background:rgba(0,0,0,.25);
   box-shadow:0 6px 18px rgba(0,0,0,.35);
 }
-
 .nav-btn{
   padding:9px 17px;
   border-radius:999px;
@@ -49,31 +42,34 @@ header{
   transform:scale(1.05);
 }
 
-/* ================= ORIGINAL COUNTDOWN ================= */
+/* ================= COUNTDOWN ================= */
 .countdown-wrap{
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
   backdrop-filter:blur(1px);
   border-radius:20px;
   padding:26px 34px;
   text-align:center;
   width:88%;
   max-width:600px;
-  margin-top:120px;
   background:rgba(0,0,0,.25);
   border:2px solid #fff;
 }
-.title{font-size:32px;font-weight:900}
-.subtitle{font-size:14px;margin:10px 0 24px}
-.clock{display:flex;gap:12px;justify-content:center}
+.title{font-size:32px;font-weight:900;}
+.subtitle{font-size:14px;margin:10px 0 24px;}
+.clock{display:flex;gap:12px;justify-content:center;}
 .unit{
   min-width:72px;
   padding:12px;
   border-radius:12px;
   background:rgba(0,0,0,.35);
 }
-.num{font-size:32px;font-weight:900}
-.label{font-size:11px;opacity:.8}
+.num{font-size:32px;font-weight:900;}
+.label{font-size:11px;opacity:.8;}
 
-/* ================= HIDDEN RADIO ================= */
+/* ================= VERTICAL RADIO ================= */
 .music-trigger{
   position:fixed;
   bottom:18px;
@@ -82,8 +78,9 @@ header{
   height:42px;
   cursor:pointer;
   z-index:200;
+  background:rgba(255,255,255,0.1);
+  border-radius:999px;
 }
-
 .radio-panel{
   position:fixed;
   bottom:18px;
@@ -110,13 +107,8 @@ header{
   transform:translateX(0);
 }
 
-/* Volume slider */
-.volume-wrap{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  font-size:11px;
-}
+/* volume slider */
+.volume-wrap{display:flex;align-items:center;gap:10px;font-size:11px;}
 .volume{
   -webkit-appearance:none;
   width:100%;
@@ -134,7 +126,7 @@ header{
   box-shadow:0 0 10px #00ffe0;
 }
 
-/* Song list */
+/* song list */
 .music-list{
   display:flex;
   flex-direction:column;
@@ -143,8 +135,6 @@ header{
   overflow-y:auto;
   overscroll-behavior:contain;
 }
-
-/* Song pills = navbar style & smaller */
 .music-item{
   padding:6px 13px;
   border-radius:999px;
@@ -164,8 +154,7 @@ header{
   background:rgba(255,255,255,.14);
   transform:scale(1.03);
 }
-
-/* Scrollbar */
+/* scrollbar */
 .music-list::-webkit-scrollbar{width:4px;}
 .music-list::-webkit-scrollbar-thumb{
   background:rgba(255,255,255,.25);
@@ -173,7 +162,6 @@ header{
 }
 </style>
 </head>
-
 <body>
 
 <header>
@@ -237,18 +225,18 @@ header{
 <script>
 /* Countdown */
 const targetDate=new Date('2026-11-19T00:00:00');
-const d=document.getElementById('days'),
-h=document.getElementById('hours'),
-m=document.getElementById('minutes'),
-s=document.getElementById('seconds');
+const daysEl=document.getElementById('days'),
+hoursEl=document.getElementById('hours'),
+minutesEl=document.getElementById('minutes'),
+secondsEl=document.getElementById('seconds');
 const pad=n=>String(n).padStart(2,'0');
 setInterval(()=>{
   const diff=Math.floor((targetDate-new Date())/1000);
   if(diff<=0)return;
-  d.textContent=Math.floor(diff/86400);
-  h.textContent=pad(Math.floor(diff/3600%24));
-  m.textContent=pad(Math.floor(diff/60%60));
-  s.textContent=pad(diff%60);
+  daysEl.textContent=Math.floor(diff/86400);
+  hoursEl.textContent=pad(Math.floor(diff/3600%24));
+  minutesEl.textContent=pad(Math.floor(diff/60%60));
+  secondsEl.textContent=pad(diff%60);
 },1000);
 
 /* Radio toggle */
@@ -267,6 +255,3 @@ document.querySelectorAll('.music-item').forEach(i=>{
 
 </body>
 </html>
-
-
-
