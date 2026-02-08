@@ -37,9 +37,7 @@ header {
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
   transition: 0.25s;
 }
-header:hover {
-  box-shadow: 0 12px 40px rgba(255, 77, 210, 0.35);
-}
+header:hover { box-shadow: 0 12px 40px rgba(255, 77, 210, 0.35); }
 .nav-btn {
   padding: 7px 14px;
   border-radius: 999px;
@@ -48,16 +46,12 @@ header:hover {
   text-decoration: none;
   background: rgba(255, 255, 255, 0.08);
   border: 1px solid rgba(255, 255, 255, 0.18);
-  box-shadow: inset 0 1.2px 1.5px rgba(255, 255, 255, 0.4),
-              0 4px 18px rgba(0, 0, 0, 0.3);
+  box-shadow: inset 0 1.2px 1.5px rgba(255, 255, 255, 0.4), 0 4px 18px rgba(0, 0, 0, 0.3);
   transition: 0.25s;
 }
-.nav-btn:hover {
-  background: rgba(255, 255, 255, 0.14);
-  transform: scale(1.05);
-}
+.nav-btn:hover { background: rgba(255, 255, 255, 0.14); transform: scale(1.05); }
 
-/* ================= VOLUME CONTROL ================= */
+/* ================= VOLUME ================= */
 .volume-control {
   position: fixed;
   top: 18px;
@@ -70,29 +64,19 @@ header:hover {
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.08);
   border: 1px solid rgba(255, 255, 255, 0.18);
-  box-shadow: inset 0 1.2px 1.5px rgba(255,255,255,0.4), 
-              0 4px 18px rgba(0,0,0,0.3);
+  box-shadow: inset 0 1.2px 1.5px rgba(255,255,255,0.4), 0 4px 18px rgba(0,0,0,0.3);
   backdrop-filter: blur(6px);
   opacity: 0;
   pointer-events: none;
   transform: translateY(-20px);
   transition: all 0.3s ease;
 }
-.volume-control.active {
-  opacity: 1;
-  pointer-events: auto;
-  transform: translateY(0);
-}
+.volume-control.active { opacity: 1; pointer-events: auto; transform: translateY(0); }
 .volume-control:hover {
   background: rgba(255, 255, 255, 0.14);
-  box-shadow: inset 0 1.2px 1.5px rgba(255,255,255,0.45), 
-              0 4px 20px rgba(0,0,0,0.35);
+  box-shadow: inset 0 1.2px 1.5px rgba(255,255,255,0.45), 0 4px 20px rgba(0,0,0,0.35);
 }
-.volume-label {
-  font-size: 11px;
-  font-weight: 600;
-  opacity: 0.85;
-}
+.volume-label { font-size: 11px; font-weight: 600; opacity: 0.85; }
 .volume-slider {
   width: 100px;
   -webkit-appearance: none;
@@ -116,13 +100,13 @@ header:hover {
   background: rgba(0, 255, 224, 0.9);
 }
 
-/* ================= COMPACT MENU ================= */
+/* ================= MENU ================= */
 .menu-trigger {
   position: fixed;
   bottom: 16px;
   left: 16px;
-  width: 42px;
-  height: 42px;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.08);
   border: 1px solid rgba(255, 255, 255, 0.18);
@@ -136,18 +120,15 @@ header:hover {
   font-size: 18px;
   transition: all 0.25s;
 }
-.menu-trigger:hover {
-  background: rgba(255, 255, 255, 0.14);
-  transform: scale(1.08);
-}
+.menu-trigger:hover { background: rgba(255, 255, 255, 0.14); transform: scale(1.08); }
 
 .menu-panel {
   position: fixed;
-  bottom: 70px;
+  bottom: 72px;
   left: 16px;
-  width: 320px;
-  max-height: 65vh;
-  background: rgba(0, 0, 0, 0.5);
+  width: 340px;
+  max-height: 70vh;
+  background: rgba(0, 0, 0, 0.52);
   border: 1px solid rgba(255, 255, 255, 0.16);
   border-radius: 14px;
   box-shadow: 0 10px 40px rgba(0,0,0,0.55);
@@ -159,76 +140,80 @@ header:hover {
   transition: all 0.28s ease;
   z-index: 190;
 }
-.menu-panel.active {
-  opacity: 1;
-  pointer-events: auto;
-  transform: translateY(0) scale(1);
-}
+.menu-panel.active { opacity: 1; pointer-events: auto; transform: translateY(0) scale(1); }
 
-/* Tabs - more compact */
+/* Tabs */
 .menu-tabs {
   display: flex;
-  border-bottom: 1px solid rgba(255,255,255,0.12);
+  border-bottom: 1px solid rgba(255,255,255,0.14);
 }
 .tab-btn {
   flex: 1;
-  padding: 10px 0;
+  padding: 12px 0;
   background: transparent;
   border: none;
   color: white;
   font-family: 'Orbitron', sans-serif;
   font-weight: 600;
-  font-size: 12px;
+  font-size: 12.5px;
   cursor: pointer;
   transition: all 0.2s;
 }
 .tab-btn.active {
-  background: rgba(255,255,255,0.09);
+  background: rgba(255,255,255,0.10);
   color: #ff4dd2;
 }
-.tab-btn:hover:not(.active) {
-  background: rgba(255,255,255,0.05);
-}
+.tab-btn:hover:not(.active) { background: rgba(255,255,255,0.06); }
 
-/* Tab content - less padding */
+/* Tab content */
 .tab-content {
-  padding: 12px;
-  max-height: calc(65vh - 48px);
+  padding: 0;
+}
+.tab-pane {
+  padding: 16px 18px;
+  max-height: calc(70vh - 54px);
   overflow-y: auto;
+  display: none;
+}
+.tab-pane.active { display: block; }
+
+/* Tab titles */
+.tab-pane h3 {
+  font-size: 15px;
+  margin-bottom: 14px;
+  color: #ff4dd2;
+  letter-spacing: 0.5px;
 }
 
-/* Music tab */
-.music-wheel {
+/* Music list - clean vertical list */
+.music-list {
   display: flex;
-  flex-wrap: wrap;
-  gap: 7px;
-  margin-top: 8px;
+  flex-direction: column;
+  gap: 6px;
 }
 .music-item {
-  padding: 7px 14px;
-  border-radius: 999px;
-  font-size: 11.5px;
-  font-weight: 600;
-  white-space: nowrap;
-  background: rgba(255,255,255,0.08);
-  border: 1px solid rgba(255,255,255,0.16);
-  box-shadow: inset 0 1px 1.2px rgba(255,255,255,0.35), 0 3px 14px rgba(0,0,0,0.3);
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-size: 12.5px;
+  font-weight: 500;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.12);
   cursor: pointer;
-  transition: 0.2s ease;
+  transition: all 0.2s ease;
 }
 .music-item:hover {
-  background: rgba(255,255,255,0.14);
-  transform: translateY(-1px) scale(1.04);
+  background: rgba(255,255,255,0.12);
+  transform: translateX(4px);
 }
 
-/* Scrollbar - thinner */
-.tab-content::-webkit-scrollbar {
-  width: 4px;
+/* Scrollbar */
+.tab-pane::-webkit-scrollbar {
+  width: 5px;
 }
-.tab-content::-webkit-scrollbar-track { background: transparent; }
-.tab-content::-webkit-scrollbar-thumb {
-  background: rgba(255,255,255,0.22);
-  border-radius: 4px;
+.tab-pane::-webkit-scrollbar-track { background: transparent; }
+.tab-pane::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,0.25);
+  border-radius: 5px;
 }
 
 /* ================= COUNTDOWN ================= */
@@ -245,17 +230,8 @@ header:hover {
 }
 .title{font-size:32px;font-weight:900}
 .subtitle{font-size:14px;margin:10px 0 24px}
-.clock{
-  display:flex;
-  gap:12px;
-  justify-content:center;
-}
-.unit{
-  min-width:72px;
-  padding:12px;
-  border-radius:12px;
-  background:rgba(0,0,0,0.35);
-}
+.clock{display:flex;gap:12px;justify-content:center;}
+.unit{min-width:72px;padding:12px;border-radius:12px;background:rgba(0,0,0,0.35);}
 .num{font-size:32px;font-weight:900}
 .label{font-size:11px;opacity:.8}
 </style>
@@ -287,10 +263,8 @@ header:hover {
   </div>
 </section>
 
-<!-- Compact Menu Trigger -->
 <div class="menu-trigger" id="menuTrigger">☰</div>
 
-<!-- Compact Menu Panel -->
 <div class="menu-panel" id="menuPanel">
   <div class="menu-tabs">
     <button class="tab-btn active" data-tab="music">Music</button>
@@ -299,9 +273,10 @@ header:hover {
   </div>
 
   <div class="tab-content">
-
+    <!-- Music Tab -->
     <div class="tab-pane active" id="tab-music">
-      <div class="music-wheel" id="musicWheel">
+      <h3>Radio Stations</h3>
+      <div class="music-list" id="musicWheel">
         <div class="music-item" data-song="music/together.mp3">Hot Together</div>
         <div class="music-item" data-song="music/long.mp3">Love Is A Long Road</div>
         <div class="music-item" data-song="music/night.mp3">Night</div>
@@ -330,21 +305,35 @@ header:hover {
       </div>
     </div>
 
+    <!-- Background Tab -->
     <div class="tab-pane" id="tab-background">
-      <p style="font-size:13px; opacity:0.7;">Background options coming soon</p>
+      <h3>Background</h3>
+      <p style="opacity:0.7; line-height:1.5; margin-top:10px;">
+        Change wallpaper<br>
+        Adjust gradient overlay<br>
+        Toggle effects<br>
+        (coming soon)
+      </p>
     </div>
 
+    <!-- Settings Tab -->
     <div class="tab-pane" id="tab-settings">
-      <p style="font-size:13px; opacity:0.7;">Settings coming soon</p>
+      <h3>Settings</h3>
+      <p style="opacity:0.7; line-height:1.5; margin-top:10px;">
+        Audio quality<br>
+        Auto-play next<br>
+        Theme options<br>
+        Keyboard shortcuts<br>
+        (coming soon)
+      </p>
     </div>
-
   </div>
 </div>
 
 <audio id="musicPlayer"></audio>
 
 <script>
-// COUNTDOWN (unchanged)
+// COUNTDOWN
 const targetDate = new Date('2026-11-18T00:00:00');
 const daysEl    = document.getElementById('days');
 const hoursEl   = document.getElementById('hours');
@@ -363,7 +352,7 @@ function updateCountdown(){
 updateCountdown();
 setInterval(updateCountdown,1000);
 
-// MENU + TABS + MUSIC
+// MENU & TABS
 const menuTrigger   = document.getElementById('menuTrigger');
 const menuPanel     = document.getElementById('menuPanel');
 const volumeControl = document.getElementById('volumeControl');
@@ -378,7 +367,6 @@ menuTrigger.onclick = () => {
   volumeControl.classList.toggle('active', menuOpen);
 };
 
-// Tab switching
 document.querySelectorAll('.tab-btn').forEach(btn => {
   btn.onclick = () => {
     document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
@@ -387,12 +375,11 @@ document.querySelectorAll('.tab-btn').forEach(btn => {
     btn.classList.add('active');
     document.getElementById(`tab-${btn.dataset.tab}`).classList.add('active');
 
-    // Show volume only on music tab
     volumeControl.classList.toggle('active', btn.dataset.tab === 'music' && menuOpen);
   };
 });
 
-// Song selection
+// Music
 document.querySelectorAll('.music-item').forEach(btn => {
   btn.onclick = () => {
     player.src = btn.dataset.song;
@@ -401,7 +388,6 @@ document.querySelectorAll('.music-item').forEach(btn => {
   };
 });
 
-// Volume
 volumeSlider.addEventListener('input', () => {
   player.volume = parseFloat(volumeSlider.value);
 });
