@@ -4,11 +4,14 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>VI | Home</title>
+
 <link rel="icon" href="gta/npc/lucia.jpg" type="image/jpg">
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
+
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{height:100%;overflow:hidden}
+
 body{
   font-family:'Orbitron',sans-serif;
   background:
@@ -22,7 +25,7 @@ body{
   background-position:center 40%;
 }
 
-/* NAVBAR (unchanged) */
+/* ================= NAVBAR ================= */
 header {
   position: fixed;
   top: 18px;
@@ -37,7 +40,9 @@ header {
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
   transition: 0.25s;
 }
-header:hover { box-shadow: 0 12px 40px rgba(255, 77, 210, 0.35); }
+header:hover {
+  box-shadow: 0 12px 40px rgba(255, 77, 210, 0.35);
+}
 .nav-btn {
   padding: 9px 17px;
   border-radius: 999px;
@@ -50,115 +55,87 @@ header:hover { box-shadow: 0 12px 40px rgba(255, 77, 210, 0.35); }
               0 4px 18px rgba(0, 0, 0, 0.3);
   transition: 0.25s;
 }
-.nav-btn:hover { background: rgba(255, 255, 255, 0.14); transform: scale(1.05); }
-
-/* VOLUME */
-.volume-control {
-  position: fixed;
-  top: 18px;
-  right: 18px;
-  z-index: 50;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 8px 14px;
-  border-radius: 999px;
-  background: rgba(0, 0, 0, 0.25);
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
-  transition: 0.25s;
-}
-.volume-control:hover { box-shadow: 0 12px 40px rgba(255, 77, 210, 0.35); }
-.volume-label { font-size: 12px; font-weight: 600; opacity: 0.9; }
-.volume-slider {
-  width: 160px;
-  -webkit-appearance: none;
-  height: 6px;
-  background: rgba(255,255,255,0.18);
-  border-radius: 999px;
-  outline: none;
-  cursor: pointer;
-}
-.volume-slider::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  width: 18px;
-  height: 18px;
-  background: linear-gradient(135deg, #ff4dd2, #00ffe0);
-  border-radius: 50%;
-  cursor: pointer;
-  box-shadow: 0 0 12px rgba(255, 77, 210, 0.7), 0 0 20px rgba(0, 255, 224, 0.5);
-}
-.volume-slider::-webkit-slider-thumb:hover {
-  transform: scale(1.2);
-}
-
-/* INVISIBLE TRIGGER */
-.menu-trigger {
-  position: fixed;
-  bottom: 16px;
-  left: 16px;
-  width: 44px;
-  height: 44px;
-  background: transparent;
-  cursor: pointer;
-  z-index: 200;
-}
-
-/* MUSIC NAVBAR PANEL */
-.music-navbar {
-  position: fixed;
-  bottom: 16px;
-  left: 70px;
-  right: 18px;
-  height: 44px;
-  background: rgba(0, 0, 0, 0.25);
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
-  border-radius: 999px;
-  padding: 0 14px;
-  opacity: 0;
-  pointer-events: none;
-  display: flex;
-  align-items: center;
-  overflow-x: auto;
-  gap: 8px;
-  transition: all 0.3s ease;
-  z-index: 190;
-}
-.music-navbar.active {
-  opacity: 1;
-  pointer-events: auto;
-}
-.music-navbar:hover { box-shadow: 0 12px 40px rgba(255, 77, 210, 0.35); }
-
-/* Scrollbar inside music bar */
-.music-navbar::-webkit-scrollbar {
-  height: 5px;
-}
-.music-navbar::-webkit-scrollbar-track { background: transparent; }
-.music-navbar::-webkit-scrollbar-thumb {
-  background: rgba(255,255,255,0.3);
-  border-radius: 5px;
-}
-
-/* Song pills inside the bar */
-.music-item {
-  padding: 9px 17px;
-  border-radius: 999px;
-  font-size: 12px;
-  font-weight: 600;
-  white-space: nowrap;
-  background: rgba(255,255,255,0.08);
-  border: 1px solid rgba(255,255,255,0.18);
-  box-shadow: inset 0 1.2px 1.5px rgba(255,255,255,0.4),
-              0 4px 18px rgba(0,0,0,0.3);
-  cursor: pointer;
-  transition: 0.25s;
-}
-.music-item:hover {
-  background: rgba(255,255,255,0.14);
+.nav-btn:hover {
+  background: rgba(255, 255, 255, 0.14);
   transform: scale(1.05);
 }
 
-/* COUNTDOWN */
+/* ================= INVISIBLE VOLUME TRIGGER ================= */
+.volume-trigger{
+  position:fixed;
+  top:18px;
+  right:18px;
+  width:44px;
+  height:44px;
+  z-index:80;
+  cursor:pointer;
+}
+
+/* ================= VOLUME SLIDER (NAVBAR STYLE) ================= */
+.volume-wrap{
+  position:fixed;
+  top:18px;
+  right:70px;
+  z-index:70;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:8px 14px;
+  border-radius:999px;
+  background: rgba(0, 0, 0, 0.25);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+  opacity:0;
+  pointer-events:none;
+  transform:translateX(10px);
+  transition:.25s ease;
+}
+
+.volume-wrap.active{
+  opacity:1;
+  pointer-events:auto;
+  transform:translateX(0);
+}
+
+.volume-wrap:hover{
+  box-shadow: 0 12px 40px rgba(255, 77, 210, 0.35);
+}
+
+.volume-icon{
+  font-size:14px;
+  opacity:.9;
+  user-select:none;
+}
+
+.volume-slider{
+  width:90px;
+}
+
+.volume-slider input{
+  -webkit-appearance:none;
+  width:100%;
+  height:4px;
+  border-radius:999px;
+  background: rgba(255,255,255,0.25);
+  outline:none;
+  cursor:pointer;
+}
+
+.volume-slider input::-webkit-slider-thumb{
+  -webkit-appearance:none;
+  width:14px;
+  height:14px;
+  border-radius:50%;
+  background:#fff;
+  box-shadow:
+    inset 0 1.2px 1.5px rgba(255,255,255,0.4),
+    0 0 12px rgba(255,77,210,0.8);
+  transition:.2s;
+}
+.volume-slider input::-webkit-slider-thumb:hover{
+  transform:scale(1.15);
+}
+
+/* ================= COUNTDOWN ================= */
 .countdown-wrap{
   backdrop-filter:blur(1px);
   border-radius:20px;
@@ -172,6 +149,7 @@ header:hover { box-shadow: 0 12px 40px rgba(255, 77, 210, 0.35); }
 }
 .title{font-size:32px;font-weight:900}
 .subtitle{font-size:14px;margin:10px 0 24px}
+
 .clock{
   display:flex;
   gap:12px;
@@ -185,8 +163,59 @@ header:hover { box-shadow: 0 12px 40px rgba(255, 77, 210, 0.35); }
 }
 .num{font-size:32px;font-weight:900}
 .label{font-size:11px;opacity:.8}
+
+/* ================= MUSIC ================= */
+.music-trigger{
+  position:fixed;
+  bottom:18px;
+  left:18px;
+  width:40px;
+  height:40px;
+  cursor:pointer;
+  z-index:200;
+}
+
+.music-wheel{
+  position:fixed;
+  bottom:18px;
+  left:70px;
+  display:flex;
+  gap:8px;
+  max-width:calc(100% - 90px);
+  overflow-x:auto;
+  padding-bottom:4px;
+  opacity:0;
+  pointer-events:none;
+  transform:translateX(-10px);
+  transition:.25s ease;
+}
+.music-wheel.active{
+  opacity:1;
+  pointer-events:auto;
+  transform:translateX(0);
+}
+
+.music-item{
+  padding:9px 17px;
+  border-radius:999px;
+  font-size:12px;
+  font-weight:600;
+  white-space:nowrap;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.18);
+  box-shadow: inset 0 1.2px 1.5px rgba(255,255,255,0.4),
+              0 4px 18px rgba(0,0,0,0.3);
+  cursor:pointer;
+  flex-shrink:0;
+  transition:.25s ease;
+}
+.music-item:hover{
+  background: rgba(255,255,255,0.14);
+  transform: translateY(-1px) scale(1.05);
+}
 </style>
 </head>
+
 <body>
 
 <header>
@@ -198,16 +227,21 @@ header:hover { box-shadow: 0 12px 40px rgba(255, 77, 210, 0.35); }
   <a href="trailers" class="nav-btn">Trailers</a>
 </header>
 
-<div class="volume-control" id="volumeControl">
-  <div class="volume-row">
-    <span class="volume-label">VOL</span>
-    <input type="range" min="0" max="1" step="0.01" value="0.7" class="volume-slider" id="volumeSlider">
+<!-- Invisible Volume Trigger -->
+<div class="volume-trigger" id="volumeTrigger"></div>
+
+<!-- Volume Slider -->
+<div class="volume-wrap" id="volumeWrap">
+  <div class="volume-icon">🔊</div>
+  <div class="volume-slider">
+    <input type="range" id="volumeSlider" min="0" max="100">
   </div>
 </div>
 
 <section class="countdown-wrap">
   <h1 class="title">Grand Theft Auto VI</h1>
-  <div class="subtitle">RELEASE COUNTDOWN – NOVEMBER 18TH, 2026</div>
+  <div class="subtitle">RELEASE COUNTDOWN – NOVEMBER 19TH, 2026</div>
+
   <div class="clock">
     <div class="unit"><div class="num" id="days">000</div><div class="label">DAYS</div></div>
     <div class="unit"><div class="num" id="hours">00</div><div class="label">HOURS</div></div>
@@ -216,90 +250,63 @@ header:hover { box-shadow: 0 12px 40px rgba(255, 77, 210, 0.35); }
   </div>
 </section>
 
-<!-- Invisible trigger -->
-<div class="menu-trigger" id="menuTrigger"></div>
+<div class="music-trigger" id="musicTrigger"></div>
 
-<!-- Music bar styled like navbar -->
-<div class="music-navbar" id="musicNavbar">
+<div class="music-wheel" id="musicWheel">
   <div class="music-item" data-song="music/together.mp3">Hot Together</div>
   <div class="music-item" data-song="music/long.mp3">Love Is A Long Road</div>
   <div class="music-item" data-song="music/night.mp3">Night</div>
-  <div class="music-item" data-song="music/ocean.mp3">Ocean Breeze</div>
-  <div class="music-item" data-song="music/self.mp3">Self Control</div>
-  <div class="music-item" data-song="music/tomic.mp3">Atomic</div>
-  <div class="music-item" data-song="music/sun.mp3">Sun Glasses At Night</div>
-  <div class="music-item" data-song="music/all.mp3">All Night Long</div>
-  <div class="music-item" data-song="music/shame.mp3">Shame</div>
-  <div class="music-item" data-song="music/vice.mp3">Vice City</div>
-  <div class="music-item" data-song="music/earth.mp3">I Walk This Earth All By Myself</div>
-  <div class="music-item" data-song="music/heart.mp3">Owner Of A Lonely Heart</div>
-  <div class="music-item" data-song="music/tempt.mp3">Tempted</div>
-  <div class="music-item" data-song="music/arrow.mp3">Poison Arrow</div>
-  <div class="music-item" data-song="music/crime.mp3">Is It A Crime</div>
-  <div class="music-item" data-song="music/are.mp3">Here We Are</div>
-  <div class="music-item" data-song="music/fire.mp3">Through The Fire</div>
-  <div class="music-item" data-song="music/mine.mp3">Heart Of Mine</div>
-  <div class="music-item" data-song="music/fly.mp3">Fly Away</div>
-  <div class="music-item" data-song="music/nobody.mp3">Ain't Nobody</div>
-  <div class="music-item" data-song="music/you.mp3">Thinking Of You</div>
-  <div class="music-item" data-song="music/love.mp3">Sweet Love</div>
-  <div class="music-item" data-song="music/remember.mp3">I Still Remember You</div>
-  <div class="music-item" data-song="music/gamble.mp3">Gamble With My Love</div>
-  <div class="music-item" data-song="music/suki.mp3">Sukiyaki</div>
 </div>
 
 <audio id="musicPlayer"></audio>
 
 <script>
-// COUNTDOWN
-const targetDate = new Date('2026-11-18T00:00:00');
-const daysEl    = document.getElementById('days');
-const hoursEl   = document.getElementById('hours');
-const minutesEl = document.getElementById('minutes');
-const secondsEl = document.getElementById('seconds');
+/* ===== COUNTDOWN ===== */
+const targetDate=new Date('2026-11-18T00:00:00');
+const d=document.getElementById('days');
+const h=document.getElementById('hours');
+const m=document.getElementById('minutes');
+const s=document.getElementById('seconds');
+const pad=n=>String(n).padStart(2,'0');
 
-function pad(n){ return String(n).padStart(2,'0'); }
-
-function updateCountdown(){
-  const now = new Date();
-  const diff = Math.floor((targetDate - now)/1000);
-  if(diff<=0) return;
-  daysEl.textContent = Math.floor(diff/86400);
-  hoursEl.textContent = pad(Math.floor(diff/3600%24));
-  minutesEl.textContent = pad(Math.floor(diff/60%60));
-  secondsEl.textContent = pad(diff%60);
+function tick(){
+  const diff=Math.floor((targetDate-new Date())/1000);
+  if(diff<=0)return;
+  d.textContent=Math.floor(diff/86400);
+  h.textContent=pad(diff/3600%24);
+  m.textContent=pad(diff/60%60);
+  s.textContent=pad(diff%60);
 }
-updateCountdown();
-setInterval(updateCountdown,1000);
+tick();setInterval(tick,1000);
 
-// MENU & MUSIC
-const menuTrigger   = document.getElementById('menuTrigger');
-const musicNavbar   = document.getElementById('musicNavbar');
-const volumeControl = document.getElementById('volumeControl');
-const player        = document.getElementById('musicPlayer');
-const volumeSlider  = document.getElementById('volumeSlider');
+/* ===== MUSIC ===== */
+const musicTrigger=document.getElementById('musicTrigger');
+const musicWheel=document.getElementById('musicWheel');
+const player=document.getElementById('musicPlayer');
 
-let menuOpen = false;
+musicTrigger.onclick=()=>musicWheel.classList.toggle('active');
+document.querySelectorAll('.music-item').forEach(b=>{
+  b.onclick=()=>{player.src=b.dataset.song;player.play();}
+});
 
-menuTrigger.onclick = () => {
-  menuOpen = !menuOpen;
-  musicNavbar.classList.toggle('active', menuOpen);
-  volumeControl.classList.toggle('active', menuOpen);
+/* ===== VOLUME TOGGLE ===== */
+const volumeTrigger=document.getElementById('volumeTrigger');
+const volumeWrap=document.getElementById('volumeWrap');
+const volumeSlider=document.getElementById('volumeSlider');
+
+volumeTrigger.onclick=()=>{
+  volumeWrap.classList.toggle('active');
 };
 
-document.querySelectorAll('.music-item').forEach(btn => {
-  btn.onclick = () => {
-    player.src = btn.dataset.song;
-    player.volume = parseFloat(volumeSlider.value) || 0.7;
-    player.play();
-  };
-});
+player.volume=localStorage.getItem('volume') ?? 0.6;
+volumeSlider.value=player.volume*100;
 
-volumeSlider.addEventListener('input', () => {
-  player.volume = parseFloat(volumeSlider.value);
-});
-
-player.volume = 0.7;
+volumeSlider.oninput=e=>{
+  const v=e.target.value/100;
+  player.volume=v;
+  localStorage.setItem('volume',v);
+};
 </script>
+
 </body>
 </html>
