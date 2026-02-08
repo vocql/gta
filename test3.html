@@ -30,8 +30,8 @@ header {
   transform: translateX(-50%);
   z-index: 50;
   display: flex;
-  gap: 12px;
-  padding: 8px 14px;
+  gap: 10px;
+  padding: 7px 12px;
   border-radius: 999px;
   background: rgba(0, 0, 0, 0.25);
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
@@ -41,9 +41,9 @@ header:hover {
   box-shadow: 0 12px 40px rgba(255, 77, 210, 0.35);
 }
 .nav-btn {
-  padding: 9px 17px;
+  padding: 7px 14px;
   border-radius: 999px;
-  color: #fff;
+  font-size: 13px;
   font-weight: 600;
   text-decoration: none;
   background: rgba(255, 255, 255, 0.08);
@@ -57,7 +57,7 @@ header:hover {
   transform: scale(1.05);
 }
 
-/* ================= VOLUME CONTROL (top right) ================= */
+/* ================= VOLUME CONTROL ================= */
 .volume-control {
   position: fixed;
   top: 18px;
@@ -65,8 +65,8 @@ header:hover {
   z-index: 50;
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 8px 16px;
+  gap: 8px;
+  padding: 7px 14px;
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.08);
   border: 1px solid rgba(255, 255, 255, 0.18);
@@ -89,14 +89,14 @@ header:hover {
               0 4px 20px rgba(0,0,0,0.35);
 }
 .volume-label {
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 600;
-  opacity: 0.9;
+  opacity: 0.85;
 }
 .volume-slider {
-  width: 110px;
+  width: 100px;
   -webkit-appearance: none;
-  height: 6px;
+  height: 5px;
   background: rgba(255,255,255,0.14);
   border-radius: 999px;
   outline: none;
@@ -105,26 +105,24 @@ header:hover {
 .volume-slider:hover { background: rgba(255,255,255,0.22); }
 .volume-slider::-webkit-slider-thumb {
   -webkit-appearance: none;
-  width: 18px; height: 18px;
+  width: 16px; height: 16px;
   background: rgba(255, 77, 210, 0.9);
   border-radius: 50%;
   cursor: pointer;
-  box-shadow: 0 0 10px rgba(255, 77, 210, 0.7), inset 0 0 3px rgba(255,255,255,0.6);
-  transition: all 0.18s ease;
+  box-shadow: 0 0 9px rgba(255, 77, 210, 0.7), inset 0 0 3px rgba(255,255,255,0.6);
 }
 .volume-slider::-webkit-slider-thumb:hover {
   transform: scale(1.2);
   background: rgba(0, 255, 224, 0.9);
-  box-shadow: 0 0 14px rgba(0, 255, 224, 0.8), inset 0 0 4px rgba(255,255,255,0.7);
 }
 
-/* ================= MENU ================= */
+/* ================= COMPACT MENU ================= */
 .menu-trigger {
   position: fixed;
-  bottom: 18px;
-  left: 18px;
-  width: 48px;
-  height: 48px;
+  bottom: 16px;
+  left: 16px;
+  width: 42px;
+  height: 42px;
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.08);
   border: 1px solid rgba(255, 255, 255, 0.18);
@@ -135,7 +133,7 @@ header:hover {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 20px;
+  font-size: 18px;
   transition: all 0.25s;
 }
 .menu-trigger:hover {
@@ -145,20 +143,20 @@ header:hover {
 
 .menu-panel {
   position: fixed;
-  bottom: 80px;
-  left: 18px;
-  width: 380px;
-  max-height: 70vh;
-  background: rgba(0, 0, 0, 0.45);
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  border-radius: 16px;
-  box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+  bottom: 70px;
+  left: 16px;
+  width: 320px;
+  max-height: 65vh;
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 14px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.55);
   backdrop-filter: blur(10px);
   overflow: hidden;
   opacity: 0;
   pointer-events: none;
-  transform: translateY(20px) scale(0.95);
-  transition: all 0.3s ease;
+  transform: translateY(15px) scale(0.96);
+  transition: all 0.28s ease;
   z-index: 190;
 }
 .menu-panel.active {
@@ -167,70 +165,70 @@ header:hover {
   transform: translateY(0) scale(1);
 }
 
-/* Tabs */
+/* Tabs - more compact */
 .menu-tabs {
   display: flex;
   border-bottom: 1px solid rgba(255,255,255,0.12);
 }
 .tab-btn {
   flex: 1;
-  padding: 14px;
+  padding: 10px 0;
   background: transparent;
   border: none;
   color: white;
   font-family: 'Orbitron', sans-serif;
   font-weight: 600;
-  font-size: 13px;
+  font-size: 12px;
   cursor: pointer;
   transition: all 0.2s;
 }
 .tab-btn.active {
-  background: rgba(255,255,255,0.08);
+  background: rgba(255,255,255,0.09);
   color: #ff4dd2;
 }
 .tab-btn:hover:not(.active) {
-  background: rgba(255,255,255,0.04);
+  background: rgba(255,255,255,0.05);
 }
 
-/* Tab content */
+/* Tab content - less padding */
 .tab-content {
-  padding: 16px;
-  max-height: calc(70vh - 60px);
+  padding: 12px;
+  max-height: calc(65vh - 48px);
   overflow-y: auto;
 }
 
-/* Music tab specific */
+/* Music tab */
 .music-wheel {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
-  margin-top: 12px;
+  gap: 7px;
+  margin-top: 8px;
 }
 .music-item {
-  padding: 9px 17px;
+  padding: 7px 14px;
   border-radius: 999px;
-  font-size: 12px;
+  font-size: 11.5px;
   font-weight: 600;
   white-space: nowrap;
   background: rgba(255,255,255,0.08);
-  border: 1px solid rgba(255,255,255,0.18);
-  box-shadow: inset 0 1.2px 1.5px rgba(255,255,255,0.4), 0 4px 18px rgba(0,0,0,0.3);
+  border: 1px solid rgba(255,255,255,0.16);
+  box-shadow: inset 0 1px 1.2px rgba(255,255,255,0.35), 0 3px 14px rgba(0,0,0,0.3);
   cursor: pointer;
-  transition: 0.25s ease;
+  transition: 0.2s ease;
 }
 .music-item:hover {
   background: rgba(255,255,255,0.14);
-  transform: translateY(-1px) scale(1.05);
+  transform: translateY(-1px) scale(1.04);
 }
 
-/* Scrollbar */
+/* Scrollbar - thinner */
 .tab-content::-webkit-scrollbar {
-  width: 5px;
+  width: 4px;
 }
 .tab-content::-webkit-scrollbar-track { background: transparent; }
 .tab-content::-webkit-scrollbar-thumb {
-  background: rgba(255,255,255,0.25);
-  border-radius: 5px;
+  background: rgba(255,255,255,0.22);
+  border-radius: 4px;
 }
 
 /* ================= COUNTDOWN ================= */
@@ -273,7 +271,6 @@ header:hover {
   <a href="trailers" class="nav-btn">Trailers</a>
 </header>
 
-<!-- Volume Control - top right (still appears with music tab) -->
 <div class="volume-control" id="volumeControl">
   <span class="volume-label">VOL</span>
   <input type="range" min="0" max="1" step="0.01" value="0.7" class="volume-slider" id="volumeSlider">
@@ -290,25 +287,20 @@ header:hover {
   </div>
 </section>
 
-<!-- Menu Trigger Button -->
+<!-- Compact Menu Trigger -->
 <div class="menu-trigger" id="menuTrigger">☰</div>
 
-<!-- Menu Panel -->
+<!-- Compact Menu Panel -->
 <div class="menu-panel" id="menuPanel">
-
-  <!-- Tabs -->
   <div class="menu-tabs">
     <button class="tab-btn active" data-tab="music">Music</button>
     <button class="tab-btn" data-tab="background">Background</button>
     <button class="tab-btn" data-tab="settings">Settings</button>
   </div>
 
-  <!-- Tab Contents -->
   <div class="tab-content">
 
-    <!-- Music Tab -->
     <div class="tab-pane active" id="tab-music">
-      <h3 style="margin-bottom:12px; font-size:16px;">Radio</h3>
       <div class="music-wheel" id="musicWheel">
         <div class="music-item" data-song="music/together.mp3">Hot Together</div>
         <div class="music-item" data-song="music/long.mp3">Love Is A Long Road</div>
@@ -338,16 +330,12 @@ header:hover {
       </div>
     </div>
 
-    <!-- Background Tab (placeholder) -->
     <div class="tab-pane" id="tab-background">
-      <h3>Background Options</h3>
-      <p style="opacity:0.7; margin-top:12px;">Coming soon — change wallpaper, gradient, effects...</p>
+      <p style="font-size:13px; opacity:0.7;">Background options coming soon</p>
     </div>
 
-    <!-- Settings Tab (placeholder) -->
     <div class="tab-pane" id="tab-settings">
-      <h3>Settings</h3>
-      <p style="opacity:0.7; margin-top:12px;">More options coming soon...</p>
+      <p style="font-size:13px; opacity:0.7;">Settings coming soon</p>
     </div>
 
   </div>
@@ -384,31 +372,23 @@ const volumeSlider  = document.getElementById('volumeSlider');
 
 let menuOpen = false;
 
-// Toggle menu
 menuTrigger.onclick = () => {
   menuOpen = !menuOpen;
   menuPanel.classList.toggle('active', menuOpen);
-  // Show volume only when music tab is relevant (you can change this logic)
   volumeControl.classList.toggle('active', menuOpen);
 };
 
 // Tab switching
 document.querySelectorAll('.tab-btn').forEach(btn => {
   btn.onclick = () => {
-    // Remove active from all tabs & contents
     document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
     document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
     
-    // Activate clicked one
     btn.classList.add('active');
     document.getElementById(`tab-${btn.dataset.tab}`).classList.add('active');
-    
-    // Show/hide volume depending on tab (optional - you can remove this if you want volume always visible)
-    if (btn.dataset.tab === 'music') {
-      volumeControl.classList.add('active');
-    } else {
-      volumeControl.classList.remove('active');
-    }
+
+    // Show volume only on music tab
+    volumeControl.classList.toggle('active', btn.dataset.tab === 'music' && menuOpen);
   };
 });
 
@@ -416,17 +396,16 @@ document.querySelectorAll('.tab-btn').forEach(btn => {
 document.querySelectorAll('.music-item').forEach(btn => {
   btn.onclick = () => {
     player.src = btn.dataset.song;
-    player.volume = parseFloat(volumeSlider.value);
+    player.volume = parseFloat(volumeSlider.value) || 0.7;
     player.play();
   };
 });
 
-// Volume control
+// Volume
 volumeSlider.addEventListener('input', () => {
   player.volume = parseFloat(volumeSlider.value);
 });
 
-// Initial volume
 player.volume = 0.7;
 </script>
 </body>
