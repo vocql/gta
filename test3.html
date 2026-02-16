@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>GTA VI Menu</title>
 
-<!-- Google Font -->
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Montserrat:wght@300;600&display=swap" rel="stylesheet">
 
 <style>
@@ -23,108 +22,95 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    background: linear-gradient(to top, #0a0015, #1c0033, #ff4da6);
-    background-size: 400% 400%;
-    animation: sunsetShift 15s ease infinite;
+    background: url("gta/lucia.jpg") center/cover no-repeat;
+    position: relative;
 }
 
-/* Animated background */
-@keyframes sunsetShift {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-}
-
-/* Dark overlay */
+/* Dark cinematic overlay */
 body::before {
     content: "";
     position: absolute;
     width: 100%;
     height: 100%;
-    background: radial-gradient(circle at center, transparent 40%, rgba(0,0,0,0.7));
-    z-index: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.9), rgba(255,0,150,0.3));
+    backdrop-filter: blur(4px);
 }
 
 /* Container */
 .menu-container {
     position: relative;
     text-align: center;
-    z-index: 1;
+    z-index: 2;
+    animation: fadeIn 2s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 /* Logo */
 .logo {
     font-family: 'Anton', sans-serif;
-    font-size: 70px;
+    font-size: 75px;
     letter-spacing: 4px;
     margin-bottom: 40px;
     text-transform: uppercase;
-    color: white;
     text-shadow:
         0 0 10px #ff00ff,
         0 0 20px #00ffff,
         0 0 40px #ff00ff;
 }
 
-/* Menu list */
+/* Menu */
 .menu {
     list-style: none;
 }
 
 .menu li {
-    font-size: 28px;
+    font-size: 30px;
     margin: 18px 0;
     cursor: pointer;
     transition: 0.3s ease;
-    position: relative;
 }
 
-/* Hover Glow */
-.menu li:hover {
-    color: #00ffff;
-    text-shadow:
-        0 0 8px #00ffff,
-        0 0 20px #00ffff;
-    transform: scale(1.1);
-}
-
-/* Selected Option Animation */
-.menu li.selected {
+.menu li.active {
     color: #ff4da6;
-    animation: glowPulse 1.5s infinite alternate;
+    text-shadow:
+        0 0 10px #ff4da6,
+        0 0 30px #ff4da6;
+    transform: scale(1.15);
 }
 
-@keyframes glowPulse {
-    from {
-        text-shadow: 0 0 10px #ff4da6, 0 0 20px #ff4da6;
-    }
-    to {
-        text-shadow: 0 0 20px #ff4da6, 0 0 40px #ff4da6;
-    }
-}
-
-/* Bottom button prompts */
+/* Prompts */
 .prompts {
     position: absolute;
     bottom: 30px;
     right: 40px;
     font-size: 14px;
-    opacity: 0.8;
-    text-align: right;
+    opacity: 0.85;
+    z-index: 2;
 }
 
-.prompts span {
-    display: block;
-    margin: 5px 0;
+.fade-out {
+    animation: fadeOut 1s forwards;
+}
+
+@keyframes fadeOut {
+    to { opacity: 0; transform: scale(1.05); }
 }
 </style>
 </head>
 <body>
 
-<div class="menu-container">
+<audio id="bgMusic" loop autoplay>
+    <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_4f58e77a36.mp3?filename=retro-wave-112194.mp3" type="audio/mpeg">
+</audio>
+
+<div class="menu-container" id="menu">
     <div class="logo">Grand Theft Auto VI</div>
     <ul class="menu">
-        <li class="selected">Story Mode</li>
+        <li class="active">Story Mode</li>
         <li>Online</li>
         <li>Settings</li>
         <li>Credits</li>
@@ -132,9 +118,45 @@ body::before {
 </div>
 
 <div class="prompts">
-    <span>Press X to Select</span>
-    <span>O to Back</span>
+    <div>↑ ↓ Navigate</div>
+    <div>Enter = Select</div>
+    <div>Esc = Back</div>
 </div>
+
+<script>
+const menuItems = document.querySelectorAll(".menu li");
+const menuContainer = document.getElementById("menu");
+let currentIndex = 0;
+
+function updateSelection() {
+    menuItems.forEach(item => item.classList.remove("active"));
+    menuItems[currentIndex].classList.add("active");
+}
+
+document.addEventListener("keydown", (e) => {
+    if (e.key === "ArrowDown") {
+        currentIndex = (currentIndex + 1) % menuItems.length;
+        updateSelection();
+    }
+
+    if (e.key === "ArrowUp") {
+        currentIndex = (currentIndex - 1 + menuItems.length) % menuItems.length;
+        updateSelection();
+    }
+
+    if (e.key === "Enter") {
+        menuContainer.classList.add("fade-out");
+        setTimeout(() => {
+            alert(menuItems[currentIndex].textContent + " Selected");
+            menuContainer.classList.remove("fade-out");
+        }, 1000);
+    }
+
+    if (e.key === "Escape") {
+        alert("Going Back...");
+    }
+});
+</script>
 
 </body>
 </html>
