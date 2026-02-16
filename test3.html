@@ -1,257 +1,141 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>VI | Home</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GTA VI Menu</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
+<!-- Google Font -->
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Montserrat:wght@300;600&display=swap" rel="stylesheet">
 
 <style>
-html,body{margin:0;padding:0;height:100%;font-family:'Orbitron',sans-serif;background:#000;color:#fff;overflow:hidden;}
-
-/* ================= ORIGINAL NAVBAR ================= */
-header{
-  position:fixed;
-  top:18px;
-  left:50%;
-  transform:translateX(-50%);
-  z-index:50;
-  display:flex;
-  gap:12px;
-  padding:8px 14px;
-  border-radius:999px;
-  background:rgba(0,0,0,.25);
-  box-shadow:0 6px 18px rgba(0,0,0,.35);
-}
-.nav-btn{
-  padding:9px 17px;
-  border-radius:999px;
-  color:#fff;
-  font-weight:600;
-  text-decoration:none;
-  background:rgba(255,255,255,.08);
-  border:1px solid rgba(255,255,255,.18);
-  box-shadow:
-    inset 0 1.2px 1.5px rgba(255,255,255,.4),
-    0 4px 18px rgba(0,0,0,.3);
-  transition:.25s;
-}
-.nav-btn:hover{
-  background:rgba(255,255,255,.14);
-  transform:scale(1.05);
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Montserrat', sans-serif;
 }
 
-/* ================= COUNTDOWN ================= */
-.countdown-wrap{
-  position:absolute;
-  top:50%;
-  left:50%;
-  transform:translate(-50%,-50%);
-  backdrop-filter:blur(1px);
-  border-radius:20px;
-  padding:26px 34px;
-  text-align:center;
-  width:88%;
-  max-width:600px;
-  background:rgba(0,0,0,.25);
-  border:2px solid #fff;
-}
-.title{font-size:32px;font-weight:900;}
-.subtitle{font-size:14px;margin:10px 0 24px;}
-.clock{display:flex;gap:12px;justify-content:center;}
-.unit{
-  min-width:72px;
-  padding:12px;
-  border-radius:12px;
-  background:rgba(0,0,0,.35);
-}
-.num{font-size:32px;font-weight:900;}
-.label{font-size:11px;opacity:.8;}
-
-/* ================= VERTICAL RADIO ================= */
-.music-trigger{
-  position:fixed;
-  bottom:18px;
-  left:18px;
-  width:42px;
-  height:42px;
-  cursor:pointer;
-  z-index:200;
-  background:rgba(255,255,255,0.1);
-  border-radius:999px;
-}
-.radio-panel{
-  position:fixed;
-  bottom:18px;
-  left:70px;
-  width:220px;
-  max-height:360px;
-  padding:12px;
-  border-radius:22px;
-  background:rgba(0,0,0,.25);
-  backdrop-filter:blur(2px);
-  box-shadow:0 6px 18px rgba(0,0,0,.35);
-  display:flex;
-  flex-direction:column;
-  gap:8px;
-  opacity:0;
-  pointer-events:none;
-  transform:translateX(-10px);
-  transition:.25s ease;
-  overflow:hidden;
-}
-.radio-panel.active{
-  opacity:1;
-  pointer-events:auto;
-  transform:translateX(0);
+body {
+    height: 100vh;
+    overflow: hidden;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(to top, #0a0015, #1c0033, #ff4da6);
+    background-size: 400% 400%;
+    animation: sunsetShift 15s ease infinite;
 }
 
-/* volume slider */
-.volume-wrap{display:flex;align-items:center;gap:10px;font-size:11px;}
-.volume{
-  -webkit-appearance:none;
-  width:100%;
-  height:6px;
-  border-radius:999px;
-  background:linear-gradient(90deg,#ff4dd2,#00ffe0);
-  cursor:pointer;
-}
-.volume::-webkit-slider-thumb{
-  -webkit-appearance:none;
-  width:14px;
-  height:14px;
-  border-radius:50%;
-  background:#fff;
-  box-shadow:0 0 10px #00ffe0;
+/* Animated background */
+@keyframes sunsetShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
 }
 
-/* song list */
-.music-list{
-  display:flex;
-  flex-direction:column;
-  gap:6px;
-  max-height:260px;
-  overflow-y:auto;
-  overscroll-behavior:contain;
+/* Dark overlay */
+body::before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at center, transparent 40%, rgba(0,0,0,0.7));
+    z-index: 0;
 }
-.music-item{
-  padding:6px 13px;
-  border-radius:999px;
-  font-size:11px;
-  font-weight:600;
-  background:rgba(255,255,255,.08);
-  border:1px solid rgba(255,255,255,.18);
-  box-shadow:
-    inset 0 1.2px 1.2px rgba(255,255,255,.35),
-    0 3px 12px rgba(0,0,0,.28);
-  cursor:pointer;
-  transition:.2s;
-  transform-origin:center;
-  will-change:transform;
+
+/* Container */
+.menu-container {
+    position: relative;
+    text-align: center;
+    z-index: 1;
 }
-.music-item:hover{
-  background:rgba(255,255,255,.14);
-  transform:scale(1.03);
+
+/* Logo */
+.logo {
+    font-family: 'Anton', sans-serif;
+    font-size: 70px;
+    letter-spacing: 4px;
+    margin-bottom: 40px;
+    text-transform: uppercase;
+    color: white;
+    text-shadow:
+        0 0 10px #ff00ff,
+        0 0 20px #00ffff,
+        0 0 40px #ff00ff;
 }
-/* scrollbar */
-.music-list::-webkit-scrollbar{width:4px;}
-.music-list::-webkit-scrollbar-thumb{
-  background:rgba(255,255,255,.25);
-  border-radius:10px;
+
+/* Menu list */
+.menu {
+    list-style: none;
+}
+
+.menu li {
+    font-size: 28px;
+    margin: 18px 0;
+    cursor: pointer;
+    transition: 0.3s ease;
+    position: relative;
+}
+
+/* Hover Glow */
+.menu li:hover {
+    color: #00ffff;
+    text-shadow:
+        0 0 8px #00ffff,
+        0 0 20px #00ffff;
+    transform: scale(1.1);
+}
+
+/* Selected Option Animation */
+.menu li.selected {
+    color: #ff4da6;
+    animation: glowPulse 1.5s infinite alternate;
+}
+
+@keyframes glowPulse {
+    from {
+        text-shadow: 0 0 10px #ff4da6, 0 0 20px #ff4da6;
+    }
+    to {
+        text-shadow: 0 0 20px #ff4da6, 0 0 40px #ff4da6;
+    }
+}
+
+/* Bottom button prompts */
+.prompts {
+    position: absolute;
+    bottom: 30px;
+    right: 40px;
+    font-size: 14px;
+    opacity: 0.8;
+    text-align: right;
+}
+
+.prompts span {
+    display: block;
+    margin: 5px 0;
 }
 </style>
 </head>
 <body>
 
-<header>
-  <a class="nav-btn" href="#">Home</a>
-  <a class="nav-btn" href="#">Map</a>
-  <a class="nav-btn" href="#">Characters</a>
-  <a class="nav-btn" href="#">Places</a>
-  <a class="nav-btn" href="#">Screenshots</a>
-  <a class="nav-btn" href="#">Trailers</a>
-</header>
-
-<section class="countdown-wrap">
-  <h1 class="title">Grand Theft Auto VI</h1>
-  <div class="subtitle">RELEASE COUNTDOWN – NOVEMBER 19TH, 2026</div>
-
-  <div class="clock">
-    <div class="unit"><div class="num" id="days">000</div><div class="label">DAYS</div></div>
-    <div class="unit"><div class="num" id="hours">00</div><div class="label">HOURS</div></div>
-    <div class="unit"><div class="num" id="minutes">00</div><div class="label">MINUTES</div></div>
-    <div class="unit"><div class="num" id="seconds">00</div><div class="label">SECONDS</div></div>
-  </div>
-</section>
-
-<div class="music-trigger" id="musicTrigger"></div>
-
-<div class="radio-panel" id="radioPanel">
-  <div class="volume-wrap">
-    <span>VOL</span>
-    <input id="volume" class="volume" type="range" min="0" max="1" step="0.01" value="0.6">
-  </div>
-
-  <div class="music-list">
-    <div class="music-item" data-song="music/together.mp3">Hot Together</div>
-    <div class="music-item" data-song="music/long.mp3">Love Is A Long Road</div>
-    <div class="music-item" data-song="music/night.mp3">Night</div>
-    <div class="music-item" data-song="music/ocean.mp3">Ocean Breeze</div>
-    <div class="music-item" data-song="music/self.mp3">Self Control</div>
-    <div class="music-item" data-song="music/tomic.mp3">Atomic</div>
-    <div class="music-item" data-song="music/sun.mp3">Sun Glasses At Night</div>
-    <div class="music-item" data-song="music/all.mp3">All Night Long</div>
-    <div class="music-item" data-song="music/shame.mp3">Shame</div>
-    <div class="music-item" data-song="music/vice.mp3">Vice City</div>
-    <div class="music-item" data-song="music/earth.mp3">I Walk This Earth All By Myself</div>
-    <div class="music-item" data-song="music/heart.mp3">Owner Of A Lonely Heart</div>
-    <div class="music-item" data-song="music/tempt.mp3">Tempted</div>
-    <div class="music-item" data-song="music/arrow.mp3">Poison Arrow</div>
-    <div class="music-item" data-song="music/crime.mp3">Is It A Crime</div>
-    <div class="music-item" data-song="music/fire.mp3">Through The Fire</div>
-    <div class="music-item" data-song="music/mine.mp3">Heart Of Mine</div>
-    <div class="music-item" data-song="music/nobody.mp3">Ain't Nobody</div>
-    <div class="music-item" data-song="music/you.mp3">Thinking Of You</div>
-    <div class="music-item" data-song="music/love.mp3">Sweet Love</div>
-    <div class="music-item" data-song="music/remember.mp3">I Still Remember You</div>
-    <div class="music-item" data-song="music/gamble.mp3">Gamble With My Love</div>
-    <div class="music-item" data-song="music/suki.mp3">Sukiyaki</div>
-  </div>
+<div class="menu-container">
+    <div class="logo">Grand Theft Auto VI</div>
+    <ul class="menu">
+        <li class="selected">Story Mode</li>
+        <li>Online</li>
+        <li>Settings</li>
+        <li>Credits</li>
+    </ul>
 </div>
 
-<audio id="musicPlayer"></audio>
-
-<script>
-/* Countdown */
-const targetDate=new Date('2026-11-19T00:00:00');
-const daysEl=document.getElementById('days'),
-hoursEl=document.getElementById('hours'),
-minutesEl=document.getElementById('minutes'),
-secondsEl=document.getElementById('seconds');
-const pad=n=>String(n).padStart(2,'0');
-setInterval(()=>{
-  const diff=Math.floor((targetDate-new Date())/1000);
-  if(diff<=0)return;
-  daysEl.textContent=Math.floor(diff/86400);
-  hoursEl.textContent=pad(Math.floor(diff/3600%24));
-  minutesEl.textContent=pad(Math.floor(diff/60%60));
-  secondsEl.textContent=pad(diff%60);
-},1000);
-
-/* Radio toggle */
-const trigger=document.getElementById('musicTrigger');
-const panel=document.getElementById('radioPanel');
-const player=document.getElementById('musicPlayer');
-const volume=document.getElementById('volume');
-
-trigger.onclick=()=>panel.classList.toggle('active');
-volume.oninput=()=>player.volume=volume.value;
-
-document.querySelectorAll('.music-item').forEach(i=>{
-  i.onclick=()=>{player.src=i.dataset.song;player.play();}
-});
-</script>
+<div class="prompts">
+    <span>Press X to Select</span>
+    <span>O to Back</span>
+</div>
 
 </body>
 </html>
+
