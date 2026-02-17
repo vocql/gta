@@ -1,10 +1,13 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>GTA VI Countdown</title>
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>VI | Home</title>
+
+<link rel="icon" href="gta/npc/lucia.jpg" type="image/jpg">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
+
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{height:100%;overflow:hidden;font-family:'Orbitron',sans-serif}
@@ -19,17 +22,18 @@ html,body{height:100%;overflow:hidden;font-family:'Orbitron',sans-serif}
 }
 
 .bg6{
-  background-image:url('gta6.jpg');
-  z-index:1;
-}
-
-.bg5{
-  background-image:url('gta5.jpg');
-  opacity:0;
+  background-image:url('gta/jason.jpg'); /* default GTA VI */
   z-index:0;
 }
 
-/* CRACK */
+.bg5{
+  background-image:url('gta/gta5.jpg'); /* GTA V underneath */
+  opacity:0;
+  z-index:0;
+  transition:opacity 1s ease;
+}
+
+/* CRACK OVERLAY */
 .crack{
   position:fixed;
   inset:0;
@@ -37,32 +41,79 @@ html,body{height:100%;overflow:hidden;font-family:'Orbitron',sans-serif}
   opacity:0;
   pointer-events:none;
   z-index:5;
-  transition:.5s ease;
+  transition:opacity .5s ease;
 }
 
-/* COUNTDOWN */
-.center{
-  position:relative;
-  z-index:10;
-  color:#fff;
-  text-align:center;
-  margin-top:20vh;
-}
-
-h1{font-size:40px;font-weight:900;letter-spacing:3px;}
-.num{font-size:50px;font-weight:900;margin:10px;}
-
-button{
-  margin-top:20px;
-  padding:10px 20px;
-  border:none;
+/* ================= NAVBAR ================= */
+header {
+  position: fixed;
+  top: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index:50;
+  display:flex;
+  gap:12px;
+  padding:8px 14px;
   border-radius:999px;
-  background:#ff4dd2;
-  font-weight:700;
+  background: rgba(0,0,0,0.25);
+  box-shadow:0 6px 18px rgba(0,0,0,0.35);
+}
+.nav-btn {
+  padding:9px 17px;
+  border-radius:999px;
+  color:#fff;
+  font-weight:600;
+  text-decoration:none;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.18);
+  box-shadow: inset 0 1.2px 1.5px rgba(255,255,255,0.4),
+              0 4px 18px rgba(0,0,0,0.3);
+  transition:0.25s;
+}
+.nav-btn:hover {transform:scale(1.05);}
+
+/* ================= COUNTDOWN ================= */
+.countdown-wrap{
+  backdrop-filter:blur(1px);
+  border-radius:20px;
+  padding:26px 34px;
+  text-align:center;
+  width:88%;
+  max-width:600px;
+  margin-top:120px;
+  background:rgba(0,0,0,0.25);
+  border:2px solid #fff;
+  transition:.6s ease;
+}
+.title{font-size:32px;font-weight:900}
+.subtitle{font-size:14px;margin:10px 0 24px}
+
+.clock{
+  display:flex;
+  gap:12px;
+  justify-content:center;
+}
+.unit{
+  min-width:72px;
+  padding:12px;
+  border-radius:12px;
+  background:rgba(0,0,0,0.35);
+}
+.num{font-size:32px;font-weight:900}
+.label{font-size:11px;opacity:.8}
+
+.test-btn{
+  margin-top:20px;
+  padding:8px 16px;
+  border-radius:999px;
+  border:none;
   cursor:pointer;
+  font-weight:700;
+  background:#ff4dd2;
+  color:#000;
 }
 
-/* REVEAL TEXT */
+/* ================= REVEAL TEXT ================= */
 .reveal{
   position:fixed;
   inset:0;
@@ -105,11 +156,28 @@ button{
 <div class="bg bg5" id="bg5"></div>
 <div class="crack" id="crack"></div>
 
-<div class="center">
-  <h1>GTA VI Countdown</h1>
-  <div class="num" id="countdownDisplay">Loading...</div>
-  <button onclick="triggerFinalReveal()">TEST FINAL REVEAL</button>
-</div>
+<header>
+  <a href="index" class="nav-btn">Home</a>
+  <a href="map" class="nav-btn">Map</a>
+  <a href="characters" class="nav-btn">Characters</a>
+  <a href="places" class="nav-btn">Places</a>
+  <a href="screenshots" class="nav-btn">Screenshots</a>
+  <a href="trailers" class="nav-btn">Trailers</a>
+</header>
+
+<section class="countdown-wrap" id="countdownBox">
+  <h1 class="title">Grand Theft Auto VI</h1>
+  <div class="subtitle">RELEASE COUNTDOWN – NOVEMBER 19TH, 2026</div>
+
+  <div class="clock">
+    <div class="unit"><div class="num" id="days">000</div><div class="label">DAYS</div></div>
+    <div class="unit"><div class="num" id="hours">00</div><div class="label">HOURS</div></div>
+    <div class="unit"><div class="num" id="minutes">00</div><div class="label">MINUTES</div></div>
+    <div class="unit"><div class="num" id="seconds">00</div><div class="label">SECONDS</div></div>
+  </div>
+
+  <button class="test-btn" onclick="triggerFinalReveal()">TEST FINAL REVEAL</button>
+</section>
 
 <div class="reveal" id="reveal">
   <h2>GRAND THEFT AUTO VI</h2>
@@ -117,18 +185,50 @@ button{
 </div>
 
 <script>
+const targetDate = new Date('2026-11-19T00:00:00');
+const daysEl = document.getElementById('days');
+const hoursEl = document.getElementById('hours');
+const minutesEl = document.getElementById('minutes');
+const secondsEl = document.getElementById('seconds');
+
+const countdownBox = document.getElementById('countdownBox');
+const reveal = document.getElementById('reveal');
+const crack = document.getElementById('crack');
 const bg6 = document.getElementById('bg6');
 const bg5 = document.getElementById('bg5');
-const crack = document.getElementById('crack');
-const reveal = document.getElementById('reveal');
-const countdownDisplay = document.getElementById('countdownDisplay');
 
-// Target date
-const targetDate = new Date('2026-11-19T00:00:00');
+function pad(n){ return String(n).padStart(2,'0'); }
 
-function pad(n){return String(n).padStart(2,'0');}
+function updateCountdown(){
+  const now = new Date();
+  const diff = Math.floor((targetDate - now)/1000);
 
-// Trigger final cinematic reveal
+  if(diff <= 0){
+    daysEl.textContent = 0;
+    hoursEl.textContent = '00';
+    minutesEl.textContent = '00';
+    secondsEl.textContent = '00';
+    triggerFinalReveal();
+    return;
+  }
+
+  // Update original countdown numbers
+  daysEl.textContent = Math.floor(diff/86400);
+  hoursEl.textContent = pad(Math.floor(diff/3600%24));
+  minutesEl.textContent = pad(Math.floor(diff/60%60));
+  secondsEl.textContent = pad(diff%60);
+
+  // Trigger 10-minute crack sequence
+  if(diff <= 600){
+    crack.style.opacity = "1";
+    bg5.style.opacity = "1"; // GTA V shows underneath
+  }
+}
+
+setInterval(updateCountdown,1000);
+updateCountdown();
+
+// Final reveal back to GTA VI
 function triggerFinalReveal(){
   crack.style.opacity = "0";
   bg5.style.opacity = "0";
@@ -137,9 +237,9 @@ function triggerFinalReveal(){
   launchConfetti();
 }
 
-// Confetti
+// Confetti effect
 function launchConfetti(){
-  for(let i=0;i<100;i++){
+  for(let i=0;i<120;i++){
     const c=document.createElement("div");
     c.className="confetti";
     c.style.left=Math.random()*100+"vw";
@@ -149,38 +249,10 @@ function launchConfetti(){
     setTimeout(()=>c.remove(),5000);
   }
 }
-
-// Countdown updater
-function updateCountdown(){
-  const now = new Date();
-  let diff = Math.floor((targetDate-now)/1000);
-
-  if(diff<=0){
-    countdownDisplay.textContent = "00:00:00";
-    triggerFinalReveal();
-    return;
-  }
-
-  // HH:MM:SS
-  const hours = pad(Math.floor(diff/3600));
-  const minutes = pad(Math.floor(diff/60)%60);
-  const seconds = pad(diff%60);
-  countdownDisplay.textContent = `${hours}:${minutes}:${seconds}`;
-
-  // 10 minutes left trigger
-  if(diff<=600){ // 600 seconds = 10 min
-    // Crack appears
-    crack.style.opacity = "1";
-    // Show GTA5 background underneath
-    bg5.style.opacity = "1";
-  }
-}
-
-setInterval(updateCountdown,1000);
-updateCountdown();
 </script>
 
 </body>
 </html>
+
 
 
