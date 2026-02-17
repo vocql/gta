@@ -10,7 +10,7 @@
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-html,body{height:100%;overflow:hidden;font-family:'Orbitron',sans-serif}
+html,body{height:100%;overflow:hidden;font-family:'Orbitron',sans-serif;display:flex;align-items:center;justify-content:center}
 
 /* BACKGROUNDS */
 .bg{
@@ -22,7 +22,7 @@ html,body{height:100%;overflow:hidden;font-family:'Orbitron',sans-serif}
   z-index:0;
 }
 .bg6{background-image:url('gta/jason.jpg');}
-.bg5{background-image:url('gta/gta5.jpg'); opacity:0;}
+.bg5{background-image:url('gta/gta5.jpg');opacity:0;}
 
 /* CRACK OVERLAY */
 .crack{
@@ -80,8 +80,8 @@ header {
   background:rgba(0,0,0,0.25);
   border:2px solid #fff;
 }
-.title{font-size:32px;font-weight:900}
-.subtitle{font-size:14px;margin:10px 0 24px}
+.title{font-size:32px;font-weight:900;color:#ff4dd2;}
+.subtitle{font-size:14px;margin:10px 0 24px;color:#00ffe0;}
 
 .clock{
   display:flex;
@@ -94,8 +94,8 @@ header {
   border-radius:12px;
   background:rgba(0,0,0,0.35);
 }
-.num{font-size:32px;font-weight:900}
-.label{font-size:11px;opacity:.8}
+.num{font-size:32px;font-weight:900;color:#ff4dd2;}
+.label{font-size:11px;opacity:.9;color:#00ffe0;}
 
 .test-btn{
   margin-top:20px;
@@ -106,6 +106,8 @@ header {
   font-weight:700;
   background:#ff4dd2;
   color:#000;
+  z-index:20;
+  position:relative;
 }
 
 /* REVEAL TEXT */
@@ -142,13 +144,6 @@ header {
 }
 @keyframes fall{
   to{transform:translateY(110vh) rotate(720deg);}
-}
-
-/* CENTER THE COUNTDOWN FULL PAGE */
-body{
-  display:flex;
-  align-items:center;
-  justify-content:center;
 }
 </style>
 </head>
@@ -231,6 +226,7 @@ function updateCountdown(){
 setInterval(updateCountdown,1000);
 updateCountdown();
 
+// Final reveal back to GTA VI
 function triggerFinalReveal(){
   crack.style.opacity = "0";
   bg5.style.opacity = "0";
@@ -239,6 +235,7 @@ function triggerFinalReveal(){
   launchConfetti();
 }
 
+// Confetti effect
 function launchConfetti(){
   for(let i=0;i<120;i++){
     const c=document.createElement("div");
@@ -254,6 +251,7 @@ function launchConfetti(){
 
 </body>
 </html>
+
 
 
 
