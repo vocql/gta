@@ -1,193 +1,271 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GTA VI Ultimate Menu</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>VI | Home</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Anton&family=Montserrat:wght@300;600&display=swap" rel="stylesheet">
+<link rel="icon" href="gta/npc/lucia.jpg" type="image/jpg">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
 
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Montserrat',sans-serif;}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;overflow:hidden}
+
 body{
-    height:100vh;
-    overflow:hidden;
-    background:url("gta/jason.jpg") center/cover no-repeat;
-    color:white;
-    display:flex;
-    justify-content:center;
-    align-items:center;
+  font-family:'Orbitron',sans-serif;
+  background:
+    linear-gradient(135deg, rgba(255,77,210,0.15), rgba(0,255,224,0.10)),
+    url('gta/jason.jpg') center/cover no-repeat fixed;
+  background-blend-mode: overlay;
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background-position:center 40%;
+  transition:transform .2s ease;
 }
 
-/* Dark gradient overlay (no blur) */
-.overlay{
-    position:absolute;
-    width:100%;
-    height:100%;
-    background:linear-gradient(to top, rgba(0,0,0,0.9), rgba(255,0,150,0.2));
-    z-index:1;
+/* NAVBAR */
+header {
+  position: fixed;
+  top: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 50;
+  display: flex;
+  gap: 12px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.25);
 }
 
-/* Animated cars */
-.car{
-    position:absolute;
-    bottom:60px;
-    width:200px;
-    height:60px;
-    background:linear-gradient(to right,#00ffff,#ff00ff);
-    border-radius:20px;
-    filter:brightness(1.5);
-    animation:drive 12s linear infinite;
+.nav-btn {
+  padding: 9px 17px;
+  border-radius: 999px;
+  color: #fff;
+  font-weight: 600;
+  text-decoration: none;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.18);
+  transition:.25s;
 }
-.car:nth-child(2){
-    bottom:100px;
-    animation-delay:6s;
-}
-@keyframes drive{
-    from{left:-250px;}
-    to{left:110%;}
+.nav-btn:hover { transform:scale(1.05); }
+
+/* COUNTDOWN */
+.countdown-wrap{
+  backdrop-filter:blur(1px);
+  border-radius:20px;
+  padding:26px 34px;
+  text-align:center;
+  width:88%;
+  max-width:600px;
+  margin-top:120px;
+  background:rgba(0,0,0,0.25);
+  border:2px solid #fff;
+  transition:.6s ease;
 }
 
-/* Palm silhouettes */
-.palm{
-    position:absolute;
-    bottom:0;
-    width:80px;
-    height:250px;
-    background:linear-gradient(to top,#000,#111);
-    clip-path:polygon(45% 0%,55% 0%,60% 100%,40% 100%);
-}
-.palm.left{left:5%;}
-.palm.right{right:5%;}
+.title{font-size:32px;font-weight:900}
+.subtitle{font-size:14px;margin:10px 0 24px}
 
-/* Main menu */
-.menu-container{
-    position:relative;
-    z-index:2;
-    text-align:center;
+.clock{display:flex;gap:12px;justify-content:center;}
+.unit{
+  min-width:72px;
+  padding:12px;
+  border-radius:12px;
+  background:rgba(0,0,0,0.35);
 }
+.num{font-size:32px;font-weight:900}
+.label{font-size:11px;opacity:.8}
 
-.logo{
-    font-family:'Anton',sans-serif;
-    font-size:75px;
-    letter-spacing:4px;
-    margin-bottom:40px;
-    text-shadow:0 0 10px #ff00ff,0 0 20px #00ffff;
+.test-btn{
+  margin-top:20px;
+  padding:8px 16px;
+  border-radius:999px;
+  border:none;
+  cursor:pointer;
+  font-weight:700;
+  background:#ff4dd2;
+  color:#000;
 }
 
-.menu{list-style:none;}
-.menu li{
-    font-size:30px;
-    margin:18px 0;
-    transition:0.3s;
+/* REVEAL */
+.reveal{
+  position:fixed;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+  background:rgba(0,0,0,.9);
+  backdrop-filter:blur(8px);
+  z-index:200;
+  opacity:0;
+  pointer-events:none;
+  transition:.6s ease;
 }
-.menu li.active{
-    color:#ff4da6;
-    transform:scale(1.2);
-    text-shadow:0 0 10px #ff4da6,0 0 30px #ff4da6;
+.reveal.active{opacity:1;pointer-events:auto;}
+
+.reveal h1{
+  font-size:82px;
+  font-weight:900;
+  letter-spacing:8px;
+  background:linear-gradient(90deg,#ff4dd2,#00ffe0);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  animation:pop 1s ease forwards;
+}
+.reveal p{margin-top:20px;font-size:20px;}
+
+@keyframes pop{
+  0%{transform:scale(.5);opacity:0}
+  60%{transform:scale(1.15)}
+  100%{transform:scale(1);opacity:1}
 }
 
-/* Prompts */
-.prompts{
-    position:absolute;
-    bottom:20px;
-    right:40px;
-    font-size:14px;
-    z-index:2;
+/* CONFETTI */
+.confetti{
+  position:fixed;
+  width:8px;
+  height:8px;
+  top:-10px;
+  animation:fall linear forwards;
+}
+@keyframes fall{
+  to{transform:translateY(110vh) rotate(720deg);}
 }
 
-/* Sliding panels */
-.panel{
-    position:absolute;
-    top:0;
-    right:-100%;
-    width:100%;
-    height:100%;
-    background:linear-gradient(to bottom,#0a0015,#220033);
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    font-size:40px;
-    transition:0.6s ease;
-    z-index:3;
+/* FLASH */
+.flash{
+  position:fixed;
+  inset:0;
+  background:#fff;
+  opacity:0;
+  pointer-events:none;
+  z-index:300;
 }
-.panel.active{right:0;}
+.flash.active{
+  animation:flashAnim .4s ease;
+}
+@keyframes flashAnim{
+  0%{opacity:1}
+  100%{opacity:0}
+}
 
+/* SHAKE */
+.shake{
+  animation:shake .4s ease;
+}
+@keyframes shake{
+  0%{transform:translate(0)}
+  25%{transform:translate(-8px,4px)}
+  50%{transform:translate(8px,-4px)}
+  75%{transform:translate(-6px,2px)}
+  100%{transform:translate(0)}
+}
 </style>
 </head>
+
 <body>
 
-<div class="overlay"></div>
-<div class="car"></div>
-<div class="car"></div>
-<div class="palm left"></div>
-<div class="palm right"></div>
+<header>
+  <a href="index" class="nav-btn">Home</a>
+  <a href="map" class="nav-btn">Map</a>
+  <a href="characters" class="nav-btn">Characters</a>
+  <a href="places" class="nav-btn">Places</a>
+  <a href="screenshots" class="nav-btn">Screenshots</a>
+  <a href="trailers" class="nav-btn">Trailers</a>
+</header>
 
-<audio id="bgMusic" loop autoplay>
-<source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_4f58e77a36.mp3?filename=retro-wave-112194.mp3" type="audio/mpeg">
-</audio>
+<section class="countdown-wrap" id="countdownBox">
+  <h1 class="title">Grand Theft Auto VI</h1>
+  <div class="subtitle">RELEASE COUNTDOWN – NOVEMBER 19TH, 2026</div>
 
-<div class="menu-container">
-    <div class="logo">Grand Theft Auto VI</div>
-    <ul class="menu">
-        <li>Story Mode</li>
-        <li>Online</li>
-        <li>Settings</li>
-        <li>Credits</li>
-    </ul>
+  <div class="clock">
+    <div class="unit"><div class="num" id="days">000</div><div class="label">DAYS</div></div>
+    <div class="unit"><div class="num" id="hours">00</div><div class="label">HOURS</div></div>
+    <div class="unit"><div class="num" id="minutes">00</div><div class="label">MINUTES</div></div>
+    <div class="unit"><div class="num" id="seconds">00</div><div class="label">SECONDS</div></div>
+  </div>
+
+  <button class="test-btn" onclick="triggerReveal()">TEST REVEAL</button>
+</section>
+
+<div class="reveal" id="revealScreen">
+  <h1>VI IS LIVE</h1>
+  <p>Welcome to Vice City.</p>
 </div>
 
-<div class="prompts">
-    ↑ ↓ Navigate<br>
-    Enter / A = Select<br>
-    Esc / B = Back
-</div>
+<div class="flash" id="flash"></div>
 
-<!-- Panels -->
-<div class="panel" id="panel"></div>
+<!-- SOUND FILES (add your own mp3s here) -->
+<audio id="boomSound" src="sounds/explosion.mp3"></audio>
+<audio id="revealSound" src="sounds/reveal.mp3"></audio>
 
 <script>
-const items=document.querySelectorAll(".menu li");
-const panel=document.getElementById("panel");
-let index=localStorage.getItem("menuIndex")?parseInt(localStorage.getItem("menuIndex")):0;
+const targetDate = new Date('2026-11-19T00:00:00');
+const daysEl = document.getElementById('days');
+const hoursEl = document.getElementById('hours');
+const minutesEl = document.getElementById('minutes');
+const secondsEl = document.getElementById('seconds');
+const countdownBox = document.getElementById('countdownBox');
+const revealScreen = document.getElementById('revealScreen');
+const flash = document.getElementById('flash');
+const boomSound = document.getElementById('boomSound');
+const revealSound = document.getElementById('revealSound');
 
-function update(){
-    items.forEach(i=>i.classList.remove("active"));
-    items[index].classList.add("active");
-    localStorage.setItem("menuIndex",index);
+function pad(n){ return String(n).padStart(2,'0'); }
+
+function updateCountdown(){
+  const now = new Date();
+  const diff = Math.floor((targetDate - now)/1000);
+
+  if(diff <= 0){
+    triggerReveal();
+    return;
+  }
+
+  daysEl.textContent = Math.floor(diff/86400);
+  hoursEl.textContent = pad(Math.floor(diff/3600%24));
+  minutesEl.textContent = pad(Math.floor(diff/60%60));
+  secondsEl.textContent = pad(diff%60);
 }
-update();
 
-/* Keyboard */
-document.addEventListener("keydown",e=>{
-    if(e.key==="ArrowDown"){index=(index+1)%items.length;update();}
-    if(e.key==="ArrowUp"){index=(index-1+items.length)%items.length;update();}
-    if(e.key==="Enter"){openPanel();}
-    if(e.key==="Escape"){closePanel();}
-});
+setInterval(updateCountdown,1000);
+updateCountdown();
 
-/* Gamepad Support */
-function gamepadLoop(){
-    const gp=navigator.getGamepads()[0];
-    if(gp){
-        if(gp.buttons[0].pressed)openPanel();
-        if(gp.buttons[1].pressed)closePanel();
-        if(gp.axes[1]>0.5){index=(index+1)%items.length;update();}
-        if(gp.axes[1]<-0.5){index=(index-1+items.length)%items.length;update();}
-    }
-    requestAnimationFrame(gamepadLoop);
+function triggerReveal(){
+  countdownBox.style.display="none";
+
+  flash.classList.add("active");
+  document.body.classList.add("shake");
+
+  boomSound.play();
+  revealSound.play();
+
+  revealScreen.classList.add("active");
+  launchConfetti();
+
+  setTimeout(()=>{
+    window.location.href="trailers";
+  },6000);
 }
-gamepadLoop();
 
-function openPanel(){
-    panel.innerHTML=items[index].textContent+" Page";
-    panel.classList.add("active");
-}
-function closePanel(){
-    panel.classList.remove("active");
+function launchConfetti(){
+  for(let i=0;i<150;i++){
+    const c=document.createElement("div");
+    c.className="confetti";
+    c.style.left=Math.random()*100+"vw";
+    c.style.background=`hsl(${Math.random()*360},100%,60%)`;
+    c.style.animationDuration=(2+Math.random()*3)+"s";
+    document.body.appendChild(c);
+    setTimeout(()=>c.remove(),5000);
+  }
 }
 </script>
 
 </body>
 </html>
+
 
