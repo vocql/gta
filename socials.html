@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VI | Socials</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;600;800&display=swap" rel="stylesheet">
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Montserrat',sans-serif;
+}
+
+body{
+    height:100vh;
+    background:linear-gradient(135deg,#0a0015,#140024,#ff00aa);
+    background-size:400% 400%;
+    animation:bgShift 15s ease infinite;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    overflow:hidden;
+    color:white;
+}
+
+@keyframes bgShift{
+    0%{background-position:0% 50%;}
+    50%{background-position:100% 50%;}
+    100%{background-position:0% 50%;}
+}
+
+.container{
+    width:90%;
+    max-width:1100px;
+    height:85vh;
+    backdrop-filter: blur(20px);
+    background:rgba(0,0,0,0.6);
+    border-radius:20px;
+    box-shadow:0 0 40px rgba(255,0,170,0.5);
+    display:flex;
+    flex-direction:column;
+    overflow:hidden;
+}
+
+/* Header */
+.header{
+    padding:25px;
+    text-align:center;
+    font-size:28px;
+    font-weight:800;
+    letter-spacing:3px;
+    background:linear-gradient(to right,#ff00cc,#00ffff);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+}
+
+/* Iframe embed */
+.embed-wrapper{
+    flex:1;
+    position:relative;
+}
+
+iframe{
+    width:100%;
+    height:100%;
+    border:none;
+    border-radius:0 0 20px 20px;
+}
+
+/* Floating glow effect */
+.glow{
+    position:absolute;
+    width:300px;
+    height:300px;
+    background:radial-gradient(circle,#ff00cc,transparent 70%);
+    top:-100px;
+    right:-100px;
+    opacity:0.5;
+    animation:float 6s ease-in-out infinite alternate;
+}
+
+@keyframes float{
+    from{transform:translateY(0px);}
+    to{transform:translateY(30px);}
+}
+
+/* Responsive */
+@media(max-width:768px){
+    .container{
+        height:95vh;
+    }
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">VI | Socials</div>
+
+    <div class="embed-wrapper">
+        <div class="glow"></div>
+        <iframe src="https://guns.lol/zfqlx"></iframe>
+    </div>
+</div>
+
+</body>
+</html>
