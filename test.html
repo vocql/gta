@@ -1,257 +1,146 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>VI | Screenshots</title>
-  <link rel="icon" href="gta/npc/lucia.jpg" type="image/jpg">
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
-  <style>
-    * { margin:0; padding:0; box-sizing:border-box; }
-    body {
-      font-family: 'Orbitron', sans-serif;
-      background:
-        linear-gradient(135deg, rgba(255,77,210,0.15), rgba(0,255,224,0.10)),
-        url('gta/jason.jpg') center/cover no-repeat fixed;
-      background-blend-mode: overlay;
-      color: #ffffff;
-      min-height: 100vh;
-      overflow-x: hidden;
-    }
-    header {
-      position:fixed;
-      top:12px;
-      left:50%;
-      transform:translateX(-50%);
-      z-index:50;
-      display:flex;
-      gap:12px;
-      padding:8px 14px;
-      border-radius:999px;
-      background:rgba(0,0,0,0.25);
-      box-shadow:0 6px 18px rgba(0,0,0,0.35);
-    }
-    header:hover {
-      box-shadow: 0 12px 40px rgba(255, 77, 210, 0.35);
-    }
-    .nav-btn {
-      padding:9px 17px;
-      border-radius:999px;
-      color:#fff;
-      font-weight:600;
-      text-decoration:none;
-      background:rgba(255,255,255,0.08);
-      border:1px solid rgba(255,255,255,0.18);
-      box-shadow:
-        inset 0 1.2px 1.5px rgba(255,255,255,0.4),
-        0 4px 18px rgba(0,0,0,0.3);
-      transition:.25s;
-    }
-    .nav-btn:hover {
-      background:rgba(255,255,255,0.14);
-      transform:scale(1.05);
-    }
-    .page {
-      padding: 140px 5% 100px;
-      max-width: 1600px;
-      margin: 0 auto;
-    }
-    h1 {
-      text-align: center;
-      font-size: clamp(3rem, 8vw, 5.5rem);
-      font-weight: 900;
-      margin-bottom: 60px;
-      color: #ffffff;
-      text-shadow: 0 6px 12px rgba(0,0,0,0.65);
-      letter-spacing: -1px;
-    }
-    .gallery {
-      column-count: 4;
-      column-gap: 24px;
-      width: 100%;
-    }
-    .gallery-item {
-      break-inside: avoid;
-      margin-bottom: 24px;
-      opacity: 0;
-      transform: translateY(40px);
-      transition: opacity 0.6s ease, transform 0.6s ease;
-      border-radius: 18px;
-      overflow: hidden;
-      box-shadow: 0 12px 32px rgba(0,0,0,0.5);
-    }
-    .gallery-item.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-    .gallery-item:hover {
-      transform: scale(1.06) translateY(-12px);
-      box-shadow: 0 24px 48px rgba(0,0,0,0.7), 0 0 40px rgba(255,77,210,0.5);
-    }
-    .gallery-item img {
-      width: 100%;
-      height: auto;
-      display: block;
-      object-fit: cover;
-      transition: transform 0.6s ease;
-      loading: lazy;
-    }
-    .gallery-item:hover img {
-      transform: scale(1.12);
-    }
-    /* Fullscreen Viewer */
-    .viewer {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.92);
-      backdrop-filter: blur(12px);
-      z-index: 9999;
-      justify-content: center;
-      align-items: center;
-      opacity: 0;
-      transition: opacity 0.4s ease;
-    }
-    .viewer.active {
-      display: flex;
-      opacity: 1;
-    }
-    .viewer img {
-      max-width: 92%;
-      max-height: 92vh;
-      border-radius: 20px;
-      box-shadow: 0 0 60px rgba(255,255,255,0.15);
-      object-fit: contain;
-    }
-    .close-btn {
-      position: absolute;
-      top: 30px; right: 30px;
-      font-size: 3.5rem;
-      color: #fff;
-      cursor: pointer;
-      text-shadow: 0 0 10px rgba(0,0,0,0.8);
-      transition: all 0.3s;
-    }
-    .close-btn:hover { transform: scale(1.2); color: #ff4dd2; }
-    .nav-arrow {
-      position: absolute;
-      top: 50%; transform: translateY(-50%);
-      font-size: 4.5rem;
-      color: rgba(255,255,255,0.7);
-      cursor: pointer;
-      user-select: none;
-      transition: all 0.3s;
-    }
-    .nav-arrow:hover { color: #ff4dd2; transform: translateY(-50%) scale(1.15); }
-    .prev { left: 30px; }
-    .next { right: 30px; }
-    @media (max-width: 1100px) { .gallery { column-count: 3; } }
-    @media (max-width: 768px) { .gallery { column-count: 2; } h1 { font-size: 3.5rem; } }
-    @media (max-width: 480px) { .gallery { column-count: 1; } .close-btn, .nav-arrow { font-size: 2.8rem; } }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GTA 6 Themed Snapmatic Phone</title>
+    <style>
+        /* GTA 6 Theme: Neon sunset vibes */
+        @font-face {
+            font-family: 'Pricedown'; /* Download from dafont.com */
+            src: url('pricedown.woff2') format('woff2'); /* Add font file */
+        }
+        body {
+            background: linear-gradient(to bottom, #FF69B4, #FFA500); /* Pink to orange */
+            font-family: 'Pricedown', sans-serif;
+            color: #FFF;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .phone {
+            width: 320px;
+            height: 640px;
+            background: #000;
+            border-radius: 40px;
+            box-shadow: 0 0 20px rgba(255, 105, 180, 0.5); /* Neon glow */
+            position: relative;
+            overflow: hidden;
+        }
+        .home-screen {
+            height: 100%;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            padding: 50px 20px 100px;
+            background: url('sunset-palms.jpg') no-repeat center/cover; /* Add a GTA-style background image */
+        }
+        .app-icon {
+            width: 80px;
+            height: 80px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            margin: 10px;
+            transition: transform 0.2s;
+        }
+        .app-icon:hover {
+            transform: scale(1.1);
+        }
+        .app-icon img { /* Use free icons, e.g., from flaticon.com */
+            width: 50px;
+        }
+        /* Snapmatic Modal (hidden by default) */
+        #snapmatic {
+            display: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        #video {
+            width: 100%;
+            height: 70%;
+            background: #333; /* Placeholder for camera */
+        }
+        .controls {
+            display: flex;
+            justify-content: space-around;
+            width: 100%;
+            padding: 20px;
+        }
+        .btn {
+            background: #FF69B4;
+            color: #000;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-family: 'Pricedown';
+            font-size: 18px;
+        }
+    </style>
 </head>
 <body>
-  <header>
-    <a href="index" class="nav-btn">Home</a>
-    <a href="map" class="nav-btn">Map</a>
-    <a href="characters" class="nav-btn">Characters</a>
-    <a href="places" class="nav-btn">Places</a>
-    <a href="screenshots" class="nav-btn">Screenshots</a>
-    <a href="trailers" class="nav-btn">Trailers</a>
-  </header>
+    <div class="phone">
+        <div class="home-screen">
+            <div class="app-icon" onclick="openSnapmatic()">
+                <img src="camera-icon.png" alt="Snapmatic"> <!-- Add icon -->
+            </div>
+            <!-- Add more icons for other "apps" if wanted -->
+        </div>
+        <div id="snapmatic">
+            <video id="video"></video>
+            <div class="controls">
+                <button class="btn" onclick="snapPhoto()">Snap</button>
+                <button class="btn" onclick="closeSnapmatic()">Back</button>
+            </div>
+        </div>
+    </div>
 
-  <div class="page">
-    <h1>70 Official GTA VI Screenshots (from Rockstar Games)</h1>
-    <div class="gallery" id="gallery"></div>
-  </div>
-
-  <!-- Fullscreen Viewer -->
-  <div class="viewer" id="viewer">
-    <span class="close-btn" id="close">&times;</span>
-    <span class="nav-arrow prev" id="prev">&lt;</span>
-    <img id="viewerImg" src="" alt="Full View">
-    <span class="nav-arrow next" id="next">&gt;</span>
-  </div>
-
-  <script>
-    // === Auto-generate all 70 gallery items ===
-    const totalScreenshots = 70;
-    const gallery = document.getElementById('gallery');
-
-    // Use padded numbers: 001.jpg to 070.jpg (adjust padStart if your files are 1.jpg–70.jpg)
-    function padNumber(num) {
-      return String(num).padStart(3, '0');
-    }
-
-    for (let i = 1; i <= totalScreenshots; i++) {
-      const padded = padNumber(i);
-      const item = document.createElement('div');
-      item.className = 'gallery-item';
-      item.innerHTML = `
-        <img 
-          src="gta/screenshots/${padded}.jpg" 
-          alt="Official GTA VI Screenshot ${i} - Rockstar Games" 
-          loading="lazy"
-        >
-      `;
-      gallery.appendChild(item);
-    }
-
-    // === Your existing fade-in observer ===
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.parentElement.classList.add('visible');
-          observer.unobserve(entry.target);
+    <script>
+        function openSnapmatic() {
+            document.getElementById('snapmatic').style.display = 'flex';
+            // Access webcam
+            navigator.mediaDevices.getUserMedia({ video: true })
+                .then(stream => {
+                    document.getElementById('video').srcObject = stream;
+                    document.getElementById('video').play();
+                })
+                .catch(err => console.error('Camera access denied:', err));
         }
-      });
-    }, { threshold: 0.1 });
 
-    // Observe all images (now dynamic)
-    document.querySelectorAll('.gallery-item img').forEach(img => observer.observe(img));
+        function closeSnapmatic() {
+            document.getElementById('snapmatic').style.display = 'none';
+            const video = document.getElementById('video');
+            const stream = video.srcObject;
+            if (stream) stream.getTracks().forEach(track => track.stop());
+        }
 
-    // === Viewer logic (unchanged, but now works with dynamic items) ===
-    const viewer = document.getElementById('viewer');
-    const viewerImg = document.getElementById('viewerImg');
-    const closeBtn = document.getElementById('close');
-    const prevBtn = document.getElementById('prev');
-    const nextBtn = document.getElementById('next');
-    const items = document.querySelectorAll('.gallery-item img');
-    let currentIndex = 0;
-
-    items.forEach((img, idx) => {
-      img.addEventListener('click', () => {
-        currentIndex = idx;
-        viewerImg.src = img.src;
-        viewer.classList.add('active');
-        document.body.style.overflow = 'hidden';
-      });
-    });
-
-    const close = () => {
-      viewer.classList.remove('active');
-      document.body.style.overflow = '';
-    };
-
-    closeBtn.addEventListener('click', close);
-    viewer.addEventListener('click', e => { if (e.target === viewer) close(); });
-
-    prevBtn.addEventListener('click', () => {
-      currentIndex = (currentIndex - 1 + items.length) % items.length;
-      viewerImg.src = items[currentIndex].src;
-    });
-
-    nextBtn.addEventListener('click', () => {
-      currentIndex = (currentIndex + 1) % items.length;
-      viewerImg.src = items[currentIndex].src;
-    });
-
-    document.addEventListener('keydown', e => {
-      if (!viewer.classList.contains('active')) return;
-      if (e.key === 'Escape') close();
-      if (e.key === 'ArrowLeft') prevBtn.click();
-      if (e.key === 'ArrowRight') nextBtn.click();
-    });
-  </script>
+        function snapPhoto() {
+            const video = document.getElementById('video');
+            const canvas = document.createElement('canvas');
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            canvas.getContext('2d').drawImage(video, 0, 0);
+            // Apply GTA-style filter (e.g., sepia)
+            canvas.toDataURL('image/png'); // Save or download
+            // Example: Download the photo
+            const link = document.createElement('a');
+            link.download = 'gta6-snap.png';
+            link.href = canvas.toDataURL();
+            link.click();
+        }
+    </script>
 </body>
 </html>
