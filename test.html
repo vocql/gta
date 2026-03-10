@@ -225,30 +225,6 @@ input {
   box-shadow: 0 0 30px rgba(0,255,224,0.7);
 }
 
-/* Statcounter link badge – bottom-right */
-#statcounter-badge {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  z-index: 100;
-  background: rgba(0,0,0,0.65);
-  padding: 8px 16px;
-  border-radius: 999px;
-  backdrop-filter: blur(8px);
-  border: 1px solid rgba(0,255,180,0.4);
-  box-shadow: 0 4px 18px rgba(0,255,180,0.3);
-  font-size: 0.9rem;
-  color: #00ff9d;
-}
-#statcounter-badge a {
-  color: #00ff9d;
-  text-decoration: none;
-  font-weight: 600;
-}
-#statcounter-badge a:hover {
-  text-decoration: underline;
-}
-
 /* MUSIC */
 .music-trigger{position:fixed;bottom:18px;left:18px;width:40px;height:40px;cursor:pointer;z-index:200;}
 .music-wheel{position:fixed;bottom:18px;left:70px;display:flex;gap:8px;max-width:calc(100% - 90px);overflow-x:auto;padding-bottom:4px;opacity:0;pointer-events:none;transform:translateX(-10px);transition:.25s ease;}
@@ -287,7 +263,8 @@ input {
 </div>
 
 <header>
-  <a href="index" class="nav-btn">Home</a>
+  <a href="index.html" class="nav-btn">Home</a>
+  <a href="dashboard.html" class="nav-btn">Dashboard</a>
   <a href="map" class="nav-btn">Map</a>
   <a href="characters" class="nav-btn">Characters</a>
   <a href="places" class="nav-btn">Places</a>
@@ -337,11 +314,6 @@ input {
   <div class="music-item" data-song="music/suki.mp3">Sukiyaki</div>
 </div>
 <audio id="musicPlayer"></audio>
-
-<!-- Statcounter link (bottom-right) -->
-<div id="statcounter-badge">
-  <a href="https://statcounter.com/p13209684/?guest=1" target="_blank">View My Stats</a>
-</div>
 
 <script>
 // Countdown
@@ -442,23 +414,5 @@ saveBtn.addEventListener('click', () => {
   userProfile.style.display = 'flex';
 });
 </script>
-
-<!-- Statcounter code (replaced Counter.dev) -->
-<!-- Default Statcounter code for stat viewers https://vocql.github.io/gta/ -->
-<script type="text/javascript">
-var sc_project=13209684;
-var sc_invisible=0;
-var sc_security="8f2b95fe";
-var scJsHost = "https://";
-document.write("<sc"+"ript type='text/javascript' src='" + scJsHost+
-"statcounter.com/counter/counter.js'></"+"script>");
-</script>
-<noscript><div class="statcounter"><a title="Web Analytics Made Easy -
-Statcounter" href="https://statcounter.com/" target="_blank"><img
-class="statcounter" src="https://c.statcounter.com/13209684/0/8f2b95fe/0/"
-alt="Web Analytics Made Easy - Statcounter"
-referrerPolicy="no-referrer-when-downgrade"></a></div></noscript>
-<!-- End of Statcounter Code -->
-
 </body>
 </html>
