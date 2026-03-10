@@ -42,7 +42,7 @@ header:hover {
   box-shadow: 0 12px 40px rgba(255, 77, 210, 0.35);
 }
 .nav-btn {
-  padding: 9px 17px;
+  padding: 8px 15px;
   border-radius: 999px;
   color: #fff;
   font-weight: 600;
@@ -52,6 +52,7 @@ header:hover {
   box-shadow: inset 0 1.2px 1.5px rgba(255, 255, 255, 0.4),
               0 4px 18px rgba(0,0,0,0.3);
   transition: 0.25s;
+  font-size: 0.9rem;
 }
 .nav-btn:hover {
   background: rgba(255, 255, 255, 0.14);
@@ -62,50 +63,50 @@ header:hover {
 .countdown-wrap{
   backdrop-filter:blur(1px);
   border-radius:20px;
-  padding:26px 34px;
+  padding:22px 30px;
   text-align:center;
   width:88%;
   max-width:600px;
-  margin-top:120px;
+  margin-top:100px;
   background:rgba(0,0,0,0.25);
   border:2px solid #fff;
 }
-.title{font-size:32px;font-weight:900}
-.subtitle{font-size:14px;margin:10px 0 24px}
+.title{font-size:28px;font-weight:900}
+.subtitle{font-size:13px;margin:8px 0 20px}
 .clock{
   display:flex;
-  gap:12px;
+  gap:10px;
   justify-content:center;
 }
 .unit{
-  min-width:72px;
-  padding:12px;
-  border-radius:12px;
+  min-width:65px;
+  padding:10px;
+  border-radius:10px;
   background:rgba(0,0,0,0.35);
 }
-.num{font-size:32px;font-weight:900}
-.label{font-size:11px;opacity:.8}
+.num{font-size:28px;font-weight:900}
+.label{font-size:10px;opacity:.8}
 
-/* USER PROFILE – smaller top-left */
+/* USER PROFILE – smaller top-left (like circled) */
 #userProfile {
   position: fixed;
-  top: 16px;
-  left: 16px;
+  top: 14px;
+  left: 14px;
   z-index: 100;
   background: rgba(0,0,0,0.65);
-  padding: 8px 14px 8px 8px;
+  padding: 6px 12px 6px 6px;
   border-radius: 999px;
   display: none;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
   backdrop-filter: blur(8px);
   border: 1px solid rgba(0,255,180,0.4);
-  box-shadow: 0 4px 18px rgba(0,255,180,0.3);
+  box-shadow: 0 3px 14px rgba(0,255,180,0.25);
 }
 #userAvatarContainer {
   position: relative;
-  width: 46px;
-  height: 46px;
+  width: 40px;
+  height: 40px;
   flex-shrink: 0;
 }
 #userAvatar {
@@ -113,19 +114,19 @@ header:hover {
   height: 100%;
   border-radius: 50%;
   object-fit: cover;
-  border: 2.5px solid #00ffb4;
-  box-shadow: 0 0 14px rgba(0,255,180,0.6);
+  border: 2px solid #00ffb4;
+  box-shadow: 0 0 10px rgba(0,255,180,0.5);
 }
 #onlineDot {
   position: absolute;
-  bottom: 2px;
-  right: 2px;
-  width: 14px;
-  height: 14px;
+  bottom: 1px;
+  right: 1px;
+  width: 12px;
+  height: 12px;
   background: #00ff9d;
   border-radius: 50%;
-  border: 2.5px solid #000;
-  box-shadow: 0 0 10px #00ff9d;
+  border: 2px solid #000;
+  box-shadow: 0 0 8px #00ff9d;
   animation: pulse 1.6s infinite ease-in-out;
 }
 @keyframes pulse {
@@ -134,9 +135,9 @@ header:hover {
 }
 #userName {
   font-weight: 700;
-  font-size: 1rem;
-  letter-spacing: 0.4px;
-  max-width: 140px;
+  font-size: 0.9rem;
+  letter-spacing: 0.3px;
+  max-width: 120px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -154,39 +155,39 @@ header:hover {
 }
 #modalContent {
   background: linear-gradient(135deg, #0d0d1f, #1c0038);
-  padding: 2.4rem 2rem;
+  padding: 2rem 1.8rem;
   border-radius: 20px;
   width: 92%;
-  max-width: 460px;
+  max-width: 440px;
   text-align: center;
   border: 2px solid #00ffe066;
   box-shadow: 0 0 60px rgba(0,255,224,0.35);
 }
-h2 { margin-bottom: 1rem; color: #00ffe0; font-size: 1.8rem; }
-p { margin-bottom: 1.6rem; opacity: 0.9; font-size: 1rem; }
+h2 { margin-bottom: 0.8rem; color: #00ffe0; font-size: 1.6rem; }
+p { margin-bottom: 1.4rem; opacity: 0.9; font-size: 0.95rem; }
 input {
   width: 100%;
-  padding: 0.9rem;
-  margin-bottom: 1.5rem;
-  border-radius: 12px;
+  padding: 0.8rem;
+  margin-bottom: 1.2rem;
+  border-radius: 10px;
   border: 1.5px solid #00ffe0;
   background: rgba(255,255,255,0.06);
   color: white;
-  font-size: 1.05rem;
+  font-size: 0.95rem;
 }
 
 /* Avatar selection row */
 .avatar-row {
   display: flex;
   justify-content: center;
-  gap: 16px;
-  margin: 1.5rem 0;
+  gap: 14px;
+  margin: 1.2rem 0;
   flex-wrap: wrap;
 }
 .avatar-option {
   position: relative;
-  width: 74px;
-  height: 74px;
+  width: 64px;
+  height: 64px;
   cursor: pointer;
   transition: all 0.2s;
 }
@@ -196,11 +197,11 @@ input {
   border-radius: 50%;
   object-fit: cover;
   border: 3px solid transparent;
-  box-shadow: 0 0 12px rgba(0,0,0,0.5);
+  box-shadow: 0 0 10px rgba(0,0,0,0.5);
 }
 .avatar-option.selected img {
   border: 3px solid #00ffe0;
-  box-shadow: 0 0 20px #00ffe0;
+  box-shadow: 0 0 18px #00ffe0;
   transform: scale(1.12);
 }
 .avatar-option:hover img {
@@ -212,16 +213,16 @@ input {
   background: linear-gradient(90deg, #ff4dd2, #00ffe0);
   color: #000;
   font-weight: bold;
-  padding: 0.9rem 3rem;
+  padding: 0.8rem 2.8rem;
   border: none;
   border-radius: 999px;
   cursor: pointer;
-  font-size: 1.15rem;
+  font-size: 1.05rem;
   transition: all 0.25s;
 }
 #saveProfile:hover {
   transform: scale(1.07);
-  box-shadow: 0 0 35px rgba(0,255,224,0.7);
+  box-shadow: 0 0 30px rgba(0,255,224,0.7);
 }
 
 /* MUSIC */
@@ -237,7 +238,7 @@ input {
 </head>
 <body>
 
-<!-- Top-left profile display -->
+<!-- Top-left profile display (smaller) -->
 <div id="userProfile">
   <div id="userAvatarContainer">
     <img id="userAvatar" src="avatars/default-avatar.png" alt="Avatar">
@@ -255,9 +256,7 @@ input {
     <input id="usernameInput" type="text" placeholder="Your name / alias" maxlength="20">
     
     <!-- Avatar selection row -->
-    <div class="avatar-row" id="avatarRow">
-      <!-- Avatars will be injected here by JS -->
-    </div>
+    <div class="avatar-row" id="avatarRow"></div>
     
     <button id="saveProfile">Save & Enter Vice City</button>
   </div>
@@ -316,7 +315,7 @@ input {
 <audio id="musicPlayer"></audio>
 
 <script>
-// Countdown (unchanged)
+// Countdown
 const targetDate = new Date('2026-11-18T00:00:00');
 const daysEl = document.getElementById('days');
 const hoursEl = document.getElementById('hours');
@@ -335,7 +334,7 @@ function updateCountdown(){
 updateCountdown();
 setInterval(updateCountdown,1000);
 
-// Music (unchanged)
+// Music
 const trigger = document.getElementById('musicTrigger');
 const wheel = document.getElementById('musicWheel');
 const player = document.getElementById('musicPlayer');
@@ -351,19 +350,15 @@ document.querySelectorAll('.music-item').forEach(btn=>{
   };
 });
 
-// ───────────────────────────────────────────────
-//          LOCAL PROFILE + AVATAR GRID SELECTION
-// ───────────────────────────────────────────────
-
-const setupModal   = document.getElementById('setupModal');
-const userProfile  = document.getElementById('userProfile');
-const userNameDiv  = document.getElementById('userName');
-const userAvatar   = document.getElementById('userAvatar');
+// Profile + avatar selection
+const setupModal = document.getElementById('setupModal');
+const userProfile = document.getElementById('userProfile');
+const userNameDiv = document.getElementById('userName');
+const userAvatar = document.getElementById('userAvatar');
 const usernameInput = document.getElementById('usernameInput');
-const avatarRow     = document.getElementById('avatarRow');
-const saveBtn       = document.getElementById('saveProfile');
+const avatarRow = document.getElementById('avatarRow');
+const saveBtn = document.getElementById('saveProfile');
 
-// Preset avatars (add more paths if you have them)
 const presetAvatars = [
   'gta/profiles/lucia.png',
   'gta/profiles/stefanie.png',
@@ -372,11 +367,9 @@ const presetAvatars = [
   'gta/profiles/cal.png',
   'gta/profiles/brian.png'
 ];
+let selectedAvatar = presetAvatars[0];
 
-let selectedAvatar = presetAvatars[0]; // default first one
-
-// Load saved profile
-const savedName   = localStorage.getItem('vi_username');
+const savedName = localStorage.getItem('vi_username');
 const savedAvatar = localStorage.getItem('vi_avatar_url');
 
 if (savedName) {
@@ -388,32 +381,22 @@ if (savedName) {
   setupModal.style.display = 'flex';
 }
 
-// Build avatar selection row
 presetAvatars.forEach((path, index) => {
   const div = document.createElement('div');
   div.className = 'avatar-option';
-  if (index === 0) div.classList.add('selected'); // first one selected by default
-
+  if (index === 0) div.classList.add('selected');
   div.innerHTML = `<img src="${path}" alt="Avatar ${index+1}">`;
-
   div.onclick = () => {
-    // Remove selected from all
     document.querySelectorAll('.avatar-option').forEach(opt => opt.classList.remove('selected'));
-    // Add to this one
     div.classList.add('selected');
     selectedAvatar = path;
   };
-
   avatarRow.appendChild(div);
 });
 
-// Save button
 saveBtn.addEventListener('click', () => {
   const name = usernameInput.value.trim();
-  if (!name) {
-    alert("Please enter a name");
-    return;
-  }
+  if (!name) return alert("Enter a name");
 
   localStorage.setItem('vi_username', name);
   localStorage.setItem('vi_avatar_url', selectedAvatar);
@@ -421,7 +404,6 @@ saveBtn.addEventListener('click', () => {
   userNameDiv.textContent = name;
   userAvatar.src = selectedAvatar;
 
-  // Hide modal with fade
   setupModal.style.opacity = '0';
   setTimeout(() => {
     setupModal.style.display = 'none';
