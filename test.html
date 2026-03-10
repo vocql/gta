@@ -1,146 +1,286 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GTA 6 Themed Snapmatic Phone</title>
-    <style>
-        /* GTA 6 Theme: Neon sunset vibes */
-        @font-face {
-            font-family: 'Pricedown'; /* Download from dafont.com */
-            src: url('pricedown.woff2') format('woff2'); /* Add font file */
-        }
-        body {
-            background: linear-gradient(to bottom, #FF69B4, #FFA500); /* Pink to orange */
-            font-family: 'Pricedown', sans-serif;
-            color: #FFF;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
-        .phone {
-            width: 320px;
-            height: 640px;
-            background: #000;
-            border-radius: 40px;
-            box-shadow: 0 0 20px rgba(255, 105, 180, 0.5); /* Neon glow */
-            position: relative;
-            overflow: hidden;
-        }
-        .home-screen {
-            height: 100%;
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-around;
-            padding: 50px 20px 100px;
-            background: url('sunset-palms.jpg') no-repeat center/cover; /* Add a GTA-style background image */
-        }
-        .app-icon {
-            width: 80px;
-            height: 80px;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            margin: 10px;
-            transition: transform 0.2s;
-        }
-        .app-icon:hover {
-            transform: scale(1.1);
-        }
-        .app-icon img { /* Use free icons, e.g., from flaticon.com */
-            width: 50px;
-        }
-        /* Snapmatic Modal (hidden by default) */
-        #snapmatic {
-            display: none;
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: #000;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        }
-        #video {
-            width: 100%;
-            height: 70%;
-            background: #333; /* Placeholder for camera */
-        }
-        .controls {
-            display: flex;
-            justify-content: space-around;
-            width: 100%;
-            padding: 20px;
-        }
-        .btn {
-            background: #FF69B4;
-            color: #000;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            font-family: 'Pricedown';
-            font-size: 18px;
-        }
-    </style>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>VI | Home</title>
+<link rel="icon" href="gta/npc/lucia.jpg" type="image/jpg">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;overflow:hidden}
+body{
+  font-family:'Orbitron',sans-serif;
+  background:
+    linear-gradient(135deg, rgba(255,77,210,0.15), rgba(0,255,224,0.10)),
+    url('gta/jason.jpg') center/cover no-repeat fixed;
+  background-blend-mode: overlay;
+  color:#fff;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  background-position:center 40%;
+  min-height:100vh;
+  padding:20px;
+}
+/* ================= NAVBAR ================= */
+header {
+  position: fixed;
+  top: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 50;
+  display: flex;
+  gap: 12px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.25);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+  transition: 0.25s;
+}
+header:hover {
+  box-shadow: 0 12px 40px rgba(255, 77, 210, 0.35);
+}
+.nav-btn {
+  padding: 9px 17px;
+  border-radius: 999px;
+  color: #fff;
+  font-weight: 600;
+  text-decoration: none;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: inset 0 1.2px 1.5px rgba(255, 255, 255, 0.4),
+              0 4px 18px rgba(0,0,0,0.3);
+  transition: 0.25s;
+}
+.nav-btn:hover {
+  background: rgba(255, 255, 255, 0.14);
+  transform: scale(1.05);
+}
+/* ================= COUNTDOWN ================= */
+.countdown-wrap{
+  backdrop-filter:blur(1px);
+  border-radius:20px;
+  padding:26px 34px;
+  text-align:center;
+  width:88%;
+  max-width:600px;
+  margin-top:120px;
+  background:rgba(0,0,0,0.25);
+  border:2px solid #fff;
+}
+.title{font-size:32px;font-weight:900}
+.subtitle{font-size:14px;margin:10px 0 24px}
+.clock{
+  display:flex;
+  gap:12px;
+  justify-content:center;
+}
+.unit{
+  min-width:72px;
+  padding:12px;
+  border-radius:12px;
+  background:rgba(0,0,0,0.35);
+}
+.num{font-size:32px;font-weight:900}
+.label{font-size:11px;opacity:.8}
+/* ================= PHONE MOCKUP ================= */
+.phone-mockup {
+  position: relative;
+  width: 320px;
+  height: 680px;
+  margin: 60px auto 40px;
+  perspective: 1200px;
+}
+.phone-frame {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  pointer-events: none;
+  filter: drop-shadow(0 20px 50px rgba(255, 77, 210, 0.5));
+}
+.phone-screen {
+  position: absolute;
+  top: 5%;               /* Adjust these to fit your chosen frame perfectly */
+  left: 6%;
+  width: 88%;
+  height: 90%;
+  background: #000;
+  border-radius: 38px;
+  overflow: hidden;
+  z-index: 1;
+  box-shadow: inset 0 0 40px rgba(0, 255, 224, 0.2);
+}
+.phone-screen img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+/* Optional hover tilt for depth */
+.phone-mockup:hover {
+  transform: rotateY(10deg) rotateX(6deg) scale(1.04);
+  transition: transform 0.5s ease;
+}
+/* ================= MUSIC ================= */
+/* Invisible trigger */
+.music-trigger{
+  position:fixed;
+  bottom:18px;
+  left:18px;
+  width:40px;
+  height:40px;
+  cursor:pointer;
+  z-index:200;
+}
+/* pill container */
+.music-wheel{
+  position:fixed;
+  bottom:18px;
+  left:70px;
+  display:flex;
+  gap:8px;
+  max-width:calc(100% - 90px);
+  overflow-x:auto;
+  padding-bottom:4px;
+  opacity:0;
+  pointer-events:none;
+  transform:translateX(-10px);
+  transition:.25s ease;
+}
+.music-wheel.active{
+  opacity:1;
+  pointer-events:auto;
+  transform:translateX(0);
+}
+/* pills - match navbar style */
+.music-item{
+  padding:9px 17px;
+  border-radius:999px;
+  font-size:12px;
+  font-weight:600;
+  white-space:nowrap;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.18);
+  box-shadow: inset 0 1.2px 1.5px rgba(255,255,255,0.4), 0 4px 18px rgba(0,0,0,0.3);
+  cursor: pointer;
+  flex-shrink:0;
+  transition: 0.25s ease;
+}
+.music-item:hover{
+  background: rgba(255,255,255,0.14);
+  transform: translateY(-1px) scale(1.05);
+  box-shadow: inset 0 1.2px 1.5px rgba(255,255,255,0.45), 0 4px 20px rgba(0,0,0,0.35);
+}
+/* Scrollbar styling */
+.music-wheel::-webkit-scrollbar{
+  height:6px;
+}
+.music-wheel::-webkit-scrollbar-track{background:transparent;}
+.music-wheel::-webkit-scrollbar-thumb{
+  background: rgba(255,255,255,0.3);
+  border-radius:3px;
+}
+</style>
 </head>
 <body>
-    <div class="phone">
-        <div class="home-screen">
-            <div class="app-icon" onclick="openSnapmatic()">
-                <img src="camera-icon.png" alt="Snapmatic"> <!-- Add icon -->
-            </div>
-            <!-- Add more icons for other "apps" if wanted -->
-        </div>
-        <div id="snapmatic">
-            <video id="video"></video>
-            <div class="controls">
-                <button class="btn" onclick="snapPhoto()">Snap</button>
-                <button class="btn" onclick="closeSnapmatic()">Back</button>
-            </div>
-        </div>
-    </div>
+<header>
+  <a href="index" class="nav-btn">Home</a>
+  <a href="map" class="nav-btn">Map</a>
+  <a href="characters" class="nav-btn">Characters</a>
+  <a href="places" class="nav-btn">Places</a>
+  <a href="screenshots" class="nav-btn">Screenshots</a>
+  <a href="trailers" class="nav-btn">Trailers</a>
+</header>
+<section class="countdown-wrap">
+  <h1 class="title">Grand Theft Auto VI</h1>
+  <div class="subtitle">RELEASE COUNTDOWN – NOVEMBER 19TH, 2026</div>
+  <div class="clock">
+    <div class="unit"><div class="num" id="days">000</div><div class="label">DAYS</div></div>
+    <div class="unit"><div class="num" id="hours">00</div><div class="label">HOURS</div></div>
+    <div class="unit"><div class="num" id="minutes">00</div><div class="label">MINUTES</div></div>
+    <div class="unit"><div class="num" id="seconds">00</div><div class="label">SECONDS</div></div>
+  </div>
+</section>
 
-    <script>
-        function openSnapmatic() {
-            document.getElementById('snapmatic').style.display = 'flex';
-            // Access webcam
-            navigator.mediaDevices.getUserMedia({ video: true })
-                .then(stream => {
-                    document.getElementById('video').srcObject = stream;
-                    document.getElementById('video').play();
-                })
-                .catch(err => console.error('Camera access denied:', err));
-        }
+<!-- Phone Mockup -->
+<div class="phone-mockup">
+  <img src="https://www.webmobilefirst.com/mockup/apple-iphone-16-2024/iphone-16-black-png-transparent.png" alt="GTA VI Phone Mockup" class="phone-frame">
+  <div class="phone-screen">
+    <img src="gta/jason.jpg" alt="GTA VI Preview">
+  </div>
+</div>
 
-        function closeSnapmatic() {
-            document.getElementById('snapmatic').style.display = 'none';
-            const video = document.getElementById('video');
-            const stream = video.srcObject;
-            if (stream) stream.getTracks().forEach(track => track.stop());
-        }
+<!-- Invisible Music Trigger -->
+<div class="music-trigger" id="musicTrigger"></div>
+<!-- Music Pills -->
+<div class="music-wheel" id="musicWheel">
+  <div class="music-item" data-song="music/together.mp3">Hot Together</div>
+  <div class="music-item" data-song="music/long.mp3">Love Is A Long Road</div>
+  <div class="music-item" data-song="music/night.mp3">Night</div>
+  <div class="music-item" data-song="music/ocean.mp3">Ocean Breeze</div>
+  <div class="music-item" data-song="music/self.mp3">Self Control</div>
+  <div class="music-item" data-song="music/tomic.mp3">Atomic</div>
+  <div class="music-item" data-song="music/sun.mp3">Sun Glasses At Night</div>
+  <div class="music-item" data-song="music/all.mp3">All Night Long</div>
+  <div class="music-item" data-song="music/shame.mp3">Shame</div>
+  <div class="music-item" data-song="music/vice.mp3">Vice City</div>
+  <div class="music-item" data-song="music/earth.mp3">I Walk This Earth All By Myself</div>
+  <div class="music-item" data-song="music/heart.mp3">Owner Of A Lonley Heart</div>
+  <div class="music-item" data-song="music/tempt.mp3">Tempted</div>
+  <div class="music-item" data-song="music/arrow.mp3">Poison Arrow</div>
+  <div class="music-item" data-song="music/crime.mp3">Is It A Crime</div>
+  <div class="music-item" data-song="music/are.mp3">Here We Are</div>
+  <div class="music-item" data-song="music/fire.mp3">Through The Fire</div>
+  <div class="music-item" data-song="music/mine.mp3">Heart Of Mine</div>
+  <div class="music-item" data-song="music/fly.mp3">Fly Away</div>
+  <div class="music-item" data-song="music/nobody.mp3">Ain't Nobody</div>
+  <div class="music-item" data-song="music/you.mp3">Thinking Of You</div>
+  <div class="music-item" data-song="music/love.mp3">Sweet Love</div>
+  <div class="music-item" data-song="music/remember.mp3">I Still Remember You</div>
+  <div class="music-item" data-song="music/love.mp3">Sweet Love</div>
+  <div class="music-item" data-song="music/gamble.mp3">Gamble With My Love</div>
+  <div class="music-item" data-song="music/suki.mp3">Sukiyaki</div>
+</div>
+<audio id="musicPlayer"></audio>
 
-        function snapPhoto() {
-            const video = document.getElementById('video');
-            const canvas = document.createElement('canvas');
-            canvas.width = video.videoWidth;
-            canvas.height = video.videoHeight;
-            canvas.getContext('2d').drawImage(video, 0, 0);
-            // Apply GTA-style filter (e.g., sepia)
-            canvas.toDataURL('image/png'); // Save or download
-            // Example: Download the photo
-            const link = document.createElement('a');
-            link.download = 'gta6-snap.png';
-            link.href = canvas.toDataURL();
-            link.click();
-        }
-    </script>
+<script>
+/* ===== COUNTDOWN ===== */
+const targetDate = new Date('2026-11-18T00:00:00');
+const daysEl = document.getElementById('days');
+const hoursEl = document.getElementById('hours');
+const minutesEl = document.getElementById('minutes');
+const secondsEl = document.getElementById('seconds');
+function pad(n){ return String(n).padStart(2,'0'); }
+function updateCountdown(){
+  const now = new Date();
+  const diff = Math.floor((targetDate - now)/1000);
+  if(diff<=0) return;
+  daysEl.textContent = Math.floor(diff/86400);
+  hoursEl.textContent = pad(Math.floor(diff/3600%24));
+  minutesEl.textContent = pad(Math.floor(diff/60%60));
+  secondsEl.textContent = pad(diff%60);
+}
+updateCountdown();
+setInterval(updateCountdown,1000);
+/* ===== MUSIC ===== */
+const trigger = document.getElementById('musicTrigger');
+const wheel = document.getElementById('musicWheel');
+const player = document.getElementById('musicPlayer');
+let open = false;
+trigger.onclick = () => {
+  open = !open;
+  wheel.classList.toggle('active', open);
+};
+document.querySelectorAll('.music-item').forEach(btn=>{
+  btn.onclick = () => {
+    player.src = btn.dataset.song;
+    player.play();
+  };
+});
+</script>
 </body>
 </html>
