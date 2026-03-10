@@ -87,7 +87,7 @@ header:hover {
 .num{font-size:28px;font-weight:900}
 .label{font-size:10px;opacity:.8}
 
-/* USER PROFILE – smaller top-left (like circled) */
+/* USER PROFILE – small & compact (like circled) */
 #userProfile {
   position: fixed;
   top: 14px;
@@ -225,6 +225,28 @@ input {
   box-shadow: 0 0 30px rgba(0,255,224,0.7);
 }
 
+/* VISITOR COUNTER BADGE – bottom-right */
+#visitor-badge {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 100;
+  background: rgba(0,0,0,0.65);
+  padding: 8px 16px;
+  border-radius: 999px;
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(0,255,180,0.4);
+  box-shadow: 0 4px 18px rgba(0,255,180,0.3);
+  font-size: 0.95rem;
+  color: #00ff9d;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+#visitor-badge img {
+  height: 20px;
+}
+
 /* MUSIC */
 .music-trigger{position:fixed;bottom:18px;left:18px;width:40px;height:40px;cursor:pointer;z-index:200;}
 .music-wheel{position:fixed;bottom:18px;left:70px;display:flex;gap:8px;max-width:calc(100% - 90px);overflow-x:auto;padding-bottom:4px;opacity:0;pointer-events:none;transform:translateX(-10px);transition:.25s ease;}
@@ -238,7 +260,7 @@ input {
 </head>
 <body>
 
-<!-- Top-left profile display (smaller) -->
+<!-- Top-left profile display (small) -->
 <div id="userProfile">
   <div id="userAvatarContainer">
     <img id="userAvatar" src="avatars/default-avatar.png" alt="Avatar">
@@ -313,6 +335,11 @@ input {
   <div class="music-item" data-song="music/suki.mp3">Sukiyaki</div>
 </div>
 <audio id="musicPlayer"></audio>
+
+<!-- Visitor Counter Badge (bottom-right) -->
+<div id="visitor-badge">
+  Visitors: <img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fvocql.github.io%2Fgta&count_bg=%2300FF9D&title_bg=%23000000&icon=&icon_color=%23E7E7E7&title=Visitors&edge_flat=false" alt="Visitors">
+</div>
 
 <script>
 // Countdown
@@ -413,5 +440,9 @@ saveBtn.addEventListener('click', () => {
   userProfile.style.display = 'flex';
 });
 </script>
+
+<!-- Counter.dev script -->
+<script src="https://cdn.counter.dev/script.js" data-id="7427f12b-9daf-46a0-abfd-5af3c986c6c0" data-utcoffset="-5"></script>
+
 </body>
 </html>
