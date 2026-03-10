@@ -87,7 +87,7 @@ header:hover {
 .num{font-size:28px;font-weight:900}
 .label{font-size:10px;opacity:.8}
 
-/* USER PROFILE – small & compact (like circled) */
+/* USER PROFILE – small & compact */
 #userProfile {
   position: fixed;
   top: 14px;
@@ -225,8 +225,8 @@ input {
   box-shadow: 0 0 30px rgba(0,255,224,0.7);
 }
 
-/* VISITOR COUNTER BADGE – bottom-right */
-#visitor-badge {
+/* Statcounter link badge – bottom-right */
+#statcounter-badge {
   position: fixed;
   bottom: 20px;
   right: 20px;
@@ -237,14 +237,16 @@ input {
   backdrop-filter: blur(8px);
   border: 1px solid rgba(0,255,180,0.4);
   box-shadow: 0 4px 18px rgba(0,255,180,0.3);
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   color: #00ff9d;
-  display: flex;
-  align-items: center;
-  gap: 8px;
 }
-#visitor-badge img {
-  height: 20px;
+#statcounter-badge a {
+  color: #00ff9d;
+  text-decoration: none;
+  font-weight: 600;
+}
+#statcounter-badge a:hover {
+  text-decoration: underline;
 }
 
 /* MUSIC */
@@ -260,7 +262,7 @@ input {
 </head>
 <body>
 
-<!-- Top-left profile display (small) -->
+<!-- Top-left profile display -->
 <div id="userProfile">
   <div id="userAvatarContainer">
     <img id="userAvatar" src="avatars/default-avatar.png" alt="Avatar">
@@ -336,9 +338,9 @@ input {
 </div>
 <audio id="musicPlayer"></audio>
 
-<!-- Visitor Counter Badge (bottom-right) -->
-<div id="visitor-badge">
-  Visitors: <img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fvocql.github.io%2Fgta&count_bg=%2300FF9D&title_bg=%23000000&icon=&icon_color=%23E7E7E7&title=Visitors&edge_flat=false" alt="Visitors">
+<!-- Statcounter link (bottom-right) -->
+<div id="statcounter-badge">
+  <a href="https://statcounter.com/p13209684/?guest=1" target="_blank">View My Stats</a>
 </div>
 
 <script>
@@ -441,8 +443,22 @@ saveBtn.addEventListener('click', () => {
 });
 </script>
 
-<!-- Counter.dev script -->
-<script src="https://cdn.counter.dev/script.js" data-id="7427f12b-9daf-46a0-abfd-5af3c986c6c0" data-utcoffset="-5"></script>
+<!-- Statcounter code (replaced Counter.dev) -->
+<!-- Default Statcounter code for stat viewers https://vocql.github.io/gta/ -->
+<script type="text/javascript">
+var sc_project=13209684;
+var sc_invisible=0;
+var sc_security="8f2b95fe";
+var scJsHost = "https://";
+document.write("<sc"+"ript type='text/javascript' src='" + scJsHost+
+"statcounter.com/counter/counter.js'></"+"script>");
+</script>
+<noscript><div class="statcounter"><a title="Web Analytics Made Easy -
+Statcounter" href="https://statcounter.com/" target="_blank"><img
+class="statcounter" src="https://c.statcounter.com/13209684/0/8f2b95fe/0/"
+alt="Web Analytics Made Easy - Statcounter"
+referrerPolicy="no-referrer-when-downgrade"></a></div></noscript>
+<!-- End of Statcounter Code -->
 
 </body>
 </html>
