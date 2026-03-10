@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>VI | Home</title>
+<link rel="icon" href="gta/npc/lucia.jpg" type="image/jpg">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
+
+<!-- PocketBase JS SDK -->
+<script src="https://unpkg.com/pocketbase@0.22.1/dist/pocketbase.umd.js"></script>
+
+<style>
+/* Your existing styles – keeping only key parts for brevity */
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;overflow:hidden}
+body{font-family:'Orbitron',sans-serif;background:linear-gradient(135deg,rgba(255,77,210,0.15),rgba(0,255,224,0.10)),url('gta/jason.jpg') center/cover no-repeat fixed;background-blend-mode:overlay;color:#fff;display:flex;align-items:center;justify-content:center;background-position:center 40%;}
+
+/* Navbar, Countdown, Music styles unchanged – add them back from your file */
+
+/* USER PROFILE (top-left) */
+#userProfile{position:fixed;top:16px;left:16px;z-index:100;background:rgba(0,0,0,0.65);padding:8px 14px 8px 8px;border-radius:999px;display:none;align-items:center;gap:10px;backdrop-filter:blur(8px);border:1px solid rgba(0,255,180,0.4);box-shadow:0 4px 18px rgba(0,255,180,0.3);}
+#userAvatarContainer{position:relative;width:46px;height:46px;flex-shrink:0;}
+#userAvatar{width:100%;height:100%;border-radius:50%;object-fit:cover;border:2.5px solid #00ffb4;box-shadow:0 0 14px rgba(0,255,180,0.6);}
+#onlineDot{position:absolute;bottom:2px;right:2px;width:14px;height:14px;background:#00ff9d;border-radius:50%;border:2.5px solid #000;box-shadow:0 0 10px #00ff9d;animation:pulse 1.6s infinite ease-in-out;}
+@keyframes pulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.4);opacity:0.4}}
+#userName{font-weight:700;font-size:1rem;letter-spacing:0.4px;max-width:140px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+
+/* ONLINE LIST (top-right – real users) */
+#onlineList{position:fixed;top:16px;right:16px;z-index:90;width:280px;max-height:70vh;overflow-y:auto;background:rgba(0,0,0,0.7);border-radius:16px;padding:16px;backdrop-filter:blur(8px);border:1px solid rgba(0,255,180,0.35);box-shadow:0 6px 30px rgba(0,255,180,0.25);display:none;}
+#onlineList h3{margin:0 0 14px 0;color:#00ff9d;text-align:center;font-size:1.1rem;letter-spacing:1px;}
+.online-player{display:flex;align-items:center;gap:12px;padding:10px;border-radius:12px;background:rgba(255,255,255,0.04);margin-bottom:8px;transition:all 0.2s;}
+.online-player:hover{background:rgba(0,255,180,0.12);}
+.online-player img{width:44px;height:44px;border-radius:50%;object-fit:cover;border:2px solid #00ff9d;flex-shrink:0;}
+.online-player-name{font-weight:600;font-size:0.95rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:180px;}
+
+/* MODAL */
+#setupModal{position:fixed;inset:0;background:rgba(0,0,0,0.92);display:flex;align-items:center;justify-content:center;z-index:9999;}
+#modalContent{background:linear-gradient(135deg,#0d0d1f,#1c0038);padding:2.4rem 2rem;border-radius:20px;width:92%;max-width:460px;text-align:center;border:2px solid #00ffe066;box-shadow:0 0 60px rgba(0,255,224,0.35);}
+h2{margin-bottom:1rem;color:#00ffe0;font-size:1.8rem;}
+p{margin-bottom:1.6rem;opacity:0.9;font-size:1rem;}
+input{width:100%;padding:0.9rem;margin-bottom:1.5rem;border-radius:12px;border:1.5px solid #00ffe0;background:rgba(255,255,255,0.06);color:white;font-size:1.05rem;}
+.avatar-row{display:flex;justify-content:center;gap:16px;margin:1.5rem 0;flex-wrap:wrap;}
+.avatar-option{position:relative;width:74px;height:74px;cursor:pointer;transition:all 0.2s;}
+.avatar-option img{width:100%;height:100%;border-radius:50%;object-fit:cover;border:3px solid transparent;box-shadow:0 0 12px rgba(0,0,0,0.5);}
+.avatar-option.selected img{border:3px solid #00ffe0;box-shadow:0 0 20px #00ffe0;transform:scale(1.12);}
+.avatar-option:hover img{transform:scale(1.1);}
+#saveProfile{background:linear-gradient(90deg,#ff4dd2,#00ffe0);color:#000;font-weight:bold;padding:0.9rem 3rem;border:none;border-radius:999px;cursor:pointer;font-size:1.15rem;transition:all 0.25s;}
+#saveProfile:hover{transform:scale(1.07);box-shadow:0 0 35px rgba(0,255,224,0.7);}
+
+/* Your music styles here – unchanged */
+</style>
+</head>
+<body>
+
+<!-- Your profile (top-left) -->
+<div id="userProfile">
+  <div id="userAvatarContainer">
+    <img id="userAvatar" src="avatars/default-avatar.png" alt="Avatar">
+    <div id="onlineDot"></div>
+  </div>
+  <div id="userName"></div>
+</div>
+
+<!-- Online list (everyone else – top-right) -->
+<div id="onlineList">
+  <h3>Online Now</h3>
+  <div id="onlinePlayers"></div>
+</div>
+
+<!-- Setup modal -->
+<div id="setupModal">
+  <div id="modalContent">
+    <h2>Welcome to Vice City</h2>
+    <p>Choose your alias and avatar</p>
+    
+    <input id="usernameInput" type="text" placeholder="Your name / alias" maxlength="20">
+    
+    <div class="avatar-row" id="avatarRow"></div>
+    
+    <button id="saveProfile">Save & Enter Vice City</button>
+  </div>
+</div>
+
+<!-- Your navbar, countdown, music HTML here – unchanged -->
+
+<script>
+// === POCKETBASE SETUP ===
+const pb = new PocketBase('http://127.0.0.1:8090');  // ← CHANGE THIS WHEN HOSTED
+
+let currentUser = null;
+
+// Preset avatars (add your paths)
+const presetAvatars = [
+  'gta/profiles/lucia.png',
+  'gta/profiles/stefanie.png',
+  'gta/profiles/roxy.png',
+  'gta/profiles/jason.png',
+  'gta/profiles/cal.png',
+  'gta/profiles/brian.png'
+];
+
+let selectedAvatar = presetAvatars[0];
+
+// Load or show modal
+async function init() {
+  // Try to get saved local user
+  const savedId = localStorage.getItem('vi_user_id');
+  if (savedId) {
+    try {
+      currentUser = await pb.collection('users').getOne(savedId);
+      document.getElementById('userName').textContent = currentUser.username;
+      document.getElementById('userAvatar').src = currentUser.avatar || presetAvatars[0];
+      document.getElementById('userProfile').style.display = 'flex';
+      await updateOnlineStatus(true);
+    } catch (e) {
+      localStorage.removeItem('vi_user_id');
+    }
+  }
+
+  if (!currentUser) {
+    document.getElementById('setupModal').style.display = 'flex';
+  }
+
+  // Render avatar row
+  const row = document.getElementById('avatarRow');
+  presetAvatars.forEach((path, i) => {
+    const opt = document.createElement('div');
+    opt.className = 'avatar-option' + (i===0 ? ' selected' : '');
+    opt.innerHTML = `<img src="${path}" alt="Avatar ${i+1}">`;
+    opt.onclick = () => {
+      row.querySelectorAll('.avatar-option').forEach(o => o.classList.remove('selected'));
+      opt.classList.add('selected');
+      selectedAvatar = path;
+    };
+    row.appendChild(opt);
+  });
+
+  // Save button
+  document.getElementById('saveProfile').onclick = async () => {
+    const name = document.getElementById('usernameInput').value.trim();
+    if (!name) return alert("Enter a name");
+
+    try {
+      const data = {
+        username: name,
+        avatar: selectedAvatar,
+        online: true,
+        last_active: new Date().toISOString()
+      };
+
+      const record = await pb.collection('users').create(data);
+      localStorage.setItem('vi_user_id', record.id);
+      currentUser = record;
+
+      document.getElementById('userName').textContent = name;
+      document.getElementById('userAvatar').src = selectedAvatar;
+      document.getElementById('userProfile').style.display = 'flex';
+      document.getElementById('setupModal').style.display = 'none';
+
+      // Start real-time listener
+      startRealtime();
+    } catch (err) {
+      alert("Error: " + err.message);
+    }
+  };
+}
+
+// Update online status
+async function updateOnlineStatus(isOnline) {
+  if (!currentUser) return;
+  try {
+    await pb.collection('users').update(currentUser.id, { online: isOnline, last_active: new Date().toISOString() });
+  } catch {}
+}
+
+// Real-time online list
+function startRealtime() {
+  pb.collection('users').subscribe('*', (e) => {
+    renderOnlineList();
+  });
+
+  // Initial load
+  renderOnlineList();
+
+  // Set offline on leave
+  window.addEventListener('beforeunload', () => {
+    updateOnlineStatus(false);
+  });
+}
+
+async function renderOnlineList() {
+  try {
+    const result = await pb.collection('users').getList(1, 50, {
+      filter: 'online = true && id != "' + (currentUser?.id || '') + '"',
+      sort: '-last_active'
+    });
+
+    const container = document.getElementById('onlinePlayers');
+    container.innerHTML = '';
+
+    if (result.items.length === 0) {
+      document.getElementById('onlineList').style.display = 'none';
+      return;
+    }
+
+    result.items.forEach(user => {
+      const div = document.createElement('div');
+      div.className = 'online-player';
+      div.innerHTML = `
+        <img src="${user.avatar || 'avatars/default-avatar.png'}" alt="${user.username}">
+        <div class="online-player-name">${user.username}</div>
+      `;
+      container.appendChild(div);
+    });
+
+    document.getElementById('onlineList').style.display = 'block';
+  } catch (err) {
+    console.error("Failed to load online list:", err);
+  }
+}
+
+// Start everything
+init();
+</script>
+</body>
+</html>
