@@ -21,7 +21,8 @@ body{
   justify-content:center;
   background-position:center 40%;
 }
-/* ================= NAVBAR ================= */
+
+/* ================= NAVBAR & PILL STYLE ================= */
 header {
   position: fixed;
   top: 18px;
@@ -39,8 +40,8 @@ header {
 header:hover {
   box-shadow: 0 12px 40px rgba(255, 77, 210, 0.35);
 }
-.nav-btn {
-  padding: 9px 17px;
+.pill-btn {
+  padding: 9px 20px;
   border-radius: 999px;
   color: #fff;
   font-weight: 600;
@@ -50,52 +51,35 @@ header:hover {
   box-shadow: inset 0 1.2px 1.5px rgba(255, 255, 255, 0.4),
               0 4px 18px rgba(0, 0, 0, 0.3);
   transition: 0.25s;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
 }
-.nav-btn:hover {
+.pill-btn:hover {
   background: rgba(255, 255, 255, 0.14);
   transform: scale(1.05);
+  box-shadow: inset 0 1.2px 1.5px rgba(255, 255, 255, 0.5),
+              0 8px 25px rgba(0, 0, 0, 0.4);
 }
-/* ================= DOWNLOAD BUTTON ================= */
-.download-btn {
-  position: absolute;
-  bottom: 24px;
-  right: 24px;
-  padding: 12px 24px;
-  border-radius: 999px;
-  font-size: 15px;
-  font-weight: 700;
-  color: #fff;
-  background: linear-gradient(90deg, #ff4dd2, #00ffe0);
-  border: none;
-  box-shadow: 0 6px 20px rgba(255, 77, 210, 0.4);
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  transition: all 0.3s;
-  text-decoration: none;
-}
-.download-btn:hover {
-  transform: translateY(-3px) scale(1.05);
-  box-shadow: 0 12px 30px rgba(255, 77, 210, 0.6);
-  background: linear-gradient(90deg, #ff6de0, #33fff2);
-}
-.download-btn::before {
+.pill-btn::before {
   content: "↓";
-  font-size: 18px;
+  font-size: 16px;
+  font-weight: bold;
 }
+
 /* ================= COUNTDOWN ================= */
 .countdown-wrap{
-  backdrop-filter:blur(1px);
-  border-radius:20px;
-  padding:26px 34px 80px 34px;           /* extra bottom padding for button */
-  text-align:center;
-  width:88%;
-  max-width:600px;
-  margin-top:120px;
-  background:rgba(0,0,0,0.25);
-  border:2px solid #fff;
-  position: relative;                     /* so we can position button inside */
+  backdrop-filter: blur(1px);
+  border-radius: 20px;
+  padding: 26px 34px 70px 34px;   /* extra bottom space for button */
+  text-align: center;
+  width: 88%;
+  max-width: 600px;
+  margin-top: 120px;
+  background: rgba(0,0,0,0.25);
+  border: 2px solid #fff;
+  position: relative;             /* allows absolute positioning inside */
 }
 .title{font-size:32px;font-weight:900}
 .subtitle{font-size:14px;margin:10px 0 24px}
@@ -112,6 +96,14 @@ header:hover {
 }
 .num{font-size:32px;font-weight:900}
 .label{font-size:11px;opacity:.8}
+
+/* DOWNLOAD BUTTON - positioned bottom-right inside the box */
+.download-btn {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+}
+
 /* ================= MUSIC ================= */
 .music-trigger{
   position:fixed;
@@ -157,7 +149,6 @@ header:hover {
 .music-item:hover{
   background: rgba(255,255,255,0.14);
   transform: translateY(-1px) scale(1.05);
-  box-shadow: inset 0 1.2px 1.5px rgba(255,255,255,0.45), 0 4px 20px rgba(0,0,0,0.35);
 }
 .music-wheel::-webkit-scrollbar{
   height:6px;
@@ -170,6 +161,7 @@ header:hover {
 </style>
 </head>
 <body>
+
 <header>
   <a href="index" class="nav-btn">Home</a>
   <a href="map" class="nav-btn">Map</a>
@@ -189,27 +181,26 @@ header:hover {
     <div class="unit"><div class="num" id="seconds">00</div><div class="label">SECONDS</div></div>
   </div>
 
-  <!-- DOWNLOAD BUTTON -->
+  <!-- Source Code Button - pill style, bottom right -->
   <a href="https://github.com/vocql/gta/archive/refs/heads/main.zip"
-     class="download-btn"
+     class="pill-btn download-btn"
      download
      target="_blank">
      Source Code
   </a>
 </section>
 
-<!-- Invisible Music Trigger -->
+<!-- Music stuff remains unchanged -->
 <div class="music-trigger" id="musicTrigger"></div>
-<!-- Music Pills -->
 <div class="music-wheel" id="musicWheel">
   <div class="music-item" data-song="music/together.mp3">Hot Together</div>
   <div class="music-item" data-song="music/long.mp3">Love Is A Long Road</div>
-  <!-- ... rest of your music items ... -->
+  <!-- ... your other music items ... -->
 </div>
 <audio id="musicPlayer"></audio>
 
 <script>
-/* ===== COUNTDOWN ===== */
+// Countdown script (unchanged)
 const targetDate = new Date('2026-11-18T00:00:00');
 const daysEl = document.getElementById('days');
 const hoursEl = document.getElementById('hours');
@@ -228,7 +219,7 @@ function updateCountdown(){
 updateCountdown();
 setInterval(updateCountdown,1000);
 
-/* ===== MUSIC ===== */
+// Music script (unchanged)
 const trigger = document.getElementById('musicTrigger');
 const wheel = document.getElementById('musicWheel');
 const player = document.getElementById('musicPlayer');
