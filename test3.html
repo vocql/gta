@@ -4,85 +4,113 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>VI | Home</title>
-
 <link rel="icon" href="gta/npc/lucia.jpg" type="image/jpg">
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
-
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-html,body{height:100%;overflow:hidden;font-family:'Orbitron',sans-serif;display:flex;align-items:center;justify-content:center}
-
-/* BACKGROUNDS */
-.bg{
-  position:fixed;
-  inset:0;
-  background-size:cover;
-  background-position:center;
-  transition:opacity 1.5s ease;
-  z-index:0;
-}
-.bg6{background-image:url('gta/jason.jpg');}
-.bg5{background-image:url('gta/gta5.jpg');opacity:0;}
-
-/* CRACK OVERLAY */
-.crack{
-  position:fixed;
-  inset:0;
-  background:url('https://i.imgur.com/6YVYH6S.png') center/cover no-repeat;
-  opacity:0;
-  pointer-events:none;
-  z-index:5;
-  transition:.5s ease;
+html,body{height:100%;overflow:hidden}
+body{
+  font-family:'Orbitron',sans-serif;
+  background:
+    linear-gradient(135deg, rgba(255,77,210,0.15), rgba(0,255,224,0.10)),
+    url('gta/jason.jpg') center/cover no-repeat fixed;
+  background-blend-mode: overlay;
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background-position:center 40%;
 }
 
-/* NAVBAR */
+/* ================= NAVBAR ================= */
 header {
   position: fixed;
   top: 18px;
   left: 50%;
   transform: translateX(-50%);
-  z-index:50;
-  display:flex;
-  gap:12px;
-  padding:8px 14px;
-  border-radius:999px;
-  background: rgba(0,0,0,0.25);
-  box-shadow:0 6px 18px rgba(0,0,0,0.35);
+  z-index: 50;
+  display: flex;
+  gap: 12px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.25);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+  transition: 0.25s;
+}
+header:hover {
+  box-shadow: 0 12px 40px rgba(255, 77, 210, 0.35);
 }
 .nav-btn {
-  padding:9px 17px;
-  border-radius:999px;
-  color:#fff;
-  font-weight:600;
-  text-decoration:none;
-  background: rgba(255,255,255,0.08);
-  border: 1px solid rgba(255,255,255,0.18);
-  box-shadow: inset 0 1.2px 1.5px rgba(255,255,255,0.4),
-              0 4px 18px rgba(0,0,0,0.3);
-  transition:0.25s;
+  padding: 9px 17px;
+  border-radius: 999px;
+  color: #fff;
+  font-weight: 600;
+  text-decoration: none;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: inset 0 1.2px 1.5px rgba(255, 255, 255, 0.4),
+              0 4px 18px rgba(0, 0, 0, 0.3);
+  transition: 0.25s;
 }
-.nav-btn:hover {transform:scale(1.05);}
+.nav-btn:hover {
+  background: rgba(255, 255, 255, 0.14);
+  transform: scale(1.05);
+}
 
-/* COUNTDOWN WRAP */
+/* ================= DOWNLOAD BUTTON ================= */
+#source-download {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 100;
+  padding: 9px 20px;
+  border-radius: 999px;
+  color: #fff;
+  font-weight: 600;
+  text-decoration: none;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: inset 0 1.2px 1.5px rgba(255, 255, 255, 0.4),
+              0 4px 18px rgba(0, 0, 0, 0.3);
+  transition: all 0.4s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(30px);
+}
+#source-download.visible {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+#source-download:hover {
+  background: rgba(255, 255, 255, 0.14);
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: inset 0 1.2px 1.5px rgba(255, 255, 255, 0.5),
+              0 8px 25px rgba(0, 0, 0, 0.45);
+}
+.download-icon {
+  font-size: 17px;
+  opacity: 0.95;
+}
+
+/* ================= COUNTDOWN ================= */
 .countdown-wrap{
-  position: relative;
-  z-index:10;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
   backdrop-filter:blur(1px);
   border-radius:20px;
   padding:26px 34px;
   text-align:center;
   width:88%;
   max-width:600px;
+  margin-top:120px;
   background:rgba(0,0,0,0.25);
   border:2px solid #fff;
 }
-.title{font-size:32px;font-weight:900;color:#ff4dd2;}
-.subtitle{font-size:14px;margin:10px 0 24px;color:#00ffe0;}
-
+.title{font-size:32px;font-weight:900}
+.subtitle{font-size:14px;margin:10px 0 24px}
 .clock{
   display:flex;
   gap:12px;
@@ -94,65 +122,66 @@ header {
   border-radius:12px;
   background:rgba(0,0,0,0.35);
 }
-.num{font-size:32px;font-weight:900;color:#ff4dd2;}
-.label{font-size:11px;opacity:.9;color:#00ffe0;}
+.num{font-size:32px;font-weight:900}
+.label{font-size:11px;opacity:.8}
 
-.test-btn{
-  margin-top:20px;
-  padding:8px 16px;
-  border-radius:999px;
-  border:none;
+/* ================= MUSIC ================= */
+.music-trigger{
+  position:fixed;
+  bottom:18px;
+  left:18px;
+  width:40px;
+  height:40px;
   cursor:pointer;
-  font-weight:700;
-  background:#ff4dd2;
-  color:#000;
-  z-index:20;
-  position:relative;
+  z-index:200;
 }
-
-/* REVEAL TEXT */
-.reveal{
+.music-wheel{
   position:fixed;
-  inset:0;
+  bottom:18px;
+  left:70px;
   display:flex;
-  align-items:center;
-  justify-content:center;
-  flex-direction:column;
-  z-index:20;
+  gap:8px;
+  max-width:calc(100% - 90px);
+  overflow-x:auto;
+  padding-bottom:4px;
   opacity:0;
-  color:#fff;
+  pointer-events:none;
+  transform:translateX(-10px);
+  transition:.25s ease;
 }
-.reveal.active{
-  animation:fadeIn 1.5s forwards 0.5s;
+.music-wheel.active{
+  opacity:1;
+  pointer-events:auto;
+  transform:translateX(0);
 }
-.reveal h2{
-  font-size:70px;
-  font-weight:900;
-  background:linear-gradient(90deg,#ff4dd2,#00ffe0);
-  -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;
+.music-item{
+  padding:9px 17px;
+  border-radius:999px;
+  font-size:12px;
+  font-weight:600;
+  white-space:nowrap;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.18);
+  box-shadow: inset 0 1.2px 1.5px rgba(255,255,255,0.4), 0 4px 18px rgba(0,0,0,0.3);
+  cursor: pointer;
+  flex-shrink:0;
+  transition: 0.25s ease;
 }
-@keyframes fadeIn{to{opacity:1}}
-
-/* CONFETTI */
-.confetti{
-  position:fixed;
-  width:8px;
-  height:8px;
-  top:-10px;
-  animation:fall linear forwards;
+.music-item:hover{
+  background: rgba(255,255,255,0.14);
+  transform: translateY(-1px) scale(1.05);
 }
-@keyframes fall{
-  to{transform:translateY(110vh) rotate(720deg);}
+.music-wheel::-webkit-scrollbar{
+  height:6px;
+}
+.music-wheel::-webkit-scrollbar-track{background:transparent;}
+.music-wheel::-webkit-scrollbar-thumb{
+  background: rgba(255,255,255,0.3);
+  border-radius:3px;
 }
 </style>
 </head>
-
 <body>
-
-<div class="bg bg6" id="bg6"></div>
-<div class="bg bg5" id="bg5"></div>
-<div class="crack" id="crack"></div>
 
 <header>
   <a href="index" class="nav-btn">Home</a>
@@ -163,93 +192,98 @@ header {
   <a href="trailers" class="nav-btn">Trailers</a>
 </header>
 
-<section class="countdown-wrap" id="countdownBox">
+<section class="countdown-wrap">
   <h1 class="title">Grand Theft Auto VI</h1>
-  <div class="subtitle">RELEASE COUNTDOWN – NOVEMBER 19TH, 2026</div>
-
+  <div class="subtitle" id="subtitle">RELEASE COUNTDOWN – TEST MODE</div>
   <div class="clock">
-    <div class="unit"><div class="num" id="days">000</div><div class="label">DAYS</div></div>
+    <div class="unit"><div class="num" id="days">00</div><div class="label">DAYS</div></div>
     <div class="unit"><div class="num" id="hours">00</div><div class="label">HOURS</div></div>
     <div class="unit"><div class="num" id="minutes">00</div><div class="label">MINUTES</div></div>
-    <div class="unit"><div class="num" id="seconds">00</div><div class="label">SECONDS</div></div>
+    <div class="unit"><div class="num" id="seconds">10</div><div class="label">SECONDS</div></div>
   </div>
-
-  <button class="test-btn" onclick="triggerFinalReveal()">TEST FINAL REVEAL</button>
 </section>
 
-<div class="reveal" id="reveal">
-  <h2>GRAND THEFT AUTO VI</h2>
-  <p>Welcome to Vice City.</p>
+<!-- SOURCE CODE BUTTON - appears after countdown ends -->
+<a href="https://github.com/vocql/gta/archive/refs/heads/main.zip"
+   id="source-download"
+   download
+   target="_blank">
+  <span class="download-icon">📥</span> Source Code
+</a>
+
+<!-- Music stuff -->
+<div class="music-trigger" id="musicTrigger"></div>
+<div class="music-wheel" id="musicWheel">
+  <div class="music-item" data-song="music/together.mp3">Hot Together</div>
+  <div class="music-item" data-song="music/long.mp3">Love Is A Long Road</div>
+  <!-- ... rest of your music items ... -->
 </div>
+<audio id="musicPlayer"></audio>
 
 <script>
-const targetDate = new Date('2026-11-19T00:00:00');
-const daysEl = document.getElementById('days');
-const hoursEl = document.getElementById('hours');
+/* ===== TEST COUNTDOWN (10 seconds) ===== */
+const testDurationSeconds = 10; // change this to whatever you want for testing
+const startTime = Date.now();
+const targetTime = startTime + (testDurationSeconds * 1000);
+
+const daysEl    = document.getElementById('days');
+const hoursEl   = document.getElementById('hours');
 const minutesEl = document.getElementById('minutes');
 const secondsEl = document.getElementById('seconds');
+const subtitle  = document.getElementById('subtitle');
+const downloadBtn = document.getElementById('source-download');
 
-const countdownBox = document.getElementById('countdownBox');
-const reveal = document.getElementById('reveal');
-const crack = document.getElementById('crack');
-const bg6 = document.getElementById('bg6');
-const bg5 = document.getElementById('bg5');
+function pad(n) { return String(n).padStart(2, '0'); }
 
-function pad(n){ return String(n).padStart(2,'0'); }
+function updateCountdown() {
+  const now = Date.now();
+  let diff = Math.floor((targetTime - now) / 1000);
 
-function updateCountdown(){
-  const now = new Date();
-  const diff = Math.floor((targetDate - now)/1000);
+  if (diff <= 0) {
+    daysEl.textContent    = "00";
+    hoursEl.textContent   = "00";
+    minutesEl.textContent = "00";
+    secondsEl.textContent = "00";
 
-  if(diff <= 0){
-    daysEl.textContent = 0;
-    hoursEl.textContent = '00';
-    minutesEl.textContent = '00';
-    secondsEl.textContent = '00';
-    triggerFinalReveal();
+    downloadBtn.classList.add('visible');
+    subtitle.textContent = "IT'S OUT NOW! Download the source code ↓";
+
     return;
   }
 
-  // Update countdown
-  daysEl.textContent = Math.floor(diff/86400);
-  hoursEl.textContent = pad(Math.floor(diff/3600%24));
-  minutesEl.textContent = pad(Math.floor(diff/60%60));
-  secondsEl.textContent = pad(diff%60);
-
-  // 10 minutes left trigger
-  if(diff <= 600){ 
-    crack.style.opacity = "1";
-    bg5.style.opacity = "1"; 
-  }
+  // For short test we only show seconds, but keep the format
+  daysEl.textContent    = "00";
+  hoursEl.textContent   = "00";
+  minutesEl.textContent = "00";
+  secondsEl.textContent = pad(diff);
 }
 
-setInterval(updateCountdown,1000);
 updateCountdown();
+const interval = setInterval(updateCountdown, 500); // faster update for short test
 
-// Final reveal back to GTA VI
-function triggerFinalReveal(){
-  crack.style.opacity = "0";
-  bg5.style.opacity = "0";
-  bg6.style.opacity = "1";
-  reveal.classList.add("active");
-  launchConfetti();
-}
-
-// Confetti effect
-function launchConfetti(){
-  for(let i=0;i<120;i++){
-    const c=document.createElement("div");
-    c.className="confetti";
-    c.style.left=Math.random()*100+"vw";
-    c.style.background=`hsl(${Math.random()*360},100%,60%)`;
-    c.style.animationDuration=(2+Math.random()*3)+"s";
-    document.body.appendChild(c);
-    setTimeout(()=>c.remove(),5000);
+// Optional: stop interval after it ends (clean up)
+setTimeout(() => {
+  if (Date.now() >= targetTime) {
+    clearInterval(interval);
   }
-}
-</script>
+}, testDurationSeconds * 1000 + 1000);
 
+/* ===== MUSIC ===== */
+const trigger = document.getElementById('musicTrigger');
+const wheel = document.getElementById('musicWheel');
+const player = document.getElementById('musicPlayer');
+let open = false;
+trigger.onclick = () => {
+  open = !open;
+  wheel.classList.toggle('active', open);
+};
+document.querySelectorAll('.music-item').forEach(btn=>{
+  btn.onclick = () => {
+    player.src = btn.dataset.song;
+    player.play();
+  };
+});
+</script>
 </body>
 </html>
-
 
