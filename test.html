@@ -12,10 +12,6 @@
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{height:100%;overflow:hidden}
 
-<style>
-*{margin:0;padding:0;box-sizing:border-box}
-html,body{height:100%;overflow:hidden}
-
 body{
   font-family:'Orbitron',sans-serif;
   background:
@@ -93,76 +89,83 @@ header:hover {
 .num{font-size:32px;font-weight:900}
 .label{font-size:11px;opacity:.8}
 
-/* ================= MUSIC ================= */
-
-/* Invisible trigger */
+/* ================= MUSIC BUTTON ================= */
 .music-trigger{
   position:fixed;
   bottom:18px;
   left:18px;
-  width:40px;
-  height:40px;
+  width:50px;
+  height:50px;
+  border-radius:50%;
+  background: linear-gradient(135deg,#ff4dd2,#ff8ae6);
   cursor:pointer;
   z-index:200;
+  box-shadow: 0 0 15px rgba(255,77,210,0.6);
+  transition: 0.3s;
+}
+.music-trigger:hover{
+  box-shadow: 0 0 25px rgba(255,77,210,1);
 }
 
-/* pill container */
-.music-wheel{
+/* ================= MENU PANEL ================= */
+.menu-panel{
   position:fixed;
-  bottom:18px;
-  left:70px;
-  display:flex;
-  gap:8px;
-  max-width:calc(100% - 90px);
-  overflow-x:auto;
-  padding-bottom:4px;
+  bottom:80px;
+  left:18px;
+  width:300px;
+  max-height:70vh;
+  overflow-y:auto;
+  border-radius:18px;
+  background: rgba(0,0,0,0.7);
+  backdrop-filter: blur(10px);
+  padding:16px;
   opacity:0;
   pointer-events:none;
-  transform:translateX(-10px);
-  transition:.25s ease;
+  transform:translateY(20px);
+  transition:.25s;
+  z-index:199;
 }
-.music-wheel.active{
+.menu-panel.active{
   opacity:1;
   pointer-events:auto;
-  transform:translateX(0);
+  transform:translateY(0);
 }
 
-/* pills - match navbar style */
+/* BLUE SCROLL */
+.menu-panel::-webkit-scrollbar{width:6px}
+.menu-panel::-webkit-scrollbar-thumb{background:#00cfff;border-radius:10px}
+
+/* SETTINGS */
+.setting{
+  display:flex;
+  justify-content:space-between;
+  margin:8px 0;
+}
+.toggle{
+  width:40px;height:20px;border-radius:20px;
+  background:#555;cursor:pointer;position:relative;
+}
+.toggle::after{
+  content:"";width:16px;height:16px;background:#fff;
+  position:absolute;top:2px;left:2px;border-radius:50%;
+  transition:.2s;
+}
+.toggle.active{background:#ff4dd2}
+.toggle.active::after{left:22px}
+
+/* MUSIC ITEMS */
 .music-item{
-  padding:9px 17px;
-  border-radius:999px;
-  font-size:12px;
-  font-weight:600;
-  white-space:nowrap;
-  background: rgba(255,255,255,0.08);       /* same as nav button */
-  border: 1px solid rgba(255,255,255,0.18); /* same as nav button */
-  box-shadow: inset 0 1.2px 1.5px rgba(255,255,255,0.4), 0 4px 18px rgba(0,0,0,0.3);
-  cursor: pointer;
-  flex-shrink:0;
-  transition: 0.25s ease;
+  padding:8px;margin:4px 0;border-radius:8px;
+  background:rgba(255,255,255,0.08);
+  cursor:pointer;
 }
-
-.music-item:hover{
-  background: rgba(255,255,255,0.14);       /* match hover nav button */
-  transform: translateY(-1px) scale(1.05);
-  box-shadow: inset 0 1.2px 1.5px rgba(255,255,255,0.45), 0 4px 20px rgba(0,0,0,0.35);
-}
-
-/* Scrollbar styling */
-.music-wheel::-webkit-scrollbar{
-  height:6px;
-}
-.music-wheel::-webkit-scrollbar-track{background:transparent;}
-.music-wheel::-webkit-scrollbar-thumb{
-  background: rgba(255,255,255,0.3);
-  border-radius:3px;
-}
+.music-item.active{background:#00cfff}
 </style>
 </head>
 
 <body>
 
-<!-- NAVBAR (original text) -->
+<!-- NAVBAR -->
 <header>
   <a href="index" class="nav-btn">Home</a>
   <a href="map" class="nav-btn">Map</a>
@@ -191,16 +194,12 @@ header:hover {
 <!-- MENU PANEL -->
 <div class="menu-panel" id="menuPanel">
   <h4>SETTINGS</h4>
-
   <div class="setting">Theme <div class="toggle" id="themeToggle"></div></div>
   <div class="setting">Blur <div class="toggle" id="blurToggle"></div></div>
   <div class="setting">Loop <div class="toggle" id="loopToggle"></div></div>
-
   <input type="range" id="volume" min="0" max="1" step="0.01">
-
   <h4>MUSIC</h4>
 
-  <!-- FULL SONG LIST -->
   <div class="music-item" data-song="music/together.mp3">Hot Together</div>
   <div class="music-item" data-song="music/long.mp3">Love Is A Long Road</div>
   <div class="music-item" data-song="music/night.mp3">Night</div>
@@ -232,7 +231,7 @@ header:hover {
 
 <script>
 /* MENU BUTTON */
-musicTrigger.onclick=()=>menuPanel.classList.toggle('active');
+musicTrigger.onclick = ()=> menuPanel.classList.toggle('active');
 
 /* SETTINGS */
 themeToggle.onclick=()=>{themeToggle.classList.toggle('active');document.body.classList.toggle('neon');};
