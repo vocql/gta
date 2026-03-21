@@ -20,6 +20,116 @@ body{
   align-items:center;
   justify-content:center;
   background-position:center 40%;
+  position: relative;
+}
+
+/* ================= ABOUT / CREDITS MODAL ================= */
+.about-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.78);
+  backdrop-filter: blur(5px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+}
+.about-modal.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+.about-content {
+  background: rgba(10,10,20,0.88);
+  border: 2px solid rgba(0,255,224,0.3);
+  border-radius: 20px;
+  width: 90%;
+  max-width: 720px;
+  max-height: 85vh;
+  overflow-y: auto;
+  padding: 32px 40px;
+  box-shadow: 0 20px 70px rgba(0,255,224,0.25),
+              inset 0 0 40px rgba(255,77,210,0.15);
+  text-align: center;
+  position: relative;
+}
+.about-header {
+  margin-bottom: 32px;
+}
+.about-title {
+  font-size: 36px;
+  font-weight: 900;
+  color: #ff4dd2;
+  text-shadow: 0 0 25px rgba(255,77,210,0.7);
+}
+.about-subtitle {
+  font-size: 16px;
+  opacity: 0.85;
+  margin-top: 10px;
+  letter-spacing: 1px;
+}
+.close-btn {
+  position: absolute;
+  top: 20px;
+  right: 25px;
+  font-size: 36px;
+  cursor: pointer;
+  color: #00ffe0;
+  opacity: 0.8;
+  transition: 0.3s;
+}
+.close-btn:hover {
+  opacity: 1;
+  transform: rotate(180deg);
+  color: #ff4dd2;
+}
+
+/* Team grid */
+.team-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 32px;
+  margin: 20px 0;
+}
+.team-member {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+.profile-circle {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 4px solid #00ffe0;
+  box-shadow: 0 0 30px rgba(0,255,224,0.5),
+              inset 0 0 15px rgba(255,255,255,0.2);
+  transition: 0.3s;
+}
+.profile-circle:hover {
+  transform: scale(1.08);
+  border-color: #ff4dd2;
+  box-shadow: 0 0 45px rgba(255,77,210,0.6);
+}
+.profile-circle img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.member-name {
+  font-size: 22px;
+  font-weight: 700;
+  color: #00ffe0;
+  text-shadow: 0 0 15px rgba(0,255,224,0.6);
+}
+.member-bio {
+  font-size: 14px;
+  opacity: 0.9;
+  line-height: 1.6;
+  max-width: 280px;
 }
 
 /* ================= NAVBAR ================= */
@@ -55,46 +165,6 @@ header:hover {
 .nav-btn:hover {
   background: rgba(255, 255, 255, 0.14);
   transform: scale(1.05);
-}
-
-/* ================= DOWNLOAD BUTTON ================= */
-#source-download {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  z-index: 100;
-  padding: 9px 20px;
-  border-radius: 999px;
-  color: #fff;
-  font-weight: 600;
-  text-decoration: none;
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  box-shadow: inset 0 1.2px 1.5px rgba(255, 255, 255, 0.4),
-              0 4px 18px rgba(0, 0, 0, 0.3);
-  transition: all 0.4s ease;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 14px;
-  opacity: 0;
-  pointer-events: none;
-  transform: translateY(30px);
-}
-#source-download.visible {
-  opacity: 1;
-  pointer-events: auto;
-  transform: translateY(0);
-}
-#source-download:hover {
-  background: rgba(255, 255, 255, 0.14);
-  transform: translateY(-3px) scale(1.05);
-  box-shadow: inset 0 1.2px 1.5px rgba(255, 255, 255, 0.5),
-              0 8px 25px rgba(0, 0, 0, 0.45);
-}
-.download-icon {
-  font-size: 17px;
-  opacity: 0.95;
 }
 
 /* ================= COUNTDOWN ================= */
@@ -170,6 +240,7 @@ header:hover {
 .music-item:hover{
   background: rgba(255,255,255,0.14);
   transform: translateY(-1px) scale(1.05);
+  box-shadow: inset 0 1.2px 1.5px rgba(255,255,255,0.45), 0 4px 20px rgba(0,0,0,0.35);
 }
 .music-wheel::-webkit-scrollbar{
   height:6px;
@@ -183,6 +254,41 @@ header:hover {
 </head>
 <body>
 
+<!-- ABOUT / CREDITS MODAL (shows every load) -->
+<div class="about-modal" id="aboutModal">
+  <div class="about-content">
+    <span class="close-btn" id="closeModal">×</span>
+    <div class="about-header">
+      <h2 class="about-title">DEVELOPMENT TEAM</h2>
+      <div class="about-subtitle">The visionaries behind this GTA VI fan experience</div>
+    </div>
+
+    <div class="team-grid">
+      <div class="team-member">
+        <div class="profile-circle">
+          <img src="https://cdn.discordapp.com/attachments/1340156006663061590/1485034068067225600/profilemh.webp?ex=69c06540&is=69bf13c0&hm=6188757a40d3b4b3e5a9f230992efea22708d269d85a8103d43d4db61a4ffde5&" alt="voqcl avatar">
+        </div>
+        <div class="member-name">voqcl</div>
+        <p class="member-bio">Lead designer & frontend architect. Specializes in neon aesthetics, interactive UI, and immersive audio experiences inspired by Vice City vibes.</p>
+      </div>
+
+      <div class="team-member">
+        <div class="profile-circle">
+          <img src="https://cdn.discordapp.com/attachments/1340156006663061590/1485034068394639441/8bc22a7e8dced85b3e2818f9e3772807.jpg?ex=69c06540&is=69bf13c0&hm=22f8ce5005b5fad17a5f6ead4c71ffdb6056eddaa77eba4cb9e0ea8d009700f6&" alt="o5bo avatar">
+        </div>
+        <div class="member-name">o5bo</div>
+        <p class="member-bio">Core developer & logic mastermind. Handles countdown mechanics, dynamic features, and performance optimizations to keep everything smooth and futuristic.</p>
+      </div>
+
+      <!-- Add more team members here if needed -->
+    </div>
+
+    <p style="margin-top:40px; opacity:0.7; font-size:13px;">
+      Built with passion for Grand Theft Auto VI • Fan project, unofficial
+    </p>
+  </div>
+</div>
+
 <header>
   <a href="index" class="nav-btn">Home</a>
   <a href="map" class="nav-btn">Map</a>
@@ -194,90 +300,103 @@ header:hover {
 
 <section class="countdown-wrap">
   <h1 class="title">Grand Theft Auto VI</h1>
-  <div class="subtitle" id="subtitle">RELEASE COUNTDOWN – TEST MODE</div>
+  <div class="subtitle">RELEASE COUNTDOWN – NOVEMBER 19TH, 2026</div>
   <div class="clock">
-    <div class="unit"><div class="num" id="days">00</div><div class="label">DAYS</div></div>
+    <div class="unit"><div class="num" id="days">000</div><div class="label">DAYS</div></div>
     <div class="unit"><div class="num" id="hours">00</div><div class="label">HOURS</div></div>
     <div class="unit"><div class="num" id="minutes">00</div><div class="label">MINUTES</div></div>
-    <div class="unit"><div class="num" id="seconds">10</div><div class="label">SECONDS</div></div>
+    <div class="unit"><div class="num" id="seconds">00</div><div class="label">SECONDS</div></div>
   </div>
 </section>
 
-<!-- SOURCE CODE BUTTON - appears after countdown ends -->
-<a href="https://github.com/vocql/gta/archive/refs/heads/main.zip"
-   id="source-download"
-   download
-   target="_blank">
-  <span class="download-icon">📥</span> Source Code
-</a>
-
-<!-- Music stuff -->
+<!-- Invisible Music Trigger -->
 <div class="music-trigger" id="musicTrigger"></div>
+<!-- Music Pills -->
 <div class="music-wheel" id="musicWheel">
   <div class="music-item" data-song="music/together.mp3">Hot Together</div>
   <div class="music-item" data-song="music/long.mp3">Love Is A Long Road</div>
-  <!-- ... rest of your music items ... -->
+  <div class="music-item" data-song="music/night.mp3">Night</div>
+  <div class="music-item" data-song="music/ocean.mp3">Ocean Breeze</div>
+  <div class="music-item" data-song="music/self.mp3">Self Control</div>
+  <div class="music-item" data-song="music/tomic.mp3">Atomic</div>
+  <div class="music-item" data-song="music/sun.mp3">Sun Glasses At Night</div>
+  <div class="music-item" data-song="music/all.mp3">All Night Long</div>
+  <div class="music-item" data-song="music/shame.mp3">Shame</div>
+  <div class="music-item" data-song="music/vice.mp3">Vice City</div>
+  <div class="music-item" data-song="music/earth.mp3">I Walk This Earth All By Myself</div>
+  <div class="music-item" data-song="music/heart.mp3">Owner Of A Lonley Heart</div>
+  <div class="music-item" data-song="music/tempt.mp3">Tempted</div>
+  <div class="music-item" data-song="music/arrow.mp3">Poison Arrow</div>
+  <div class="music-item" data-song="music/crime.mp3">Is It A Crime</div>
+  <div class="music-item" data-song="music/are.mp3">Here We Are</div>
+  <div class="music-item" data-song="music/fire.mp3">Through The Fire</div>
+  <div class="music-item" data-song="music/mine.mp3">Heart Of Mine</div>
+  <div class="music-item" data-song="music/fly.mp3">Fly Away</div>
+  <div class="music-item" data-song="music/nobody.mp3">Ain't Nobody</div>
+  <div class="music-item" data-song="music/you.mp3">Thinking Of You</div>
+  <div class="music-item" data-song="music/love.mp3">Sweet Love</div>
+  <div class="music-item" data-song="music/remember.mp3">I Still Remember You</div>
+  <div class="music-item" data-song="music/love.mp3">Sweet Love</div>
+  <div class="music-item" data-song="music/gamble.mp3">Gamble With My Love</div>
+  <div class="music-item" data-song="music/suki.mp3">Sukiyaki</div>
 </div>
 <audio id="musicPlayer"></audio>
 
 <script>
-/* ===== TEST COUNTDOWN (10 seconds) ===== */
-const testDurationSeconds = 10; // change this to whatever you want for testing
-const startTime = Date.now();
-const targetTime = startTime + (testDurationSeconds * 1000);
-
-const daysEl    = document.getElementById('days');
-const hoursEl   = document.getElementById('hours');
+// COUNTDOWN
+const targetDate = new Date('2026-11-18T00:00:00');
+const daysEl = document.getElementById('days');
+const hoursEl = document.getElementById('hours');
 const minutesEl = document.getElementById('minutes');
 const secondsEl = document.getElementById('seconds');
-const subtitle  = document.getElementById('subtitle');
-const downloadBtn = document.getElementById('source-download');
 
-function pad(n) { return String(n).padStart(2, '0'); }
+function pad(n){ return String(n).padStart(2,'0'); }
 
-function updateCountdown() {
-  const now = Date.now();
-  let diff = Math.floor((targetTime - now) / 1000);
-
-  if (diff <= 0) {
-    daysEl.textContent    = "00";
-    hoursEl.textContent   = "00";
-    minutesEl.textContent = "00";
-    secondsEl.textContent = "00";
-
-    downloadBtn.classList.add('visible');
-    subtitle.textContent = "IT'S OUT NOW! Download the source code ↓";
-
+function updateCountdown(){
+  const now = new Date();
+  const diff = Math.floor((targetDate - now)/1000);
+  if(diff <= 0) {
+    daysEl.textContent = "00"; hoursEl.textContent = "00";
+    minutesEl.textContent = "00"; secondsEl.textContent = "00";
     return;
   }
-
-  // For short test we only show seconds, but keep the format
-  daysEl.textContent    = "00";
-  hoursEl.textContent   = "00";
-  minutesEl.textContent = "00";
-  secondsEl.textContent = pad(diff);
+  daysEl.textContent = Math.floor(diff/86400);
+  hoursEl.textContent = pad(Math.floor(diff/3600 % 24));
+  minutesEl.textContent = pad(Math.floor(diff/60 % 60));
+  secondsEl.textContent = pad(diff % 60);
 }
 
 updateCountdown();
-const interval = setInterval(updateCountdown, 500); // faster update for short test
+setInterval(updateCountdown, 1000);
 
-// Optional: stop interval after it ends (clean up)
-setTimeout(() => {
-  if (Date.now() >= targetTime) {
-    clearInterval(interval);
-  }
-}, testDurationSeconds * 1000 + 1000);
+// ABOUT MODAL (shows every load)
+const modal = document.getElementById('aboutModal');
+const closeBtn = document.getElementById('closeModal');
 
-/* ===== MUSIC ===== */
+window.onload = () => {
+  modal.classList.add('active');
+};
+
+closeBtn.onclick = () => {
+  modal.classList.remove('active');
+};
+
+modal.onclick = (e) => {
+  if (e.target === modal) modal.classList.remove('active');
+};
+
+// MUSIC
 const trigger = document.getElementById('musicTrigger');
 const wheel = document.getElementById('musicWheel');
 const player = document.getElementById('musicPlayer');
 let open = false;
+
 trigger.onclick = () => {
   open = !open;
   wheel.classList.toggle('active', open);
 };
-document.querySelectorAll('.music-item').forEach(btn=>{
+
+document.querySelectorAll('.music-item').forEach(btn => {
   btn.onclick = () => {
     player.src = btn.dataset.song;
     player.play();
@@ -286,4 +405,3 @@ document.querySelectorAll('.music-item').forEach(btn=>{
 </script>
 </body>
 </html>
-
