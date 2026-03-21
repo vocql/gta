@@ -22,78 +22,64 @@ body{
   display:flex;
   align-items:center;
   justify-content:center;
-  background-position:center 40%;
-  transition:.3s;
 }
 
-/* THEME MODE */
-body.neon{
-  background:
-    linear-gradient(135deg, rgba(255,77,210,0.35), rgba(0,255,224,0.25)),
-    url('gta/jason.jpg') center/cover no-repeat fixed;
-}
-
-/* BLUR MODE */
-body.blur::before{
-  content:"";
-  position:fixed;
-  inset:0;
-  backdrop-filter:blur(8px);
-  z-index:-1;
-}
-
-/* NAV */
-header {
-  position: fixed;
-  top: 18px;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  gap: 12px;
-  padding: 8px 14px;
-  border-radius: 999px;
-  background: rgba(0, 0, 0, 0.25);
-}
-.nav-btn {
-  padding: 9px 17px;
-  border-radius: 999px;
-  color: #fff;
-  text-decoration: none;
-  background: rgba(255,255,255,0.08);
-}
-
-/* COUNTDOWN */
+/* ===== COUNTDOWN ===== */
 .countdown-wrap{
   border-radius:20px;
-  padding:26px;
+  padding:26px 34px;
   text-align:center;
+  width:88%;
+  max-width:600px;
   background:rgba(0,0,0,0.25);
   border:2px solid #fff;
 }
+.title{font-size:32px;font-weight:900}
+.subtitle{font-size:14px;margin:10px 0 24px}
 
-/* BUTTON */
+.clock{
+  display:flex;
+  gap:12px;
+  justify-content:center;
+}
+.unit{
+  min-width:72px;
+  padding:12px;
+  border-radius:12px;
+  background:rgba(0,0,0,0.35);
+}
+.num{font-size:32px;font-weight:900}
+.label{font-size:11px;opacity:.8}
+
+/* ===== BUTTON (NO ICON) ===== */
 .music-trigger{
   position:fixed;
   bottom:18px;
   left:18px;
-  width:42px;
-  height:42px;
+  width:50px;
+  height:50px;
   border-radius:50%;
-  background: rgba(255,77,210,0.25);
-  box-shadow: 0 0 18px rgba(255,77,210,0.6);
+  background: linear-gradient(135deg,#ff4dd2,#ff8ae6);
   cursor:pointer;
+  animation: pulse 2s infinite;
 }
 
-/* MENU */
+@keyframes pulse{
+  0%{box-shadow:0 0 15px rgba(255,77,210,0.6);}
+  50%{box-shadow:0 0 30px rgba(255,77,210,1);}
+  100%{box-shadow:0 0 15px rgba(255,77,210,0.6);}
+}
+
+/* ===== MENU ===== */
 .menu-panel{
   position:fixed;
-  bottom:70px;
+  bottom:80px;
   left:18px;
-  width:280px;
+  width:300px;
   max-height:70vh;
   overflow-y:auto;
   border-radius:18px;
-  background: rgba(0,0,0,0.6);
+  background: rgba(0,0,0,0.7);
   backdrop-filter: blur(10px);
   padding:16px;
   opacity:0;
@@ -107,47 +93,32 @@ header {
   transform:translateY(0);
 }
 
-.menu-title{font-size:13px;margin:10px 0}
+/* BLUE SCROLLBAR */
+.menu-panel::-webkit-scrollbar{
+  width:6px;
+}
+.menu-panel::-webkit-scrollbar-thumb{
+  background:#00cfff;
+  border-radius:10px;
+}
 
-/* SETTINGS UI */
+/* SETTINGS */
 .setting{
   display:flex;
   justify-content:space-between;
-  align-items:center;
-  margin-bottom:10px;
-  font-size:13px;
+  margin:8px 0;
 }
-
 .toggle{
-  width:40px;
-  height:20px;
-  border-radius:20px;
-  background:#555;
-  position:relative;
-  cursor:pointer;
+  width:40px;height:20px;border-radius:20px;
+  background:#555;cursor:pointer;position:relative;
 }
 .toggle::after{
-  content:"";
-  position:absolute;
-  width:16px;
-  height:16px;
-  top:2px;
-  left:2px;
-  background:#fff;
-  border-radius:50%;
+  content:"";width:16px;height:16px;background:#fff;
+  position:absolute;top:2px;left:2px;border-radius:50%;
   transition:.2s;
 }
-.toggle.active{
-  background:#ff4dd2;
-}
-.toggle.active::after{
-  left:22px;
-}
-
-/* VOLUME */
-input[type=range]{
-  width:100%;
-}
+.toggle.active{background:#ff4dd2}
+.toggle.active::after{left:22px}
 
 /* MUSIC */
 .music-item{
@@ -156,97 +127,127 @@ input[type=range]{
   border-radius:8px;
   background:rgba(255,255,255,0.08);
   cursor:pointer;
+  transition:.2s;
+}
+.music-item:hover{
+  background:rgba(255,255,255,0.15);
 }
 .music-item.active{
-  background:rgba(255,77,210,0.4);
+  background:#00cfff;
 }
 </style>
 </head>
 
 <body>
 
-<header>
-  <a href="index" class="nav-btn">Home</a>
-</header>
+<!-- COUNTDOWN -->
+<section class="countdown-wrap">
+  <h1 class="title">Grand Theft Auto VI</h1>
+  <div class="subtitle">RELEASE COUNTDOWN – NOVEMBER 19TH, 2026</div>
 
-<div class="countdown-wrap">
-  <h1>Grand Theft Auto VI</h1>
-</div>
+  <div class="clock">
+    <div class="unit"><div class="num" id="days">000</div><div class="label">DAYS</div></div>
+    <div class="unit"><div class="num" id="hours">00</div><div class="label">HOURS</div></div>
+    <div class="unit"><div class="num" id="minutes">00</div><div class="label">MINUTES</div></div>
+    <div class="unit"><div class="num" id="seconds">00</div><div class="label">SECONDS</div></div>
+  </div>
+</section>
 
+<!-- BUTTON -->
 <div class="music-trigger" id="musicTrigger"></div>
 
+<!-- MENU -->
 <div class="menu-panel" id="menuPanel">
 
-  <div class="menu-title">SETTINGS</div>
-
-  <div class="setting">
-    Theme
-    <div class="toggle" id="themeToggle"></div>
-  </div>
-
-  <div class="setting">
-    Blur
-    <div class="toggle" id="blurToggle"></div>
-  </div>
-
-  <div class="setting">
-    Loop
-    <div class="toggle" id="loopToggle"></div>
-  </div>
-
-  <div class="setting">
-    Volume
-  </div>
+  <h4>SETTINGS</h4>
+  <div class="setting">Loop <div class="toggle" id="loopToggle"></div></div>
   <input type="range" id="volume" min="0" max="1" step="0.01">
 
-  <div class="menu-title">MUSIC</div>
+  <h4>MUSIC</h4>
 
+  <!-- FULL SONG LIST -->
   <div class="music-item" data-song="music/together.mp3">Hot Together</div>
   <div class="music-item" data-song="music/long.mp3">Love Is A Long Road</div>
   <div class="music-item" data-song="music/night.mp3">Night</div>
   <div class="music-item" data-song="music/ocean.mp3">Ocean Breeze</div>
   <div class="music-item" data-song="music/self.mp3">Self Control</div>
+  <div class="music-item" data-song="music/tomic.mp3">Atomic</div>
+  <div class="music-item" data-song="music/sun.mp3">Sun Glasses At Night</div>
+  <div class="music-item" data-song="music/all.mp3">All Night Long</div>
+  <div class="music-item" data-song="music/shame.mp3">Shame</div>
+  <div class="music-item" data-song="music/vice.mp3">Vice City</div>
+  <div class="music-item" data-song="music/earth.mp3">I Walk This Earth All By Myself</div>
+  <div class="music-item" data-song="music/heart.mp3">Owner Of A Lonely Heart</div>
+  <div class="music-item" data-song="music/tempt.mp3">Tempted</div>
+  <div class="music-item" data-song="music/arrow.mp3">Poison Arrow</div>
+  <div class="music-item" data-song="music/crime.mp3">Is It A Crime</div>
+  <div class="music-item" data-song="music/are.mp3">Here We Are</div>
+  <div class="music-item" data-song="music/fire.mp3">Through The Fire</div>
+  <div class="music-item" data-song="music/mine.mp3">Heart Of Mine</div>
+  <div class="music-item" data-song="music/fly.mp3">Fly Away</div>
+  <div class="music-item" data-song="music/nobody.mp3">Ain't Nobody</div>
+  <div class="music-item" data-song="music/you.mp3">Thinking Of You</div>
+  <div class="music-item" data-song="music/love.mp3">Sweet Love</div>
+  <div class="music-item" data-song="music/remember.mp3">I Still Remember You</div>
+  <div class="music-item" data-song="music/gamble.mp3">Gamble With My Love</div>
+  <div class="music-item" data-song="music/suki.mp3">Sukiyaki</div>
 
 </div>
 
 <audio id="musicPlayer"></audio>
 
 <script>
-const trigger = document.getElementById('musicTrigger');
-const panel = document.getElementById('menuPanel');
-trigger.onclick = () => panel.classList.toggle('active');
+/* COUNTDOWN */
+const targetDate = new Date('2026-11-18T00:00:00');
+const d=document.getElementById('days');
+const h=document.getElementById('hours');
+const m=document.getElementById('minutes');
+const s=document.getElementById('seconds');
 
-/* PLAYER */
-const player = document.getElementById('musicPlayer');
+function pad(n){return String(n).padStart(2,'0');}
+
+function update(){
+  const now=new Date();
+  const diff=Math.floor((targetDate-now)/1000);
+  if(diff<=0)return;
+
+  d.textContent=Math.floor(diff/86400);
+  h.textContent=pad(Math.floor(diff/3600%24));
+  m.textContent=pad(Math.floor(diff/60%60));
+  s.textContent=pad(diff%60);
+}
+setInterval(update,1000);
+update();
+
+/* MENU */
+const trigger=document.getElementById('musicTrigger');
+const panel=document.getElementById('menuPanel');
+trigger.onclick=()=>panel.classList.toggle('active');
+
+/* MUSIC */
+const player=document.getElementById('musicPlayer');
+
 document.querySelectorAll('.music-item').forEach(item=>{
   item.onclick=()=>{
     document.querySelectorAll('.music-item').forEach(i=>i.classList.remove('active'));
     item.classList.add('active');
-    player.src=item.dataset.song;
-    player.play();
+
+    if(player.src.includes(item.dataset.song)){
+      player.paused ? player.play() : player.pause();
+    }else{
+      player.src=item.dataset.song;
+      player.play();
+    }
   };
 });
 
 /* SETTINGS */
-const themeToggle=document.getElementById('themeToggle');
-themeToggle.onclick=()=>{
-  themeToggle.classList.toggle('active');
-  document.body.classList.toggle('neon');
-};
-
-const blurToggle=document.getElementById('blurToggle');
-blurToggle.onclick=()=>{
-  blurToggle.classList.toggle('active');
-  document.body.classList.toggle('blur');
-};
-
-const loopToggle=document.getElementById('loopToggle');
-loopToggle.onclick=()=>{
-  loopToggle.classList.toggle('active');
+document.getElementById('loopToggle').onclick=e=>{
+  e.target.classList.toggle('active');
   player.loop=!player.loop;
 };
 
-document.getElementById('volume').oninput=(e)=>{
+document.getElementById('volume').oninput=e=>{
   player.volume=e.target.value;
 };
 </script>
