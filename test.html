@@ -12,6 +12,10 @@
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{height:100%;overflow:hidden}
 
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;overflow:hidden}
+
 body{
   font-family:'Orbitron',sans-serif;
   background:
@@ -22,15 +26,53 @@ body{
   display:flex;
   align-items:center;
   justify-content:center;
+  background-position:center 40%;
 }
 
-/* ===== COUNTDOWN ===== */
+/* ================= NAVBAR ================= */
+header {
+  position: fixed;
+  top: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 50;
+  display: flex;
+  gap: 12px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.25);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+  transition: 0.25s;
+}
+header:hover {
+  box-shadow: 0 12px 40px rgba(255, 77, 210, 0.35);
+}
+.nav-btn {
+  padding: 9px 17px;
+  border-radius: 999px;
+  color: #fff;
+  font-weight: 600;
+  text-decoration: none;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: inset 0 1.2px 1.5px rgba(255, 255, 255, 0.4),
+              0 4px 18px rgba(0, 0, 0, 0.3);
+  transition: 0.25s;
+}
+.nav-btn:hover {
+  background: rgba(255, 255, 255, 0.14);
+  transform: scale(1.05);
+}
+
+/* ================= COUNTDOWN ================= */
 .countdown-wrap{
+  backdrop-filter:blur(1px);
   border-radius:20px;
   padding:26px 34px;
   text-align:center;
   width:88%;
   max-width:600px;
+  margin-top:120px;
   background:rgba(0,0,0,0.25);
   border:2px solid #fff;
 }
@@ -51,94 +93,84 @@ body{
 .num{font-size:32px;font-weight:900}
 .label{font-size:11px;opacity:.8}
 
-/* ===== BUTTON (NO ICON) ===== */
+/* ================= MUSIC ================= */
+
+/* Invisible trigger */
 .music-trigger{
   position:fixed;
   bottom:18px;
   left:18px;
-  width:50px;
-  height:50px;
-  border-radius:50%;
-  background: linear-gradient(135deg,#ff4dd2,#ff8ae6);
+  width:40px;
+  height:40px;
   cursor:pointer;
-  animation: pulse 2s infinite;
+  z-index:200;
 }
 
-@keyframes pulse{
-  0%{box-shadow:0 0 15px rgba(255,77,210,0.6);}
-  50%{box-shadow:0 0 30px rgba(255,77,210,1);}
-  100%{box-shadow:0 0 15px rgba(255,77,210,0.6);}
-}
-
-/* ===== MENU ===== */
-.menu-panel{
+/* pill container */
+.music-wheel{
   position:fixed;
-  bottom:80px;
-  left:18px;
-  width:300px;
-  max-height:70vh;
-  overflow-y:auto;
-  border-radius:18px;
-  background: rgba(0,0,0,0.7);
-  backdrop-filter: blur(10px);
-  padding:16px;
+  bottom:18px;
+  left:70px;
+  display:flex;
+  gap:8px;
+  max-width:calc(100% - 90px);
+  overflow-x:auto;
+  padding-bottom:4px;
   opacity:0;
   pointer-events:none;
-  transform:translateY(10px);
-  transition:.25s;
+  transform:translateX(-10px);
+  transition:.25s ease;
 }
-.menu-panel.active{
+.music-wheel.active{
   opacity:1;
   pointer-events:auto;
-  transform:translateY(0);
+  transform:translateX(0);
 }
 
-/* BLUE SCROLLBAR */
-.menu-panel::-webkit-scrollbar{
-  width:6px;
-}
-.menu-panel::-webkit-scrollbar-thumb{
-  background:#00cfff;
-  border-radius:10px;
-}
-
-/* SETTINGS */
-.setting{
-  display:flex;
-  justify-content:space-between;
-  margin:8px 0;
-}
-.toggle{
-  width:40px;height:20px;border-radius:20px;
-  background:#555;cursor:pointer;position:relative;
-}
-.toggle::after{
-  content:"";width:16px;height:16px;background:#fff;
-  position:absolute;top:2px;left:2px;border-radius:50%;
-  transition:.2s;
-}
-.toggle.active{background:#ff4dd2}
-.toggle.active::after{left:22px}
-
-/* MUSIC */
+/* pills - match navbar style */
 .music-item{
-  padding:8px;
-  margin:4px 0;
-  border-radius:8px;
-  background:rgba(255,255,255,0.08);
-  cursor:pointer;
-  transition:.2s;
+  padding:9px 17px;
+  border-radius:999px;
+  font-size:12px;
+  font-weight:600;
+  white-space:nowrap;
+  background: rgba(255,255,255,0.08);       /* same as nav button */
+  border: 1px solid rgba(255,255,255,0.18); /* same as nav button */
+  box-shadow: inset 0 1.2px 1.5px rgba(255,255,255,0.4), 0 4px 18px rgba(0,0,0,0.3);
+  cursor: pointer;
+  flex-shrink:0;
+  transition: 0.25s ease;
 }
+
 .music-item:hover{
-  background:rgba(255,255,255,0.15);
+  background: rgba(255,255,255,0.14);       /* match hover nav button */
+  transform: translateY(-1px) scale(1.05);
+  box-shadow: inset 0 1.2px 1.5px rgba(255,255,255,0.45), 0 4px 20px rgba(0,0,0,0.35);
 }
-.music-item.active{
-  background:#00cfff;
+
+/* Scrollbar styling */
+.music-wheel::-webkit-scrollbar{
+  height:6px;
+}
+.music-wheel::-webkit-scrollbar-track{background:transparent;}
+.music-wheel::-webkit-scrollbar-thumb{
+  background: rgba(255,255,255,0.3);
+  border-radius:3px;
 }
 </style>
 </head>
 
 <body>
+
+<!-- NAVBAR (original text) -->
+<header>
+  <a href="index" class="nav-btn">Home</a>
+  <a href="map" class="nav-btn">Map</a>
+  <a href="characters" class="nav-btn">Characters</a>
+  <a href="places" class="nav-btn">Places</a>
+  <a href="screenshots" class="nav-btn">Screenshots</a>
+  <a href="trailers" class="nav-btn">Trailers</a>
+</header>
 
 <!-- COUNTDOWN -->
 <section class="countdown-wrap">
@@ -153,14 +185,17 @@ body{
   </div>
 </section>
 
-<!-- BUTTON -->
+<!-- MUSIC BUTTON -->
 <div class="music-trigger" id="musicTrigger"></div>
 
-<!-- MENU -->
+<!-- MENU PANEL -->
 <div class="menu-panel" id="menuPanel">
-
   <h4>SETTINGS</h4>
+
+  <div class="setting">Theme <div class="toggle" id="themeToggle"></div></div>
+  <div class="setting">Blur <div class="toggle" id="blurToggle"></div></div>
   <div class="setting">Loop <div class="toggle" id="loopToggle"></div></div>
+
   <input type="range" id="volume" min="0" max="1" step="0.01">
 
   <h4>MUSIC</h4>
@@ -191,65 +226,42 @@ body{
   <div class="music-item" data-song="music/remember.mp3">I Still Remember You</div>
   <div class="music-item" data-song="music/gamble.mp3">Gamble With My Love</div>
   <div class="music-item" data-song="music/suki.mp3">Sukiyaki</div>
-
 </div>
 
 <audio id="musicPlayer"></audio>
 
 <script>
+/* MENU BUTTON */
+musicTrigger.onclick=()=>menuPanel.classList.toggle('active');
+
+/* SETTINGS */
+themeToggle.onclick=()=>{themeToggle.classList.toggle('active');document.body.classList.toggle('neon');};
+blurToggle.onclick=()=>{blurToggle.classList.toggle('active');document.body.classList.toggle('blur');};
+loopToggle.onclick=()=>{loopToggle.classList.toggle('active');musicPlayer.loop=!musicPlayer.loop;};
+volume.oninput=e=>musicPlayer.volume=e.target.value;
+
 /* COUNTDOWN */
-const targetDate = new Date('2026-11-18T00:00:00');
-const d=document.getElementById('days');
-const h=document.getElementById('hours');
-const m=document.getElementById('minutes');
-const s=document.getElementById('seconds');
+setInterval(()=>{
+  const diff=(new Date('2026-11-18')-new Date())/1000;
+  days.textContent=Math.floor(diff/86400);
+  hours.textContent=Math.floor(diff/3600%24);
+  minutes.textContent=Math.floor(diff/60%60);
+  seconds.textContent=Math.floor(diff%60);
+},1000);
 
-function pad(n){return String(n).padStart(2,'0');}
-
-function update(){
-  const now=new Date();
-  const diff=Math.floor((targetDate-now)/1000);
-  if(diff<=0)return;
-
-  d.textContent=Math.floor(diff/86400);
-  h.textContent=pad(Math.floor(diff/3600%24));
-  m.textContent=pad(Math.floor(diff/60%60));
-  s.textContent=pad(diff%60);
-}
-setInterval(update,1000);
-update();
-
-/* MENU */
-const trigger=document.getElementById('musicTrigger');
-const panel=document.getElementById('menuPanel');
-trigger.onclick=()=>panel.classList.toggle('active');
-
-/* MUSIC */
-const player=document.getElementById('musicPlayer');
-
+/* MUSIC PLAY */
 document.querySelectorAll('.music-item').forEach(item=>{
   item.onclick=()=>{
     document.querySelectorAll('.music-item').forEach(i=>i.classList.remove('active'));
     item.classList.add('active');
-
-    if(player.src.includes(item.dataset.song)){
-      player.paused ? player.play() : player.pause();
+    if(musicPlayer.src.includes(item.dataset.song)){
+      musicPlayer.paused?musicPlayer.play():musicPlayer.pause();
     }else{
-      player.src=item.dataset.song;
-      player.play();
+      musicPlayer.src=item.dataset.song;
+      musicPlayer.play();
     }
   };
 });
-
-/* SETTINGS */
-document.getElementById('loopToggle').onclick=e=>{
-  e.target.classList.toggle('active');
-  player.loop=!player.loop;
-};
-
-document.getElementById('volume').oninput=e=>{
-  player.volume=e.target.value;
-};
 </script>
 
 </body>
