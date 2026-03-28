@@ -32,53 +32,60 @@ body{
   top: 0;
   left: 0;
   width: 100%;
-  padding: 25px 45px;
+  padding: 30px 50px;
   display: flex;
   justify-content: space-between;
   pointer-events: none;
   z-index: 10;
 }
 
-.hud-left { text-align: left; margin-left: 65px; }
+.hud-left { text-align: left; margin-left: 60px; }
 .location-name {
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 900;
   color: #fff;
   letter-spacing: 3px;
   text-shadow: 2px 2px 0px rgba(0,0,0,0.8);
 }
-.time-display { font-size: 26px; color: #fff; font-weight: 700; margin-top: 2px; }
+.time-display { font-size: 28px; color: #fff; font-weight: 700; margin-top: 2px; }
 
 .hud-right { text-align: right; }
 .money-display {
-  font-size: 34px;
+  font-size: 38px;
   font-weight: 900;
   color: #26de5f;
   text-shadow: 2px 2px 0px #004d1a;
   transition: transform 0.1s ease;
-}
-.wanted-stars { font-size: 32px; margin-top: -5px; }
-.star {
-  color: rgba(0, 0, 0, 0.4);
-  text-shadow: 1px 1px 0px rgba(255,255,255,0.1);
-  margin-left: 2px;
-}
-.star.active {
-  color: #ffda44;
-  text-shadow: 0 0 15px rgba(255, 218, 68, 0.8), 2px 2px 0px #000;
-  animation: star-flash 1s infinite alternate;
+  margin-bottom: 5px;
 }
 
-@keyframes star-flash {
+/* Wanted Stars - White & Spread Out */
+.wanted-stars { 
+  font-size: 34px; 
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px; /* Increased gap so they aren't close together */
+}
+.star {
+  color: rgba(0, 0, 0, 0.5); /* Inactive "Shadow" Star */
+  text-shadow: 1px 1px 0px rgba(255,255,255,0.1);
+}
+.star.active {
+  color: #ffffff; /* Reverted to White stars as requested */
+  text-shadow: 0 0 15px rgba(255, 255, 255, 0.8), 2px 2px 0px #000;
+  animation: star-pulse 1.2s infinite alternate;
+}
+
+@keyframes star-pulse {
   from { opacity: 1; transform: scale(1); }
-  to { opacity: 0.6; transform: scale(1.1); }
+  to { opacity: 0.5; transform: scale(1.1); }
 }
 
 /* ================= SIDE MENU TRIGGER ================= */
 .menu-trigger {
   position: fixed;
-  top: 20px;
-  left: 20px;
+  top: 25px;
+  left: 25px;
   width: 54px;
   height: 54px;
   background: rgba(0, 255, 224, 0.25);
@@ -92,7 +99,7 @@ body{
   box-shadow: inset 0 1.2px 1.5px rgba(255, 255, 255, 0.4), 0 6px 18px rgba(0, 0, 0, 0.35);
   transition: 0.25s;
 }
-.menu-trigger:hover { transform: scale(1.05); background: rgba(0, 255, 224, 0.4); }
+.menu-trigger:hover { transform: scale(1.1); background: rgba(0, 255, 224, 0.4); }
 
 .side-menu {
   position: fixed;
@@ -114,7 +121,7 @@ body{
 .side-menu.active { left: 0; }
 
 .nav-btn {
-  padding: 9px 17px;
+  padding: 10px 17px;
   border-radius: 999px;
   color: #fff;
   font-weight: 600;
@@ -172,8 +179,12 @@ body{
   <div class="hud-right">
     <div class="money-display" id="hudMoney">$19,052,025</div>
     <div class="wanted-stars" id="starContainer">
-      <span class="star">★</span><span class="star">★</span><span class="star">★</span>
-      <span class="star">★</span><span class="star">★</span><span class="star">★</span>
+      <span class="star">★</span>
+      <span class="star">★</span>
+      <span class="star">★</span>
+      <span class="star">★</span>
+      <span class="star">★</span>
+      <span class="star">★</span>
     </div>
   </div>
 </div>
@@ -226,14 +237,12 @@ const moneyEl = document.getElementById('hudMoney');
 const starContainer = document.getElementById('starContainer');
 
 function updateHUD() {
-  // Clock
   const now = new Date();
   document.getElementById('hudTime').textContent = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
   
-  // Money (Gains every 2s)
   currentMoney += Math.floor(Math.random() * 495) + 5;
   moneyEl.textContent = `$${currentMoney.toLocaleString()}`;
-  moneyEl.style.transform = 'scale(1.1)';
+  moneyEl.style.transform = 'scale(1.05)';
   setTimeout(() => moneyEl.style.transform = 'scale(1)', 100);
 }
 
@@ -244,7 +253,7 @@ function updateStars() {
 }
 
 setInterval(updateHUD, 2000);
-setInterval(updateStars, 60000);
+setInterval(updateStars, 60000); // Changes every minute
 updateHUD(); updateStars();
 
 /* RELEASE COUNTDOWN */
