@@ -3,196 +3,173 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Leonida OS | Database</title>
+    <title>Leonida OS | Full Database</title>
 
     <link rel="icon" href="gta/npc/lucia.jpg" type="image/jpg">
     <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;600;900&display=swap" rel="stylesheet">
 
     <style>
-        /* ====== CORE SETUP ====== */
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
         html, body { height: 100%; overflow: hidden; background: #000; font-family: 'Exo 2', sans-serif; color: #fff; }
 
         body {
-            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('gta/jason.jpg') center/cover no-repeat;
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('gta/jason.jpg') center/cover no-repeat;
             display: flex; flex-direction: column;
         }
 
-        /* ====== TOP HUD (SCREENSHOT STYLE) ====== */
+        /* ====== TOP HUD (NAV NEXT TO COUNTDOWN) ====== */
         .top-hud {
-            width: 100%; height: 80px; background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(20px);
+            width: 100%; height: 85px; background: rgba(0, 0, 0, 0.5); backdrop-filter: blur(25px);
             display: flex; align-items: center; justify-content: space-between; padding: 0 40px;
             border-bottom: 1px solid rgba(255, 255, 255, 0.1); z-index: 1000;
         }
-        .logo-area { display: flex; align-items: center; gap: 15px; }
-        .logo-area img { height: 40px; filter: drop-shadow(0 0 10px rgba(0,255,224,0.5)); }
         
+        .hud-left { display: flex; align-items: center; gap: 20px; }
+
         .timer-capsule {
             background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255,255,255,0.1);
-            padding: 8px 25px; border-radius: 999px; display: flex; align-items: center; gap: 15px;
+            padding: 10px 25px; border-radius: 999px; display: flex; align-items: center; gap: 15px;
             font-weight: 900; font-size: 14px; color: #00ffe0; letter-spacing: 1px;
         }
 
-        .social-capsule {
-            background: rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 8px 15px; border-radius: 999px; display: flex; align-items: center; gap: 10px;
-            font-size: 12px; font-weight: 600; color: rgba(255,255,255,0.8);
+        .nav-group { display: flex; gap: 6px; }
+        .nav-btn {
+            padding: 10px 16px; border-radius: 8px; font-size: 10px; font-weight: 900;
+            text-transform: uppercase; cursor: pointer; color: rgba(255,255,255,0.6); border: 1px solid transparent;
+            transition: 0.2s; background: rgba(255, 255, 255, 0.03);
         }
+        .nav-btn:hover, .nav-btn.active { background: rgba(255, 77, 210, 0.15); color: #ff4dd2; border-color: #ff4dd2; }
 
         /* ====== MAIN INTERFACE ====== */
-        .main-layout { display: flex; flex: 1; overflow: hidden; position: relative; }
+        .main-layout { display: flex; flex: 1; overflow: hidden; }
 
-        /* Left Side Music/HUD */
-        .side-hud {
-            width: 380px; padding: 40px; background: rgba(10, 10, 15, 0.8);
-            border-right: 1px solid rgba(255, 255, 255, 0.05); overflow-y: auto;
+        /* Left Side Radio */
+        .side-hud { 
+            width: 380px; padding: 40px; background: rgba(10, 10, 15, 0.85); 
+            border-right: 1px solid rgba(255, 255, 255, 0.05); overflow-y: auto; 
         }
-        .radio-list { margin-top: 20px; }
-        .track { padding: 15px 10px; font-size: 13px; color: rgba(255,255,255,0.6); cursor: pointer; border-bottom: 1px solid rgba(255,255,255,0.03); transition: 0.3s; }
-        .track:hover, .track.active { color: #ff4dd2; background: rgba(255,77,210,0.05); padding-left: 20px; }
+        .track { padding: 18px 12px; font-size: 13px; color: rgba(255,255,255,0.5); cursor: pointer; border-bottom: 1px solid rgba(255,255,255,0.03); transition: 0.3s; }
+        .track:hover, .track.active { color: #00ffe0; background: rgba(0,255,224,0.05); padding-left: 25px; }
 
-        /* Content Area */
-        .content-area { flex: 1; position: relative; background: rgba(0,0,0,0.2); }
-        iframe#mapFrame { width: 100%; height: 100%; border: none; background: #000; }
+        /* CONTENT WINDOW (DYNAMIC) */
+        .content-area { 
+            flex: 1; background: rgba(0,0,0,0.3); position: relative; 
+            overflow-y: auto; padding: 40px; 
+        }
+        .content-area::-webkit-scrollbar { width: 5px; }
+        .content-area::-webkit-scrollbar-thumb { background: #ff4dd2; }
 
-        /* ====== DATABASE SLIDER (RIGHT) ====== */
-        .db-trigger { position: fixed; right: 0; top: 50%; transform: translateY(-50%); background: #ff4dd2; width: 40px; height: 120px; border-radius: 15px 0 0 15px; cursor: pointer; display: flex; align-items: center; justify-content: center; z-index: 2000; }
-        .db-trigger span { transform: rotate(-90deg); font-weight: 900; font-size: 11px; color: #000; letter-spacing: 2px; }
+        /* Grids and Items */
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 25px; }
+        .card { border-radius: 15px; overflow: hidden; position: relative; aspect-ratio: 1/1; border: 1px solid rgba(255,255,255,0.1); background: #000; }
+        .card img { width: 100%; height: 100%; object-fit: cover; opacity: 0.8; transition: 0.5s; }
+        .card:hover img { opacity: 1; transform: scale(1.05); }
+        .card-info { position: absolute; bottom: 0; width: 100%; padding: 20px; background: linear-gradient(transparent, rgba(0,0,0,0.95)); }
         
-        .db-slider { position: fixed; top: 0; right: -400px; width: 400px; height: 100%; background: #0a0a0c; z-index: 1999; transition: 0.5s cubic-bezier(0.19, 1, 0.22, 1); padding: 80px 40px; }
-        .db-slider.open { right: 0; box-shadow: -20px 0 50px rgba(0,0,0,0.8); }
-        .db-item { padding: 20px 0; border-bottom: 1px solid rgba(255,255,255,0.05); cursor: pointer; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; transition: 0.3s; }
-        .db-item:hover { color: #00ffe0; transform: translateX(-10px); }
+        .shot-grid { column-count: 3; column-gap: 15px; }
+        .shot-grid img { width: 100%; border-radius: 10px; margin-bottom: 15px; border: 1px solid rgba(255,255,255,0.1); }
 
-        /* ====== MODALS & GRIDS ====== */
-        .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.95); backdrop-filter: blur(15px); z-index: 3000; display: none; padding: 60px; overflow-y: auto; }
-        .close-btn { position: fixed; top: 30px; right: 40px; font-size: 30px; cursor: pointer; color: #ff4dd2; z-index: 3100; }
+        iframe.full-map { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
 
-        .char-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 30px; }
-        .card { border-radius: 20px; overflow: hidden; position: relative; cursor: pointer; aspect-ratio: 1/1; border: 1px solid rgba(255,255,255,0.1); }
-        .card img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
-        .card:hover img { transform: scale(1.1); }
-        .card-info { position: absolute; bottom: 0; width: 100%; padding: 25px; background: linear-gradient(transparent, rgba(0,0,0,0.9)); }
-
-        .screenshot-grid { column-count: 4; column-gap: 20px; }
-        .screenshot-grid img { width: 100%; border-radius: 10px; margin-bottom: 20px; border: 1px solid rgba(255,255,255,0.1); }
-
-        @media (max-width: 1000px) { .screenshot-grid { column-count: 2; } .side-hud { display: none; } }
+        @media (max-width: 1200px) { .side-hud { width: 280px; } .shot-grid { column-count: 2; } }
     </style>
 </head>
 <body>
 
 <header class="top-hud">
-    <div class="logo-area">
-        <h2 style="letter-spacing: 4px; font-weight: 900;">STATE OF <span style="color:#ff4dd2">LEONIDA</span></h2>
+    <div class="hud-left">
+        <h2 style="letter-spacing: 2px; font-weight: 900; font-size: 15px;">LEONIDA <span style="color:#ff4dd2">OS</span></h2>
+        <div class="timer-capsule"><span id="countdown">000 : 00 : 00 : 00</span></div>
+        <nav class="nav-group">
+            <div class="nav-btn active" onclick="loadContent('map', this)">Satellite</div>
+            <div class="nav-btn" onclick="loadContent('chars', this)">Personnel</div>
+            <div class="nav-btn" onclick="loadContent('places', this)">Locations</div>
+            <div class="nav-btn" onclick="loadContent('shots', this)">Gallery</div>
+            <div class="nav-btn" onclick="loadContent('trailer', this)">Trailer</div>
+        </nav>
     </div>
-    
-    <div class="timer-capsule">
-        <img src="gta/npc/lucia.jpg" style="width:24px; height:24px; border-radius:50%; object-fit:cover;">
-        <span id="countdown">000 : 00 : 00 : 00</span>
-    </div>
-
-    <div class="social-capsule">
-        <span style="opacity: 0.5;">X</span> <span>@XLAZEFPS</span>
-    </div>
+    <div style="font-size: 10px; font-weight: 900; opacity: 0.5; letter-spacing: 1px;">X @XLAZEFPS</div>
 </header>
 
 <div class="main-layout">
     <aside class="side-hud">
-        <h3 style="font-size: 11px; color: #ff4dd2; letter-spacing: 3px; margin-bottom: 20px;">VICE CITY RADIO</h3>
-        <div class="radio-list" id="radioList"></div>
+        <h3 style="font-size: 11px; color: #ff4dd2; letter-spacing: 3px; margin-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px;">VICE CITY RADIO</h3>
+        <div id="radioList"></div>
     </aside>
 
-    <main class="content-area">
-        <iframe id="mapFrame" src="https://www.google.com/maps/d/embed?mid=1_K0i_lS4p8y5C7Y59C7GqV_vV8&hl=en"></iframe>
+    <main class="content-area" id="mainDisplay">
+        <iframe class="full-map" src="https://map.stateofleonida.net/"></iframe>
     </main>
-</div>
-
-<div class="db-trigger" id="dbTrigger"><span>DATABASE</span></div>
-<nav class="db-slider" id="dbSlider">
-    <div class="db-item" onclick="showMap()">Leonida Satellite</div>
-    <div class="db-item" onclick="openOverlay('chars')">Personnel Files</div>
-    <div class="db-item" onclick="openOverlay('places')">Locations</div>
-    <div class="db-item" onclick="openOverlay('shots')">Gallery</div>
-</nav>
-
-<div class="overlay" id="mainOverlay">
-    <span class="close-btn" onclick="closeOverlay()">&times;</span>
-    <div id="overlayContent"></div>
 </div>
 
 <audio id="musicPlayer"></audio>
 
 <script>
-/* ===== DATA RESTORATION ===== */
 const characters = [
-    {n:"Lucia", i:"gta/npc/lucia.jpg", d:"Ex-con with a vision for a new Leonida empire."},
-    {n:"Jason", i:"gta/npc/jason.jpg", d:"Former military tactician with a dark past in the Keys."},
-    {n:"Dre'Quan", i:"gta/npc/dre.jpg", d:"The kingpin of Vice City's underground music scene."},
-    {n:"Stefanie", i:"gta/npc/stefanie.png", d:"A social worker who turned to the dark side."},
-    {n:"Boobie Ike", i:"gta/npc/boobie.png", d:"Vice City's legendary real estate and crime mogul."}
+    {n:"Lucia", i:"gta/npc/lucia.jpg", d:"Ex-con raised in Liberty City, Lucia is determined to rewrite her future after Leonida Penitentiary."},
+    {n:"Jason", i:"gta/npc/jason.jpg", d:"Army veteran turned drug runner for Brian Heder. Meeting Lucia changed the stakes."},
+    {n:"Dre'Quan Preist", i:"gta/npc/dre.jpg", d:"Owner of Only Raw Records. Bridging Vice City's underground and the spotlight."},
+    {n:"Stefanie", i:"gta/npc/stefanie.png", d:"Social worker for Leonida Corrections pushed to her breaking point."},
+    {n:"Cal Hampton", i:"gta/npc/cal.png", d:"Jason's paranoid, tech-savvy buddy who monitors Coast Guard chatter."},
+    {n:"Boobie Ike", i:"gta/npc/boobie.png", d:"Vice City legend, real estate mogul, and owner of the Jack of Hearts."},
+    {n:"Roxy", i:"gta/npc/dimez.webp", d:"One half of Real Dimez. Street-hustle rap star signed to Only Raw Records."},
+    {n:"Raul Bautista", i:"gta/npc/raul.png", d:"Veteran bank robber with old-school charm and ice-cold precision."},
+    {n:"Brian Heder", i:"gta/npc/brian.png", d:"Old-school drug kingpin from the glory days of Keys smuggling."},
+    {n:"Luxe", i:"gta/npc/luxe.webp", d:"Viral rap star of Real Dimez, fiercely ambitious and hungry for the throne."}
 ];
 
 const places = [
-    {n:"Vice City", i:"gta/places/vice.jpg", d:"The neon heart of Leonida."},
-    {n:"Grassrivers", i:"gta/places/grassrivers.jpg", d:"The primordial mangrove swamps."},
-    {n:"Port Gellhorn", i:"gta/places/port.jpg", d:"A decaying industrial coastal town."}
+    {n:"Vice City", i:"gta/places/vice.jpg", d:"The neon heart of Leonida. Glamour, hustle, and greed."},
+    {n:"Leonida Keys", i:"gta/places/leoninda.jpg", d:"A tropical gateway with luxury villas and shark-infested waters."},
+    {n:"Grassrivers", i:"gta/places/grassrivers.jpg", d:"The primordial swamp maze. Gators own these channels."},
+    {n:"Port Gellhorn", i:"gta/places/port.jpg", d:"Decaying coastal town ruled by bikers and cheap beer."}
 ];
 
-const radio = ["Hot Together", "Love Is A Long Road", "Night", "Ocean Breeze", "Self Control", "Atomic", "Vice City"];
+function loadContent(page, btn) {
+    const display = document.getElementById('mainDisplay');
+    document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    display.innerHTML = '';
+    display.style.padding = "40px";
 
-/* ===== LOGIC ===== */
-function openOverlay(type) {
-    const container = document.getElementById('overlayContent');
-    container.innerHTML = '';
-    document.getElementById('mainOverlay').style.display = 'block';
-    
-    if(type === 'chars') {
-        let html = '<div class="char-grid">';
-        characters.forEach(c => {
-            html += `<div class="card"><img src="${c.i}"><div class="card-info"><h3>${c.n}</h3><p style="font-size:12px; opacity:0.6;">${c.d}</p></div></div>`;
-        });
-        container.innerHTML = html + '</div>';
-    } else if(type === 'shots') {
-        let html = '<div class="screenshot-grid">';
-        for(let i=1; i<=24; i++) html += `<img src="gta/screenshots/${i}.jpg" loading="lazy">`;
-        container.innerHTML = html + '</div>';
-    } else if(type === 'places') {
-        let html = '<div class="char-grid">';
-        places.forEach(p => {
-            html += `<div class="card"><img src="${p.i}"><div class="card-info"><h3>${p.n}</h3><p style="font-size:12px; opacity:0.6;">${p.d}</p></div></div>`;
-        });
-        container.innerHTML = html + '</div>';
+    if(page === 'map') {
+        display.style.padding = "0";
+        display.innerHTML = `<iframe class="full-map" src="https://map.stateofleonida.net/"></iframe>`;
+    } else if(page === 'chars') {
+        let h = '<div class="grid">';
+        characters.forEach(c => { h += `<div class="card"><img src="${c.i}"><div class="card-info"><h3>${c.n}</h3><p style="font-size:11px; opacity:0.6; margin-top:5px;">${c.d}</p></div></div>`; });
+        display.innerHTML = h + '</div>';
+    } else if(page === 'places') {
+        let h = '<div class="grid">';
+        places.forEach(p => { h += `<div class="card" style="aspect-ratio:16/9"><img src="${p.i}"><div class="card-info"><h3>${p.n}</h3><p style="font-size:11px; opacity:0.6;">${p.d}</p></div></div>`; });
+        display.innerHTML = h + '</div>';
+    } else if(page === 'shots') {
+        let h = '<div class="shot-grid">';
+        for(let i=1; i<=24; i++) h += `<img src="gta/screenshots/${i}.jpg">`;
+        display.innerHTML = h + '</div>';
+    } else if(page === 'trailer') {
+        display.innerHTML = `<iframe width="100%" height="100%" src="https://www.youtube.com/embed/QdBZY2fkU-0?autoplay=1" allow="autoplay; encrypted-media" allowfullscreen style="border-radius:20px; border:1px solid #ff4dd2;"></iframe>`;
     }
 }
 
-function closeOverlay() { document.getElementById('mainOverlay').style.display = 'none'; }
-function showMap() { closeOverlay(); document.getElementById('dbSlider').classList.remove('open'); }
-
-document.getElementById('dbTrigger').onclick = () => document.getElementById('dbSlider').classList.toggle('open');
-
-/* ===== RADIO & CLOCK ===== */
-const list = document.getElementById('radioList');
-radio.forEach(track => {
-    const div = document.createElement('div'); div.className = 'track'; div.innerText = track;
-    div.onclick = () => { 
-        document.querySelectorAll('.track').forEach(t=>t.classList.remove('active'));
-        div.classList.add('active');
-        const player = document.getElementById('musicPlayer');
-        player.src = `music/${track.toLowerCase().replace(/ /g, '')}.mp3`;
-        player.play();
+/* RADIO & CLOCK */
+const radio = ["Hot Together", "Love Is A Long Road", "Night", "Ocean Breeze", "Self Control", "Atomic", "Vice City"];
+const rl = document.getElementById('radioList');
+radio.forEach(t => {
+    const d = document.createElement('div'); d.className='track'; d.innerText=t;
+    d.onclick = () => { 
+        document.querySelectorAll('.track').forEach(el=>el.classList.remove('active')); d.classList.add('active');
+        document.getElementById('musicPlayer').src = `music/${t.toLowerCase().replace(/ /g, '')}.mp3`;
+        document.getElementById('musicPlayer').play();
     };
-    list.appendChild(div);
+    rl.appendChild(d);
 });
 
 const target = new Date('2026-11-19T00:00:00');
 function update() {
     const diff = Math.floor((target - new Date())/1000);
-    const d = Math.floor(diff/86400);
-    const h = Math.floor(diff/3600%24).toString().padStart(2,'0');
-    const m = Math.floor(diff/60%60).toString().padStart(2,'0');
-    const s = (diff%60).toString().padStart(2,'0');
-    document.getElementById('countdown').innerText = `${d} : ${h} : ${m} : ${s}`;
+    const d = Math.floor(diff/86400), h = Math.floor(diff/3600%24), m = Math.floor(diff/60%60), s = diff%60;
+    document.getElementById('countdown').innerText = `${d} : ${h.toString().padStart(2,'0')} : ${m.toString().padStart(2,'0')} : ${s.toString().padStart(2,'0')}`;
 }
 setInterval(update, 1000); update();
 </script>
