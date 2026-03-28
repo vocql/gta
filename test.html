@@ -3,173 +3,193 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>GTA VI | Leonida OS</title>
+    <title>VI | Home</title>
+    <link rel="icon" href="gta/npc/lucia.jpg" type="image/jpg">
     <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;600;900&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
-        html, body { height: 100%; overflow: hidden; background: #000; font-family: 'Exo 2', sans-serif; color: #fff; }
-
+        html, body { height: 100%; overflow: hidden; background: #000; }
         body {
-            background: url('gta/jason.jpg') center/cover no-repeat;
-            display: flex; flex-direction: column;
-            padding: 40px;
+            font-family: 'Exo 2', sans-serif;
+            font-weight: 300;
+            background:
+                linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.2)),
+                url('gta/jason.jpg') center 35%/115% 115% no-repeat fixed;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start; /* Interface moves to the Left */
+            transition: background-position 0.15s ease-out;
+            padding-left: 50px; /* Space for the interface */
         }
-
-        /* ====== TOP NAVBAR ====== */
-        .top-nav {
-            position: absolute; top: 30px; right: 40px; display: flex; gap: 10px; z-index: 1000;
+        /* ATMOSPHERIC SCANLINES */
+        body::after {
+            content: "";
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.05) 50%),
+                        linear-gradient(90deg, rgba(255, 0, 0, 0.01), rgba(0, 255, 0, 0.005), rgba(0, 0, 255, 0.01));
+            background-size: 100% 3px, 3px 100%;
+            z-index: 100; pointer-events: none; opacity: 0.4;
+        }
+        /* ================= RESTORED NAVBAR (Fixed at Top) ================= */
+        header {
+            position: fixed; top: 20px; right: 50px; z-index: 150; /* Moved right to balance the new UI */
+            display: flex; gap: 6px; padding: 4px;
+            border-radius: 999px; background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(8px); border: 1px solid rgba(255, 255, 255, 0.08);
         }
         .nav-btn {
-            background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px); padding: 8px 18px; border-radius: 999px;
-            font-size: 10px; font-weight: 900; text-transform: uppercase; cursor: pointer;
-            transition: 0.3s; letter-spacing: 1px; color: rgba(255,255,255,0.7);
+            padding: 8px 16px; border-radius: 999px; color: #fff;
+            font-size: 10px; font-weight: 600; text-decoration: none;
+            background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: 0.3s; letter-spacing: 1px; text-transform: uppercase;
         }
-        .nav-btn:hover, .nav-btn.active { background: #00ffe0; color: #000; border-color: #00ffe0; box-shadow: 0 0 15px rgba(0,255,224,0.4); }
-
-        /* ====== MAIN INTERFACE LAYOUT ====== */
-        .main-container { display: flex; width: 100%; height: 100%; gap: 40px; align-items: flex-start; }
-
-        /* LEFT FLOATING WIDGET (FROM YOUR IMAGE) */
-        .left-widget {
-            width: 360px; background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(25px);
-            border-radius: 30px; padding: 40px; border: 1px solid rgba(255,255,255,0.05);
-            display: flex; flex-direction: column; flex-shrink: 0;
+        .nav-btn:hover { background: rgba(255, 255, 255, 0.12); border-color: #00ffe0; transform: translateY(-1px); }
+        .nav-btn.active { border-color: #00ffe0; color: #00ffe0; background: rgba(0, 255, 224, 0.05); }
+        /* ================= UNIFIED MAIN HUD (Left Side) ================= */
+        .main-hud {
+            position: relative; z-index: 10;
+            width: 320px;
+            height: auto;
+            max-height: 85vh; /* Prevents overflow */
+            display: flex; flex-direction: column;
+            gap: 15px;
+            padding: 30px;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(2px) saturate(120%);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 12px;
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.6);
+            transform-style: preserve-3d;
+            overflow: visible; /* Allows track list to scroll internally */
         }
-
-        .neon-logo { font-size: 50px; font-weight: 900; font-style: italic; margin-bottom: 5px; letter-spacing: -2px; }
-        .pink-text { color: #ff4dd2; text-shadow: 0 0 15px #ff4dd2; }
-        .cyan-text { color: #00ffe0; text-shadow: 0 0 15px #00ffe0; }
-        .sub-text { font-size: 11px; font-weight: 900; color: #ff4dd2; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 30px; }
-
-        /* Countdown Grid */
-        .timer-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 40px; }
-        .timer-box { background: rgba(255,255,255,0.05); padding: 15px 5px; border-radius: 12px; text-align: center; border: 1px solid rgba(255,255,255,0.08); }
-        .timer-val { font-size: 24px; font-weight: 900; display: block; }
-        .timer-label { font-size: 9px; opacity: 0.5; text-transform: uppercase; font-weight: 900; }
-
-        /* Radio Section */
-        .radio-wrap { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 25px; }
-        .radio-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
-        .radio-title { font-size: 11px; font-weight: 900; opacity: 0.4; letter-spacing: 2px; }
-        
-        .seeker { width: 100%; height: 3px; background: rgba(255,255,255,0.1); border-radius: 2px; position: relative; margin-bottom: 25px; }
-        .seeker-fill { width: 65%; height: 100%; background: #ff4dd2; border-radius: 2px; box-shadow: 0 0 10px #ff4dd2; }
-        .seeker-knob { position: absolute; right: 0; top: -6px; width: 14px; height: 14px; background: #ff4dd2; border-radius: 50%; border: 2px solid #000; }
-
-        .track-list { height: 280px; overflow-y: auto; padding-right: 10px; }
-        .track-list::-webkit-scrollbar { width: 4px; }
-        .track-list::-webkit-scrollbar-thumb { background: #ff4dd2; border-radius: 10px; }
-        .track-item { padding: 12px 0; font-size: 13px; font-weight: 600; color: rgba(255,255,255,0.5); cursor: pointer; transition: 0.2s; border-bottom: 1px solid rgba(255,255,255,0.02); }
-        .track-item:hover, .track-item.active { color: #fff; padding-left: 10px; }
-
-        /* RIGHT DYNAMIC ZONE (YOUR WHITE SQUARE) */
-        .dynamic-zone {
-            flex: 1; height: 100%; background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(15px);
-            border-radius: 30px; border: 1px solid rgba(255,255,255,0.1); overflow: hidden;
-            position: relative; transition: 0.5s;
-        }
-        iframe { width: 100%; height: 100%; border: none; }
-
-        /* Grid layouts for internal pages */
-        .page-content { padding: 40px; height: 100%; overflow-y: auto; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
-        .card-item { background: #000; border-radius: 15px; overflow: hidden; border: 1px solid rgba(255,255,255,0.1); aspect-ratio: 1/1; position: relative; }
-        .card-item img { width: 100%; height: 100%; object-fit: cover; opacity: 0.7; }
-        .card-desc { position: absolute; bottom: 0; padding: 20px; width: 100%; background: linear-gradient(transparent, #000); }
+        /* Integration Lines for HUD look */
+        .hud-line { position: absolute; height: 1px; background: #00ffe0; opacity: 0.3; }
+        .h-line-1 { width: 100px; top: 15px; left: -110px; } /* Extends interface left */
+        .h-line-2 { width: 150px; bottom: 15px; right: -160px; } /* Extends right */
+        /* HUD Title & Logo */
+        .hud-header { text-align: left; }
+        .title { font-size: 32px; font-weight: 900; letter-spacing: 4px; text-transform: uppercase; margin-bottom: 2px; }
+        /* Neon text effect */
+        .neon-gta { text-shadow: 0 0 5px #ff4dd2, 0 0 10px #ff4dd2, 0 0 15px #ff4dd2, 0 0 20px #ff4dd2, 0 0 30px #ff4dd2, 0 0 40px #ff4dd2, 0 0 50px #ff4dd2, 0 0 75px #ff4dd2; color: #fff; }
+        .neon-vi { text-shadow: 0 0 5px #00ffe0, 0 0 10px #00ffe0, 0 0 15px #00ffe0, 0 0 20px #00ffe0, 0 0 30px #00ffe0, 0 0 40px #00ffe0, 0 0 50px #00ffe0, 0 0 75px #00ffe0; color: #fff; }
+       
+        .subtitle { font-size: 10px; letter-spacing: 2px; color: #ff4dd2; margin-bottom: 10px; font-weight: 600; }
+        /* Integreated Countdown */
+        .integrated-clock { display: flex; gap: 8px; justify-content: flex-start; margin-bottom: 15px;}
+        .clock-label { font-size: 8px; opacity: 0.6; margin-top: 1px; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 2px; color: #fff; }
+        .unit { padding: 8px 0; border-radius: 6px; background: rgba(0, 0, 0, 0.45); border: 1px solid rgba(255, 255, 255, 0.03); width: 60px; text-align: center;}
+        .num { font-size: 20px; font-weight: 600; color: #fff; font-family: 'Exo 2', sans-serif;}
+        /* Restored 25-Song List (Integrated in HUD) */
+        .integrated-radio { flex: 1; display: flex; flex-direction: column; overflow: hidden; border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 15px; }
+        .radio-header { font-size: 9px; opacity: 0.5; text-transform: uppercase; color: #fff; letter-spacing: 2px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center;}
+        .shuffle-btn { background: rgba(0, 255, 224, 0.15); border: 1px solid #00ffe0; color: #00ffe0; padding: 4px 8px; border-radius: 5px; font-size: 8px; font-weight: 900; cursor: pointer; }
+        .shuffle-btn:hover { background: #00ffe0; color: #000; }
+        .vol-wrap { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+        input[type=range] { flex: 1; accent-color: #ff4dd2; height: 3px; cursor: pointer; background: transparent;}
+        .integrated-song-list { overflow-y: auto; flex: 1; padding: 0;}
+        .track { padding: 10px 12px; border-radius: 6px; font-size: 10px; font-weight: 600; cursor: pointer; color: rgba(255,255,255,0.7); transition: 0.2s; border-bottom: 1px solid rgba(255,255,255,0.03); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;}
+        .track:hover { background: rgba(255, 77, 210, 0.1); color: #ff4dd2; }
+        .track.active-song { color: #00ffe0; background: rgba(0, 255, 224, 0.1); border-left: 2px solid #00ffe0; font-weight: 900;}
+        /* Custom Scrollbar for the HUD list */
+        .integrated-song-list::-webkit-scrollbar { width: 3px; }
+        .integrated-song-list::-webkit-scrollbar-thumb { background: #ff4dd2; border-radius: 10px; }
     </style>
 </head>
 <body>
+<header>
+    <a href="index.html" class="nav-btn active">Home</a>
+    <a href="map.html" class="nav-btn">Map</a>
+    <a href="characters.html" class="nav-btn">Characters</a>
+    <a href="places.html" class="nav-btn">Places</a>
+    <a href="screenshots.html" class="nav-btn">Screenshots</a>
+    <a href="trailers.html" class="nav-btn">Trailers</a>
+</header>
 
-<nav class="top-nav">
-    <div class="nav-btn active" onclick="loadPage('map', this)">Map</div>
-    <div class="nav-btn" onclick="loadPage('chars', this)">Characters</div>
-    <div class="nav-btn" onclick="loadPage('places', this)">Places</div>
-    <div class="nav-btn" onclick="loadPage('shots', this)">Screenshots</div>
-    <div class="nav-btn" onclick="loadPage('trailers', this)">Trailers</div>
-</nav>
-
-<div class="main-container">
-    <aside class="left-widget">
-        <h1 class="neon-logo"><span class="pink-text">GTA</span> <span class="cyan-text">VI</span></h1>
-        <p class="sub-text">Preparing for Nov 19, 2026</p>
-
-        <div class="timer-grid">
-            <div class="timer-box"><span class="timer-val" id="d">000</span><span class="timer-label">Days</span></div>
-            <div class="timer-box"><span class="timer-val" id="h">00</span><span class="timer-label">Hrs</span></div>
-            <div class="timer-box"><span class="timer-val" id="m">00</span><span class="timer-label">Mins</span></div>
-            <div class="timer-box"><span class="timer-val" id="s">00</span><span class="timer-label">Secs</span></div>
+<section class="main-hud" id="mainCard">
+    <div class="hud-line h-line-1"></div>
+    <div class="hud-line h-line-2"></div>
+    <div class="hud-header">
+        <h1 class="title"><span class="neon-gta">GTA</span> <span class="neon-vi">VI</span></h1>
+        <div class="subtitle">PREPARING FOR NOVEMBER 19, 2026</div>
+    </div>
+    <div>
+        <div class="clock-label">Time Remaining</div>
+        <div class="integrated-clock">
+            <div class="unit"><div class="num" id="days">000</div><div class="label">DAYS</div></div>
+            <div class="unit"><div class="num" id="hours">00</div><div class="label">HRS</div></div>
+            <div class="unit"><div class="num" id="minutes">00</div><div class="label">MINS</div></div>
+            <div class="unit"><div class="num" id="seconds">00</div><div class="label">SECS</div></div>
         </div>
-
-        <div class="radio-wrap">
-            <div class="radio-header">
-                <span class="radio-title">VICE CITY RADIO</span>
+    </div>
+    <div class="integrated-radio">
+        <div class="radio-header">
+            <span>VICE CITY RADIO</span>
+            <button class="shuffle-btn" id="shuffleBtn">Shuffle</button>
+        </div>
+        <div class="vol-wrap"><input type="range" id="volSlider" min="0" max="1" step="0.01" value="0.7"></div>
+        <div class="integrated-song-list" id="songList">
             </div>
-            <div class="seeker"><div class="seeker-fill"><div class="seeker-knob"></div></div></div>
-            <div class="track-list" id="trackList"></div>
-        </div>
-    </aside>
+    </div>
+</section>
 
-    <main class="dynamic-zone" id="display">
-        <iframe src="https://map.stateofleonida.net/"></iframe>
-    </main>
-</div>
-
-<audio id="player"></audio>
+<audio id="musicPlayer"></audio>
 
 <script>
-/* DATASET */
-const characters = [
-    {n:"Lucia", i:"gta/npc/lucia.jpg", d:"Ex-con with a vision for a new empire."},
-    {n:"Jason", i:"gta/npc/jason.jpg", d:"Former military tactician with a dark past."},
-    {n:"Dre'Quan", i:"gta/npc/dre.jpg", d:"The kingpin of Vice City's underground scene."},
-    {n:"Boobie Ike", i:"gta/npc/boobie.png", d:"Vice City's legendary mogul."}
-];
-
-function loadPage(type, btn) {
-    const display = document.getElementById('display');
-    document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    
-    if(type === 'map') {
-        display.innerHTML = `<iframe src="https://map.stateofleonida.net/"></iframe>`;
-    } else if(type === 'chars') {
-        let html = '<div class="page-content"><div class="grid">';
-        characters.forEach(c => {
-            html += `<div class="card-item"><img src="${c.i}"><div class="card-desc"><h3>${c.n}</h3><p style="font-size:11px; opacity:0.5;">${c.d}</p></div></div>`;
-        });
-        display.innerHTML = html + '</div></div>';
-    } else if(type === 'trailers') {
-        display.innerHTML = `<iframe width="100%" height="100%" src="https://www.youtube.com/embed/QdBZY2fkU-0?autoplay=1" allow="autoplay; encrypted-media" allowfullscreen></iframe>`;
-    }
-}
-
-/* RADIO LOGIC */
-const tracks = ["Hot Together", "Love Is A Long Road", "Night", "Ocean Breeze", "Self Control", "Atomic", "Vice City"];
-const list = document.getElementById('trackList');
-tracks.forEach(t => {
-    const div = document.createElement('div');
-    div.className = 'track-item';
-    div.innerText = t;
-    div.onclick = () => {
-        document.querySelectorAll('.track-item').forEach(i => i.classList.remove('active'));
-        div.classList.add('active');
-        document.getElementById('player').src = `music/${t.toLowerCase().replace(/ /g, '')}.mp3`;
-        document.getElementById('player').play();
-    };
-    list.appendChild(div);
-});
-
-/* COUNTDOWN LOGIC */
+/* ===== COUNTDOWN ===== */
 const target = new Date('2026-11-19T00:00:00');
 function update() {
-    const diff = Math.floor((target - new Date()) / 1000);
-    document.getElementById('d').innerText = Math.floor(diff / 86400);
-    document.getElementById('h').innerText = Math.floor(diff / 3600 % 24).toString().padStart(2, '0');
-    document.getElementById('m').innerText = Math.floor(diff / 60 % 60).toString().padStart(2, '0');
-    document.getElementById('s').innerText = (diff % 60).toString().padStart(2, '0');
+    const diff = Math.floor((target - new Date())/1000);
+    if(diff <= 0) return;
+    document.getElementById('days').textContent = Math.floor(diff/86400).toString().padStart(3, '0');
+    document.getElementById('hours').textContent = Math.floor(diff/3600%24).toString().padStart(2, '0');
+    document.getElementById('minutes').textContent = Math.floor(diff/60%60).toString().padStart(2, '0');
+    document.getElementById('seconds').textContent = (diff%60).toString().padStart(2, '0');
 }
 setInterval(update, 1000); update();
+
+/* ===== PARALLAX ===== */
+const card = document.getElementById('mainCard');
+document.addEventListener('mousemove', (e) => {
+    const x = (window.innerWidth / 2 - e.pageX) / 80;
+    const y = (window.innerHeight / 2 - e.pageY) / 80;
+    document.body.style.backgroundPosition = `calc(50% + ${x}px) calc(35% + ${y}px)`;
+    card.style.transform = `perspective(1000px) rotateX(${(window.innerHeight/2 - e.pageY)/70}deg) rotateY(${(e.pageX - window.innerWidth/2)/70}deg)`;
+});
+
+/* ===== RESTORED MUSIC ENGINE ===== */
+const songs = [
+    {n:"Hot Together", s:"music/together.mp3"}, {n:"Love Is A Long Road", s:"music/long.mp3"}, {n:"Night", s:"music/night.mp3"},
+    {n:"Ocean Breeze", s:"music/ocean.mp3"}, {n:"Self Control", s:"music/self.mp3"}, {n:"Atomic", s:"music/tomic.mp3"},
+    {n:"Sun Glasses At Night", s:"music/sun.mp3"}, {n:"All Night Long", s:"music/all.mp3"}, {n:"Shame", s:"music/shame.mp3"},
+    {n:"Vice City", s:"music/vice.mp3"}, {n:"I Walk This Earth All By Myself", s:"music/earth.mp3"}, {n:"Owner Of A Lonley Heart", s:"music/heart.mp3"},
+    {n:"Tempted", s:"music/tempt.mp3"}, {n:"Poison Arrow", s:"music/arrow.mp3"}, {n:"Is It A Crime", s:"music/crime.mp3"},
+    {n:"Here We Are", s:"music/are.mp3"}, {n:"Through The Fire", s:"music/fire.mp3"}, {n:"Heart Of Mine", s:"music/mine.mp3"},
+    {n:"Fly Away", s:"music/fly.mp3"}, {n:"Ain't Nobody", s:"music/nobody.mp3"}, {n:"Thinking Of You", s:"music/you.mp3"},
+    {n:"Sweet Love", s:"music/love.mp3"}, {n:"I Still Remember You", s:"music/remember.mp3"}, {n:"Gamble With My Love", s:"music/gamble.mp3"},
+    {n:"Sukiyaki", s:"music/suki.mp3"}
+];
+const player = document.getElementById('musicPlayer'), list = document.getElementById('songList');
+
+// Inject the RESTORED 25 Songs
+songs.forEach(song => {
+    const div = document.createElement('div'); div.className = 'track'; div.innerText = song.n;
+    div.onclick = () => play(song.s, div); list.appendChild(div);
+});
+document.getElementById('volSlider').oninput = (e) => player.volume = e.target.value;
+document.getElementById('shuffleBtn').onclick = () => {
+    const r = Math.floor(Math.random()*songs.length);
+    play(songs[r].s, document.querySelectorAll('.track')[r]);
+};
+function play(src, el) {
+    if (player.src.includes(src) && !player.paused) {
+        player.pause();
+    } else {
+        document.querySelectorAll('.track').forEach(t => t.classList.remove('active-song'));
+        player.src = src; player.play(); el.classList.add('active-song');
+        el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+}
 </script>
 </body>
 </html>
