@@ -46,32 +46,36 @@ body{
   color: #fff;
   letter-spacing: 3px;
   text-shadow: 2px 2px 0px rgba(0,0,0,0.8);
+  text-transform: uppercase;
 }
 .time-display { font-size: 28px; color: #fff; font-weight: 700; margin-top: 2px; }
 
-.hud-right { text-align: right; }
+.hud-right { 
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
 .money-display {
   font-size: 38px;
   font-weight: 900;
   color: #26de5f;
   text-shadow: 2px 2px 0px #004d1a;
   transition: transform 0.1s ease;
-  margin-bottom: 5px;
 }
 
-/* Wanted Stars - White & Spread Out */
+/* Wanted Stars - High and Spread */
 .wanted-stars { 
-  font-size: 34px; 
+  font-size: 32px; 
   display: flex;
-  justify-content: flex-end;
-  gap: 12px; /* Increased gap so they aren't close together */
+  gap: 12px;
+  margin-top: -10px; /* Aligned tight to money as requested */
 }
 .star {
-  color: rgba(0, 0, 0, 0.5); /* Inactive "Shadow" Star */
+  color: rgba(0, 0, 0, 0.5); 
   text-shadow: 1px 1px 0px rgba(255,255,255,0.1);
 }
 .star.active {
-  color: #ffffff; /* Reverted to White stars as requested */
+  color: #ffffff; 
   text-shadow: 0 0 15px rgba(255, 255, 255, 0.8), 2px 2px 0px #000;
   animation: star-pulse 1.2s infinite alternate;
 }
@@ -134,7 +138,7 @@ body{
 }
 .nav-btn:hover { background: rgba(255, 255, 255, 0.14); transform: scale(1.05); }
 
-/* ================= COUNTDOWN ================= */
+/* ================= COUNTDOWN (MOVED DOWN) ================= */
 .countdown-wrap{
   backdrop-filter:blur(1px);
   border-radius:20px;
@@ -144,6 +148,7 @@ body{
   max-width:600px;
   background:rgba(0,0,0,0.25);
   border:2px solid #fff;
+  margin-top: 60px; /* Moved down to clear the HUD */
 }
 .title{font-size:32px;font-weight:900}
 .subtitle{font-size:14px;margin:10px 0 24px}
@@ -173,18 +178,14 @@ body{
 
 <div class="top-hud">
   <div class="hud-left">
-    <div class="location-name">VICE CITY</div>
+    <div class="location-name" id="locDisplay">VICE CITY</div>
     <div class="time-display" id="hudTime">00:00</div>
   </div>
   <div class="hud-right">
     <div class="money-display" id="hudMoney">$19,052,025</div>
     <div class="wanted-stars" id="starContainer">
-      <span class="star">★</span>
-      <span class="star">★</span>
-      <span class="star">★</span>
-      <span class="star">★</span>
-      <span class="star">★</span>
-      <span class="star">★</span>
+      <span class="star">★</span><span class="star">★</span><span class="star">★</span>
+      <span class="star">★</span><span class="star">★</span><span class="star">★</span>
     </div>
   </div>
 </div>
@@ -233,7 +234,9 @@ document.onclick = (e) => { if (!sideMenu.contains(e.target) && e.target !== men
 
 /* HUD DATA & RNG */
 let currentMoney = 19052025;
+const locations = ["VICE CITY", "PORT GELLHORN", "LEONIDA", "KELLY COUNTY"];
 const moneyEl = document.getElementById('hudMoney');
+const locEl = document.getElementById('locDisplay');
 const starContainer = document.getElementById('starContainer');
 
 function updateHUD() {
@@ -247,13 +250,17 @@ function updateHUD() {
 }
 
 function updateStars() {
-  const level = Math.floor(Math.random() * 7); // 0 to 6
+  // Random Star Level
+  const level = Math.floor(Math.random() * 7); 
   const stars = starContainer.querySelectorAll('.star');
   stars.forEach((s, i) => i < level ? s.classList.add('active') : s.classList.remove('active'));
+  
+  // Random Location Swap
+  locEl.textContent = locations[Math.floor(Math.random() * locations.length)];
 }
 
 setInterval(updateHUD, 2000);
-setInterval(updateStars, 60000); // Changes every minute
+setInterval(updateStars, 60000); 
 updateHUD(); updateStars();
 
 /* RELEASE COUNTDOWN */
