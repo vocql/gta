@@ -3,264 +3,274 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>VI | Home</title>
+    <title>VI | Database</title>
 
     <link rel="icon" href="gta/npc/lucia.jpg" type="image/jpg">
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;600;900&display=swap" rel="stylesheet">
 
     <style>
+        /* ====== Core Styles ====== */
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
-        html, body { height: 100%; overflow: hidden; background: #000; }
+        html, body { height: 100%; overflow: hidden; background: #000; font-family: 'Exo 2', sans-serif; color: #fff; }
 
         body {
-            font-family: 'Orbitron', sans-serif;
             background: 
-                linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.3)),
-                url('gta/jason.jpg') center/110% 110% no-repeat fixed;
-            color: #fff;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: background-position 0.2s ease-out;
+                linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.2)),
+                url('gta/jason.jpg') center 35%/115% 115% no-repeat fixed;
+            display: flex; align-items: center; justify-content: flex-start;
+            padding-left: 50px; transition: background-position 0.15s ease-out;
         }
 
-        /* ATMOSPHERIC SCANLINES */
-        body::after {
-            content: "";
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), 
-                        linear-gradient(90deg, rgba(255, 0, 0, 0.02), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.02));
-            background-size: 100% 3px, 3px 100%;
-            z-index: 100;
-            pointer-events: none;
-            opacity: 0.6;
+        /* ====== DATABASE SLIDER (The only Nav) ====== */
+        .assets-trigger {
+            position: fixed; top: 50%; right: 0; transform: translateY(-50%);
+            width: 40px; height: 120px; background: rgba(0, 255, 224, 0.8);
+            backdrop-filter: blur(10px); border-radius: 15px 0 0 15px;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; z-index: 500; transition: 0.3s;
         }
+        .assets-trigger span { transform: rotate(-90deg); font-size: 10px; font-weight: 900; letter-spacing: 2px; color: #000; }
 
-        /* ================= NAVBAR ================= */
-        header {
-            position: fixed;
-            top: 25px;
-            left: 30px; /* Moved left to make room for player */
-            z-index: 150;
-            display: flex;
-            gap: 12px;
-            padding: 8px 16px;
-            border-radius: 999px;
-            background: rgba(0, 0, 0, 0.4);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+        .assets-slider {
+            position: fixed; top: 0; right: -320px; width: 320px; height: 100%;
+            background: rgba(0, 0, 0, 0.92); backdrop-filter: blur(30px);
+            z-index: 499; transition: 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+            padding: 60px 30px; border-left: 1px solid rgba(0, 255, 224, 0.3);
         }
+        .assets-slider.open { right: 0; }
 
-        .nav-btn {
-            padding: 8px 18px;
-            border-radius: 999px;
-            color: #fff;
-            font-size: 12px;
-            font-weight: 700;
-            text-decoration: none;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: 0.3s;
-        }
-
-        .nav-btn:hover { background: rgba(255, 255, 255, 0.15); border-color: #00ffe0; transform: scale(1.05); }
-
-        /* ================= COUNTDOWN ================= */
-        .countdown-wrap {
-            position: relative;
-            z-index: 10;
-            backdrop-filter: blur(15px) saturate(160%);
-            background: rgba(10, 10, 15, 0.7);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            border-radius: 30px;
-            padding: 50px 40px;
-            text-align: center;
-            width: 90%;
-            max-width: 650px;
-            transform-style: preserve-3d;
-        }
-
-        .title { font-size: 42px; font-weight: 900; letter-spacing: 5px; text-shadow: 3px 3px 0px #ff4dd2, -2px -2px 0px #00ffe088; margin-bottom: 8px; }
-        .subtitle { font-size: 13px; letter-spacing: 3px; color: #00ffe0; margin-bottom: 30px; }
-        .clock { display: flex; gap: 15px; justify-content: center; }
-        .unit { flex: 1; padding: 20px 10px; border-radius: 15px; background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.05); }
-        .num { font-size: 34px; font-weight: 900; }
-        .label { font-size: 10px; opacity: 0.5; margin-top: 5px; }
-
-        /* ================= BUBBLE MUSIC PLAYER (Top Right) ================= */
-        .player-container {
-            position: fixed;
-            top: 25px;
-            right: 30px;
-            z-index: 200;
-            display: flex;
-            flex-direction: column;
-            align-items: flex-end;
-        }
-
-        .music-bubble {
-            width: 55px;
-            height: 55px;
-            background: rgba(255, 77, 210, 0.9);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            box-shadow: 0 0 20px rgba(255, 77, 210, 0.4);
-            transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            border: 2px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .music-bubble:hover { transform: scale(1.1); background: #ff4dd2; }
-        
-        .music-bubble svg { fill: white; width: 24px; transition: 0.5s; }
-        .music-bubble.playing svg { animation: rotate 3s linear infinite; }
-
-        @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-
-        /* Song Drawer */
-        .music-drawer {
-            margin-top: 15px;
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            width: 280px;
-            max-height: 400px;
-            overflow-y: auto;
-            padding: 10px;
-            opacity: 0;
-            pointer-events: none;
-            transform: translateY(-20px) scale(0.95);
-            transition: 0.3s ease;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-        }
-
-        .music-drawer.active { opacity: 1; pointer-events: auto; transform: translateY(0) scale(1); }
-
-        .track {
-            padding: 12px 15px;
-            border-radius: 12px;
-            font-size: 12px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: 0.2s;
+        .asset-item {
+            display: flex; align-items: center; gap: 15px; padding: 18px 0;
+            cursor: pointer; color: #fff; font-size: 13px; font-weight: 600;
+            transition: 0.3s; letter-spacing: 2px; text-transform: uppercase;
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            display: flex;
-            justify-content: space-between;
+        }
+        .asset-item:hover { color: #00ffe0; transform: translateX(-10px); }
+
+        /* ====== PAGE MODALS ====== */
+        .page-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(20px);
+            z-index: 1000; display: none; align-items: center; justify-content: center;
+            padding: 40px;
+        }
+        .page-content {
+            width: 100%; max-width: 1400px; height: 85vh;
+            background: rgba(0,0,0,0.6); border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px; position: relative; overflow-y: auto;
+            display: flex; flex-direction: column;
+        }
+        .close-page {
+            position: absolute; top: 20px; right: 25px;
+            font-size: 28px; cursor: pointer; color: #ff4dd2; z-index: 1100;
         }
 
-        .track:hover { background: rgba(0, 255, 224, 0.1); color: #00ffe0; }
-        .track.active-song { color: #ff4dd2; background: rgba(255, 77, 210, 0.05); border-left: 3px solid #ff4dd2; }
+        /* ====== CONTENT GRIDS ====== */
+        .content-grid {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px; padding: 30px;
+        }
+        .asset-card {
+            border-radius: 18px; overflow: hidden; position: relative; 
+            cursor: pointer; background: #111; border: 1px solid rgba(255,255,255,0.05); 
+            transition: 0.4s;
+        }
+        .asset-card:hover { transform: translateY(-5px); border-color: #00ffe0; }
+        .asset-card img { width: 100%; height: 100%; object-fit: cover; }
+        .card-overlay {
+            position: absolute; inset: 0; display: flex; align-items: flex-end;
+            padding: 20px; background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+        }
 
-        /* Custom Scrollbar */
-        .music-drawer::-webkit-scrollbar { width: 4px; }
-        .music-drawer::-webkit-scrollbar-thumb { background: #00ffe0; border-radius: 10px; }
+        /* TRAILER CARDS */
+        .trailer-card {
+            background: rgba(0, 0, 0, 0.6); border-radius: 20px; overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1); transition: 0.4s; cursor: pointer;
+        }
+        .trailer-card:hover { transform: translateY(-8px); border-color: #ff4dd2; }
+        .video-thumb { position: relative; aspect-ratio: 16 / 9; background: #000; }
+        .video-thumb iframe { pointer-events: none; width: 100%; height: 100%; border: 0; }
+        .new-badge { position: absolute; top: 10px; right: 10px; background: #ffeb3b; color: #000; font-size: 10px; font-weight: 900; padding: 4px 10px; border-radius: 20px; z-index: 5; }
+
+        /* MASONRY GALLERY (Screenshots) */
+        .screenshot-gallery { column-count: 4; column-gap: 20px; padding: 30px; }
+        .gallery-item { break-inside: avoid; margin-bottom: 20px; border-radius: 12px; overflow: hidden; cursor: pointer; border: 1px solid rgba(255,255,255,0.1); transition: 0.3s; }
+        .gallery-item:hover { transform: scale(1.03); border-color: #ff4dd2; }
+        .gallery-item img { width: 100%; display: block; }
+
+        /* HUD CLOCK & SONG */
+        .main-hud {
+            position: relative; z-index: 10; width: 320px; padding: 30px;
+            background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(1px);
+            border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 12px;
+        }
+        .integrated-clock { display: flex; gap: 8px; margin-bottom: 20px; }
+        .unit { padding: 10px 0; border-radius: 6px; background: rgba(0, 0, 0, 0.45); width: 60px; text-align: center; }
+        .num { font-size: 22px; font-weight: 600; }
+        .integrated-song-list { overflow-y: auto; height: 250px; }
+        .track { padding: 10px; font-size: 10px; cursor: pointer; border-bottom: 1px solid rgba(255,255,255,0.03); }
+
+        /* FULLSCREEN OVERLAY (Video/Images) */
+        .viewer { position: fixed; inset: 0; background: rgba(0,0,0,0.96); display: none; align-items: center; justify-content: center; z-index: 3000; }
+        .viewer iframe { width: 90%; height: 80%; border-radius: 15px; border: 1px solid rgba(255,255,255,0.1); }
+        .viewer img { max-width: 90%; max-height: 85vh; border-radius: 10px; }
+
+        @media (max-width: 1000px) { .screenshot-gallery { column-count: 2; } }
     </style>
 </head>
-
 <body>
 
-<header>
-    <a href="#" class="nav-btn">Home</a>
-    <a href="#" class="nav-btn">Map</a>
-    <a href="#" class="nav-btn">Trailers</a>
-</header>
+<div class="assets-trigger" id="assetsTrigger"><span>DATABASE</span></div>
+<div class="assets-slider" id="assetsSlider">
+    <h2 style="font-size: 11px; letter-spacing: 4px; opacity: 0.5; margin-bottom: 25px;">SYSTEM NAVIGATION</h2>
+    <div class="asset-item" onclick="openPage('home')">Home</div>
+    <div class="asset-item" onclick="openPage('map')">Leonida Map</div>
+    <div class="asset-item" onclick="openPage('characters')">Characters</div>
+    <div class="asset-item" onclick="openPage('places')">Places</div>
+    <div class="asset-item" onclick="openPage('screenshots')">Screenshots</div>
+    <div class="asset-item" onclick="openPage('trailers')">Trailers</div>
+</div>
 
-<section class="countdown-wrap" id="mainCard">
-    <h1 class="title">Grand Theft Auto VI</h1>
-    <div class="subtitle">COUNTDOWN TO NOVEMBER 19, 2026</div>
-
-    <div class="clock">
-        <div class="unit"><div class="num" id="days">000</div><div class="label">DAYS</div></div>
-        <div class="unit"><div class="num" id="hours">00</div><div class="label">HOURS</div></div>
-        <div class="unit"><div class="num" id="minutes">00</div><div class="label">MINUTES</div></div>
-        <div class="unit"><div class="num" id="seconds">00</div><div class="label">SECONDS</div></div>
+<section class="main-hud">
+    <h1 style="font-size: 32px; font-weight: 900; letter-spacing: 4px; text-transform: uppercase;"><span style="color:#ff4dd2">GTA</span> <span style="color:#00ffe0">VI</span></h1>
+    <div style="font-size: 10px; color: #ff4dd2; margin-bottom: 20px;">LAUNCHING NOV 19, 2026</div>
+    <div class="integrated-clock">
+        <div class="unit"><div class="num" id="days">000</div><div style="font-size:8px; opacity:0.5;">DAYS</div></div>
+        <div class="unit"><div class="num" id="hours">00</div><div style="font-size:8px; opacity:0.5;">HRS</div></div>
+        <div class="unit"><div class="num" id="minutes">00</div><div style="font-size:8px; opacity:0.5;">MINS</div></div>
+        <div class="unit"><div class="num" id="seconds">00</div><div style="font-size:8px; opacity:0.5;">SECS</div></div>
     </div>
+    <div class="integrated-song-list" id="songList"></div>
 </section>
 
-<div class="player-container">
-    <div class="music-bubble" id="musicBubble">
-        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 14.5c-2.49 0-4.5-2.01-4.5-4.5S9.51 7.5 12 7.5s4.5 2.01 4.5 4.5-2.01 4.5-4.5 4.5zm0-5.5c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1z"/></svg>
+<div class="page-overlay" id="pageOverlay">
+    <div class="page-content">
+        <span class="close-page" onclick="closePage()">&times;</span>
+        <div id="pageData"></div>
     </div>
-    <div class="music-drawer" id="musicDrawer">
-        </div>
+</div>
+
+<div class="viewer" id="viewer">
+    <span class="close-page" onclick="closeViewer()">&times;</span>
+    <div id="viewerContent" style="width:100%; height:100%; display:flex; align-items:center; justify-content:center;"></div>
 </div>
 
 <audio id="musicPlayer"></audio>
 
 <script>
-/* ===== COUNTDOWN ===== */
-const targetDate = new Date('2026-11-19T00:00:00');
-const els = { days: document.getElementById('days'), hours: document.getElementById('hours'), mins: document.getElementById('minutes'), secs: document.getElementById('seconds') };
-
-function updateCountdown(){
-    const diff = Math.floor((targetDate - new Date())/1000);
-    if(diff <= 0) return;
-    els.days.textContent = Math.floor(diff/86400).toString().padStart(3, '0');
-    els.hours.textContent = Math.floor(diff/3600%24).toString().padStart(2, '0');
-    els.mins.textContent = Math.floor(diff/60%60).toString().padStart(2, '0');
-    els.secs.textContent = (diff%60).toString().padStart(2, '0');
-}
-setInterval(updateCountdown, 1000);
-updateCountdown();
-
-/* ===== PARALLAX ===== */
-const card = document.getElementById('mainCard');
-document.addEventListener('mousemove', (e) => {
-    const x = (window.innerWidth / 2 - e.pageX) / 60;
-    const y = (window.innerHeight / 2 - e.pageY) / 60;
-    document.body.style.backgroundPosition = `calc(50% + ${x}px) calc(40% + ${y}px)`;
-    card.style.transform = `rotateX(${(window.innerHeight / 2 - e.pageY) / 30}deg) rotateY(${(e.pageX - window.innerWidth / 2) / 30}deg)`;
-});
-
-/* ===== MUSIC ENGINE ===== */
-const songs = [
-    {n:"Hot Together", s:"music/together.mp3"}, {n:"Love Is A Long Road", s:"music/long.mp3"},
-    {n:"Night", s:"music/night.mp3"}, {n:"Ocean Breeze", s:"music/ocean.mp3"},
-    {n:"Self Control", s:"music/self.mp3"}, {n:"Atomic", s:"music/tomic.mp3"},
-    {n:"Sun Glasses At Night", s:"music/sun.mp3"}, {n:"All Night Long", s:"music/all.mp3"},
-    {n:"Shame", s:"music/shame.mp3"}, {n:"Vice City", s:"music/vice.mp3"},
-    {n:"I Walk This Earth All By Myself", s:"music/earth.mp3"}, {n:"Owner Of A Lonley Heart", s:"music/heart.mp3"},
-    {n:"Tempted", s:"music/tempt.mp3"}, {n:"Poison Arrow", s:"music/arrow.mp3"},
-    {n:"Is It A Crime", s:"music/crime.mp3"}, {n:"Here We Are", s:"music/are.mp3"},
-    {n:"Through The Fire", s:"music/fire.mp3"}, {n:"Heart Of Mine", s:"music/mine.mp3"},
-    {n:"Fly Away", s:"music/fly.mp3"}, {n:"Ain't Nobody", s:"music/nobody.mp3"},
-    {n:"Thinking Of You", s:"music/you.mp3"}, {n:"Sweet Love", s:"music/love.mp3"},
-    {n:"I Still Remember You", s:"music/remember.mp3"}, {n:"Gamble With My Love", s:"music/gamble.mp3"},
-    {n:"Sukiyaki", s:"music/suki.mp3"}
+/* ===== DATA ===== */
+const characterData = [
+    {name:"Lucia", img:"gta/npc/lucia.jpg", desc:"Lucia is determined to rewrite her future in Vice City."},
+    {name:"Jason", img:"gta/npc/jason.jpg", desc:"A military veteran navigating the Leonida underworld."}
 ];
 
-const drawer = document.getElementById('musicDrawer');
-const bubble = document.getElementById('musicBubble');
-const player = document.getElementById('musicPlayer');
+const placeData = [
+    {name:"Vice City", img:"gta/places/vice.jpg", desc:"The neon-soaked heart of the state."},
+    {name:"Leonida Keys", img:"gta/places/leoninda.jpg", desc:"A tropical gateway to paradise."}
+];
 
-// Inject Songs
-songs.forEach(song => {
-    const div = document.createElement('div');
-    div.className = 'track';
-    div.innerHTML = `<span>${song.n}</span>`;
-    div.onclick = () => playSong(song.s, div);
-    drawer.appendChild(div);
-});
+const trailerData = [
+    {name:"Trailer 1 - Reveal", id:"QdBZY2fkU-0", new: false},
+    {name:"Trailer 2 - Jason & Lucia", id:"VQRLujxTm3c", new: true}
+];
 
-bubble.onclick = () => drawer.classList.toggle('active');
+const screenshots = Array.from({length: 36}, (_, i) => `gta/screenshots/${i+1}.jpg`);
 
-function playSong(src, element) {
-    document.querySelectorAll('.track').forEach(t => t.classList.remove('active-song'));
-    if (player.src.includes(src) && !player.paused) {
-        player.pause();
-        bubble.classList.remove('playing');
-    } else {
-        player.src = src;
-        player.play();
-        element.classList.add('active-song');
-        bubble.classList.add('playing');
-    }
+const pages = {
+    home: ``,
+    map: `<iframe src="https://map.stateofleonida.net/" style="width:100%; height:100%; border:0;"></iframe>`,
+    characters: `<div style="padding:30px;"><h1 style="text-align:center; margin-bottom:30px; letter-spacing:4px;">PERSONNEL</h1><div class="content-grid" id="charGrid"></div></div>`,
+    places: `<div style="padding:30px;"><h1 style="text-align:center; margin-bottom:30px; letter-spacing:4px;">LOCATIONS</h1><div class="content-grid" id="placeGrid"></div></div>`,
+    screenshots: `<div style="padding:30px;"><h1 style="text-align:center; margin-bottom:30px; letter-spacing:4px;">GALLERY</h1><div class="screenshot-gallery" id="screenGrid"></div></div>`,
+    trailers: `<div style="padding:30px;"><h1 style="text-align:center; margin-bottom:30px; letter-spacing:4px;">OFFICIAL MEDIA</h1><div class="content-grid" id="trailerGrid"></div></div>`
+};
+
+/* ===== NAVIGATION ===== */
+function openPage(id) {
+    if(id === 'home') { closePage(); return; }
+    document.getElementById('pageData').innerHTML = pages[id];
+    document.getElementById('pageOverlay').style.display = 'flex';
+    document.getElementById('assetsSlider').classList.remove('open');
+
+    if(id === 'characters') renderGrid('charGrid', characterData, 'square');
+    if(id === 'places') renderGrid('placeGrid', placeData, 'landscape');
+    if(id === 'screenshots') renderScreenshots();
+    if(id === 'trailers') renderTrailers();
 }
-</script>
 
+function renderGrid(id, data, type) {
+    const grid = document.getElementById(id);
+    data.forEach(item => {
+        grid.innerHTML += `<div class="asset-card" style="aspect-ratio:${type==='square'?'1/1':'4/3'}"><img src="${item.img}"><div class="card-overlay"><h2>${item.name}</h2></div></div>`;
+    });
+}
+
+function renderScreenshots() {
+    const grid = document.getElementById('screenGrid');
+    screenshots.forEach((src, idx) => {
+        const div = document.createElement('div');
+        div.className = 'gallery-item';
+        div.innerHTML = `<img src="${src}" loading="lazy">`;
+        div.onclick = () => openShot(src);
+        grid.appendChild(div);
+    });
+}
+
+function renderTrailers() {
+    const grid = document.getElementById('trailerGrid');
+    trailerData.forEach(t => {
+        const div = document.createElement('div');
+        div.className = 'trailer-card';
+        div.innerHTML = `
+            <div class="video-thumb">
+                ${t.new ? '<div class="new-badge">NEW</div>' : ''}
+                <iframe src="https://www.youtube.com/embed/${t.id}?mute=1&controls=0"></iframe>
+            </div>
+            <div style="padding:15px; text-align:center;"><h3>${t.name}</h3></div>
+        `;
+        div.onclick = () => openVideo(t.id);
+        grid.appendChild(div);
+    });
+}
+
+/* ===== VIEWERS ===== */
+function openShot(src) {
+    document.getElementById('viewerContent').innerHTML = `<img src="${src}">`;
+    document.getElementById('viewer').style.display = 'flex';
+}
+
+function openVideo(id) {
+    document.getElementById('viewerContent').innerHTML = `<iframe src="https://www.youtube.com/embed/${id}?autoplay=1&rel=0" allowfullscreen></iframe>`;
+    document.getElementById('viewer').style.display = 'flex';
+}
+
+function closeViewer() {
+    document.getElementById('viewer').style.display = 'none';
+    document.getElementById('viewerContent').innerHTML = ''; // Stops video
+}
+
+function closePage() { document.getElementById('pageOverlay').style.display = 'none'; }
+
+document.getElementById('assetsTrigger').onclick = () => document.getElementById('assetsSlider').classList.toggle('open');
+
+/* ===== CLOCK & MUSIC ===== */
+const target = new Date('2026-11-19T00:00:00');
+function update() {
+    const diff = Math.floor((target - new Date())/1000);
+    if(diff <= 0) return;
+    document.getElementById('days').textContent = Math.floor(diff/86400).toString().padStart(3, '0');
+    document.getElementById('hours').textContent = Math.floor(diff/3600%24).toString().padStart(2, '0');
+    document.getElementById('minutes').textContent = Math.floor(diff/60%60).toString().padStart(2, '0');
+    document.getElementById('seconds').textContent = (diff%60).toString().padStart(2, '0');
+}
+setInterval(update, 1000); update();
+
+const songs = [{n:"Hot Together", s:"music/together.mp3"}, {n:"Love Is A Long Road", s:"music/long.mp3"}];
+songs.forEach(song => {
+    const div = document.createElement('div'); div.className = 'track'; div.innerText = song.n;
+    div.onclick = () => { const p = document.getElementById('musicPlayer'); p.src = song.s; p.play(); };
+    document.getElementById('songList').appendChild(div);
+});
+</script>
 </body>
 </html>
