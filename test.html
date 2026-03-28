@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>VI | Database</title>
+    <title>VI | Leonida Database</title>
 
     <link rel="icon" href="gta/npc/lucia.jpg" type="image/jpg">
     <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;600;900&display=swap" rel="stylesheet">
@@ -21,7 +21,7 @@
             padding-left: 50px; transition: background-position 0.15s ease-out;
         }
 
-        /* ====== DATABASE SLIDER (The only Nav) ====== */
+        /* ====== DATABASE SLIDER ====== */
         .assets-trigger {
             position: fixed; top: 50%; right: 0; transform: translateY(-50%);
             width: 40px; height: 120px; background: rgba(0, 255, 224, 0.8);
@@ -67,7 +67,7 @@
 
         /* ====== CONTENT GRIDS ====== */
         .content-grid {
-            display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
             gap: 25px; padding: 30px;
         }
         .asset-card {
@@ -75,30 +75,31 @@
             cursor: pointer; background: #111; border: 1px solid rgba(255,255,255,0.05); 
             transition: 0.4s;
         }
-        .asset-card:hover { transform: translateY(-5px); border-color: #00ffe0; }
+        .asset-card:hover { transform: translateY(-5px); border-color: #00ffe0; box-shadow: 0 0 20px rgba(0,255,224,0.2); }
         .asset-card img { width: 100%; height: 100%; object-fit: cover; }
         .card-overlay {
             position: absolute; inset: 0; display: flex; align-items: flex-end;
-            padding: 20px; background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+            padding: 20px; background: linear-gradient(to top, rgba(0,0,0,0.92), transparent);
         }
 
-        /* TRAILER CARDS */
-        .trailer-card {
-            background: rgba(0, 0, 0, 0.6); border-radius: 20px; overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, 0.1); transition: 0.4s; cursor: pointer;
+        /* DETAIL MODAL (Bios) */
+        .detail-modal {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.96);
+            display: none; align-items: center; justify-content: center; z-index: 2000;
         }
-        .trailer-card:hover { transform: translateY(-8px); border-color: #ff4dd2; }
-        .video-thumb { position: relative; aspect-ratio: 16 / 9; background: #000; }
-        .video-thumb iframe { pointer-events: none; width: 100%; height: 100%; border: 0; }
-        .new-badge { position: absolute; top: 10px; right: 10px; background: #ffeb3b; color: #000; font-size: 10px; font-weight: 900; padding: 4px 10px; border-radius: 20px; z-index: 5; }
+        .detail-modal-content {
+            background: #080812; border-radius: 24px; max-width: 950px; width: 90%;
+            padding: 40px; display: grid; grid-template-columns: 1fr 1fr; gap: 40px;
+            border: 1px solid rgba(255,255,255,0.1); position: relative;
+        }
+        .detail-modal img { width: 100%; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
 
-        /* MASONRY GALLERY (Screenshots) */
+        /* MASONRY GALLERY */
         .screenshot-gallery { column-count: 4; column-gap: 20px; padding: 30px; }
         .gallery-item { break-inside: avoid; margin-bottom: 20px; border-radius: 12px; overflow: hidden; cursor: pointer; border: 1px solid rgba(255,255,255,0.1); transition: 0.3s; }
         .gallery-item:hover { transform: scale(1.03); border-color: #ff4dd2; }
-        .gallery-item img { width: 100%; display: block; }
 
-        /* HUD CLOCK & SONG */
+        /* MAIN HUD */
         .main-hud {
             position: relative; z-index: 10; width: 320px; padding: 30px;
             background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(1px);
@@ -108,14 +109,10 @@
         .unit { padding: 10px 0; border-radius: 6px; background: rgba(0, 0, 0, 0.45); width: 60px; text-align: center; }
         .num { font-size: 22px; font-weight: 600; }
         .integrated-song-list { overflow-y: auto; height: 250px; }
-        .track { padding: 10px; font-size: 10px; cursor: pointer; border-bottom: 1px solid rgba(255,255,255,0.03); }
+        .track { padding: 10px; font-size: 10px; cursor: pointer; border-bottom: 1px solid rgba(255,255,255,0.03); transition: 0.2s; }
+        .track:hover { color: #00ffe0; background: rgba(255,255,255,0.05); }
 
-        /* FULLSCREEN OVERLAY (Video/Images) */
-        .viewer { position: fixed; inset: 0; background: rgba(0,0,0,0.96); display: none; align-items: center; justify-content: center; z-index: 3000; }
-        .viewer iframe { width: 90%; height: 80%; border-radius: 15px; border: 1px solid rgba(255,255,255,0.1); }
-        .viewer img { max-width: 90%; max-height: 85vh; border-radius: 10px; }
-
-        @media (max-width: 1000px) { .screenshot-gallery { column-count: 2; } }
+        @media (max-width: 900px) { .detail-modal-content { grid-template-columns: 1fr; } .screenshot-gallery { column-count: 2; } }
     </style>
 </head>
 <body>
@@ -150,9 +147,15 @@
     </div>
 </div>
 
-<div class="viewer" id="viewer">
-    <span class="close-page" onclick="closeViewer()">&times;</span>
-    <div id="viewerContent" style="width:100%; height:100%; display:flex; align-items:center; justify-content:center;"></div>
+<div class="detail-modal" id="detailModal">
+    <div class="detail-modal-content">
+        <span class="close-page" onclick="closeDetail()">&times;</span>
+        <img id="detailImg" src="">
+        <div>
+            <h2 id="detailTitle" style="color:#00ffe0; margin-bottom:15px; font-size:28px;"></h2>
+            <p id="detailDesc" style="font-size:16px; line-height:1.7; opacity:0.8;"></p>
+        </div>
+    </div>
 </div>
 
 <audio id="musicPlayer"></audio>
@@ -160,26 +163,34 @@
 <script>
 /* ===== DATA ===== */
 const characterData = [
-    {name:"Lucia", img:"gta/npc/lucia.jpg", desc:"Lucia is determined to rewrite her future in Vice City."},
-    {name:"Jason", img:"gta/npc/jason.jpg", desc:"A military veteran navigating the Leonida underworld."}
+    {name:"Lucia", img:"gta/npc/lucia.jpg", desc:"Lucia Caminos was raised on the unforgiving streets of Liberty City before relocating to Leonida. She's a high-stakes grifter who refuses to play by the rules, looking to build an empire on her own terms."},
+    {name:"Jason", img:"gta/npc/jason.jpg", desc:"Jason Duval grew up in the Leonida Keys. A former military washout with a talent for high-speed escapes, he's a man of few words and violent actions when pushed into a corner."},
+    {name:"Dre'Quan Priest", img:"gta/npc/dre.jpg", desc:"A street hustler turned mogul, Dre'Quan runs 'Only Raw Records'. He's the bridge between Vice City's underground music scene and its violent gang territories."},
+    {name:"Stefanie", img:"gta/npc/stefanie.png", desc:"A social worker for Leonida Corrections who has seen the system fail too many times. She's at a breaking point, making her a dangerous wildcard in the city's power struggle."},
+    {name:"Boobie Ike", img:"gta/npc/boobie.png", desc:"A Vice City legend. Building a music and real estate empire, Ike knows everyone and owns most of them. If you want something done in Vice, you talk to Ike."}
 ];
 
 const placeData = [
-    {name:"Vice City", img:"gta/places/vice.jpg", desc:"The neon-soaked heart of the state."},
-    {name:"Leonida Keys", img:"gta/places/leoninda.jpg", desc:"A tropical gateway to paradise."}
+    {name:"Vice City", img:"gta/places/vice.jpg", desc:"Leonida's neon-soaked metropolis where America's glamour, hustle, and greed are turned up to eleven. From pastel art deco towers to the bustling panaderias of Little Cuba."},
+    {name:"Leonida Keys", img:"gta/places/leoninda.jpg", desc:"The tropical gateway to paradise—a laid-back chain of islands where luxury beachfront villas mix with hidden coves and shark-infested waters."},
+    {name:"Grassrivers", img:"gta/places/grassrivers.jpg", desc:"Leonida's wild, primordial swamp—a sprawling maze of mangroves and sawgrass. Gators own these channels, and airboats are the only way in or out."},
+    {name:"Port Gellhorn", img:"gta/places/port.jpg", desc:"A decaying coastal town of abandoned motels and empty strip malls. The new economy runs on cheap beer, dirt bikes, and biker gangs."},
+    {name:"Ambrosia", img:"gta/places/ambrosia.jpg", desc:"Old-school Florida heartland built on sugar and hard labor. The massive Allied Crystal refinery dominates the skyline and the local politics."},
+    {name:"Mount Kalaga", img:"gta/places/mount.jpg", desc:"The remote, rugged backbone of northern Leonida—dense pine forests, deep ravines, and miles of off-road trails for those who want to be left alone."}
 ];
 
-const trailerData = [
-    {name:"Trailer 1 - Reveal", id:"QdBZY2fkU-0", new: false},
-    {name:"Trailer 2 - Jason & Lucia", id:"VQRLujxTm3c", new: true}
+const songs = [
+    {n:"Hot Together", s:"music/together.mp3"}, 
+    {n:"Love Is A Long Road", s:"music/long.mp3"},
+    {n:"Night", s:"music/night.mp3"},
+    {n:"Ocean Breeze", s:"music/ocean.mp3"},
+    {n:"Self Control", s:"music/self.mp3"}
 ];
-
-const screenshots = Array.from({length: 36}, (_, i) => `gta/screenshots/${i+1}.jpg`);
 
 const pages = {
     home: ``,
-    map: `<iframe src="https://map.stateofleonida.net/" style="width:100%; height:100%; border:0;"></iframe>`,
-    characters: `<div style="padding:30px;"><h1 style="text-align:center; margin-bottom:30px; letter-spacing:4px;">PERSONNEL</h1><div class="content-grid" id="charGrid"></div></div>`,
+    map: `<iframe src="https://map.stateofleonida.net/" style="width:100%; height:100%; border:0; background:#000;" allowfullscreen></iframe>`,
+    characters: `<div style="padding:30px;"><h1 style="text-align:center; margin-bottom:30px; letter-spacing:4px;">PERSONNEL FILES</h1><div class="content-grid" id="charGrid"></div></div>`,
     places: `<div style="padding:30px;"><h1 style="text-align:center; margin-bottom:30px; letter-spacing:4px;">LOCATIONS</h1><div class="content-grid" id="placeGrid"></div></div>`,
     screenshots: `<div style="padding:30px;"><h1 style="text-align:center; margin-bottom:30px; letter-spacing:4px;">GALLERY</h1><div class="screenshot-gallery" id="screenGrid"></div></div>`,
     trailers: `<div style="padding:30px;"><h1 style="text-align:center; margin-bottom:30px; letter-spacing:4px;">OFFICIAL MEDIA</h1><div class="content-grid" id="trailerGrid"></div></div>`
@@ -195,67 +206,46 @@ function openPage(id) {
     if(id === 'characters') renderGrid('charGrid', characterData, 'square');
     if(id === 'places') renderGrid('placeGrid', placeData, 'landscape');
     if(id === 'screenshots') renderScreenshots();
-    if(id === 'trailers') renderTrailers();
 }
 
-function renderGrid(id, data, type) {
-    const grid = document.getElementById(id);
+function renderGrid(containerId, data, type) {
+    const grid = document.getElementById(containerId);
     data.forEach(item => {
-        grid.innerHTML += `<div class="asset-card" style="aspect-ratio:${type==='square'?'1/1':'4/3'}"><img src="${item.img}"><div class="card-overlay"><h2>${item.name}</h2></div></div>`;
+        const div = document.createElement('div');
+        div.className = 'asset-card';
+        div.style.aspectRatio = (type === 'square') ? '1/1' : '4/3';
+        div.innerHTML = `<img src="${item.img}"><div class="card-overlay"><h2>${item.name}</h2></div>`;
+        div.onclick = () => openDetail(item);
+        grid.appendChild(div);
     });
 }
 
 function renderScreenshots() {
     const grid = document.getElementById('screenGrid');
-    screenshots.forEach((src, idx) => {
+    for(let i=1; i<=36; i++) {
         const div = document.createElement('div');
         div.className = 'gallery-item';
-        div.innerHTML = `<img src="${src}" loading="lazy">`;
-        div.onclick = () => openShot(src);
+        div.innerHTML = `<img src="gta/screenshots/${i}.jpg" loading="lazy">`;
         grid.appendChild(div);
-    });
+    }
 }
 
-function renderTrailers() {
-    const grid = document.getElementById('trailerGrid');
-    trailerData.forEach(t => {
-        const div = document.createElement('div');
-        div.className = 'trailer-card';
-        div.innerHTML = `
-            <div class="video-thumb">
-                ${t.new ? '<div class="new-badge">NEW</div>' : ''}
-                <iframe src="https://www.youtube.com/embed/${t.id}?mute=1&controls=0"></iframe>
-            </div>
-            <div style="padding:15px; text-align:center;"><h3>${t.name}</h3></div>
-        `;
-        div.onclick = () => openVideo(t.id);
-        grid.appendChild(div);
-    });
+/* ===== DETAIL MODAL ===== */
+function openDetail(item) {
+    document.getElementById('detailImg').src = item.img;
+    document.getElementById('detailTitle').innerText = item.name;
+    document.getElementById('detailDesc').innerText = item.desc;
+    document.getElementById('detailModal').style.display = 'flex';
 }
 
-/* ===== VIEWERS ===== */
-function openShot(src) {
-    document.getElementById('viewerContent').innerHTML = `<img src="${src}">`;
-    document.getElementById('viewer').style.display = 'flex';
-}
-
-function openVideo(id) {
-    document.getElementById('viewerContent').innerHTML = `<iframe src="https://www.youtube.com/embed/${id}?autoplay=1&rel=0" allowfullscreen></iframe>`;
-    document.getElementById('viewer').style.display = 'flex';
-}
-
-function closeViewer() {
-    document.getElementById('viewer').style.display = 'none';
-    document.getElementById('viewerContent').innerHTML = ''; // Stops video
-}
-
+function closeDetail() { document.getElementById('detailModal').style.display = 'none'; }
 function closePage() { document.getElementById('pageOverlay').style.display = 'none'; }
 
 document.getElementById('assetsTrigger').onclick = () => document.getElementById('assetsSlider').classList.toggle('open');
 
-/* ===== CLOCK & MUSIC ===== */
+/* ===== HUD LOGIC ===== */
 const target = new Date('2026-11-19T00:00:00');
-function update() {
+function updateClock() {
     const diff = Math.floor((target - new Date())/1000);
     if(diff <= 0) return;
     document.getElementById('days').textContent = Math.floor(diff/86400).toString().padStart(3, '0');
@@ -263,13 +253,13 @@ function update() {
     document.getElementById('minutes').textContent = Math.floor(diff/60%60).toString().padStart(2, '0');
     document.getElementById('seconds').textContent = (diff%60).toString().padStart(2, '0');
 }
-setInterval(update, 1000); update();
+setInterval(updateClock, 1000); updateClock();
 
-const songs = [{n:"Hot Together", s:"music/together.mp3"}, {n:"Love Is A Long Road", s:"music/long.mp3"}];
+const player = document.getElementById('musicPlayer'), list = document.getElementById('songList');
 songs.forEach(song => {
     const div = document.createElement('div'); div.className = 'track'; div.innerText = song.n;
-    div.onclick = () => { const p = document.getElementById('musicPlayer'); p.src = song.s; p.play(); };
-    document.getElementById('songList').appendChild(div);
+    div.onclick = () => { player.src = song.s; player.play(); };
+    list.appendChild(div);
 });
 </script>
 </body>
