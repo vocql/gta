@@ -1,267 +1,265 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>VI | Home</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>VI | Home</title>
 
-<link rel="icon" href="gta/npc/lucia.jpg" type="image/jpg">
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
+    <link rel="icon" href="gta/npc/lucia.jpg" type="image/jpg">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
 
-<style>
-*{margin:0;padding:0;box-sizing:border-box}
-html,body{height:100%;overflow:hidden}
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+        html, body { height: 100%; overflow: hidden; background: #000; }
 
-body{
-  font-family:'Orbitron',sans-serif;
-  background:
-    linear-gradient(135deg, rgba(255,77,210,0.15), rgba(0,255,224,0.10)),
-    url('gta/jason.jpg') center/cover no-repeat fixed;
-  background-blend-mode: overlay;
-  color:#fff;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  background-position:center 40%;
-}
+        body {
+            font-family: 'Orbitron', sans-serif;
+            background: 
+                linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.3)),
+                url('gta/jason.jpg') center/110% 110% no-repeat fixed;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-position 0.2s ease-out;
+        }
 
-/* ================= SIDE MENU TRIGGER (BLUE BUBBLE) ================= */
-.menu-trigger {
-  position: fixed;
-  top: 20px;
-  left: 20px;
-  width: 54px;
-  height: 54px;
-  background: rgba(0, 255, 224, 0.25); 
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  z-index: 1000;
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  box-shadow: inset 0 1.2px 1.5px rgba(255, 255, 255, 0.4), 
-              0 6px 18px rgba(0, 0, 0, 0.35);
-  transition: 0.25s;
-}
-.menu-trigger:hover {
-  background: rgba(0, 255, 224, 0.4);
-  transform: scale(1.05);
-  box-shadow: 0 0 20px rgba(0, 255, 224, 0.4);
-}
+        /* ATMOSPHERIC SCANLINES */
+        body::after {
+            content: "";
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), 
+                        linear-gradient(90deg, rgba(255, 0, 0, 0.02), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.02));
+            background-size: 100% 3px, 3px 100%;
+            z-index: 100;
+            pointer-events: none;
+            opacity: 0.6;
+        }
 
-/* ================= SIDE MENU ================= */
-.side-menu {
-  position: fixed;
-  top: 0;
-  left: -260px; 
-  width: 260px;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.25); 
-  /* BACKDROP SET TO 1PX AS REQUESTED */
-  backdrop-filter: blur(1px);
-  -webkit-backdrop-filter: blur(1px);
-  padding: 100px 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 15px; 
-  transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  z-index: 999;
-  border-right: 1px solid rgba(255, 255, 255, 0.1);
-}
+        /* ================= NAVBAR ================= */
+        header {
+            position: fixed;
+            top: 25px;
+            left: 30px; /* Moved left to make room for player */
+            z-index: 150;
+            display: flex;
+            gap: 12px;
+            padding: 8px 16px;
+            border-radius: 999px;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
 
-.side-menu.active {
-  left: 0;
-}
+        .nav-btn {
+            padding: 8px 18px;
+            border-radius: 999px;
+            color: #fff;
+            font-size: 12px;
+            font-weight: 700;
+            text-decoration: none;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: 0.3s;
+        }
 
-/* ================= SIDE MENU BUTTONS (BUBBLE STYLE) ================= */
-.nav-btn {
-  padding: 9px 17px;
-  border-radius: 999px;
-  color: #fff;
-  font-weight: 600;
-  text-decoration: none;
-  text-align: center;
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  box-shadow: inset 0 1.2px 1.5px rgba(255, 255, 255, 0.4),
-              0 4px 18px rgba(0, 0, 0, 0.3);
-  transition: 0.25s;
-}
+        .nav-btn:hover { background: rgba(255, 255, 255, 0.15); border-color: #00ffe0; transform: scale(1.05); }
 
-.nav-btn:hover {
-  background: rgba(255, 255, 255, 0.14);
-  transform: scale(1.05);
-}
+        /* ================= COUNTDOWN ================= */
+        .countdown-wrap {
+            position: relative;
+            z-index: 10;
+            backdrop-filter: blur(15px) saturate(160%);
+            background: rgba(10, 10, 15, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 30px;
+            padding: 50px 40px;
+            text-align: center;
+            width: 90%;
+            max-width: 650px;
+            transform-style: preserve-3d;
+        }
 
-/* ================= ORIGINAL COUNTDOWN (UNTOUCHED) ================= */
-.countdown-wrap{
-  backdrop-filter:blur(1px);
-  border-radius:20px;
-  padding:26px 34px;
-  text-align:center;
-  width:88%;
-  max-width:600px;
-  background:rgba(0,0,0,0.25);
-  border:2px solid #fff;
-}
-.title{font-size:32px;font-weight:900}
-.subtitle{font-size:14px;margin:10px 0 24px}
+        .title { font-size: 42px; font-weight: 900; letter-spacing: 5px; text-shadow: 3px 3px 0px #ff4dd2, -2px -2px 0px #00ffe088; margin-bottom: 8px; }
+        .subtitle { font-size: 13px; letter-spacing: 3px; color: #00ffe0; margin-bottom: 30px; }
+        .clock { display: flex; gap: 15px; justify-content: center; }
+        .unit { flex: 1; padding: 20px 10px; border-radius: 15px; background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.05); }
+        .num { font-size: 34px; font-weight: 900; }
+        .label { font-size: 10px; opacity: 0.5; margin-top: 5px; }
 
-.clock{
-  display:flex;
-  gap:12px;
-  justify-content:center;
-}
-.unit{
-  min-width:72px;
-  padding:12px;
-  border-radius:12px;
-  background:rgba(0,0,0,0.35);
-}
-.num{font-size:32px;font-weight:900}
-.label{font-size:11px;opacity:.8}
+        /* ================= BUBBLE MUSIC PLAYER (Top Right) ================= */
+        .player-container {
+            position: fixed;
+            top: 25px;
+            right: 30px;
+            z-index: 200;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+        }
 
-/* ================= MUSIC ================= */
-.music-trigger{
-  position:fixed;
-  bottom:18px;
-  left:18px;
-  width:40px;
-  height:40px;
-  cursor:pointer;
-  z-index:200;
-}
-.music-wheel{
-  position:fixed;
-  bottom:18px;
-  left:70px;
-  display:flex;
-  gap:8px;
-  max-width:calc(100% - 90px);
-  overflow-x:auto;
-  padding-bottom:4px;
-  opacity:0;
-  pointer-events:none;
-  transform:translateX(-10px);
-  transition:.25s ease;
-}
-.music-wheel.active{ opacity:1; pointer-events:auto; transform:translateX(0); }
-.music-item{
-  padding:9px 17px;
-  border-radius:999px;
-  font-size:12px;
-  font-weight:600;
-  white-space:nowrap;
-  background: rgba(255,255,255,0.08);
-  border: 1px solid rgba(255,255,255,0.18);
-  box-shadow: inset 0 1.2px 1.5px rgba(255,255,255,0.4), 0 4px 18px rgba(0,0,0,0.3);
-  cursor: pointer;
-  flex-shrink:0;
-  transition: 0.25s ease;
-  color: white;
-}
-.music-item:hover{ background: rgba(255, 255, 255, 0.14); transform: scale(1.05); }
+        .music-bubble {
+            width: 55px;
+            height: 55px;
+            background: rgba(255, 77, 210, 0.9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 0 20px rgba(255, 77, 210, 0.4);
+            transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
 
-.music-wheel::-webkit-scrollbar{ height:6px; }
-.music-wheel::-webkit-scrollbar-thumb{ background: rgba(255,255,255,0.3); border-radius:3px; }
-</style>
+        .music-bubble:hover { transform: scale(1.1); background: #ff4dd2; }
+        
+        .music-bubble svg { fill: white; width: 24px; transition: 0.5s; }
+        .music-bubble.playing svg { animation: rotate 3s linear infinite; }
+
+        @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+        /* Song Drawer */
+        .music-drawer {
+            margin-top: 15px;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            width: 280px;
+            max-height: 400px;
+            overflow-y: auto;
+            padding: 10px;
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(-20px) scale(0.95);
+            transition: 0.3s ease;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        }
+
+        .music-drawer.active { opacity: 1; pointer-events: auto; transform: translateY(0) scale(1); }
+
+        .track {
+            padding: 12px 15px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .track:hover { background: rgba(0, 255, 224, 0.1); color: #00ffe0; }
+        .track.active-song { color: #ff4dd2; background: rgba(255, 77, 210, 0.05); border-left: 3px solid #ff4dd2; }
+
+        /* Custom Scrollbar */
+        .music-drawer::-webkit-scrollbar { width: 4px; }
+        .music-drawer::-webkit-scrollbar-thumb { background: #00ffe0; border-radius: 10px; }
+    </style>
 </head>
 
 <body>
 
-<div class="menu-trigger" id="menuBtn">
-  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
-</div>
+<header>
+    <a href="#" class="nav-btn">Home</a>
+    <a href="#" class="nav-btn">Map</a>
+    <a href="#" class="nav-btn">Trailers</a>
+</header>
 
-<nav class="side-menu" id="sideMenu">
-  <a href="index" class="nav-btn">Home</a>
-  <a href="map" class="nav-btn">Map</a>
-  <a href="characters" class="nav-btn">Characters</a>
-  <a href="places" class="nav-btn">Places</a>
-  <a href="screenshots" class="nav-btn">Screenshots</a>
-  <a href="trailers" class="nav-btn">Trailers</a>
-</nav>
+<section class="countdown-wrap" id="mainCard">
+    <h1 class="title">Grand Theft Auto VI</h1>
+    <div class="subtitle">COUNTDOWN TO NOVEMBER 19, 2026</div>
 
-<section class="countdown-wrap">
-  <h1 class="title">Grand Theft Auto VI</h1>
-  <div class="subtitle">RELEASE COUNTDOWN – NOVEMBER 19TH, 2026</div>
-
-  <div class="clock">
-    <div class="unit"><div class="num" id="days">000</div><div class="label">DAYS</div></div>
-    <div class="unit"><div class="num" id="hours">00</div><div class="label">HOURS</div></div>
-    <div class="unit"><div class="num" id="minutes">00</div><div class="label">MINUTES</div></div>
-    <div class="unit"><div class="num" id="seconds">00</div><div class="label">SECONDS</div></div>
-  </div>
+    <div class="clock">
+        <div class="unit"><div class="num" id="days">000</div><div class="label">DAYS</div></div>
+        <div class="unit"><div class="num" id="hours">00</div><div class="label">HOURS</div></div>
+        <div class="unit"><div class="num" id="minutes">00</div><div class="label">MINUTES</div></div>
+        <div class="unit"><div class="num" id="seconds">00</div><div class="label">SECONDS</div></div>
+    </div>
 </section>
 
-<div class="music-trigger" id="musicTrigger"></div>
-<div class="music-wheel" id="musicWheel">
-  <div class="music-item" data-song="music/together.mp3">Hot Together</div>
-  <div class="music-item" data-song="music/long.mp3">Love Is A Long Road</div>
-  <div class="music-item" data-song="music/night.mp3">Night</div>
-  <div class="music-item" data-song="music/ocean.mp3">Ocean Breeze</div>
-  <div class="music-item" data-song="music/self.mp3">Self Control</div>
+<div class="player-container">
+    <div class="music-bubble" id="musicBubble">
+        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 14.5c-2.49 0-4.5-2.01-4.5-4.5S9.51 7.5 12 7.5s4.5 2.01 4.5 4.5-2.01 4.5-4.5 4.5zm0-5.5c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1z"/></svg>
+    </div>
+    <div class="music-drawer" id="musicDrawer">
+        </div>
 </div>
 
 <audio id="musicPlayer"></audio>
 
 <script>
-/* Menu Toggle Logic */
-const menuBtn = document.getElementById('menuBtn');
-const sideMenu = document.getElementById('sideMenu');
-
-menuBtn.onclick = (e) => {
-  e.stopPropagation();
-  sideMenu.classList.toggle('active');
-};
-
-document.onclick = (e) => {
-  if (!sideMenu.contains(e.target) && e.target !== menuBtn) {
-    sideMenu.classList.remove('active');
-  }
-};
-
-/* ===== COUNTDOWN (Original) ===== */
+/* ===== COUNTDOWN ===== */
 const targetDate = new Date('2026-11-19T00:00:00');
-const daysEl = document.getElementById('days');
-const hoursEl = document.getElementById('hours');
-const minutesEl = document.getElementById('minutes');
-const secondsEl = document.getElementById('seconds');
-
-function pad(n){ return String(n).padStart(2,'0'); }
+const els = { days: document.getElementById('days'), hours: document.getElementById('hours'), mins: document.getElementById('minutes'), secs: document.getElementById('seconds') };
 
 function updateCountdown(){
-  const now = new Date();
-  const diff = Math.floor((targetDate - now)/1000);
-  if(diff<=0) return;
-
-  daysEl.textContent = Math.floor(diff/86400);
-  hoursEl.textContent = pad(Math.floor(diff/3600%24));
-  minutesEl.textContent = pad(Math.floor(diff/60%60));
-  secondsEl.textContent = pad(diff%60);
+    const diff = Math.floor((targetDate - new Date())/1000);
+    if(diff <= 0) return;
+    els.days.textContent = Math.floor(diff/86400).toString().padStart(3, '0');
+    els.hours.textContent = Math.floor(diff/3600%24).toString().padStart(2, '0');
+    els.mins.textContent = Math.floor(diff/60%60).toString().padStart(2, '0');
+    els.secs.textContent = (diff%60).toString().padStart(2, '0');
 }
-
+setInterval(updateCountdown, 1000);
 updateCountdown();
-setInterval(updateCountdown,1000);
 
-/* ===== MUSIC ===== */
-const musicTrigger = document.getElementById('musicTrigger');
-const wheel = document.getElementById('musicWheel');
+/* ===== PARALLAX ===== */
+const card = document.getElementById('mainCard');
+document.addEventListener('mousemove', (e) => {
+    const x = (window.innerWidth / 2 - e.pageX) / 60;
+    const y = (window.innerHeight / 2 - e.pageY) / 60;
+    document.body.style.backgroundPosition = `calc(50% + ${x}px) calc(40% + ${y}px)`;
+    card.style.transform = `rotateX(${(window.innerHeight / 2 - e.pageY) / 30}deg) rotateY(${(e.pageX - window.innerWidth / 2) / 30}deg)`;
+});
+
+/* ===== MUSIC ENGINE ===== */
+const songs = [
+    {n:"Hot Together", s:"music/together.mp3"}, {n:"Love Is A Long Road", s:"music/long.mp3"},
+    {n:"Night", s:"music/night.mp3"}, {n:"Ocean Breeze", s:"music/ocean.mp3"},
+    {n:"Self Control", s:"music/self.mp3"}, {n:"Atomic", s:"music/tomic.mp3"},
+    {n:"Sun Glasses At Night", s:"music/sun.mp3"}, {n:"All Night Long", s:"music/all.mp3"},
+    {n:"Shame", s:"music/shame.mp3"}, {n:"Vice City", s:"music/vice.mp3"},
+    {n:"I Walk This Earth All By Myself", s:"music/earth.mp3"}, {n:"Owner Of A Lonley Heart", s:"music/heart.mp3"},
+    {n:"Tempted", s:"music/tempt.mp3"}, {n:"Poison Arrow", s:"music/arrow.mp3"},
+    {n:"Is It A Crime", s:"music/crime.mp3"}, {n:"Here We Are", s:"music/are.mp3"},
+    {n:"Through The Fire", s:"music/fire.mp3"}, {n:"Heart Of Mine", s:"music/mine.mp3"},
+    {n:"Fly Away", s:"music/fly.mp3"}, {n:"Ain't Nobody", s:"music/nobody.mp3"},
+    {n:"Thinking Of You", s:"music/you.mp3"}, {n:"Sweet Love", s:"music/love.mp3"},
+    {n:"I Still Remember You", s:"music/remember.mp3"}, {n:"Gamble With My Love", s:"music/gamble.mp3"},
+    {n:"Sukiyaki", s:"music/suki.mp3"}
+];
+
+const drawer = document.getElementById('musicDrawer');
+const bubble = document.getElementById('musicBubble');
 const player = document.getElementById('musicPlayer');
 
-let musicOpen = false;
-musicTrigger.onclick = () => {
-  musicOpen = !musicOpen;
-  wheel.classList.toggle('active', musicOpen);
-};
-
-document.querySelectorAll('.music-item').forEach(btn=>{
-  btn.onclick = () => {
-    player.src = btn.dataset.song;
-    player.play();
-  };
+// Inject Songs
+songs.forEach(song => {
+    const div = document.createElement('div');
+    div.className = 'track';
+    div.innerHTML = `<span>${song.n}</span>`;
+    div.onclick = () => playSong(song.s, div);
+    drawer.appendChild(div);
 });
+
+bubble.onclick = () => drawer.classList.toggle('active');
+
+function playSong(src, element) {
+    document.querySelectorAll('.track').forEach(t => t.classList.remove('active-song'));
+    if (player.src.includes(src) && !player.paused) {
+        player.pause();
+        bubble.classList.remove('playing');
+    } else {
+        player.src = src;
+        player.play();
+        element.classList.add('active-song');
+        bubble.classList.add('playing');
+    }
+}
 </script>
 
 </body>
