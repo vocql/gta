@@ -3,239 +3,169 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>VI | Home</title>
-    <link rel="icon" href="gta/npc/lucia.jpg" type="image/jpg">
-    
-    <!-- Old Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
-    <!-- New Font -->
+    <title>Leonida OS | Master Database</title>
     <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;600;900&display=swap" rel="stylesheet">
-
     <style>
-        *{margin:0;padding:0;box-sizing:border-box}
-        html,body{height:100%;overflow:hidden}
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+        html, body { height: 100%; overflow: hidden; background: #000; font-family: 'Exo 2', sans-serif; color: #fff; }
 
-        /* Toggle Button - Top Right (as you requested) */
-        #layoutToggle {
-            position: fixed;
-            top: 22px;
-            right: 22px;
-            z-index: 999;
-            padding: 10px 18px;
-            border-radius: 999px;
-            background: rgba(0,0,0,0.45);
-            color: #fff;
-            font-size: 12px;
-            font-weight: 600;
-            border: 1px solid rgba(255,255,255,0.2);
-            cursor: pointer;
-            backdrop-filter: blur(8px);
-            transition: 0.3s;
-        }
-        #layoutToggle:hover {
-            background: rgba(255,77,210,0.35);
-            transform: scale(1.05);
+        body {
+            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('gta/jason.jpg') center/cover no-repeat;
+            display: flex; padding: 40px; gap: 30px; justify-content: center;
         }
 
-        /* OLD LAYOUT STYLES (100% unchanged) */
-        .old-mode body {
-            font-family:'Orbitron',sans-serif;
-            background: linear-gradient(135deg, rgba(255,77,210,0.15), rgba(0,255,224,0.10)),
-                        url('gta/jason.jpg') center/cover no-repeat fixed;
-            background-position:center 40%;
+        /* ====== LEFT WIDGET (STAYS AS REQUESTED) ====== */
+        .left-panel {
+            width: 340px; background: rgba(0, 0, 0, 0.75); backdrop-filter: blur(25px);
+            border-radius: 25px; padding: 35px; border: 1px solid rgba(255,255,255,0.1);
+            display: flex; flex-direction: column; flex-shrink: 0; height: 100%;
         }
-        header.old-header {
-            position: fixed; top: 18px; left: 50%; transform: translateX(-50%);
-            z-index: 50; display: flex; gap: 12px; padding: 8px 14px;
-            border-radius: 999px; background: rgba(0,0,0,0.25);
-            box-shadow: 0 6px 18px rgba(0,0,0,0.35);
-        }
-        .nav-btn {
-            padding: 9px 17px; border-radius: 999px; color: #fff; font-weight: 600;
-            text-decoration: none; background: rgba(255,255,255,0.08);
-            border: 1px solid rgba(255,255,255,0.18);
-            box-shadow: inset 0 1.2px 1.5px rgba(255,255,255,0.4), 0 4px 18px rgba(0,0,0,0.3);
-        }
-        .nav-btn:hover { background: rgba(255,255,255,0.14); transform: scale(1.05); }
 
-        .countdown-wrap{
-            backdrop-filter:blur(1px); border-radius:20px; padding:26px 34px;
-            text-align:center; width:88%; max-width:600px; margin-top:120px;
-            background:rgba(0,0,0,0.25); border:2px solid #fff;
+        /* ====== MIDDLE HUD (THE BIG ONE) ====== */
+        .center-hud {
+            flex: 1; max-width: 1100px; height: 100%;
+            background: rgba(0, 0, 0, 0.5); backdrop-filter: blur(40px);
+            border-radius: 35px; border: 1px solid rgba(255, 255, 255, 0.15);
+            display: flex; flex-direction: column; overflow: hidden;
+            box-shadow: 0 0 50px rgba(0,0,0,0.8);
         }
-        .title{font-size:32px;font-weight:900}
-        .subtitle{font-size:14px;margin:10px 0 24px}
-        .clock{display:flex; gap:12px; justify-content:center;}
-        .unit{min-width:72px; padding:12px; border-radius:12px; background:rgba(0,0,0,0.35);}
-        .num{font-size:32px;font-weight:900}
-        .label{font-size:11px;opacity:.8}
 
-        /* NEW LAYOUT STYLES (100% unchanged) */
-        .new-mode body {
-            font-family:'Exo 2',sans-serif;
-            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.2)),
-                        url('gta/jason.jpg') center 35%/115% 115% no-repeat fixed;
+        /* Big HUD Header */
+        .hud-header {
+            padding: 30px 50px; background: rgba(255,255,255,0.03);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            display: flex; justify-content: space-between; align-items: center;
         }
-        .main-hud {
-            position: relative; width: 320px; max-height: 85vh;
-            padding: 30px; background: rgba(0,0,0,0.6);
-            backdrop-filter: blur(2px) saturate(120%); border: 1px solid rgba(255,255,255,0.12);
-            border-radius: 12px; box-shadow: 0 15px 50px rgba(0,0,0,0.6);
-            display: flex; flex-direction: column; gap: 15px;
+        .hud-nav { display: flex; gap: 15px; }
+        .hud-btn {
+            background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+            padding: 12px 25px; border-radius: 12px; font-size: 11px; font-weight: 900;
+            text-transform: uppercase; cursor: pointer; color: rgba(255,255,255,0.5); transition: 0.3s;
         }
-        .title { font-size:32px; font-weight:900; letter-spacing:4px; text-transform:uppercase; }
-        .neon-gta { text-shadow: 0 0 5px #ff4dd2, 0 0 20px #ff4dd2; }
-        .neon-vi  { text-shadow: 0 0 5px #00ffe0, 0 0 20px #00ffe0; }
-        .subtitle { font-size:10px; letter-spacing:2px; color:#ff4dd2; font-weight:600; }
-        .integrated-clock { display:flex; gap:8px; }
-        .unit { padding:8px 0; width:60px; text-align:center; background:rgba(0,0,0,0.45); border:1px solid rgba(255,255,255,0.03); border-radius:6px; }
-        .num { font-size:20px; font-weight:600; }
+        .hud-btn:hover, .hud-btn.active { background: #ff4dd2; color: #000; border-color: #ff4dd2; box-shadow: 0 0 20px rgba(255,77,210,0.3); }
 
-        /* Hide modes */
-        .new-mode .old-header,
-        .new-mode .countdown-wrap { display: none !important; }
+        /* Content Display */
+        .hud-display { flex: 1; position: relative; overflow-y: auto; background: rgba(0,0,0,0.2); }
+        iframe { width: 100%; height: 100%; border: none; }
 
-        .old-mode .main-hud { display: none !important; }
+        /* Internal Page Styling */
+        .page-wrap { padding: 50px; }
+        .big-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 30px; }
+        .big-card { 
+            background: #111; border-radius: 20px; overflow: hidden; border: 1px solid rgba(255,255,255,0.1);
+            aspect-ratio: 16/10; position: relative; transition: 0.4s;
+        }
+        .big-card:hover { transform: translateY(-10px); border-color: #00ffe0; }
+        .big-card img { width: 100%; height: 100%; object-fit: cover; opacity: 0.7; }
+        .big-card-info { position: absolute; bottom: 0; padding: 30px; width: 100%; background: linear-gradient(transparent, rgba(0,0,0,0.95)); }
+
+        /* Countdown & Radio Styles */
+        .neon-text { font-size: 44px; font-weight: 900; font-style: italic; margin-bottom: 5px; }
+        .timer-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin: 30px 0; }
+        .t-box { background: rgba(255,255,255,0.05); padding: 15px 5px; border-radius: 10px; text-align: center; border: 1px solid rgba(255,255,255,0.05); }
+        .t-val { font-size: 22px; font-weight: 900; display: block; }
+        .t-lab { font-size: 8px; opacity: 0.4; text-transform: uppercase; }
+
+        .track-list { height: 350px; overflow-y: auto; }
+        .track { padding: 15px 0; font-size: 14px; font-weight: 600; color: rgba(255,255,255,0.4); cursor: pointer; border-bottom: 1px solid rgba(255,255,255,0.02); }
+        .track:hover, .track.active { color: #ff4dd2; padding-left: 10px; }
+
     </style>
 </head>
-<body id="mainBody" class="old-mode">
+<body>
 
-    <!-- Toggle Button (Top Right) -->
-    <button id="layoutToggle">SWITCH TO NEW LAYOUT</button>
+<aside class="left-panel">
+    <h1 class="neon-text"><span style="color:#ff4dd2; text-shadow: 0 0 15px #ff4dd2;">GTA</span> <span style="color:#00ffe0; text-shadow: 0 0 15px #00ffe0;">VI</span></h1>
+    <p style="color:#ff4dd2; font-size: 10px; font-weight: 900; letter-spacing: 2px;">PREPARING FOR NOV 19, 2026</p>
 
-    <!-- ================= OLD LAYOUT ================= -->
-    <header class="old-header">
-        <a href="index" class="nav-btn">Home</a>
-        <a href="map" class="nav-btn">Map</a>
-        <a href="characters" class="nav-btn">Characters</a>
-        <a href="places" class="nav-btn">Places</a>
-        <a href="screenshots" class="nav-btn">Screenshots</a>
-        <a href="trailers" class="nav-btn">Trailers</a>
+    <div class="timer-grid">
+        <div class="t-box"><span class="t-val" id="dd">000</span><span class="t-lab">Days</span></div>
+        <div class="t-box"><span class="t-val" id="hh">00</span><span class="t-lab">Hrs</span></div>
+        <div class="t-box"><span class="t-val" id="mm">00</span><span class="t-lab">Mins</span></div>
+        <div class="t-box"><span class="t-val" id="ss">00</span><span class="t-lab">Secs</span></div>
+    </div>
+
+    <div style="border-top:1px solid rgba(255,255,255,0.1); padding-top:20px;">
+        <p style="font-size:10px; opacity:0.3; letter-spacing:2px; margin-bottom:15px;">VICE CITY RADIO</p>
+        <div class="track-list" id="radioList"></div>
+    </div>
+</aside>
+
+<main class="center-hud">
+    <header class="hud-header">
+        <h2 style="font-size: 14px; letter-spacing: 3px; font-weight: 900;">LEONIDA <span style="color:#ff4dd2">DATABASE</span></h2>
+        <nav class="hud-nav">
+            <div class="hud-btn active" onclick="loadPage('map', this)">Satellite</div>
+            <div class="hud-btn" onclick="loadPage('chars', this)">Personnel</div>
+            <div class="hud-btn" onclick="loadPage('places', this)">Locations</div>
+            <div class="hud-btn" onclick="loadPage('shots', this)">Gallery</div>
+            <div class="hud-btn" onclick="loadPage('trailers', this)">Trailers</div>
+        </nav>
     </header>
 
-    <section class="countdown-wrap">
-        <h1 class="title">Grand Theft Auto VI</h1>
-        <div class="subtitle">RELEASE COUNTDOWN – NOVEMBER 19TH, 2026</div>
-        <div class="clock">
-            <div class="unit"><div class="num" id="daysOld">000</div><div class="label">DAYS</div></div>
-            <div class="unit"><div class="num" id="hoursOld">00</div><div class="label">HOURS</div></div>
-            <div class="unit"><div class="num" id="minutesOld">00</div><div class="label">MINUTES</div></div>
-            <div class="unit"><div class="num" id="secondsOld">00</div><div class="label">SECONDS</div></div>
-        </div>
-    </section>
+    <div class="hud-display" id="hudDisplay">
+        <iframe src="https://map.stateofleonida.net/"></iframe>
+    </div>
+</main>
 
-    <!-- ================= NEW LAYOUT ================= -->
-    <section class="main-hud">
-        <div class="hud-header">
-            <h1 class="title"><span class="neon-gta">GTA</span> <span class="neon-vi">VI</span></h1>
-            <div class="subtitle">PREPARING FOR NOVEMBER 19, 2026</div>
-        </div>
-        <div>
-            <div class="clock-label" style="font-size:8px;opacity:0.6;">Time Remaining</div>
-            <div class="integrated-clock">
-                <div class="unit"><div class="num" id="daysNew">000</div><div class="label">DAYS</div></div>
-                <div class="unit"><div class="num" id="hoursNew">00</div><div class="label">HRS</div></div>
-                <div class="unit"><div class="num" id="minutesNew">00</div><div class="label">MINS</div></div>
-                <div class="unit"><div class="num" id="secondsNew">00</div><div class="label">SECS</div></div>
-            </div>
-        </div>
-        <div class="integrated-radio">
-            <div class="radio-header">
-                <span>VICE CITY RADIO</span>
-                <button class="shuffle-btn" id="shuffleBtn">Shuffle</button>
-            </div>
-            <div class="vol-wrap"><input type="range" id="volSlider" min="0" max="1" step="0.01" value="0.7"></div>
-            <div class="integrated-song-list" id="songList"></div>
-        </div>
-    </section>
+<audio id="audioPlayer"></audio>
 
-    <audio id="musicPlayer"></audio>
+<script>
+/* CONTENT DATA */
+const chars = [
+    {n:"Lucia", i:"gta/npc/lucia.jpg", d:"Leonida's most wanted ex-con."},
+    {n:"Jason", i:"gta/npc/jason.jpg", d:"Former military, now Lucia's partner in crime."},
+    {n:"Dre'Quan", i:"gta/npc/dre.jpg", d:"Owner of Only Raw Records."},
+    {n:"Boobie Ike", i:"gta/npc/boobie.png", d:"Vice City real estate legend."}
+];
 
-    <script>
-        const body = document.getElementById('mainBody');
-        const toggleBtn = document.getElementById('layoutToggle');
-        let isNew = false;
+const locs = [
+    {n:"Vice City", i:"gta/places/vice.jpg", d:"Neon heart of Leonida."},
+    {n:"Port Gellhorn", i:"gta/places/port.jpg", d:"Biker-run industrial hub."}
+];
 
-        toggleBtn.onclick = () => {
-            isNew = !isNew;
-            if (isNew) {
-                body.classList.add('new-mode');
-                body.classList.remove('old-mode');
-                toggleBtn.textContent = "SWITCH TO OLD LAYOUT";
-            } else {
-                body.classList.add('old-mode');
-                body.classList.remove('new-mode');
-                toggleBtn.textContent = "SWITCH TO NEW LAYOUT";
-            }
-        };
+/* HUD CONTROLLER */
+function loadPage(page, btn) {
+    const display = document.getElementById('hudDisplay');
+    document.querySelectorAll('.hud-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    display.innerHTML = '';
 
-        /* Countdown - works for both */
-        const targetDate = new Date('2026-11-19T00:00:00');
-        function updateCountdown(){
-            const diff = Math.floor((targetDate - new Date())/1000);
-            if(diff <= 0) return;
-
-            const d = Math.floor(diff/86400);
-            const h = Math.floor((diff%86400)/3600);
-            const m = Math.floor((diff%3600)/60);
-            const s = diff%60;
-
-            document.getElementById('daysOld').textContent = d.toString().padStart(3,'0');
-            document.getElementById('hoursOld').textContent = h.toString().padStart(2,'0');
-            document.getElementById('minutesOld').textContent = m.toString().padStart(2,'0');
-            document.getElementById('secondsOld').textContent = s.toString().padStart(2,'0');
-
-            document.getElementById('daysNew').textContent = d.toString().padStart(3,'0');
-            document.getElementById('hoursNew').textContent = h.toString().padStart(2,'0');
-            document.getElementById('minutesNew').textContent = m.toString().padStart(2,'0');
-            document.getElementById('secondsNew').textContent = s.toString().padStart(2,'0');
-        }
-        setInterval(updateCountdown, 1000);
-        updateCountdown();
-
-        /* Music for New Layout */
-        const songs = [
-            {n:"Hot Together", s:"music/together.mp3"}, {n:"Love Is A Long Road", s:"music/long.mp3"},
-            {n:"Night", s:"music/night.mp3"}, {n:"Ocean Breeze", s:"music/ocean.mp3"},
-            {n:"Self Control", s:"music/self.mp3"}, {n:"Atomic", s:"music/tomic.mp3"},
-            {n:"Sun Glasses At Night", s:"music/sun.mp3"}, {n:"All Night Long", s:"music/all.mp3"},
-            {n:"Shame", s:"music/shame.mp3"}, {n:"Vice City", s:"music/vice.mp3"},
-            {n:"I Walk This Earth All By Myself", s:"music/earth.mp3"}, {n:"Owner Of A Lonley Heart", s:"music/heart.mp3"},
-            {n:"Tempted", s:"music/tempt.mp3"}, {n:"Poison Arrow", s:"music/arrow.mp3"},
-            {n:"Is It A Crime", s:"music/crime.mp3"}, {n:"Here We Are", s:"music/are.mp3"},
-            {n:"Through The Fire", s:"music/fire.mp3"}, {n:"Heart Of Mine", s:"music/mine.mp3"},
-            {n:"Fly Away", s:"music/fly.mp3"}, {n:"Ain't Nobody", s:"music/nobody.mp3"},
-            {n:"Thinking Of You", s:"music/you.mp3"}, {n:"Sweet Love", s:"music/love.mp3"},
-            {n:"I Still Remember You", s:"music/remember.mp3"}, {n:"Gamble With My Love", s:"music/gamble.mp3"},
-            {n:"Sukiyaki", s:"music/suki.mp3"}
-        ];
-
-        const player = document.getElementById('musicPlayer');
-        const songList = document.getElementById('songList');
-
-        songs.forEach(song => {
-            const div = document.createElement('div');
-            div.className = 'track';
-            div.textContent = song.n;
-            div.onclick = () => {
-                document.querySelectorAll('.track').forEach(t => t.classList.remove('active-song'));
-                player.src = song.s; 
-                player.play();
-                div.classList.add('active-song');
-            };
-            songList.appendChild(div);
+    if(page === 'map') {
+        display.innerHTML = `<iframe src="https://map.stateofleonida.net/"></iframe>`;
+    } else if(page === 'chars') {
+        let h = '<div class="page-wrap"><div class="big-grid">';
+        chars.forEach(c => {
+            h += `<div class="big-card"><img src="${c.i}"><div class="big-card-info"><h3>${c.n}</h3><p style="font-size:12px; opacity:0.6;">${c.d}</p></div></div>`;
         });
+        display.innerHTML = h + '</div></div>';
+    } else if(page === 'trailers') {
+        display.innerHTML = `<iframe width="100%" height="100%" src="https://www.youtube.com/embed/QdBZY2fkU-0?autoplay=1" allowfullscreen></iframe>`;
+    }
+}
 
-        document.getElementById('volSlider').oninput = e => player.volume = e.target.value;
+/* RADIO & CLOCK */
+const tracks = ["Hot Together", "Love Is A Long Road", "Night", "Ocean Breeze", "Self Control", "Atomic", "Vice City"];
+const rl = document.getElementById('radioList');
+tracks.forEach(t => {
+    const d = document.createElement('div'); d.className='track'; d.innerText=t;
+    d.onclick = () => {
+        document.querySelectorAll('.track').forEach(i=>i.classList.remove('active')); d.classList.add('active');
+        document.getElementById('audioPlayer').src = `music/${t.toLowerCase().replace(/ /g, '')}.mp3`;
+        document.getElementById('audioPlayer').play();
+    };
+    rl.appendChild(d);
+});
 
-        document.getElementById('shuffleBtn').onclick = () => {
-            const r = Math.floor(Math.random()*songs.length);
-            const tracks = document.querySelectorAll('.track');
-            player.src = songs[r].s;
-            player.play();
-            tracks.forEach(t => t.classList.remove('active-song'));
-            tracks[r].classList.add('active-song');
-        };
-    </script>
+const target = new Date('2026-11-19T00:00:00');
+function update() {
+    const diff = Math.floor((target - new Date())/1000);
+    document.getElementById('dd').innerText = Math.floor(diff/86400);
+    document.getElementById('hh').innerText = Math.floor(diff/3600%24).toString().padStart(2,'0');
+    document.getElementById('mm').innerText = Math.floor(diff/60%60).toString().padStart(2,'0');
+    document.getElementById('ss').innerText = (diff%60).toString().padStart(2,'0');
+}
+setInterval(update, 1000); update();
+</script>
 </body>
 </html>
