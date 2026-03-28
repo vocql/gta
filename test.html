@@ -18,11 +18,10 @@
             color: #fff;
             display: flex;
             align-items: center;
-            justify-content: flex-start; /* Interface moves to the Left */
+            justify-content: flex-start;
             transition: background-position 0.15s ease-out;
-            padding-left: 50px; /* Space for the interface */
+            padding-left: 50px;
         }
-        /* ATMOSPHERIC SCANLINES */
         body::after {
             content: "";
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -31,9 +30,8 @@
             background-size: 100% 3px, 3px 100%;
             z-index: 100; pointer-events: none; opacity: 0.4;
         }
-        /* ================= RESTORED NAVBAR (Fixed at Top) ================= */
         header {
-            position: fixed; top: 20px; right: 50px; z-index: 150; /* Moved right to balance the new UI */
+            position: fixed; top: 20px; right: 50px; z-index: 150;
             display: flex; gap: 6px; padding: 4px;
             border-radius: 999px; background: rgba(0, 0, 0, 0.5);
             backdrop-filter: blur(8px); border: 1px solid rgba(255, 255, 255, 0.08);
@@ -43,44 +41,46 @@
             font-size: 10px; font-weight: 600; text-decoration: none;
             background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08);
             transition: 0.3s; letter-spacing: 1px; text-transform: uppercase;
+            cursor: pointer;
         }
         .nav-btn:hover { background: rgba(255, 255, 255, 0.12); border-color: #00ffe0; transform: translateY(-1px); }
         .nav-btn.active { border-color: #00ffe0; color: #00ffe0; background: rgba(0, 255, 224, 0.05); }
-        /* ================= UNIFIED MAIN HUD (Left Side) ================= */
-        .main-hud {
-            position: relative; z-index: 10;
+
+        /* Tab Content Containers */
+        .tab-content {
+            display: none;
             width: 320px;
             height: auto;
-            max-height: 85vh; /* Prevents overflow */
-            display: flex; flex-direction: column;
-            gap: 15px;
+            max-height: 85vh;
             padding: 30px;
             background: rgba(0, 0, 0, 0.6);
             backdrop-filter: blur(2px) saturate(120%);
             border: 1px solid rgba(255, 255, 255, 0.12);
             border-radius: 12px;
             box-shadow: 0 15px 50px rgba(0, 0, 0, 0.6);
-            transform-style: preserve-3d;
-            overflow: visible; /* Allows track list to scroll internally */
         }
-        /* Integration Lines for HUD look */
+        .tab-content.active {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        /* Keep original HUD styles for Home tab */
+        .main-hud { 
+            position: relative; z-index: 10;
+        }
         .hud-line { position: absolute; height: 1px; background: #00ffe0; opacity: 0.3; }
-        .h-line-1 { width: 100px; top: 15px; left: -110px; } /* Extends interface left */
-        .h-line-2 { width: 150px; bottom: 15px; right: -160px; } /* Extends right */
-        /* HUD Title & Logo */
+        .h-line-1 { width: 100px; top: 15px; left: -110px; }
+        .h-line-2 { width: 150px; bottom: 15px; right: -160px; }
         .hud-header { text-align: left; }
         .title { font-size: 32px; font-weight: 900; letter-spacing: 4px; text-transform: uppercase; margin-bottom: 2px; }
-        /* Neon text effect */
         .neon-gta { text-shadow: 0 0 5px #ff4dd2, 0 0 10px #ff4dd2, 0 0 15px #ff4dd2, 0 0 20px #ff4dd2, 0 0 30px #ff4dd2, 0 0 40px #ff4dd2, 0 0 50px #ff4dd2, 0 0 75px #ff4dd2; color: #fff; }
         .neon-vi { text-shadow: 0 0 5px #00ffe0, 0 0 10px #00ffe0, 0 0 15px #00ffe0, 0 0 20px #00ffe0, 0 0 30px #00ffe0, 0 0 40px #00ffe0, 0 0 50px #00ffe0, 0 0 75px #00ffe0; color: #fff; }
-       
         .subtitle { font-size: 10px; letter-spacing: 2px; color: #ff4dd2; margin-bottom: 10px; font-weight: 600; }
-        /* Integreated Countdown */
         .integrated-clock { display: flex; gap: 8px; justify-content: flex-start; margin-bottom: 15px;}
         .clock-label { font-size: 8px; opacity: 0.6; margin-top: 1px; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 2px; color: #fff; }
         .unit { padding: 8px 0; border-radius: 6px; background: rgba(0, 0, 0, 0.45); border: 1px solid rgba(255, 255, 255, 0.03); width: 60px; text-align: center;}
         .num { font-size: 20px; font-weight: 600; color: #fff; font-family: 'Exo 2', sans-serif;}
-        /* Restored 25-Song List (Integrated in HUD) */
         .integrated-radio { flex: 1; display: flex; flex-direction: column; overflow: hidden; border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 15px; }
         .radio-header { font-size: 9px; opacity: 0.5; text-transform: uppercase; color: #fff; letter-spacing: 2px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center;}
         .shuffle-btn { background: rgba(0, 255, 224, 0.15); border: 1px solid #00ffe0; color: #00ffe0; padding: 4px 8px; border-radius: 5px; font-size: 8px; font-weight: 900; cursor: pointer; }
@@ -91,22 +91,31 @@
         .track { padding: 10px 12px; border-radius: 6px; font-size: 10px; font-weight: 600; cursor: pointer; color: rgba(255,255,255,0.7); transition: 0.2s; border-bottom: 1px solid rgba(255,255,255,0.03); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;}
         .track:hover { background: rgba(255, 77, 210, 0.1); color: #ff4dd2; }
         .track.active-song { color: #00ffe0; background: rgba(0, 255, 224, 0.1); border-left: 2px solid #00ffe0; font-weight: 900;}
-        /* Custom Scrollbar for the HUD list */
         .integrated-song-list::-webkit-scrollbar { width: 3px; }
         .integrated-song-list::-webkit-scrollbar-thumb { background: #ff4dd2; border-radius: 10px; }
+
+        /* Placeholder for other tabs */
+        .tab-placeholder {
+            color: rgba(255,255,255,0.6);
+            font-size: 14px;
+            text-align: center;
+            padding: 60px 20px;
+            line-height: 1.6;
+        }
     </style>
 </head>
 <body>
 <header>
-    <a href="index.html" class="nav-btn active">Home</a>
-    <a href="map.html" class="nav-btn">Map</a>
-    <a href="characters.html" class="nav-btn">Characters</a>
-    <a href="places.html" class="nav-btn">Places</a>
-    <a href="screenshots.html" class="nav-btn">Screenshots</a>
-    <a href="trailers.html" class="nav-btn">Trailers</a>
+    <a onclick="switchTab(0)" class="nav-btn active" id="tab-0">Home</a>
+    <a onclick="switchTab(1)" class="nav-btn" id="tab-1">Map</a>
+    <a onclick="switchTab(2)" class="nav-btn" id="tab-2">Characters</a>
+    <a onclick="switchTab(3)" class="nav-btn" id="tab-3">Places</a>
+    <a onclick="switchTab(4)" class="nav-btn" id="tab-4">Screenshots</a>
+    <a onclick="switchTab(5)" class="nav-btn" id="tab-5">Trailers</a>
 </header>
 
-<section class="main-hud" id="mainCard">
+<!-- Home Tab -->
+<div class="tab-content active main-hud" id="content-0">
     <div class="hud-line h-line-1"></div>
     <div class="hud-line h-line-2"></div>
     <div class="hud-header">
@@ -128,14 +137,41 @@
             <button class="shuffle-btn" id="shuffleBtn">Shuffle</button>
         </div>
         <div class="vol-wrap"><input type="range" id="volSlider" min="0" max="1" step="0.01" value="0.7"></div>
-        <div class="integrated-song-list" id="songList">
-            </div>
+        <div class="integrated-song-list" id="songList"></div>
     </div>
-</section>
+</div>
+
+<!-- Other Tabs (placeholders for now) -->
+<div class="tab-content" id="content-1">
+    <div class="tab-placeholder">Map coming soon...</div>
+</div>
+<div class="tab-content" id="content-2">
+    <div class="tab-placeholder">Characters coming soon...</div>
+</div>
+<div class="tab-content" id="content-3">
+    <div class="tab-placeholder">Places coming soon...</div>
+</div>
+<div class="tab-content" id="content-4">
+    <div class="tab-placeholder">Screenshots coming soon...</div>
+</div>
+<div class="tab-content" id="content-5">
+    <div class="tab-placeholder">Trailers coming soon...</div>
+</div>
 
 <audio id="musicPlayer"></audio>
 
 <script>
+/* ===== TAB SWITCHING ===== */
+function switchTab(tabIndex) {
+    // Remove active from all buttons and contents
+    document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+    
+    // Activate selected tab
+    document.getElementById(`tab-${tabIndex}`).classList.add('active');
+    document.getElementById(`content-${tabIndex}`).classList.add('active');
+}
+
 /* ===== COUNTDOWN ===== */
 const target = new Date('2026-11-19T00:00:00');
 function update() {
@@ -149,12 +185,14 @@ function update() {
 setInterval(update, 1000); update();
 
 /* ===== PARALLAX ===== */
-const card = document.getElementById('mainCard');
+const card = document.getElementById('content-0'); // Only home has parallax for now
 document.addEventListener('mousemove', (e) => {
     const x = (window.innerWidth / 2 - e.pageX) / 80;
     const y = (window.innerHeight / 2 - e.pageY) / 80;
     document.body.style.backgroundPosition = `calc(50% + ${x}px) calc(35% + ${y}px)`;
-    card.style.transform = `perspective(1000px) rotateX(${(window.innerHeight/2 - e.pageY)/70}deg) rotateY(${(e.pageX - window.innerWidth/2)/70}deg)`;
+    if (document.getElementById('content-0').classList.contains('active')) {
+        card.style.transform = `perspective(1000px) rotateX(${(window.innerHeight/2 - e.pageY)/70}deg) rotateY(${(e.pageX - window.innerWidth/2)/70}deg)`;
+    }
 });
 
 /* ===== RESTORED MUSIC ENGINE ===== */
@@ -171,22 +209,28 @@ const songs = [
 ];
 const player = document.getElementById('musicPlayer'), list = document.getElementById('songList');
 
-// Inject the RESTORED 25 Songs
 songs.forEach(song => {
-    const div = document.createElement('div'); div.className = 'track'; div.innerText = song.n;
-    div.onclick = () => play(song.s, div); list.appendChild(div);
+    const div = document.createElement('div'); 
+    div.className = 'track'; 
+    div.innerText = song.n;
+    div.onclick = () => play(song.s, div); 
+    list.appendChild(div);
 });
+
 document.getElementById('volSlider').oninput = (e) => player.volume = e.target.value;
 document.getElementById('shuffleBtn').onclick = () => {
     const r = Math.floor(Math.random()*songs.length);
     play(songs[r].s, document.querySelectorAll('.track')[r]);
 };
+
 function play(src, el) {
     if (player.src.includes(src) && !player.paused) {
         player.pause();
     } else {
         document.querySelectorAll('.track').forEach(t => t.classList.remove('active-song'));
-        player.src = src; player.play(); el.classList.add('active-song');
+        player.src = src; 
+        player.play(); 
+        el.classList.add('active-song');
         el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     }
 }
