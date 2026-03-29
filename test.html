@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>VI | Home</title>
+    <title>VI | Characters</title>
 
     <link rel="icon" href="gta/npc/lucia.jpg" type="image/jpg">
     <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;600;900&display=swap" rel="stylesheet">
@@ -23,7 +23,7 @@
             align-items: center;
             justify-content: flex-start;
             transition: background-position 0.15s ease-out;
-            padding-left: 50px;
+            padding: 0 50px;
         }
 
         /* ATMOSPHERIC SCANLINES */
@@ -36,7 +36,7 @@
             z-index: 100; pointer-events: none; opacity: 0.4;
         }
 
-        /* ================= ERROR MENU ================= */
+        /* ================= ERROR MENU (Coming Soon Logic) ================= */
         #errorOverlay {
             position: fixed; inset: 0; background: rgba(0, 0, 0, 0.85);
             backdrop-filter: blur(10px); z-index: 1000;
@@ -47,15 +47,12 @@
             border: 1px solid #ff4dd2; padding: 40px; border-radius: 20px;
             background: rgba(255, 77, 210, 0.05); box-shadow: 0 0 30px rgba(255, 77, 210, 0.2);
         }
-        .error-title { font-size: 40px; font-weight: 900; color: #ff4dd2; text-shadow: 0 0 10px #ff4dd2; margin-bottom: 10px; }
-        .error-msg { font-size: 12px; letter-spacing: 4px; text-transform: uppercase; color: #fff; opacity: 0.8; margin-bottom: 30px; }
-        .close-btn { 
-            padding: 10px 30px; border: 1px solid #00ffe0; color: #00ffe0; background: transparent; 
-            cursor: pointer; font-family: 'Exo 2'; font-weight: 900; text-transform: uppercase; border-radius: 5px;
+        .close-btn-error { 
+            margin-top: 20px; padding: 10px 30px; border: 1px solid #00ffe0; color: #00ffe0; 
+            background: transparent; cursor: pointer; font-weight: 900; text-transform: uppercase;
         }
-        .close-btn:hover { background: #00ffe0; color: #000; }
 
-        /* ================= NAVBAR ================= */
+        /* ================= NAVBAR (Fixed Top Right) ================= */
         header {
             position: fixed; top: 20px; right: 50px; z-index: 150;
             display: flex; gap: 6px; padding: 4px;
@@ -66,51 +63,54 @@
             padding: 8px 16px; border-radius: 999px; color: #fff;
             font-size: 10px; font-weight: 600; text-decoration: none;
             background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08);
-            transition: 0.3s; letter-spacing: 1px; text-transform: uppercase; cursor: pointer;
+            transition: 0.3s; letter-spacing: 1px; text-transform: uppercase;
         }
-        .nav-btn:hover { background: rgba(255, 255, 255, 0.12); border-color: #00ffe0; transform: translateY(-1px); }
+        .nav-btn:hover { background: rgba(255, 255, 255, 0.12); border-color: #00ffe0; }
         .nav-btn.active { border-color: #00ffe0; color: #00ffe0; background: rgba(0, 255, 224, 0.05); }
 
-        /* ================= MAIN HUD ================= */
+        /* ================= LEFT SIDE HUD ================= */
         .main-hud {
-            position: relative; z-index: 10;
-            width: 320px; height: auto; max-height: 85vh;
-            display: flex; flex-direction: column; gap: 15px; padding: 30px;
-            background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(2px) saturate(120%);
-            border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 12px;
-            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.6); transform-style: preserve-3d;
+            width: 320px; height: 85vh; display: flex; flex-direction: column;
+            gap: 15px; padding: 30px; background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(5px); border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 12px; z-index: 10;
         }
+        .title { font-size: 32px; font-weight: 900; letter-spacing: 4px; }
+        .neon-gta { text-shadow: 0 0 10px #ff4dd2; color: #fff; }
+        .neon-vi { text-shadow: 0 0 10px #00ffe0; color: #fff; }
 
-        .hud-line { position: absolute; height: 1px; background: #00ffe0; opacity: 0.3; }
-        .h-line-1 { width: 100px; top: 15px; left: -110px; }
-        .h-line-2 { width: 150px; bottom: 15px; right: -160px; }
-
-        .hud-header { text-align: left; }
-        .title { font-size: 32px; font-weight: 900; letter-spacing: 4px; text-transform: uppercase; margin-bottom: 2px; }
-        .neon-gta { text-shadow: 0 0 5px #ff4dd2, 0 0 10px #ff4dd2; color: #fff; }
-        .neon-vi { text-shadow: 0 0 5px #00ffe0, 0 0 10px #00ffe0; color: #fff; }
-        .subtitle { font-size: 10px; letter-spacing: 2px; color: #ff4dd2; margin-bottom: 10px; font-weight: 600; }
-
-        .integrated-clock { display: flex; gap: 8px; justify-content: flex-start; margin-bottom: 15px;}
-        .clock-label { font-size: 8px; opacity: 0.6; margin-top: 1px; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 2px; color: #fff; }
+        /* Countdown & Radio styling matched to Home */
         .unit { padding: 8px 0; border-radius: 6px; background: rgba(0, 0, 0, 0.45); border: 1px solid rgba(255, 255, 255, 0.03); width: 60px; text-align: center;}
-        .num { font-size: 20px; font-weight: 600; color: #fff; font-family: 'Exo 2', sans-serif;}
+        .num { font-size: 20px; font-weight: 600; }
+        .integrated-song-list { overflow-y: auto; flex: 1; }
+        .track { padding: 10px; font-size: 10px; cursor: pointer; border-bottom: 1px solid rgba(255,255,255,0.03); opacity: 0.7; }
+        .track:hover { color: #ff4dd2; opacity: 1; }
 
-        .integrated-radio { flex: 1; display: flex; flex-direction: column; overflow: hidden; border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 15px; }
-        .radio-header { font-size: 9px; opacity: 0.5; text-transform: uppercase; color: #fff; letter-spacing: 2px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center;}
-        .shuffle-btn { background: rgba(0, 255, 224, 0.15); border: 1px solid #00ffe0; color: #00ffe0; padding: 4px 8px; border-radius: 5px; font-size: 8px; font-weight: 900; cursor: pointer; }
-        
-        .vol-wrap { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
-        input[type=range] { flex: 1; accent-color: #ff4dd2; height: 3px; cursor: pointer; background: transparent;}
+        /* ================= CHARACTERS VIEWPORT (Center/Right) ================= */
+        .content-viewport {
+            flex: 1; height: 85vh; margin-left: 30px; padding: 40px;
+            background: rgba(0, 0, 0, 0.4); border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            overflow-y: auto; z-index: 10;
+        }
+        .character-grid {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 20px;
+        }
+        .character-card {
+            aspect-ratio: 1/1; border-radius: 15px; overflow: hidden; 
+            position: relative; cursor: pointer; border: 1px solid rgba(255,255,255,0.1);
+            transition: 0.3s;
+        }
+        .character-card:hover { transform: scale(1.02); border-color: #ff4dd2; box-shadow: 0 0 20px rgba(255,77,210,0.3); }
+        .character-card img { width: 100%; height: 100%; object-fit: cover; }
+        .card-name { position: absolute; bottom: 0; left: 0; right: 0; padding: 20px; background: linear-gradient(transparent, rgba(0,0,0,0.9)); font-weight: 900; text-transform: uppercase; font-size: 14px; letter-spacing: 2px; }
 
-        .integrated-song-list { overflow-y: auto; flex: 1; padding: 0;}
-        .track { padding: 10px 12px; border-radius: 6px; font-size: 10px; font-weight: 600; cursor: pointer; color: rgba(255,255,255,0.7); transition: 0.2s; border-bottom: 1px solid rgba(255,255,255,0.03); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;}
-        .track:hover { background: rgba(255, 77, 210, 0.1); color: #ff4dd2; }
-        .track.active-song { color: #00ffe0; background: rgba(0, 255, 224, 0.1); border-left: 2px solid #00ffe0; font-weight: 900;}
-
-        .integrated-song-list::-webkit-scrollbar { width: 3px; }
-        .integrated-song-list::-webkit-scrollbar-thumb { background: #ff4dd2; border-radius: 10px; }
-
+        /* MODAL */
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 1000; display: none; align-items: center; justify-content: center; padding: 20px; }
+        .modal.active { display: flex; }
+        .modal-content { background: #080812; border: 1px solid #00ffe0; border-radius: 20px; max-width: 800px; display: grid; grid-template-columns: 1fr 1fr; gap: 30px; padding: 40px; position: relative; }
+        .modal img { width: 100%; border-radius: 10px; }
+        .close-modal { position: absolute; top: 20px; right: 20px; cursor: pointer; color: #ff4dd2; font-size: 24px; }
     </style>
 </head>
 
@@ -118,113 +118,113 @@
 
 <div id="errorOverlay">
     <div class="error-box">
-        <div class="error-title">SYSTEM ERROR</div>
-        <div class="error-msg">ACCESS DENIED: CONTENT COMING SOON</div>
-        <button class="close-btn" onclick="closeError()">Return to Home</button>
+        <h1 style="color:#ff4dd2; font-size:40px; font-weight:900;">SYSTEM ERROR</h1>
+        <p style="letter-spacing:4px; margin:10px 0 20px;">ACCESS DENIED: CONTENT COMING SOON</p>
+        <button class="close-btn-error" onclick="closeError()">Return</button>
     </div>
 </div>
 
+<section class="main-hud" id="mainCard">
+    <div class="hud-header">
+        <h1 class="title"><span class="neon-gta">GTA</span> <span class="neon-vi">VI</span></h1>
+        <div style="font-size:10px; color:#ff4dd2; font-weight:600; letter-spacing:2px;">PERSONNEL DATABASE</div>
+    </div>
+
+    <div class="integrated-clock" style="display:flex; gap:5px;">
+        <div class="unit"><div class="num" id="days">000</div></div>
+        <div class="unit"><div class="num" id="hours">00</div></div>
+        <div class="unit"><div class="num" id="minutes">00</div></div>
+    </div>
+
+    <div class="integrated-radio">
+        <div style="font-size:9px; opacity:0.5; margin-bottom:10px;">VICE CITY RADIO</div>
+        <div class="integrated-song-list" id="songList"></div>
+    </div>
+</section>
+
 <header>
-    <a href="#" class="nav-btn active">Home</a>
+    <a href="index.html" class="nav-btn">Home</a>
     <a href="#" class="nav-btn" onclick="triggerError()">Map</a>
-    <a href="#" class="nav-btn" onclick="triggerError()">Characters</a>
+    <a href="#" class="nav-btn active">Characters</a>
     <a href="#" class="nav-btn" onclick="triggerError()">Places</a>
     <a href="#" class="nav-btn" onclick="triggerError()">Screenshots</a>
     <a href="#" class="nav-btn" onclick="triggerError()">Trailers</a>
 </header>
 
-<section class="main-hud" id="mainCard">
-    <div class="hud-line h-line-1"></div>
-    <div class="hud-line h-line-2"></div>
+<main class="content-viewport">
+    <h1 style="font-size: 24px; letter-spacing: 5px; margin-bottom: 30px; text-transform: uppercase;">Known Associates</h1>
+    <div class="character-grid" id="charGrid">
+        </div>
+</main>
 
-    <div class="hud-header">
-        <h1 class="title"><span class="neon-gta">GTA</span> <span class="neon-vi">VI</span></h1>
-        <div class="subtitle">PREPARING FOR NOVEMBER 19, 2026</div>
-    </div>
-
-    <div>
-        <div class="clock-label">Time Remaining</div>
-        <div class="integrated-clock">
-            <div class="unit"><div class="num" id="days">000</div><div class="label">DAYS</div></div>
-            <div class="unit"><div class="num" id="hours">00</div><div class="label">HRS</div></div>
-            <div class="unit"><div class="num" id="minutes">00</div><div class="label">MINS</div></div>
-            <div class="unit"><div class="num" id="seconds">00</div><div class="label">SECS</div></div>
+<div class="modal" id="modal">
+    <div class="modal-content">
+        <span class="close-modal" onclick="closeModal()">✕</span>
+        <img id="modalImg" src="">
+        <div>
+            <h2 id="modalTitle" style="color:#00ffe0; margin-bottom:15px; font-weight:900; text-transform:uppercase;"></h2>
+            <p id="modalDesc" style="line-height:1.6; font-size:14px; opacity:0.8;"></p>
         </div>
     </div>
-
-    <div class="integrated-radio">
-        <div class="radio-header">
-            <span>VICE CITY RADIO</span>
-            <button class="shuffle-btn" id="shuffleBtn">Shuffle</button>
-        </div>
-        <div class="vol-wrap"><input type="range" id="volSlider" min="0" max="1" step="0.01" value="0.7"></div>
-        <div class="integrated-song-list" id="songList"></div>
-    </div>
-</section>
+</div>
 
 <audio id="musicPlayer"></audio>
 
 <script>
-/* ERROR LOGIC */
+const characters = [
+    {name: "Lucia", img: "gta/npc/lucia.jpg", desc: "Raised on the unforgiving streets of Liberty City, Lucia is single-minded in her determination to rewrite her future after her release from Leonida Penitentiary."},
+    {name: "Jason", img: "gta/npc/jason.jpg", desc: "A former army man turned drug runner. Meeting Lucia pulls him into a high-stakes Bonnie-and-Clyde romance where every choice leads to freedom or ruin."},
+    {name: "Dre'Quan Priest", img: "gta/npc/dre.jpg", desc: "Ambitious and savvy, Dre'Quan bridges the gap between Vice City's underground and its legitimate spotlight."},
+    {name: "Stefanie", img: "gta/npc/stefanie.png", desc: "A social worker for Leonida Corrections ready to break the rules to help those caught in the cycle."},
+    {name: "Cal Hampton", img: "gta/npc/cal.png", desc: "Jason's paranoid buddy who monitors Coast Guard radio chatter and diving into 'research'."},
+    {name: "Boobie Ike", img: "gta/npc/boobie.png", desc: "Vice City legend. Owner of the Jack of Hearts strip club and a recording studio powerhouse."},
+    {name: "Roxy", img: "gta/npc/dimez.webp", desc: "One half of Real Dimez, turning dealer shake-downs into viral rap tracks and massive clout."},
+    {name: "Raul Bautista", img: "gta/npc/raul.png", desc: "Veteran bank robber known for old-school charm and ice-cold precision."},
+    {name: "Brian Heder", img: "gta/npc/brian.png", desc: "Old-school drug kingpin from the glory days of Keys smuggling, running ops from his boat yard."},
+    {name: "Luxe", img: "gta/npc/luxe.webp", desc: "One half of Real Dimez, fiercely ambitious and hungry to claim the throne in the music game."}
+];
+
+/* INITIALIZE */
+const grid = document.getElementById('charGrid');
+characters.forEach(c => {
+    grid.innerHTML += `
+        <div class="character-card" onclick="openModal('${c.name}', '${c.img}', '${c.desc.replace(/'/g, "\\'")}')">
+            <img src="${c.img}">
+            <div class="card-name">${c.name}</div>
+        </div>
+    `;
+});
+
+function openModal(n, i, d) {
+    document.getElementById('modalTitle').innerText = n;
+    document.getElementById('modalImg').src = i;
+    document.getElementById('modalDesc').innerText = d;
+    document.getElementById('modal').classList.add('active');
+}
+function closeModal() { document.getElementById('modal').classList.remove('active'); }
 function triggerError() { document.getElementById('errorOverlay').style.display = 'flex'; }
 function closeError() { document.getElementById('errorOverlay').style.display = 'none'; }
 
-/* ===== COUNTDOWN ===== */
+/* HUD LOGIC (COUNTDOWN/PARALLAX/RADIO) REPLICATED FROM HOME */
 const target = new Date('2026-11-19T00:00:00');
-function update() {
+setInterval(() => {
     const diff = Math.floor((target - new Date())/1000);
-    if(diff <= 0) return;
     document.getElementById('days').textContent = Math.floor(diff/86400).toString().padStart(3, '0');
     document.getElementById('hours').textContent = Math.floor(diff/3600%24).toString().padStart(2, '0');
     document.getElementById('minutes').textContent = Math.floor(diff/60%60).toString().padStart(2, '0');
-    document.getElementById('seconds').textContent = (diff%60).toString().padStart(2, '0');
-}
-setInterval(update, 1000); update();
+}, 1000);
 
-/* ===== PARALLAX ===== */
 const card = document.getElementById('mainCard');
 document.addEventListener('mousemove', (e) => {
-    const x = (window.innerWidth / 2 - e.pageX) / 80;
-    const y = (window.innerHeight / 2 - e.pageY) / 80;
+    const x = (window.innerWidth/2 - e.pageX)/80;
+    const y = (window.innerHeight/2 - e.pageY)/80;
     document.body.style.backgroundPosition = `calc(50% + ${x}px) calc(35% + ${y}px)`;
     card.style.transform = `perspective(1000px) rotateX(${(window.innerHeight/2 - e.pageY)/70}deg) rotateY(${(e.pageX - window.innerWidth/2)/70}deg)`;
 });
 
-/* ===== MUSIC ENGINE ===== */
-const songs = [
-    {n:"Hot Together", s:"music/together.mp3"}, {n:"Love Is A Long Road", s:"music/long.mp3"}, {n:"Night", s:"music/night.mp3"}, 
-    {n:"Ocean Breeze", s:"music/ocean.mp3"}, {n:"Self Control", s:"music/self.mp3"}, {n:"Atomic", s:"music/tomic.mp3"}, 
-    {n:"Sun Glasses At Night", s:"music/sun.mp3"}, {n:"All Night Long", s:"music/all.mp3"}, {n:"Shame", s:"music/shame.mp3"}, 
-    {n:"Vice City", s:"music/vice.mp3"}, {n:"I Walk This Earth All By Myself", s:"music/earth.mp3"}, {n:"Owner Of A Lonley Heart", s:"music/heart.mp3"},
-    {n:"Tempted", s:"music/tempt.mp3"}, {n:"Poison Arrow", s:"music/arrow.mp3"}, {n:"Is It A Crime", s:"music/crime.mp3"}, 
-    {n:"Here We Are", s:"music/are.mp3"}, {n:"Through The Fire", s:"music/fire.mp3"}, {n:"Heart Of Mine", s:"music/mine.mp3"}, 
-    {n:"Fly Away", s:"music/fly.mp3"}, {n:"Ain't Nobody", s:"music/nobody.mp3"}, {n:"Thinking Of You", s:"music/you.mp3"}, 
-    {n:"Sweet Love", s:"music/love.mp3"}, {n:"I Still Remember You", s:"music/remember.mp3"}, {n:"Gamble With My Love", s:"music/gamble.mp3"}, 
-    {n:"Sukiyaki", s:"music/suki.mp3"}
-];
-
-const player = document.getElementById('musicPlayer'), list = document.getElementById('songList');
-
-songs.forEach(song => {
-    const div = document.createElement('div'); div.className = 'track'; div.innerText = song.n;
-    div.onclick = () => play(song.s, div); list.appendChild(div);
-});
-
-document.getElementById('volSlider').oninput = (e) => player.volume = e.target.value;
-document.getElementById('shuffleBtn').onclick = () => {
-    const r = Math.floor(Math.random()*songs.length);
-    play(songs[r].s, document.querySelectorAll('.track')[r]);
-};
-
-function play(src, el) {
-    if (player.src.includes(src) && !player.paused) { 
-        player.pause(); 
-    } else {
-        document.querySelectorAll('.track').forEach(t => t.classList.remove('active-song'));
-        player.src = src; player.play(); el.classList.add('active-song');
-        el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-    }
-}
+const songs = ["Hot Together", "Love Is A Long Road", "Night", "Ocean Breeze", "Self Control"];
+const sList = document.getElementById('songList');
+songs.forEach(s => sList.innerHTML += `<div class="track">${s}</div>`);
 </script>
 </body>
 </html>
