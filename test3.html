@@ -8,77 +8,81 @@
 
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
-        html, body { height: 100vh; overflow: hidden; background: #050505; color: #fff; font-family: 'Exo 2', sans-serif; }
+        html, body { height: 100vh; overflow: hidden; background: #000; font-family: 'Exo 2', sans-serif; }
 
         body {
-            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.4)), url('gta/jason.jpg') center/cover no-repeat;
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.2)), url('gta/jason.jpg') center/cover no-repeat;
             display: flex; align-items: center; justify-content: center; padding: 20px;
         }
 
+        /* --- RESTORED 3-COLUMN GRID --- */
         .container {
-            display: grid; grid-template-columns: 320px 450px 1fr; gap: 20px;
-            width: 100%; height: 90vh; max-width: 1850px; z-index: 10;
+            display: grid; 
+            grid-template-columns: 380px 500px 1fr; 
+            gap: 25px;
+            width: 100%; height: 90vh; max-width: 1900px; z-index: 10;
         }
 
-        .panel {
-            background: rgba(0, 0, 0, 0.88); border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 20px; backdrop-filter: blur(30px); display: flex; flex-direction: column; overflow: hidden;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+        .glass {
+            background: rgba(0, 0, 0, 0.82);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 25px;
+            display: flex; flex-direction: column; overflow: hidden;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.8);
         }
 
-        /* --- NEON HUD --- */
-        .hud-top { padding: 25px; border-bottom: 1px solid rgba(255,255,255,0.05); }
-        .gta-logo { font-size: 32px; font-weight: 900; letter-spacing: 4px; margin-bottom: 15px; text-align: center; }
-        .neon-p { color: #ff4dd2; text-shadow: 0 0 15px #ff4dd2; animation: neon-pulse 2s infinite alternate; }
-        .neon-b { color: #00ffe0; text-shadow: 0 0 15px #00ffe0; animation: neon-pulse 2s infinite alternate-reverse; }
-        
-        @keyframes neon-pulse {
-            from { opacity: 0.8; text-shadow: 0 0 10px currentColor; }
-            to { opacity: 1; text-shadow: 0 0 20px currentColor, 0 0 30px currentColor; }
-        }
+        /* --- PANEL 1: ORIGINAL LARGE NEON HUD --- */
+        .p1-top { padding: 35px 30px 20px; border-bottom: 1px solid rgba(255,255,255,0.05); text-align: center; }
+        .neon-title { font-size: 48px; font-weight: 900; letter-spacing: 5px; margin-bottom: 5px; }
+        .neon-p { color: #ff4dd2; text-shadow: 0 0 10px #ff4dd2, 0 0 20px #ff4dd2, 0 0 30px #ff4dd2; }
+        .neon-b { color: #00ffe0; text-shadow: 0 0 10px #00ffe0, 0 0 20px #00ffe0, 0 0 30px #00ffe0; }
+        .sub-text { color: #ff4dd2; font-size: 10px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 25px; opacity: 0.8; }
 
-        .timer { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
-        .t-box { background: rgba(255,255,255,0.03); padding: 12px 0; border-radius: 10px; text-align: center; border: 1px solid rgba(255,255,255,0.05); }
-        .t-num { font-size: 22px; font-weight: 900; color: #00ffe0; display: block; }
+        .timer-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 25px; }
+        .t-box { background: rgba(255, 255, 255, 0.05); padding: 15px 5px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.03); text-align: center; }
+        .t-num { font-size: 24px; font-weight: 900; color: #00ffe0; display: block; }
         .t-lab { font-size: 8px; font-weight: 900; color: #ff4dd2; text-transform: uppercase; }
 
-        /* --- RADIO --- */
-        .radio-wrap { flex: 1; padding: 20px; display: flex; flex-direction: column; overflow: hidden; }
-        .vol-slider { width: 100%; accent-color: #ff4dd2; margin-bottom: 15px; cursor: pointer; height: 4px; appearance: none; background: rgba(255,255,255,0.1); border-radius: 2px; }
-        .song-list { overflow-y: auto; flex: 1; }
-        .track { padding: 12px; font-size: 10px; cursor: pointer; border-bottom: 1px solid rgba(255,255,255,0.02); opacity: 0.5; transition: 0.2s; }
-        .track.active { opacity: 1; color: #00ffe0; background: rgba(0, 255, 224, 0.05); border-left: 3px solid #ff4dd2; }
+        .radio-wrap { flex: 1; padding: 25px 30px; display: flex; flex-direction: column; overflow: hidden; }
+        .vol-slider { width: 100%; accent-color: #ff4dd2; margin-bottom: 15px; cursor: pointer; height: 3px; appearance: none; background: rgba(255,255,255,0.1); border-radius: 2px; }
+        .song-list { overflow-y: auto; flex: 1; scrollbar-width: none; }
+        .track { padding: 12px 0; font-size: 11px; color: rgba(255, 255, 255, 0.5); cursor: pointer; border-bottom: 1px solid rgba(255,255,255,0.03); transition: 0.2s; }
+        .track.active { color: #00ffe0; font-weight: 900; border-left: 2px solid #ff4dd2; padding-left: 10px; }
 
-        /* --- CINEMA TRAILER PANEL --- */
-        .trailer-section { position: relative; width: 100%; padding-top: 56.25%; background: #000; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        /* --- PANEL 2: TRAILER & SOCIALS --- */
+        .controls { display: flex; justify-content: space-between; align-items: center; padding: 15px 25px; background: #000; }
+        .ctrl-btn { background: transparent; border: 1px solid rgba(255,255,255,0.2); color: #fff; padding: 6px 15px; cursor: pointer; border-radius: 5px; font-size: 10px; font-weight: 900; }
+        .ctrl-btn:hover { border-color: #ff4dd2; color: #ff4dd2; }
+        .slide-info { font-size: 10px; font-weight: 900; color: #00ffe0; letter-spacing: 2px; }
+
+        .vid-container { position: relative; width: 100%; padding-top: 56.25%; background: #000; }
         .vid-frame { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
-        
-        .slider-controls {
-            display: flex; justify-content: space-between; align-items: center;
-            background: #111; padding: 12px 20px; border-bottom: 1px solid rgba(255,255,255,0.05);
-        }
-        .slide-btn, .fs-btn { 
-            background: transparent; border: 1px solid rgba(255,255,255,0.2); color: #fff; 
-            padding: 5px 12px; cursor: pointer; border-radius: 4px; font-size: 10px; font-weight: 900;
-        }
-        .slide-btn:hover, .fs-btn:hover { border-color: #ff4dd2; color: #ff4dd2; background: rgba(255,77,210,0.05); }
-        .slide-counter { font-size: 10px; font-weight: 900; color: #00ffe0; letter-spacing: 2px; }
 
-        .intel-area { flex: 1; padding: 25px; }
-        .status-log { font-family: monospace; font-size: 11px; color: #00ffe0; opacity: 0.7; }
-        .status-line { margin-bottom: 8px; border-left: 2px solid #ff4dd2; padding-left: 10px; }
+        /* SOCIALS SECTION (UNDER TRAILER) */
+        .socials-area { flex: 1; padding: 25px; display: flex; flex-direction: column; gap: 10px; }
+        .social-item { 
+            display: flex; justify-content: space-between; align-items: center; 
+            padding: 12px 20px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 12px; text-decoration: none; transition: 0.3s;
+        }
+        .social-item:hover { background: rgba(0, 255, 224, 0.05); border-color: #00ffe0; transform: translateX(5px); }
+        .s-plat { font-size: 9px; font-weight: 900; color: #ff4dd2; letter-spacing: 2px; text-transform: uppercase; }
+        .s-user { font-family: monospace; font-size: 12px; color: #00ffe0; font-weight: bold; }
 
-        /* --- MAP PANEL --- */
-        .map-frame { width: 100%; height: 100%; border: none; }
+        /* --- PANEL 3: MAP --- */
+        .map-box { width: 100%; height: 100%; overflow: hidden; }
+        .map-box iframe { width: 100%; height: 100%; border: none; pointer-events: auto; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <div class="panel">
-        <div class="hud-top">
-            <div class="gta-logo"><span class="neon-p">GTA</span> <span class="neon-b">VI</span></div>
-            <div class="timer">
+    <div class="glass">
+        <div class="p1-top">
+            <div class="neon-title"><span class="neon-p">GTA</span> <span class="neon-b">VI</span></div>
+            <div class="sub-text">Preparing for November 19, 2026</div>
+            <div class="timer-grid">
                 <div class="t-box"><span class="t-num" id="d">000</span><span class="t-lab">Days</span></div>
                 <div class="t-box"><span class="t-num" id="h">00</span><span class="t-lab">Hrs</span></div>
                 <div class="t-box"><span class="t-num" id="m">00</span><span class="t-lab">Mins</span></div>
@@ -91,27 +95,28 @@
         </div>
     </div>
 
-    <div class="panel" id="cinemaPanel">
-        <div class="slider-controls">
-            <button class="slide-btn" onclick="changeTrailer(-1)">PREV</button>
-            <div class="slide-counter" id="slideNum">1 / 2</div>
-            <button class="slide-btn" onclick="changeTrailer(1)">NEXT</button>
-            <button class="fs-btn" onclick="toggleFS()">FULLSCREEN</button>
+    <div class="glass">
+        <div class="controls">
+            <button class="ctrl-btn" onclick="changeTrailer(-1)">PREV</button>
+            <div class="slide-info" id="slideNum">ARCHIVE_01</div>
+            <button class="ctrl-btn" onclick="changeTrailer(1)">NEXT</button>
+            <button class="ctrl-btn" onclick="toggleFS()">FULL</button>
         </div>
-        <div class="trailer-section" id="videoContainer">
-            <iframe id="vFrame" class="vid-frame" src="https://www.youtube.com/embed/QdBZY2fkU-0" allowfullscreen></iframe>
+        <div class="vid-container" id="fsBox">
+            <iframe id="vFrame" class="vid-frame" src="https://www.youtube.com/embed/QdBZY2fkU-0?enablejsapi=1"></iframe>
         </div>
-        <div class="intel-area">
-            <div class="status-log">
-                <div class="status-line">> ARCHIVE_LOADED: SUCCESS</div>
-                <div class="status-line">> RESOLUTION: 4K_ULTRA</div>
-                <div class="status-line">> STATUS: MONITORING_LEONIDA</div>
-            </div>
+        <div class="socials-area">
+            <div class="social-item"><span class="s-plat">Discord</span><span class="s-user">o5bo</span></div>
+            <div class="social-item"><span class="s-plat">TikTok</span><span class="s-user">@vocql</span></div>
+            <div class="social-item"><span class="s-plat">Twitch</span><span class="s-user">o5bo</span></div>
+            <div class="social-item"><span class="s-plat">YouTube</span><span class="s-user">vocql</span></div>
         </div>
     </div>
 
-    <div class="panel">
-        <iframe src="https://map.stateofleonida.net/" class="map-frame" scrolling="no"></iframe>
+    <div class="glass">
+        <div class="map-box">
+            <iframe src="https://map.stateofleonida.net/" scrolling="no"></iframe>
+        </div>
     </div>
 </div>
 
@@ -119,31 +124,6 @@
 
 <script>
     const musicPlayer = document.getElementById('player');
-    const trailers = ["QdBZY2fkU-0", "VQRLujxTm3c"];
-    let currentIdx = 0;
-
-    /* TRAILER LOGIC */
-    function changeTrailer(dir) {
-        currentIdx += dir;
-        if (currentIdx < 0) currentIdx = trailers.length - 1;
-        if (currentIdx >= trailers.length) currentIdx = 0;
-        document.getElementById('vFrame').src = `https://www.youtube.com/embed/${trailers[currentIdx]}?autoplay=1`;
-        document.getElementById('slideNum').innerText = `${currentIdx + 1} / ${trailers.length}`;
-    }
-
-    /* FULLSCREEN LOGIC */
-    function toggleFS() {
-        const container = document.getElementById('videoContainer');
-        if (!document.fullscreenElement) {
-            container.requestFullscreen().catch(err => {
-                alert(`Error: ${err.message}`);
-            });
-        } else {
-            document.exitFullscreen();
-        }
-    }
-
-    /* RADIO LOGIC */
     const songData = [
         { name: "Hot Together", file: "music/together.mp3" },
         { name: "Love Is A Long Road", file: "music/long.mp3" },
@@ -151,60 +131,44 @@
         { name: "Ocean Breeze", file: "music/ocean.mp3" },
         { name: "Self Control", file: "music/self.mp3" },
         { name: "Atomic", file: "music/tomic.mp3" },
-        { name: "Sun Glasses At Night", file: "music/sun.mp3" },
-        { name: "All Night Long", file: "music/all.mp3" },
-        { name: "Shame", file: "music/shame.mp3" },
-        { name: "Vice City", file: "music/vice.mp3" },
-        { name: "I Walk This Earth All By Myself", file: "music/earth.mp3" },
-        { name: "Owner Of A Lonley Heart", file: "music/heart.mp3" },
-        { name: "Tempted", file: "music/tempt.mp3" },
-        { name: "Poison Arrow", file: "music/arrow.mp3" },
-        { name: "Is It A Crime", file: "music/crime.mp3" },
-        { name: "Here We Are", file: "music/are.mp3" },
-        { name: "Through The Fire", file: "music/fire.mp3" },
-        { name: "Heart Of Mine", file: "music/mine.mp3" },
-        { name: "Fly Away", file: "music/fly.mp3" },
-        { name: "Ain't Nobody", file: "music/nobody.mp3" },
-        { name: "Thinking Of You", file: "music/you.mp3" },
-        { name: "Sweet Love", file: "music/love.mp3" },
-        { name: "I Still Remember You", file: "music/remember.mp3" },
-        { name: "Gamble With My Love", file: "music/gamble.mp3" },
-        { name: "Sukiyaki", file: "music/suki.mp3" }
+        { name: "Vice City", file: "music/vice.mp3" }
     ];
 
     const list = document.getElementById('sList');
     songData.forEach((s, i) => {
         const d = document.createElement('div');
-        d.className = 'track';
-        d.id = `track-${i}`;
-        d.innerText = `${String(i+1).padStart(2, '0')}. ${s.name}`;
+        d.className = 'track'; d.innerText = s.name;
         d.onclick = () => {
             document.querySelectorAll('.track').forEach(t=>t.classList.remove('active'));
-            d.classList.add('active');
-            musicPlayer.src = s.file;
-            musicPlayer.play();
+            d.classList.add('active'); musicPlayer.src = s.file; musicPlayer.play();
         };
         list.appendChild(d);
     });
 
-    musicPlayer.onended = () => {
-        let current = parseInt(document.querySelector('.track.active').id.split('-')[1]);
-        let next = (current + 1) % songData.length;
-        document.getElementById(`track-${next}`).click();
-    };
+    const trailers = ["QdBZY2fkU-0", "VQRLujxTm3c"];
+    let tidx = 0;
+    function changeTrailer(dir) {
+        tidx = (tidx + dir + trailers.length) % trailers.length;
+        document.getElementById('vFrame').src = `https://www.youtube.com/embed/${trailers[tidx]}?autoplay=1&enablejsapi=1`;
+        document.getElementById('slideNum').innerText = `ARCHIVE_0${tidx + 1}`;
+    }
 
-    function setVol(v) { musicPlayer.volume = v; }
+    function toggleFS() {
+        const box = document.getElementById('fsBox');
+        if (!document.fullscreenElement) box.requestFullscreen();
+        else document.exitFullscreen();
+    }
 
-    /* COUNTDOWN */
     const target = new Date('2026-11-19T00:00:00');
     setInterval(() => {
         const diff = Math.floor((target - new Date())/1000);
-        if(diff < 0) return;
         document.getElementById('d').innerText = Math.floor(diff/86400).toString().padStart(3,'0');
         document.getElementById('h').innerText = Math.floor(diff/3600%24).toString().padStart(2,'0');
         document.getElementById('m').innerText = Math.floor(diff/60%60).toString().padStart(2,'0');
         document.getElementById('s').innerText = (diff%60).toString().padStart(2,'0');
     }, 1000);
+
+    function setVol(v) { musicPlayer.volume = v; }
 </script>
 </body>
 </html>
