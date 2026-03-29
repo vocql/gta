@@ -1,289 +1,275 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>VI | Home</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>VI | Home</title>
 
-<link rel="icon" href="gta/npc/lucia.jpg" type="image/jpg">
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
+    <link rel="icon" href="gta/npc/lucia.jpg" type="image/jpg">
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;600;900&display=swap" rel="stylesheet">
 
-<style>
-/* Base Reset */
-*{margin:0;padding:0;box-sizing:border-box}
-html,body{height:100%;overflow:hidden}
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+        html, body { height: 100%; overflow: hidden; background: #000; }
 
-body{
-  font-family:'Orbitron',sans-serif;
-  background:
-    linear-gradient(135deg, rgba(255,77,210,0.15), rgba(0,255,224,0.10)),
-    url('gta/jason.jpg') center/cover no-repeat fixed;
-  background-blend-mode: overlay;
-  color:#fff;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  background-position:center 40%;
-}
+        body {
+            font-family: 'Exo 2', sans-serif;
+            font-weight: 300;
+            background: 
+                linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.2)),
+                url('gta/jason.jpg') center 35%/115% 115% no-repeat fixed;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            transition: background-position 0.15s ease-out;
+            padding-left: 50px;
+            gap: 25px; 
+        }
 
-/* ================= GTA HUD (TOP) ================= */
-.top-hud {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  padding: 30px 50px;
-  display: flex;
-  justify-content: space-between;
-  pointer-events: none;
-  z-index: 10;
-}
+        body::after {
+            content: "";
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.05) 50%), 
+                        linear-gradient(90deg, rgba(255, 0, 0, 0.01), rgba(0, 255, 0, 0.005), rgba(0, 0, 255, 0.01));
+            background-size: 100% 3px, 3px 100%;
+            z-index: 100; pointer-events: none; opacity: 0.4;
+        }
 
-.hud-left { text-align: left; margin-left: 60px; }
-.location-name {
-  font-size: 18px;
-  font-weight: 900;
-  color: #fff;
-  letter-spacing: 3px;
-  text-shadow: 2px 2px 0px rgba(0,0,0,0.8);
-  text-transform: uppercase;
-}
-.time-display { font-size: 28px; color: #fff; font-weight: 700; margin-top: 2px; }
+        /* ================= ERROR MENU ================= */
+        #errorOverlay {
+            position: fixed; inset: 0; background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(10px); z-index: 1000;
+            display: none; align-items: center; justify-content: center;
+            flex-direction: column; text-align: center;
+        }
+        .error-box {
+            border: 1px solid #ff4dd2; padding: 40px; border-radius: 20px;
+            background: rgba(255, 77, 210, 0.05); box-shadow: 0 0 30px rgba(255, 77, 210, 0.2);
+        }
+        .error-title { font-size: 40px; font-weight: 900; color: #ff4dd2; text-shadow: 0 0 10px #ff4dd2; margin-bottom: 10px; }
+        .error-msg { font-size: 12px; letter-spacing: 4px; text-transform: uppercase; color: #fff; opacity: 0.8; margin-bottom: 30px; }
+        .close-btn { 
+            padding: 10px 30px; border: 1px solid #00ffe0; color: #00ffe0; background: transparent; 
+            cursor: pointer; font-family: 'Exo 2'; font-weight: 900; text-transform: uppercase; border-radius: 5px;
+        }
+        .close-btn:hover { background: #00ffe0; color: #000; }
 
-.hud-right { 
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-}
-.money-display {
-  font-size: 38px;
-  font-weight: 900;
-  color: #26de5f;
-  text-shadow: 2px 2px 0px #004d1a;
-  transition: transform 0.1s ease;
-}
+        /* ================= NAVBAR ================= */
+        header {
+            position: fixed; top: 20px; right: 50px; z-index: 150;
+            display: flex; gap: 6px; padding: 4px;
+            border-radius: 999px; background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(8px); border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .nav-btn {
+            padding: 8px 16px; border-radius: 999px; color: #fff;
+            font-size: 10px; font-weight: 600; text-decoration: none;
+            background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: 0.3s; letter-spacing: 1px; text-transform: uppercase; cursor: pointer;
+        }
+        .nav-btn:hover { background: rgba(255, 255, 255, 0.12); border-color: #00ffe0; transform: translateY(-1px); }
+        .nav-btn.active { border-color: #00ffe0; color: #00ffe0; background: rgba(0, 255, 224, 0.05); }
 
-/* Wanted Stars - High and Spread */
-.wanted-stars { 
-  font-size: 32px; 
-  display: flex;
-  gap: 12px;
-  margin-top: -10px; /* Aligned tight to money as requested */
-}
-.star {
-  color: rgba(0, 0, 0, 0.5); 
-  text-shadow: 1px 1px 0px rgba(255,255,255,0.1);
-}
-.star.active {
-  color: #ffffff; 
-  text-shadow: 0 0 15px rgba(255, 255, 255, 0.8), 2px 2px 0px #000;
-  animation: star-pulse 1.2s infinite alternate;
-}
+        /* ================= PANEL BASE ================= */
+        .main-hud, .side-panel {
+            position: relative; z-index: 10;
+            background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(2px) saturate(120%);
+            border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 12px;
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.6);
+        }
 
-@keyframes star-pulse {
-  from { opacity: 1; transform: scale(1); }
-  to { opacity: 0.5; transform: scale(1.1); }
-}
+        .main-hud { width: 320px; height: auto; max-height: 85vh; display: flex; flex-direction: column; gap: 15px; padding: 30px; transform-style: preserve-3d; }
+        
+        .mid-col { display: flex; flex-direction: column; gap: 20px; width: 450px; height: 85vh; }
+        
+        /* TRAILER PANEL */
+        .trailer-panel { flex: 0 0 auto; overflow: hidden; background: #000; display: flex; flex-direction: column; }
+        .vid-frame { width: 100%; aspect-ratio: 16/9; border: none; display: block; }
+        .vid-ctrls { padding: 12px; display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.8); border-top: 1px solid rgba(255,255,255,0.05); }
 
-/* ================= SIDE MENU TRIGGER ================= */
-.menu-trigger {
-  position: fixed;
-  top: 25px;
-  left: 25px;
-  width: 54px;
-  height: 54px;
-  background: rgba(0, 255, 224, 0.25);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  z-index: 1000;
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  box-shadow: inset 0 1.2px 1.5px rgba(255, 255, 255, 0.4), 0 6px 18px rgba(0, 0, 0, 0.35);
-  transition: 0.25s;
-}
-.menu-trigger:hover { transform: scale(1.1); background: rgba(0, 255, 224, 0.4); }
+        .trailer-panel:fullscreen { width: 100vw; height: 100vh; border-radius: 0; }
+        .trailer-panel:fullscreen .vid-frame { flex: 1; aspect-ratio: auto; }
 
-.side-menu {
-  position: fixed;
-  top: 0;
-  left: -260px;
-  width: 260px;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.25);
-  backdrop-filter: blur(1px);
-  -webkit-backdrop-filter: blur(1px);
-  padding: 100px 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  z-index: 999;
-  border-right: 1px solid rgba(255, 255, 255, 0.1);
-}
-.side-menu.active { left: 0; }
+        /* DESCRIPTION PANEL (ABOUT ME) */
+        .desc-panel { flex: 1; padding: 25px; display: flex; flex-direction: column; gap: 15px; overflow-y: auto; border-left: 2px solid #ff4dd2; }
+        .desc-content { font-size: 13px; line-height: 1.8; color: rgba(255, 255, 255, 0.9); }
+        .neon-accent { color: #00ffe0; font-weight: 600; text-shadow: 0 0 5px #00ffe0; }
+        .highlight { color: #ff4dd2; font-weight: 600; }
 
-.nav-btn {
-  padding: 10px 17px;
-  border-radius: 999px;
-  color: #fff;
-  font-weight: 600;
-  text-decoration: none;
-  text-align: center;
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  box-shadow: inset 0 1.2px 1.5px rgba(255, 255, 255, 0.4), 0 4px 18px rgba(0, 0, 0, 0.3);
-  transition: 0.25s;
-}
-.nav-btn:hover { background: rgba(255, 255, 255, 0.14); transform: scale(1.05); }
+        /* MAP PANEL */
+        .map-panel { width: 500px; height: 85vh; overflow: hidden; }
+        .map-frame { width: 100%; height: 100%; border: none; }
 
-/* ================= COUNTDOWN (MOVED DOWN) ================= */
-.countdown-wrap{
-  backdrop-filter:blur(1px);
-  border-radius:20px;
-  padding:26px 34px;
-  text-align:center;
-  width:88%;
-  max-width:600px;
-  background:rgba(0,0,0,0.25);
-  border:2px solid #fff;
-  margin-top: 60px; /* Moved down to clear the HUD */
-}
-.title{font-size:32px;font-weight:900}
-.subtitle{font-size:14px;margin:10px 0 24px}
-.clock{display:flex;gap:12px;justify-content:center;}
-.unit{min-width:72px;padding:12px;border-radius:12px;background:rgba(0,0,0,0.35);}
-.num{font-size:32px;font-weight:900}
-.label{font-size:11px;opacity:.8}
+        /* HUD STYLING */
+        .hud-line { position: absolute; height: 1px; background: #00ffe0; opacity: 0.3; }
+        .h-line-1 { width: 100px; top: 15px; left: -110px; }
+        .h-line-2 { width: 150px; bottom: 15px; right: -160px; }
 
-/* ================= MUSIC ================= */
-.music-trigger{position:fixed;bottom:18px;left:18px;width:40px;height:40px;cursor:pointer;z-index:200;}
-.music-wheel{
-  position:fixed;bottom:18px;left:70px;display:flex;gap:8px;max-width:calc(100% - 90px);
-  overflow-x:auto;padding-bottom:4px;opacity:0;pointer-events:none;transform:translateX(-10px);transition:.25s ease;
-}
-.music-wheel.active{opacity:1;pointer-events:auto;transform:translateX(0);}
-.music-item{
-  padding:9px 17px;border-radius:999px;font-size:12px;font-weight:600;white-space:nowrap;
-  background: rgba(255,255,255,0.08);border: 1px solid rgba(255,255,255,0.18);
-  box-shadow: inset 0 1.2px 1.5px rgba(255,255,255,0.4), 0 4px 18px rgba(0,0,0,0.3);
-  cursor: pointer;flex-shrink:0;transition: 0.25s ease;color: white;
-}
-.music-item:hover{background: rgba(255,255,255,0.14); transform: scale(1.05);}
-</style>
+        .title { font-size: 32px; font-weight: 900; letter-spacing: 4px; text-transform: uppercase; margin-bottom: 2px; }
+        .neon-gta { text-shadow: 0 0 5px #ff4dd2, 0 0 10px #ff4dd2; color: #fff; }
+        .neon-vi { text-shadow: 0 0 5px #00ffe0, 0 0 10px #00ffe0; color: #fff; }
+        .subtitle { font-size: 10px; letter-spacing: 2px; color: #ff4dd2; margin-bottom: 10px; font-weight: 600; }
+
+        .integrated-clock { display: flex; gap: 8px; justify-content: flex-start; margin-bottom: 15px;}
+        .clock-label { font-size: 8px; opacity: 0.6; margin-top: 1px; letter-spacing: 1px; text-transform: uppercase; color: #fff; }
+        .unit { padding: 8px 0; border-radius: 6px; background: rgba(0, 0, 0, 0.45); border: 1px solid rgba(255, 255, 255, 0.03); width: 60px; text-align: center;}
+        .num { font-size: 20px; font-weight: 600; color: #fff; font-family: 'Exo 2', sans-serif;}
+
+        .integrated-radio { flex: 1; display: flex; flex-direction: column; overflow: hidden; border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 15px; }
+        .radio-header { font-size: 9px; opacity: 0.5; text-transform: uppercase; color: #fff; letter-spacing: 2px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center;}
+        .shuffle-btn { background: rgba(0, 255, 224, 0.15); border: 1px solid #00ffe0; color: #00ffe0; padding: 4px 8px; border-radius: 5px; font-size: 8px; font-weight: 900; cursor: pointer; }
+        
+        .vol-wrap { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+        input[type=range] { flex: 1; accent-color: #ff4dd2; height: 3px; cursor: pointer; background: transparent;}
+
+        .integrated-song-list { overflow-y: auto; flex: 1; padding: 0;}
+        .track { padding: 10px 12px; border-radius: 6px; font-size: 10px; font-weight: 600; cursor: pointer; color: rgba(255,255,255,0.7); transition: 0.2s; border-bottom: 1px solid rgba(255,255,255,0.03); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;}
+        .track:hover { background: rgba(255, 77, 210, 0.1); color: #ff4dd2; }
+        .track.active-song { color: #00ffe0; background: rgba(0, 255, 224, 0.1); border-left: 2px solid #00ffe0; font-weight: 900;}
+
+        .integrated-song-list::-webkit-scrollbar { width: 3px; }
+        .integrated-song-list::-webkit-scrollbar-thumb { background: #ff4dd2; border-radius: 10px; }
+    </style>
 </head>
 
 <body>
 
-<div class="top-hud">
-  <div class="hud-left">
-    <div class="location-name" id="locDisplay">VICE CITY</div>
-    <div class="time-display" id="hudTime">00:00</div>
-  </div>
-  <div class="hud-right">
-    <div class="money-display" id="hudMoney">$19,052,025</div>
-    <div class="wanted-stars" id="starContainer">
-      <span class="star">★</span><span class="star">★</span><span class="star">★</span>
-      <span class="star">★</span><span class="star">★</span><span class="star">★</span>
+<div id="errorOverlay">
+    <div class="error-box">
+        <div class="error-title">SYSTEM ERROR</div>
+        <div class="error-msg">ACCESS DENIED: CONTENT COMING SOON</div>
+        <button class="close-btn" onclick="closeError()">Return to Home</button>
     </div>
-  </div>
 </div>
 
-<div class="menu-trigger" id="menuBtn">
-  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
-</div>
+<section class="main-hud" id="mainCard">
+    <div class="hud-line h-line-1"></div>
+    <div class="hud-line h-line-2"></div>
 
-<nav class="side-menu" id="sideMenu">
-  <a href="index" class="nav-btn">Home</a>
-  <a href="map" class="nav-btn">Map</a>
-  <a href="characters" class="nav-btn">Characters</a>
-  <a href="places" class="nav-btn">Places</a>
-  <a href="screenshots" class="nav-btn">Screenshots</a>
-  <a href="trailers" class="nav-btn">Trailers</a>
-</nav>
+    <div class="hud-header">
+        <h1 class="title"><span class="neon-gta">GTA</span> <span class="neon-vi">VI</span></h1>
+        <div class="subtitle">PREPARING FOR NOVEMBER 19, 2026</div>
+    </div>
 
-<section class="countdown-wrap">
-  <h1 class="title">Grand Theft Auto VI</h1>
-  <div class="subtitle">RELEASE COUNTDOWN – NOVEMBER 19TH, 2026</div>
-  <div class="clock">
-    <div class="unit"><div class="num" id="days">000</div><div class="label">DAYS</div></div>
-    <div class="unit"><div class="num" id="hours">00</div><div class="label">HOURS</div></div>
-    <div class="unit"><div class="num" id="minutes">00</div><div class="label">MINUTES</div></div>
-    <div class="unit"><div class="num" id="seconds">00</div><div class="label">SECONDS</div></div>
-  </div>
+    <div>
+        <div class="clock-label">Time Remaining</div>
+        <div class="integrated-clock">
+            <div class="unit"><div class="num" id="days">000</div><div class="label">DAYS</div></div>
+            <div class="unit"><div class="num" id="hours">00</div><div class="label">HRS</div></div>
+            <div class="unit"><div class="num" id="minutes">00</div><div class="label">MINS</div></div>
+            <div class="unit"><div class="num" id="seconds">00</div><div class="label">SECS</div></div>
+        </div>
+    </div>
+
+    <div class="integrated-radio">
+        <div class="radio-header">
+            <span>VICE CITY RADIO</span>
+            <button class="shuffle-btn" id="shuffleBtn">Shuffle</button>
+        </div>
+        <div class="vol-wrap"><input type="range" id="volSlider" min="0" max="1" step="0.01" value="0.7"></div>
+        <div class="integrated-song-list" id="songList"></div>
+    </div>
 </section>
 
-<div class="music-trigger" id="musicTrigger"></div>
-<div class="music-wheel" id="musicWheel">
-  <div class="music-item" data-song="music/together.mp3">Hot Together</div>
-  <div class="music-item" data-song="music/long.mp3">Love Is A Long Road</div>
-  <div class="music-item" data-song="music/night.mp3">Night</div>
-  <div class="music-item" data-song="music/ocean.mp3">Ocean Breeze</div>
-  <div class="music-item" data-song="music/self.mp3">Self Control</div>
+<div class="mid-col">
+    <div class="side-panel trailer-panel" id="tPanel">
+        <iframe id="vFrame" class="vid-frame" src="https://www.youtube.com/embed/QdBZY2fkU-0" allowfullscreen></iframe>
+        <div class="vid-ctrls">
+            <button class="shuffle-btn" onclick="changeT(-1)">Prev</button>
+            <button class="shuffle-btn" onclick="toggleFS()">Full Screen</button>
+            <button class="shuffle-btn" onclick="changeT(1)">Next</button>
+        </div>
+    </div>
+
+    <div class="side-panel desc-panel">
+        <div class="radio-header"><span>DEVELOPER_LOG // MISSION_INTEL</span></div>
+        <div class="desc-content">
+            I built this site because <span class="highlight">coding isn't just a skill for me—it's a passion.</span> I love the challenge of bringing a digital world to life, one line at a time.
+            <br><br>
+            The <span class="neon-accent">GTA VI Countdown</span> site started as a way to combine my love for programming with the massive hype for Leonida. This isn't just a timer; it's a hub for the community to wait together for the next era of Grand Theft Auto.
+        </div>
+    </div>
+</div>
+
+<div class="side-panel map-panel">
+    <iframe src="https://map.stateofleonida.net/" class="map-frame" scrolling="no"></iframe>
 </div>
 
 <audio id="musicPlayer"></audio>
 
 <script>
-/* MENU */
-const menuBtn = document.getElementById('menuBtn');
-const sideMenu = document.getElementById('sideMenu');
-menuBtn.onclick = (e) => { e.stopPropagation(); sideMenu.classList.toggle('active'); };
-document.onclick = (e) => { if (!sideMenu.contains(e.target) && e.target !== menuBtn) sideMenu.classList.remove('active'); };
+/* ===== COUNTDOWN ===== */
+const target = new Date('2026-11-19T00:00:00');
+function update() {
+    const diff = Math.floor((target - new Date())/1000);
+    if(diff <= 0) return;
+    document.getElementById('days').textContent = Math.floor(diff/86400).toString().padStart(3, '0');
+    document.getElementById('hours').textContent = Math.floor(diff/3600%24).toString().padStart(2, '0');
+    document.getElementById('minutes').textContent = Math.floor(diff/60%60).toString().padStart(2, '0');
+    document.getElementById('seconds').textContent = (diff%60).toString().padStart(2, '0');
+}
+setInterval(update, 1000); update();
 
-/* HUD DATA & RNG */
-let currentMoney = 19052025;
-const locations = ["VICE CITY", "PORT GELLHORN", "LEONIDA", "AMBROSIA"];
-const moneyEl = document.getElementById('hudMoney');
-const locEl = document.getElementById('locDisplay');
-const starContainer = document.getElementById('starContainer');
-
-function updateHUD() {
-  const now = new Date();
-  document.getElementById('hudTime').textContent = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
-  
-  currentMoney += Math.floor(Math.random() * 495) + 5;
-  moneyEl.textContent = `$${currentMoney.toLocaleString()}`;
-  moneyEl.style.transform = 'scale(1.05)';
-  setTimeout(() => moneyEl.style.transform = 'scale(1)', 100);
+/* ===== FULLSCREEN ===== */
+function toggleFS() {
+    const p = document.getElementById('tPanel');
+    if (!document.fullscreenElement) p.requestFullscreen();
+    else document.exitFullscreen();
 }
 
-function updateStars() {
-  // Random Star Level
-  const level = Math.floor(Math.random() * 7); 
-  const stars = starContainer.querySelectorAll('.star');
-  stars.forEach((s, i) => i < level ? s.classList.add('active') : s.classList.remove('active'));
-  
-  // Random Location Swap
-  locEl.textContent = locations[Math.floor(Math.random() * locations.length)];
+/* ===== TRAILERS ===== */
+const trailers = ["QdBZY2fkU-0", "VQRLujxTm3c"];
+let tIdx = 0;
+function changeT(d) {
+    tIdx = (tIdx + d + trailers.length) % trailers.length;
+    document.getElementById('vFrame').src = `https://www.youtube.com/embed/${trailers[tIdx]}?autoplay=1`;
 }
 
-setInterval(updateHUD, 2000);
-setInterval(updateStars, 60000); 
-updateHUD(); updateStars();
-
-/* RELEASE COUNTDOWN */
-const targetDate = new Date('2026-11-19T00:00:00');
-function updateCountdown(){
-  const diff = Math.floor((targetDate - new Date())/1000);
-  if(diff<=0) return;
-  document.getElementById('days').textContent = Math.floor(diff/86400);
-  document.getElementById('hours').textContent = String(Math.floor(diff/3600%24)).padStart(2,'0');
-  document.getElementById('minutes').textContent = String(Math.floor(diff/60%60)).padStart(2,'0');
-  document.getElementById('seconds').textContent = String(diff%60).padStart(2,'0');
-}
-setInterval(updateCountdown,1000);
-updateCountdown();
-
-/* MUSIC */
-const musicTrigger = document.getElementById('musicTrigger');
-const wheel = document.getElementById('musicWheel');
-const player = document.getElementById('musicPlayer');
-musicTrigger.onclick = () => wheel.classList.toggle('active');
-document.querySelectorAll('.music-item').forEach(btn=>{
-  btn.onclick = () => { player.src = btn.dataset.song; player.play(); };
+/* ===== PARALLAX ===== */
+const card = document.getElementById('mainCard');
+document.addEventListener('mousemove', (e) => {
+    const x = (window.innerWidth / 2 - e.pageX) / 80;
+    const y = (window.innerHeight / 2 - e.pageY) / 80;
+    document.body.style.backgroundPosition = `calc(50% + ${x}px) calc(35% + ${y}px)`;
+    card.style.transform = `perspective(1000px) rotateX(${(window.innerHeight/2 - e.pageY)/70}deg) rotateY(${(e.pageX - window.innerWidth/2)/70}deg)`;
 });
+
+/* ===== MUSIC ENGINE (ALL 25 SONGS) ===== */
+const songs = [
+    {n:"Hot Together", s:"music/together.mp3"}, {n:"Love Is A Long Road", s:"music/long.mp3"}, {n:"Night", s:"music/night.mp3"}, 
+    {n:"Ocean Breeze", s:"music/ocean.mp3"}, {n:"Self Control", s:"music/self.mp3"}, {n:"Atomic", s:"music/tomic.mp3"}, 
+    {n:"Sun Glasses At Night", s:"music/sun.mp3"}, {n:"All Night Long", s:"music/all.mp3"}, {n:"Shame", s:"music/shame.mp3"}, 
+    {n:"Vice City", s:"music/vice.mp3"}, {n:"I Walk This Earth All By Myself", s:"music/earth.mp3"}, {n:"Owner Of A Lonley Heart", s:"music/heart.mp3"},
+    {n:"Tempted", s:"music/tempt.mp3"}, {n:"Poison Arrow", s:"music/arrow.mp3"}, {n:"Is It A Crime", s:"music/crime.mp3"}, 
+    {n:"Here We Are", s:"music/are.mp3"}, {n:"Through The Fire", s:"music/fire.mp3"}, {n:"Heart Of Mine", s:"music/mine.mp3"}, 
+    {n:"Fly Away", s:"music/fly.mp3"}, {n:"Ain't Nobody", s:"music/nobody.mp3"}, {n:"Thinking Of You", s:"music/you.mp3"}, 
+    {n:"Sweet Love", s:"music/love.mp3"}, {n:"I Still Remember You", s:"music/remember.mp3"}, {n:"Gamble With My Love", s:"music/gamble.mp3"}, 
+    {n:"Sukiyaki", s:"music/suki.mp3"}
+];
+
+const player = document.getElementById('musicPlayer'), list = document.getElementById('songList');
+
+songs.forEach(song => {
+    const div = document.createElement('div'); div.className = 'track'; div.innerText = song.n;
+    div.onclick = () => play(song.s, div); list.appendChild(div);
+});
+
+document.getElementById('volSlider').oninput = (e) => player.volume = e.target.value;
+document.getElementById('shuffleBtn').onclick = () => {
+    const r = Math.floor(Math.random()*songs.length);
+    play(songs[r].s, document.querySelectorAll('.track')[r]);
+};
+
+function play(src, el) {
+    if (player.src.includes(src) && !player.paused) { 
+        player.pause(); 
+    } else {
+        document.querySelectorAll('.track').forEach(t => t.classList.remove('active-song'));
+        player.src = src; player.play(); el.classList.add('active-song');
+        el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+}
 </script>
 </body>
 </html>
