@@ -4,18 +4,15 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>VI | Home</title>
-
     <link rel="icon" href="gta/npc/lucia.jpg" type="image/jpg">
     <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;600;900&display=swap" rel="stylesheet">
-
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
         html, body { height: 100%; overflow: hidden; background: #000; }
-
         body {
             font-family: 'Exo 2', sans-serif;
             font-weight: 300;
-            background: 
+            background:
                 linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.2)),
                 url('gta/jason.jpg') center 35%/115% 115% no-repeat fixed;
             color: #fff;
@@ -24,14 +21,13 @@
             justify-content: flex-start;
             transition: background-position 0.15s ease-out;
             padding-left: 50px;
-            gap: 25px; 
+            gap: 25px;
         }
-
         /* ATMOSPHERIC SCANLINES */
         body::after {
             content: "";
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.05) 50%), 
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.05) 50%),
                         linear-gradient(90deg, rgba(255, 0, 0, 0.01), rgba(0, 255, 0, 0.005), rgba(0, 0, 255, 0.01));
             background-size: 100% 3px, 3px 100%;
             z-index: 100; pointer-events: none; opacity: 0.4;
@@ -50,8 +46,8 @@
         }
         .error-title { font-size: 40px; font-weight: 900; color: #ff4dd2; text-shadow: 0 0 10px #ff4dd2; margin-bottom: 10px; }
         .error-msg { font-size: 12px; letter-spacing: 4px; text-transform: uppercase; color: #fff; opacity: 0.8; margin-bottom: 30px; }
-        .close-btn { 
-            padding: 10px 30px; border: 1px solid #00ffe0; color: #00ffe0; background: transparent; 
+        .close-btn {
+            padding: 10px 30px; border: 1px solid #00ffe0; color: #00ffe0; background: transparent;
             cursor: pointer; font-family: 'Exo 2'; font-weight: 900; text-transform: uppercase; border-radius: 5px;
         }
         .close-btn:hover { background: #00ffe0; color: #000; }
@@ -72,28 +68,26 @@
         .nav-btn:hover { background: rgba(255, 255, 255, 0.12); border-color: #00ffe0; transform: translateY(-1px); }
         .nav-btn.active { border-color: #00ffe0; color: #00ffe0; background: rgba(0, 255, 224, 0.05); }
 
-        /* ================= PANEL BASE (Shared with HUD) ================= */
+        /* ================= PANEL BASE ================= */
         .main-hud, .side-panel {
             position: relative; z-index: 10;
             background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(2px) saturate(120%);
             border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 12px;
             box-shadow: 0 15px 50px rgba(0, 0, 0, 0.6);
         }
+        .main-hud { width: 320px; height: auto; max-height: 85vh; display: flex; flex-direction: column; gap: 15px; padding: 30px; }
 
-        .main-hud { width: 320px; height: auto; max-height: 85vh; display: flex; flex-direction: column; gap: 15px; padding: 30px; transform-style: preserve-3d; }
-        
-        /* MIDDLE COLUMN (Trailers + Socials) */
+        /* MIDDLE COLUMN */
         .mid-col { display: flex; flex-direction: column; gap: 20px; width: 450px; height: 85vh; }
-        
-        /* TRAILER PANEL + FULLSCREEN FIX */
+
+        /* TRAILER PANEL */
         .trailer-panel { flex: 0 0 auto; overflow: hidden; background: #000; display: flex; flex-direction: column; }
         .vid-frame { width: 100%; aspect-ratio: 16/9; border: none; display: block; }
         .vid-ctrls { padding: 12px; display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.8); border-top: 1px solid rgba(255,255,255,0.05); }
-
         .trailer-panel:fullscreen { width: 100vw; height: 100vh; border-radius: 0; }
         .trailer-panel:fullscreen .vid-frame { flex: 1; aspect-ratio: auto; }
 
-        /* DESCRIPTION PANEL (ABOUT ME) */
+        /* DESCRIPTION PANEL */
         .desc-panel { flex: 1; padding: 25px; display: flex; flex-direction: column; gap: 15px; overflow-y: auto; border-left: 2px solid #ff4dd2; }
         .desc-content { font-size: 13px; line-height: 1.8; color: rgba(255, 255, 255, 0.9); }
         .neon-accent { color: #00ffe0; font-weight: 600; text-shadow: 0 0 5px #00ffe0; }
@@ -107,57 +101,52 @@
         .hud-line { position: absolute; height: 1px; background: #00ffe0; opacity: 0.3; }
         .h-line-1 { width: 100px; top: 15px; left: -110px; }
         .h-line-2 { width: 150px; bottom: 15px; right: -160px; }
-
         .title { font-size: 32px; font-weight: 900; letter-spacing: 4px; text-transform: uppercase; margin-bottom: 2px; }
         .neon-gta { text-shadow: 0 0 5px #ff4dd2, 0 0 10px #ff4dd2; color: #fff; }
         .neon-vi { text-shadow: 0 0 5px #00ffe0, 0 0 10px #00ffe0; color: #fff; }
         .subtitle { font-size: 10px; letter-spacing: 2px; color: #ff4dd2; margin-bottom: 10px; font-weight: 600; }
-
         .integrated-clock { display: flex; gap: 8px; justify-content: flex-start; margin-bottom: 15px;}
         .clock-label { font-size: 8px; opacity: 0.6; margin-top: 1px; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 2px; color: #fff; }
         .unit { padding: 8px 0; border-radius: 6px; background: rgba(0, 0, 0, 0.45); border: 1px solid rgba(255, 255, 255, 0.03); width: 60px; text-align: center;}
         .num { font-size: 20px; font-weight: 600; color: #fff; font-family: 'Exo 2', sans-serif;}
-
         .integrated-radio { flex: 1; display: flex; flex-direction: column; overflow: hidden; border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 15px; }
         .radio-header { font-size: 9px; opacity: 0.5; text-transform: uppercase; color: #fff; letter-spacing: 2px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center;}
         .shuffle-btn { background: rgba(0, 255, 224, 0.15); border: 1px solid #00ffe0; color: #00ffe0; padding: 4px 8px; border-radius: 5px; font-size: 8px; font-weight: 900; cursor: pointer; }
-        
+       
         .vol-wrap { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
         input[type=range] { flex: 1; accent-color: #ff4dd2; height: 3px; cursor: pointer; background: transparent;}
-
         .integrated-song-list { overflow-y: auto; flex: 1; padding: 0;}
         .track { padding: 10px 12px; border-radius: 6px; font-size: 10px; font-weight: 600; cursor: pointer; color: rgba(255,255,255,0.7); transition: 0.2s; border-bottom: 1px solid rgba(255,255,255,0.03); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;}
         .track:hover { background: rgba(255, 77, 210, 0.1); color: #ff4dd2; }
         .track.active-song { color: #00ffe0; background: rgba(0, 255, 224, 0.1); border-left: 2px solid #00ffe0; font-weight: 900;}
-
         .integrated-song-list::-webkit-scrollbar { width: 3px; }
         .integrated-song-list::-webkit-scrollbar-thumb { background: #ff4dd2; border-radius: 10px; }
 
-        /* THE 'OTHER WAY' TRANSPARENT WATERMARK */
+        /* ================= IMPROVED WATERMARK ================= */
         .page-watermark {
             position: fixed;
-            right: 25px;
+            right: 38px;
             top: 50%;
-            transform: translateY(-50%) rotate(90deg); /* SIDEWAYS, TOP-TO-BOTTOM */
-            writing-mode: vertical-rl; /* Text flows downwards */
-            text-orientation: mixed; /* Keeps standard vertical reading look for Latin chars */
-            height: auto;
-            text-align: right;
-            text-transform: uppercase;
-            font-size: 32px;
+            transform: translateY(-50%) rotate(-90deg);   /* Faces left → towards the map */
+            font-family: 'Exo 2', sans-serif;
+            font-size: 52px;
             font-weight: 900;
+            letter-spacing: 10px;
+            text-transform: uppercase;
             color: #fff;
-            letter-spacing: 5px;
-            opacity: 0.25; /* Translucent effect */
+            opacity: 0.16;
             pointer-events: none;
-            z-index: 95; /* Behind body::after scanlines, but above background */
-            text-shadow: 0 0 10px #ff4dd2, 0 0 20px #ff4dd2; /* Matching scribbled look */
+            z-index: 95;
+            text-shadow: 
+                0 0 15px #ff4dd2,
+                0 0 30px #ff4dd2,
+                0 0 50px rgba(255, 77, 210, 0.5);
+            white-space: nowrap;
+            user-select: none;
         }
     </style>
 </head>
-
 <body>
-
 <div id="errorOverlay">
     <div class="error-box">
         <div class="error-title">SYSTEM ERROR</div>
@@ -175,17 +164,16 @@
     <a href="trailers" class="nav-btn active">Trailers</a>
 </header>
 
+<!-- Updated Watermark -->
 <div class="page-watermark">MADE BY VOCQL</div>
 
 <section class="main-hud" id="mainCard">
     <div class="hud-line h-line-1"></div>
     <div class="hud-line h-line-2"></div>
-
     <div class="hud-header">
         <h1 class="title"><span class="neon-gta">GTA</span> <span class="neon-vi">VI</span></h1>
         <div class="subtitle">PREPARING FOR NOVEMBER 19, 2026</div>
     </div>
-
     <div>
         <div class="clock-label">Time Remaining</div>
         <div class="integrated-clock">
@@ -195,7 +183,6 @@
             <div class="unit"><div class="num" id="seconds">00</div><div class="label">SECS</div></div>
         </div>
     </div>
-
     <div class="integrated-radio">
         <div class="radio-header">
             <span>VICE CITY RADIO</span>
@@ -215,7 +202,6 @@
             <button class="shuffle-btn" onclick="changeT(1)">Next</button>
         </div>
     </div>
-
     <div class="side-panel desc-panel">
         <div class="radio-header"><span>DEVELOPER_LOG // MISSION_INTEL</span></div>
         <div class="desc-content">
@@ -273,35 +259,31 @@ document.addEventListener('mousemove', (e) => {
     card.style.transform = `perspective(1000px) rotateX(${(window.innerHeight/2 - e.pageY)/70}deg) rotateY(${(e.pageX - window.innerWidth/2)/70}deg)`;
 });
 
-/* ===== MUSIC ENGINE (ALL 25 SONGS RESTORED) ===== */
+/* ===== MUSIC ENGINE ===== */
 const songs = [
-    {n:"Hot Together", s:"music/together.mp3"}, {n:"Love Is A Long Road", s:"music/long.mp3"}, {n:"Night", s:"music/night.mp3"}, 
-    {n:"Ocean Breeze", s:"music/ocean.mp3"}, {n:"Self Control", s:"music/self.mp3"}, {n:"Atomic", s:"music/tomic.mp3"}, 
-    {n:"Sun Glasses At Night", s:"music/sun.mp3"}, {n:"All Night Long", s:"music/all.mp3"}, {n:"Shame", s:"music/shame.mp3"}, 
+    {n:"Hot Together", s:"music/together.mp3"}, {n:"Love Is A Long Road", s:"music/long.mp3"}, {n:"Night", s:"music/night.mp3"},
+    {n:"Ocean Breeze", s:"music/ocean.mp3"}, {n:"Self Control", s:"music/self.mp3"}, {n:"Atomic", s:"music/tomic.mp3"},
+    {n:"Sun Glasses At Night", s:"music/sun.mp3"}, {n:"All Night Long", s:"music/all.mp3"}, {n:"Shame", s:"music/shame.mp3"},
     {n:"Vice City", s:"music/vice.mp3"}, {n:"I Walk This Earth All By Myself", s:"music/earth.mp3"}, {n:"Owner Of A Lonley Heart", s:"music/heart.mp3"},
-    {n:"Tempted", s:"music/tempt.mp3"}, {n:"Poison Arrow", s:"music/arrow.mp3"}, {n:"Is It A Crime", s:"music/crime.mp3"}, 
-    {n:"Here We Are", s:"music/are.mp3"}, {n:"Through The Fire", s:"music/fire.mp3"}, {n:"Heart Of Mine", s:"music/mine.mp3"}, 
-    {n:"Fly Away", s:"music/fly.mp3"}, {n:"Ain't Nobody", s:"music/nobody.mp3"}, {n:"Thinking Of You", s:"music/you.mp3"}, 
-    {n:"Sweet Love", s:"music/love.mp3"}, {n:"I Still Remember You", s:"music/remember.mp3"}, {n:"Gamble With My Love", s:"music/gamble.mp3"}, 
+    {n:"Tempted", s:"music/tempt.mp3"}, {n:"Poison Arrow", s:"music/arrow.mp3"}, {n:"Is It A Crime", s:"music/crime.mp3"},
+    {n:"Here We Are", s:"music/are.mp3"}, {n:"Through The Fire", s:"music/fire.mp3"}, {n:"Heart Of Mine", s:"music/mine.mp3"},
+    {n:"Fly Away", s:"music/fly.mp3"}, {n:"Ain't Nobody", s:"music/nobody.mp3"}, {n:"Thinking Of You", s:"music/you.mp3"},
+    {n:"Sweet Love", s:"music/love.mp3"}, {n:"I Still Remember You", s:"music/remember.mp3"}, {n:"Gamble With My Love", s:"music/gamble.mp3"},
     {n:"Sukiyaki", s:"music/suki.mp3"}
 ];
-
 const player = document.getElementById('musicPlayer'), list = document.getElementById('songList');
-
 songs.forEach(song => {
     const div = document.createElement('div'); div.className = 'track'; div.innerText = song.n;
     div.onclick = () => play(song.s, div); list.appendChild(div);
 });
-
 document.getElementById('volSlider').oninput = (e) => player.volume = e.target.value;
 document.getElementById('shuffleBtn').onclick = () => {
     const r = Math.floor(Math.random()*songs.length);
     play(songs[r].s, document.querySelectorAll('.track')[r]);
 };
-
 function play(src, el) {
-    if (player.src.includes(src) && !player.paused) { 
-        player.pause(); 
+    if (player.src.includes(src) && !player.paused) {
+        player.pause();
     } else {
         document.querySelectorAll('.track').forEach(t => t.classList.remove('active-song'));
         player.src = src; player.play(); el.classList.add('active-song');
