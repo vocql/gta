@@ -15,8 +15,9 @@
         body {
             font-family: 'Exo 2', sans-serif;
             font-weight: 300;
+            /* High-contrast background without the CRT wash */
             background: 
-                linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.2)),
+                linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.3)),
                 url('gta/jason.jpg') center 35%/115% 115% no-repeat fixed;
             color: #fff;
             display: flex;
@@ -27,30 +28,31 @@
             gap: 25px; 
         }
 
-        /* CRT EFFECT REMOVED FROM HERE */
-
         /* ================= NAVBAR ================= */
         header {
             position: fixed; top: 20px; right: 50px; z-index: 150;
             display: flex; gap: 6px; padding: 4px;
-            border-radius: 999px; background: rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(8px); border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 999px; background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.1);
         }
         .nav-btn {
             padding: 8px 16px; border-radius: 999px; color: #fff;
             font-size: 10px; font-weight: 600; text-decoration: none;
-            background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08);
+            background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1);
             transition: 0.3s; letter-spacing: 1px; text-transform: uppercase; cursor: pointer;
         }
-        .nav-btn:hover { background: rgba(255, 255, 255, 0.12); border-color: #00ffe0; transform: translateY(-1px); }
-        .nav-btn.active { border-color: #00ffe0; color: #00ffe0; background: rgba(0, 255, 224, 0.05); }
+        .nav-btn:hover { background: rgba(255, 255, 255, 0.15); border-color: #00ffe0; transform: translateY(-1px); box-shadow: 0 0 15px rgba(0, 255, 224, 0.2); }
+        .nav-btn.active { border-color: #00ffe0; color: #00ffe0; background: rgba(0, 255, 224, 0.1); }
 
-        /* ================= PANEL BASE ================= */
+        /* ================= MODERN PANEL BASE ================= */
         .main-hud, .side-panel {
             position: relative; z-index: 10;
-            background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(2px) saturate(120%);
-            border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 12px;
-            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.6);
+            /* Sharper, more modern glass effect */
+            background: rgba(10, 10, 10, 0.75); 
+            backdrop-filter: blur(15px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.15); 
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
         }
 
         .main-hud { width: 320px; height: 85vh; display: flex; flex-direction: column; gap: 15px; padding: 30px; transform-style: preserve-3d; }
@@ -58,16 +60,16 @@
         
         .trailer-panel { flex: 0 0 auto; overflow: hidden; background: #000; display: flex; flex-direction: column; }
         .vid-frame { width: 100%; aspect-ratio: 16/9; border: none; display: block; }
-        .vid-ctrls { padding: 12px; display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.8); border-top: 1px solid rgba(255,255,255,0.05); }
+        .vid-ctrls { padding: 12px; display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.9); border-top: 1px solid rgba(255,255,255,0.1); }
 
         /* DESCRIPTION PANEL */
-        .desc-panel { flex: 1; padding: 25px; display: flex; flex-direction: column; gap: 15px; overflow-y: auto; border-left: 2px solid #ff4dd2; }
-        .desc-content { font-size: 13px; line-height: 1.8; color: rgba(255, 255, 255, 0.9); }
-        .neon-accent { color: #00ffe0; font-weight: 600; text-shadow: 0 0 5px #00ffe0; }
+        .desc-panel { flex: 1; padding: 25px; display: flex; flex-direction: column; gap: 15px; overflow-y: auto; border-left: 3px solid #ff4dd2; }
+        .desc-content { font-size: 13px; line-height: 1.8; color: rgba(255, 255, 255, 0.95); }
+        .neon-accent { color: #00ffe0; font-weight: 600; text-shadow: 0 0 8px rgba(0, 255, 224, 0.6); }
         .highlight { color: #ff4dd2; font-weight: 600; }
 
-        .neon-gta { text-shadow: 0 0 5px #ff4dd2, 0 0 10px #ff4dd2; color: #fff; }
-        .neon-vi { text-shadow: 0 0 5px #00ffe0, 0 0 10px #00ffe0; color: #fff; }
+        .neon-gta { text-shadow: 0 0 10px #ff4dd2; color: #fff; }
+        .neon-vi { text-shadow: 0 0 10px #00ffe0; color: #fff; }
 
         /* WATERMARK */
         .page-watermark {
@@ -75,49 +77,37 @@
             transform: translateY(-50%) rotate(180deg);
             writing-mode: vertical-rl;
             font-size: 32px; font-weight: 900; color: #fff;
-            letter-spacing: 5px; opacity: 0.15; pointer-events: none; z-index: 95;
+            letter-spacing: 5px; opacity: 0.1; pointer-events: none; z-index: 95;
             text-shadow: 0 0 10px #ff4dd2;
         }
 
         .map-panel { width: 500px; height: 85vh; overflow: hidden; }
-        .map-frame { width: 100%; height: 100%; border: none; }
+        .map-frame { width: 100%; height: 100%; border: none; filter: contrast(1.1) brightness(0.9); }
 
         .title { font-size: 32px; font-weight: 900; letter-spacing: 4px; text-transform: uppercase; margin-bottom: 2px; }
         .subtitle { font-size: 10px; letter-spacing: 2px; color: #ff4dd2; margin-bottom: 10px; font-weight: 600; }
 
-        /* RADIO & SCROLL WHEEL FIX */
-        .integrated-radio { 
-            flex: 1; 
-            display: flex; 
-            flex-direction: column; 
-            overflow: hidden; 
-            border-top: 1px solid rgba(255, 255, 255, 0.1); 
-            padding-top: 15px;
-            min-height: 0; 
-        }
-        .radio-header { font-size: 9px; opacity: 0.5; text-transform: uppercase; color: #fff; letter-spacing: 2px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center;}
-        .shuffle-btn { background: rgba(0, 255, 224, 0.15); border: 1px solid #00ffe0; color: #00ffe0; padding: 4px 8px; border-radius: 5px; font-size: 8px; font-weight: 900; cursor: pointer; }
+        /* RADIO & LISTS */
+        .integrated-radio { flex: 1; display: flex; flex-direction: column; overflow: hidden; border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 15px; min-height: 0; }
+        .radio-header { font-size: 9px; opacity: 0.7; text-transform: uppercase; color: #fff; letter-spacing: 2px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center;}
+        .shuffle-btn { background: rgba(0, 255, 224, 0.2); border: 1px solid #00ffe0; color: #00ffe0; padding: 4px 8px; border-radius: 5px; font-size: 8px; font-weight: 900; cursor: pointer; transition: 0.2s; }
+        .shuffle-btn:hover { background: #00ffe0; color: #000; }
         
         input[type=range] { width: 100%; accent-color: #ff4dd2; height: 3px; cursor: pointer; margin-bottom: 10px;}
 
-        .integrated-song-list { 
-            overflow-y: auto; 
-            flex: 1;
-            padding-right: 5px;
-        }
-        .track { padding: 10px 12px; border-radius: 6px; font-size: 10px; font-weight: 600; cursor: pointer; color: rgba(255,255,255,0.7); border-bottom: 1px solid rgba(255,255,255,0.03); transition: 0.2s; }
-        .track:hover { background: rgba(255, 77, 210, 0.1); color: #ff4dd2; }
-        .track.active-song { color: #00ffe0; background: rgba(0, 255, 224, 0.1); border-left: 2px solid #00ffe0; font-weight: 900;}
+        .integrated-song-list { overflow-y: auto; flex: 1; padding-right: 5px; }
+        .track { padding: 10px 12px; border-radius: 6px; font-size: 10px; font-weight: 600; cursor: pointer; color: rgba(255,255,255,0.7); border-bottom: 1px solid rgba(255,255,255,0.05); transition: 0.2s; }
+        .track:hover { background: rgba(255, 77, 210, 0.15); color: #fff; }
+        .track.active-song { color: #00ffe0; background: rgba(0, 255, 224, 0.15); border-left: 3px solid #00ffe0; font-weight: 900;}
 
-        /* PINK NEON SCROLLBAR */
+        /* SCROLLBAR */
         .integrated-song-list::-webkit-scrollbar { width: 4px; }
-        .integrated-song-list::-webkit-scrollbar-thumb { background: #ff4dd2; border-radius: 10px; box-shadow: 0 0 5px #ff4dd2; }
-        .integrated-song-list::-webkit-scrollbar-track { background: rgba(255, 255, 255, 0.05); }
+        .integrated-song-list::-webkit-scrollbar-thumb { background: #ff4dd2; border-radius: 10px; }
 
         .integrated-clock { display: flex; gap: 8px; margin-bottom: 15px; }
-        .clock-label { font-size: 8px; opacity: 0.6; letter-spacing: 1px; text-transform: uppercase; color: #fff; margin-bottom: 5px; }
-        .unit { padding: 8px 0; border-radius: 6px; background: rgba(0, 0, 0, 0.45); border: 1px solid rgba(255, 255, 255, 0.03); width: 60px; text-align: center;}
-        .num { font-size: 20px; font-weight: 600; color: #fff; }
+        .clock-label { font-size: 8px; opacity: 0.8; letter-spacing: 1px; text-transform: uppercase; color: #fff; margin-bottom: 5px; }
+        .unit { padding: 8px 0; border-radius: 8px; background: rgba(0, 0, 0, 0.6); border: 1px solid rgba(255, 255, 255, 0.1); width: 60px; text-align: center;}
+        .num { font-size: 20px; font-weight: 600; color: #fff; text-shadow: 0 0 10px rgba(255,255,255,0.3); }
     </style>
 </head>
 
