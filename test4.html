@@ -15,9 +15,10 @@
         body {
             font-family: 'Exo 2', sans-serif;
             font-weight: 300;
+            /* Using scroll instead of fixed to prevent browser repaints */
             background: 
-                linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.2)),
-                url('gta/jason.jpg') center 35%/cover no-repeat fixed;
+                linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.4)),
+                url('gta/jason.jpg') center 35%/cover no-repeat;
             color: #fff;
             display: flex;
             align-items: center;
@@ -26,69 +27,58 @@
             gap: 25px; 
         }
 
-        body::after {
-            content: "";
+        /* Scanline Overlay - Moved to a div so we can hide it behind the video if needed */
+        .scanlines {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.05) 50%), 
                         linear-gradient(90deg, rgba(255, 0, 0, 0.01), rgba(0, 255, 0, 0.005), rgba(0, 0, 255, 0.01));
             background-size: 100% 3px, 3px 100%;
-            z-index: 100; pointer-events: none; opacity: 0.4;
+            z-index: 100; pointer-events: none; opacity: 0.3;
         }
 
         header {
             position: fixed; top: 20px; right: 50px; z-index: 150;
             display: flex; gap: 6px; padding: 4px;
-            border-radius: 999px; background: rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(8px); border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 999px; background: rgba(10, 10, 10, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.08);
         }
+        
         .nav-btn {
             padding: 8px 16px; border-radius: 999px; color: #fff;
             font-size: 10px; font-weight: 600; text-decoration: none;
             background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08);
-            transition: 0.3s; letter-spacing: 1px; text-transform: uppercase; cursor: pointer;
+            transition: 0.2s; letter-spacing: 1px; text-transform: uppercase; cursor: pointer;
         }
-        .nav-btn:hover { background: rgba(255, 255, 255, 0.12); border-color: #00ffe0; transform: translateY(-1px); }
-        .nav-btn.active { border-color: #00ffe0; color: #00ffe0; background: rgba(0, 255, 224, 0.05); }
 
+        /* Removed backdrop-filter to save CPU/GPU cycles */
         .main-hud, .side-panel {
             position: relative; z-index: 10;
-            background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(2px) saturate(120%);
+            background: rgba(15, 15, 15, 0.95); /* Solid dark instead of blur */
             border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 12px;
-            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.6);
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.8);
         }
 
         .main-hud { width: 320px; height: 85vh; display: flex; flex-direction: column; gap: 15px; padding: 30px; }
         .mid-col { display: flex; flex-direction: column; gap: 20px; width: 450px; height: 85vh; }
         
-        /* TRAILER FACADE STYLES */
-        .trailer-panel { flex: 0 0 auto; overflow: hidden; background: #000; display: flex; flex-direction: column; position: relative; }
-        #videoPlaceholder { width: 100%; aspect-ratio: 16/9; cursor: pointer; display: flex; align-items: center; justify-content: center; background-size: cover; background-position: center; position: relative; }
-        .play-btn-circle { width: 60px; height: 60px; background: rgba(255, 77, 210, 0.9); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 20px #ff4dd2; transition: transform 0.2s; }
-        #videoPlaceholder:hover .play-btn-circle { transform: scale(1.1); }
-        .play-triangle { width: 0; height: 0; border-top: 12px solid transparent; border-bottom: 12px solid transparent; border-left: 20px solid white; margin-left: 5px; }
-        
-        .vid-frame { width: 100%; height: 100%; border: none; position: absolute; top: 0; left: 0; z-index: 5; }
-        
-        /* Loading Spinner */
-        .spinner { border: 4px solid rgba(255, 255, 255, 0.1); border-left-color: #00ffe0; border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; position: absolute; z-index: 4; }
-        @keyframes spin { to { transform: rotate(360deg); } }
-
-        .vid-ctrls { padding: 12px; display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.8); border-top: 1px solid rgba(255,255,255,0.05); z-index: 10; }
+        /* Video Container - Force z-index above scanlines when active */
+        .trailer-panel { flex: 0 0 auto; overflow: hidden; background: #000; display: flex; flex-direction: column; z-index: 101; }
+        #videoPlaceholder { width: 100%; aspect-ratio: 16/9; cursor: pointer; display: flex; align-items: center; justify-content: center; background-size: cover; }
+        .vid-frame { width: 100%; height: 100%; border: none; }
 
         .desc-panel { flex: 1; padding: 25px; display: flex; flex-direction: column; gap: 15px; overflow-y: auto; border-left: 2px solid #ff4dd2; }
         .desc-content { font-size: 13px; line-height: 1.8; color: rgba(255, 255, 255, 0.9); }
         .neon-accent { color: #00ffe0; font-weight: 600; text-shadow: 0 0 5px #00ffe0; }
         .highlight { color: #ff4dd2; font-weight: 600; }
-        .neon-gta { text-shadow: 0 0 5px #ff4dd2, 0 0 10px #ff4dd2; color: #fff; }
-        .neon-vi { text-shadow: 0 0 5px #00ffe0, 0 0 10px #00ffe0; color: #fff; }
+        .neon-gta { text-shadow: 0 0 5px #ff4dd2; color: #fff; }
+        .neon-vi { text-shadow: 0 0 5px #00ffe0; color: #fff; }
 
         .page-watermark {
             position: fixed; right: 20px; top: 50%;
             transform: translateY(-50%) rotate(180deg);
             writing-mode: vertical-rl;
             font-size: 32px; font-weight: 900; color: #fff;
-            letter-spacing: 5px; opacity: 0.15; pointer-events: none; z-index: 95;
-            text-shadow: 0 0 10px #ff4dd2;
+            letter-spacing: 5px; opacity: 0.1; pointer-events: none; z-index: 95;
         }
 
         .map-panel { width: 500px; height: 85vh; overflow: hidden; }
@@ -107,17 +97,19 @@
         .track:hover { background: rgba(255, 77, 210, 0.1); color: #ff4dd2; }
         .track.active-song { color: #00ffe0; background: rgba(0, 255, 224, 0.1); border-left: 2px solid #00ffe0; font-weight: 900;}
 
-        .integrated-song-list::-webkit-scrollbar { width: 4px; }
-        .integrated-song-list::-webkit-scrollbar-thumb { background: #ff4dd2; border-radius: 10px; box-shadow: 0 0 5px #ff4dd2; }
-        .integrated-song-list::-webkit-scrollbar-track { background: rgba(255, 255, 255, 0.05); }
-
         .integrated-clock { display: flex; gap: 8px; margin-bottom: 15px; }
-        .unit { padding: 8px 0; border-radius: 6px; background: rgba(0, 0, 0, 0.45); border: 1px solid rgba(255, 255, 255, 0.03); width: 60px; text-align: center;}
+        .unit { padding: 8px 0; border-radius: 6px; background: rgba(0, 0, 0, 0.6); border: 1px solid rgba(255, 255, 255, 0.03); width: 60px; text-align: center;}
         .num { font-size: 20px; font-weight: 600; color: #fff; }
+
+        /* Play Button Overlay */
+        .play-btn { width: 60px; height: 60px; background: rgba(255, 77, 210, 0.9); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 20px #ff4dd2; }
+        .play-triangle { width: 0; height: 0; border-top: 12px solid transparent; border-bottom: 12px solid transparent; border-left: 20px solid white; margin-left: 5px; }
     </style>
 </head>
 
 <body>
+
+<div class="scanlines"></div>
 
 <header>
     <a href="#" class="nav-btn active">Home</a>
@@ -152,10 +144,7 @@
 <div class="mid-col">
     <div class="side-panel trailer-panel" id="tPanel">
         <div id="videoPlaceholder" onclick="loadVideo()">
-            <div class="spinner"></div>
-            <div class="play-btn-circle" id="playBtn">
-                <div class="play-triangle"></div>
-            </div>
+            <div class="play-btn"><div class="play-triangle"></div></div>
         </div>
         <div class="vid-ctrls">
             <button class="shuffle-btn" onclick="changeT(-1)">Prev</button>
@@ -169,7 +158,7 @@
         <div class="desc-content">
             Honestly, I built this because <span class="highlight">coding is my passion</span> and I wanted to create something sick for the community. 
             <br><br>
-            This isn’t just a basic timer; it’s a project dedicated to the massive hype for <span class="neon-accent">Leonida</span> and our return to Vice City. No leaks, no BS—just pure vibes while we wait for <span class="neon-accent">November 19, 2026</span>.
+            This isn’t just a basic timer; it’s a project dedicated to the massive hype for <span class="neon-accent">Leonida</span> and our return to Vice City. 
             <br><br>
             <span class="neon-gta" style="font-weight: 900; letter-spacing: 2px;">VOCQL</span> 
             <span class="neon-vi" style="font-weight: 900;">&lt;3</span>
@@ -184,7 +173,6 @@
 <audio id="musicPlayer"></audio>
 
 <script>
-    // TIMER
     const target = new Date('2026-11-19T00:00:00');
     function update() {
         const diff = Math.floor((target - new Date())/1000);
@@ -196,27 +184,24 @@
     }
     setInterval(update, 1000); update();
 
-    // TRAILER SYSTEM
     const trailers = ["QdBZY2fkU-0", "VQRLujxTm3c"];
     let tIdx = 0;
-    const placeholder = document.getElementById('videoPlaceholder');
+    const vpHolder = document.getElementById('videoPlaceholder');
     
     function setPlaceholder() {
-        placeholder.style.backgroundImage = `url('https://img.youtube.com/vi/${trailers[tIdx]}/maxresdefault.jpg')`;
+        vpHolder.style.backgroundImage = `url('https://img.youtube.com/vi/${trailers[tIdx]}/maxresdefault.jpg')`;
     }
     setPlaceholder();
 
     function loadVideo() {
-        document.getElementById('playBtn').style.display = 'none';
-        placeholder.innerHTML += `<iframe class="vid-frame" src="https://www.youtube-nocookie.com/embed/${trailers[tIdx]}?autoplay=1" allow="autoplay; encrypted-media" allowfullscreen onload="this.previousElementSibling.style.display='none'"></iframe>`;
-        placeholder.onclick = null;
+        vpHolder.innerHTML = `<iframe class="vid-frame" src="https://www.youtube-nocookie.com/embed/${trailers[tIdx]}?autoplay=1" allow="autoplay; encrypted-media" allowfullscreen></iframe>`;
+        vpHolder.onclick = null;
     }
 
     function changeT(d) {
         tIdx = (tIdx + d + trailers.length) % trailers.length;
-        const existingIframe = placeholder.querySelector('iframe');
-        if (existingIframe) {
-            existingIframe.src = `https://www.youtube-nocookie.com/embed/${trailers[tIdx]}?autoplay=1`;
+        if (vpHolder.querySelector('iframe')) {
+            vpHolder.querySelector('iframe').src = `https://www.youtube-nocookie.com/embed/${trailers[tIdx]}?autoplay=1`;
         } else {
             setPlaceholder();
         }
@@ -224,7 +209,6 @@
 
     function toggleFS() { const p = document.getElementById('tPanel'); if (!document.fullscreenElement) p.requestFullscreen(); else document.exitFullscreen(); }
 
-    // RADIO
     const songs = [
         {n:"Hot Together", s:"music/together.mp3"}, {n:"Love Is A Long Road", s:"music/long.mp3"}, {n:"Night", s:"music/night.mp3"}, 
         {n:"Ocean Breeze", s:"music/ocean.mp3"}, {n:"Self Control", s:"music/self.mp3"}, {n:"Atomic", s:"music/tomic.mp3"}, 
