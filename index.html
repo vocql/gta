@@ -24,9 +24,9 @@
             justify-content: flex-start;
             transition: background-position 0.15s ease-out;
             padding-left: 50px;
+            gap: 25px; 
         }
 
-        /* ATMOSPHERIC SCANLINES */
         body::after {
             content: "";
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -71,28 +71,48 @@
         .nav-btn:hover { background: rgba(255, 255, 255, 0.12); border-color: #00ffe0; transform: translateY(-1px); }
         .nav-btn.active { border-color: #00ffe0; color: #00ffe0; background: rgba(0, 255, 224, 0.05); }
 
-        /* ================= MAIN HUD ================= */
-        .main-hud {
+        /* ================= PANEL BASE ================= */
+        .main-hud, .side-panel {
             position: relative; z-index: 10;
-            width: 320px; height: auto; max-height: 85vh;
-            display: flex; flex-direction: column; gap: 15px; padding: 30px;
             background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(2px) saturate(120%);
             border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 12px;
-            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.6); transform-style: preserve-3d;
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.6);
         }
 
+        .main-hud { width: 320px; height: auto; max-height: 85vh; display: flex; flex-direction: column; gap: 15px; padding: 30px; transform-style: preserve-3d; }
+        
+        .mid-col { display: flex; flex-direction: column; gap: 20px; width: 450px; height: 85vh; }
+        
+        /* TRAILER PANEL */
+        .trailer-panel { flex: 0 0 auto; overflow: hidden; background: #000; display: flex; flex-direction: column; }
+        .vid-frame { width: 100%; aspect-ratio: 16/9; border: none; display: block; }
+        .vid-ctrls { padding: 12px; display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.8); border-top: 1px solid rgba(255,255,255,0.05); }
+
+        .trailer-panel:fullscreen { width: 100vw; height: 100vh; border-radius: 0; }
+        .trailer-panel:fullscreen .vid-frame { flex: 1; aspect-ratio: auto; }
+
+        /* DESCRIPTION PANEL (ABOUT ME) */
+        .desc-panel { flex: 1; padding: 25px; display: flex; flex-direction: column; gap: 15px; overflow-y: auto; border-left: 2px solid #ff4dd2; }
+        .desc-content { font-size: 13px; line-height: 1.8; color: rgba(255, 255, 255, 0.9); }
+        .neon-accent { color: #00ffe0; font-weight: 600; text-shadow: 0 0 5px #00ffe0; }
+        .highlight { color: #ff4dd2; font-weight: 600; }
+
+        /* MAP PANEL */
+        .map-panel { width: 500px; height: 85vh; overflow: hidden; }
+        .map-frame { width: 100%; height: 100%; border: none; }
+
+        /* HUD STYLING */
         .hud-line { position: absolute; height: 1px; background: #00ffe0; opacity: 0.3; }
         .h-line-1 { width: 100px; top: 15px; left: -110px; }
         .h-line-2 { width: 150px; bottom: 15px; right: -160px; }
 
-        .hud-header { text-align: left; }
         .title { font-size: 32px; font-weight: 900; letter-spacing: 4px; text-transform: uppercase; margin-bottom: 2px; }
         .neon-gta { text-shadow: 0 0 5px #ff4dd2, 0 0 10px #ff4dd2; color: #fff; }
         .neon-vi { text-shadow: 0 0 5px #00ffe0, 0 0 10px #00ffe0; color: #fff; }
         .subtitle { font-size: 10px; letter-spacing: 2px; color: #ff4dd2; margin-bottom: 10px; font-weight: 600; }
 
         .integrated-clock { display: flex; gap: 8px; justify-content: flex-start; margin-bottom: 15px;}
-        .clock-label { font-size: 8px; opacity: 0.6; margin-top: 1px; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 2px; color: #fff; }
+        .clock-label { font-size: 8px; opacity: 0.6; margin-top: 1px; letter-spacing: 1px; text-transform: uppercase; color: #fff; }
         .unit { padding: 8px 0; border-radius: 6px; background: rgba(0, 0, 0, 0.45); border: 1px solid rgba(255, 255, 255, 0.03); width: 60px; text-align: center;}
         .num { font-size: 20px; font-weight: 600; color: #fff; font-family: 'Exo 2', sans-serif;}
 
@@ -110,7 +130,6 @@
 
         .integrated-song-list::-webkit-scrollbar { width: 3px; }
         .integrated-song-list::-webkit-scrollbar-thumb { background: #ff4dd2; border-radius: 10px; }
-
     </style>
 </head>
 
@@ -123,15 +142,6 @@
         <button class="close-btn" onclick="closeError()">Return to Home</button>
     </div>
 </div>
-
-<header>
-    <a href="#" class="nav-btn active">Home</a>
-    <a href="map" class="nav-btn active">Map</a>
-    <a href="characters" class="nav-btn active">Characters</a>
-    <a href="places" class="nav-btn active">Places</a>
-    <a href="screenshots" class="nav-btn active">Screenshots</a>
-    <a href="trailers" class="nav-btn active">Trailers</a>
-</header>
 
 <section class="main-hud" id="mainCard">
     <div class="hud-line h-line-1"></div>
@@ -162,13 +172,33 @@
     </div>
 </section>
 
+<div class="mid-col">
+    <div class="side-panel trailer-panel" id="tPanel">
+        <iframe id="vFrame" class="vid-frame" src="https://www.youtube.com/embed/QdBZY2fkU-0" allowfullscreen></iframe>
+        <div class="vid-ctrls">
+            <button class="shuffle-btn" onclick="changeT(-1)">Prev</button>
+            <button class="shuffle-btn" onclick="toggleFS()">Full Screen</button>
+            <button class="shuffle-btn" onclick="changeT(1)">Next</button>
+        </div>
+    </div>
+
+    <div class="side-panel desc-panel">
+        <div class="radio-header"><span>DEVELOPER_LOG // MISSION_INTEL</span></div>
+        <div class="desc-content">
+            I built this site because <span class="highlight">coding isn't just a skill for me—it's a passion.</span> I love the challenge of bringing a digital world to life, one line at a time.
+            <br><br>
+            The <span class="neon-accent">GTA VI Countdown</span> site started as a way to combine my love for programming with the massive hype for Leonida. This isn't just a timer; it's a hub for the community to wait together for the next era of Grand Theft Auto.
+        </div>
+    </div>
+</div>
+
+<div class="side-panel map-panel">
+    <iframe src="https://map.stateofleonida.net/" class="map-frame" scrolling="no"></iframe>
+</div>
+
 <audio id="musicPlayer"></audio>
 
 <script>
-/* ERROR LOGIC */
-function triggerError() { document.getElementById('errorOverlay').style.display = 'flex'; }
-function closeError() { document.getElementById('errorOverlay').style.display = 'none'; }
-
 /* ===== COUNTDOWN ===== */
 const target = new Date('2026-11-19T00:00:00');
 function update() {
@@ -181,6 +211,21 @@ function update() {
 }
 setInterval(update, 1000); update();
 
+/* ===== FULLSCREEN ===== */
+function toggleFS() {
+    const p = document.getElementById('tPanel');
+    if (!document.fullscreenElement) p.requestFullscreen();
+    else document.exitFullscreen();
+}
+
+/* ===== TRAILERS ===== */
+const trailers = ["QdBZY2fkU-0", "VQRLujxTm3c"];
+let tIdx = 0;
+function changeT(d) {
+    tIdx = (tIdx + d + trailers.length) % trailers.length;
+    document.getElementById('vFrame').src = `https://www.youtube.com/embed/${trailers[tIdx]}?autoplay=1`;
+}
+
 /* ===== PARALLAX ===== */
 const card = document.getElementById('mainCard');
 document.addEventListener('mousemove', (e) => {
@@ -190,7 +235,7 @@ document.addEventListener('mousemove', (e) => {
     card.style.transform = `perspective(1000px) rotateX(${(window.innerHeight/2 - e.pageY)/70}deg) rotateY(${(e.pageX - window.innerWidth/2)/70}deg)`;
 });
 
-/* ===== MUSIC ENGINE ===== */
+/* ===== MUSIC ENGINE (ALL 25 SONGS) ===== */
 const songs = [
     {n:"Hot Together", s:"music/together.mp3"}, {n:"Love Is A Long Road", s:"music/long.mp3"}, {n:"Night", s:"music/night.mp3"}, 
     {n:"Ocean Breeze", s:"music/ocean.mp3"}, {n:"Self Control", s:"music/self.mp3"}, {n:"Atomic", s:"music/tomic.mp3"}, 
