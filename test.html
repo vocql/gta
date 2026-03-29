@@ -36,25 +36,6 @@
             z-index: 100; pointer-events: none; opacity: 0.4;
         }
 
-        /* ================= ERROR MENU ================= */
-        #errorOverlay {
-            position: fixed; inset: 0; background: rgba(0, 0, 0, 0.85);
-            backdrop-filter: blur(10px); z-index: 1000;
-            display: none; align-items: center; justify-content: center;
-            flex-direction: column; text-align: center;
-        }
-        .error-box {
-            border: 1px solid #ff4dd2; padding: 40px; border-radius: 20px;
-            background: rgba(255, 77, 210, 0.05); box-shadow: 0 0 30px rgba(255, 77, 210, 0.2);
-        }
-        .error-title { font-size: 40px; font-weight: 900; color: #ff4dd2; text-shadow: 0 0 10px #ff4dd2; margin-bottom: 10px; }
-        .error-msg { font-size: 12px; letter-spacing: 4px; text-transform: uppercase; color: #fff; opacity: 0.8; margin-bottom: 30px; }
-        .close-btn { 
-            padding: 10px 30px; border: 1px solid #00ffe0; color: #00ffe0; background: transparent; 
-            cursor: pointer; font-family: 'Exo 2'; font-weight: 900; text-transform: uppercase; border-radius: 5px;
-        }
-        .close-btn:hover { background: #00ffe0; color: #000; }
-
         /* ================= NAVBAR ================= */
         header {
             position: fixed; top: 20px; right: 50px; z-index: 150;
@@ -80,35 +61,37 @@
         }
 
         .main-hud { width: 320px; height: auto; max-height: 85vh; display: flex; flex-direction: column; gap: 15px; padding: 30px; transform-style: preserve-3d; }
-        
         .mid-col { display: flex; flex-direction: column; gap: 20px; width: 450px; height: 85vh; }
         
-        /* TRAILER PANEL */
         .trailer-panel { flex: 0 0 auto; overflow: hidden; background: #000; display: flex; flex-direction: column; }
         .vid-frame { width: 100%; aspect-ratio: 16/9; border: none; display: block; }
         .vid-ctrls { padding: 12px; display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.8); border-top: 1px solid rgba(255,255,255,0.05); }
-
         .trailer-panel:fullscreen { width: 100vw; height: 100vh; border-radius: 0; }
-        .trailer-panel:fullscreen .vid-frame { flex: 1; aspect-ratio: auto; }
 
-        /* DESCRIPTION PANEL (ABOUT ME) */
+        /* DESCRIPTION PANEL */
         .desc-panel { flex: 1; padding: 25px; display: flex; flex-direction: column; gap: 15px; overflow-y: auto; border-left: 2px solid #ff4dd2; }
         .desc-content { font-size: 13px; line-height: 1.8; color: rgba(255, 255, 255, 0.9); }
         .neon-accent { color: #00ffe0; font-weight: 600; text-shadow: 0 0 5px #00ffe0; }
         .highlight { color: #ff4dd2; font-weight: 600; }
 
-        /* MAP PANEL */
+        /* NEON TEXT EFFECTS */
+        .neon-gta { text-shadow: 0 0 5px #ff4dd2, 0 0 10px #ff4dd2; color: #fff; }
+        .neon-vi { text-shadow: 0 0 5px #00ffe0, 0 0 10px #00ffe0; color: #fff; }
+
+        /* WATERMARK */
+        .page-watermark {
+            position: fixed; right: 20px; top: 50%;
+            transform: translateY(-50%) rotate(180deg);
+            writing-mode: vertical-rl;
+            font-size: 32px; font-weight: 900; color: #fff;
+            letter-spacing: 5px; opacity: 0.15; pointer-events: none; z-index: 95;
+            text-shadow: 0 0 10px #ff4dd2;
+        }
+
         .map-panel { width: 500px; height: 85vh; overflow: hidden; }
         .map-frame { width: 100%; height: 100%; border: none; }
 
-        /* HUD STYLING */
-        .hud-line { position: absolute; height: 1px; background: #00ffe0; opacity: 0.3; }
-        .h-line-1 { width: 100px; top: 15px; left: -110px; }
-        .h-line-2 { width: 150px; bottom: 15px; right: -160px; }
-
         .title { font-size: 32px; font-weight: 900; letter-spacing: 4px; text-transform: uppercase; margin-bottom: 2px; }
-        .neon-gta { text-shadow: 0 0 5px #ff4dd2, 0 0 10px #ff4dd2; color: #fff; }
-        .neon-vi { text-shadow: 0 0 5px #00ffe0, 0 0 10px #00ffe0; color: #fff; }
         .subtitle { font-size: 10px; letter-spacing: 2px; color: #ff4dd2; margin-bottom: 10px; font-weight: 600; }
 
         .integrated-clock { display: flex; gap: 8px; justify-content: flex-start; margin-bottom: 15px;}
@@ -120,54 +103,42 @@
         .radio-header { font-size: 9px; opacity: 0.5; text-transform: uppercase; color: #fff; letter-spacing: 2px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center;}
         .shuffle-btn { background: rgba(0, 255, 224, 0.15); border: 1px solid #00ffe0; color: #00ffe0; padding: 4px 8px; border-radius: 5px; font-size: 8px; font-weight: 900; cursor: pointer; }
         
-        .vol-wrap { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
-        input[type=range] { flex: 1; accent-color: #ff4dd2; height: 3px; cursor: pointer; background: transparent;}
+        input[type=range] { width: 100%; accent-color: #ff4dd2; height: 3px; cursor: pointer; margin-bottom: 10px;}
 
-        .integrated-song-list { overflow-y: auto; flex: 1; padding: 0;}
-        .track { padding: 10px 12px; border-radius: 6px; font-size: 10px; font-weight: 600; cursor: pointer; color: rgba(255,255,255,0.7); transition: 0.2s; border-bottom: 1px solid rgba(255,255,255,0.03); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;}
-        .track:hover { background: rgba(255, 77, 210, 0.1); color: #ff4dd2; }
+        .integrated-song-list { overflow-y: auto; flex: 1; }
+        .track { padding: 10px 12px; border-radius: 6px; font-size: 10px; font-weight: 600; cursor: pointer; color: rgba(255,255,255,0.7); border-bottom: 1px solid rgba(255,255,255,0.03); }
         .track.active-song { color: #00ffe0; background: rgba(0, 255, 224, 0.1); border-left: 2px solid #00ffe0; font-weight: 900;}
-
-        .integrated-song-list::-webkit-scrollbar { width: 3px; }
-        .integrated-song-list::-webkit-scrollbar-thumb { background: #ff4dd2; border-radius: 10px; }
     </style>
 </head>
 
 <body>
 
-<div id="errorOverlay">
-    <div class="error-box">
-        <div class="error-title">SYSTEM ERROR</div>
-        <div class="error-msg">ACCESS DENIED: CONTENT COMING SOON</div>
-        <button class="close-btn" onclick="closeError()">Return to Home</button>
-    </div>
-</div>
+<header>
+    <a href="#" class="nav-btn active">Home</a>
+    <a href="map" class="nav-btn active">Map</a>
+    <a href="characters" class="nav-btn active">Characters</a>
+    <a href="places" class="nav-btn active">Places</a>
+    <a href="screenshots" class="nav-btn active">Screenshots</a>
+    <a href="trailers" class="nav-btn active">Trailers</a>
+</header>
+
+<div class="page-watermark">MADE BY VOCQL</div>
 
 <section class="main-hud" id="mainCard">
-    <div class="hud-line h-line-1"></div>
-    <div class="hud-line h-line-2"></div>
+    <h1 class="title"><span class="neon-gta">GTA</span> <span class="neon-vi">VI</span></h1>
+    <div class="subtitle">PREPARING FOR NOVEMBER 19, 2026</div>
 
-    <div class="hud-header">
-        <h1 class="title"><span class="neon-gta">GTA</span> <span class="neon-vi">VI</span></h1>
-        <div class="subtitle">PREPARING FOR NOVEMBER 19, 2026</div>
-    </div>
-
-    <div>
-        <div class="clock-label">Time Remaining</div>
-        <div class="integrated-clock">
-            <div class="unit"><div class="num" id="days">000</div><div class="label">DAYS</div></div>
-            <div class="unit"><div class="num" id="hours">00</div><div class="label">HRS</div></div>
-            <div class="unit"><div class="num" id="minutes">00</div><div class="label">MINS</div></div>
-            <div class="unit"><div class="num" id="seconds">00</div><div class="label">SECS</div></div>
-        </div>
+    <div class="clock-label">Time Remaining</div>
+    <div class="integrated-clock">
+        <div class="unit"><div class="num" id="days">000</div><div class="label" style="font-size: 8px;">DAYS</div></div>
+        <div class="unit"><div class="num" id="hours">00</div><div class="label" style="font-size: 8px;">HRS</div></div>
+        <div class="unit"><div class="num" id="minutes">00</div><div class="label" style="font-size: 8px;">MINS</div></div>
+        <div class="unit"><div class="num" id="seconds">00</div><div class="label" style="font-size: 8px;">SECS</div></div>
     </div>
 
     <div class="integrated-radio">
-        <div class="radio-header">
-            <span>VICE CITY RADIO</span>
-            <button class="shuffle-btn" id="shuffleBtn">Shuffle</button>
-        </div>
-        <div class="vol-wrap"><input type="range" id="volSlider" min="0" max="1" step="0.01" value="0.7"></div>
+        <div class="radio-header"><span>VICE CITY RADIO</span><button class="shuffle-btn" id="shuffleBtn">Shuffle</button></div>
+        <input type="range" id="volSlider" min="0" max="1" step="0.01" value="0.7">
         <div class="integrated-song-list" id="songList"></div>
     </div>
 </section>
@@ -185,9 +156,12 @@
     <div class="side-panel desc-panel">
         <div class="radio-header"><span>DEVELOPER_LOG // MISSION_INTEL</span></div>
         <div class="desc-content">
-            I built this site because <span class="highlight">coding isn't just a skill for me—it's a passion.</span> I love the challenge of bringing a digital world to life, one line at a time.
+            Honestly, I built this because <span class="highlight">coding is my passion</span> and I wanted to create something sick for the community. 
             <br><br>
-            The <span class="neon-accent">GTA VI Countdown</span> site started as a way to combine my love for programming with the massive hype for Leonida. This isn't just a timer; it's a hub for the community to wait together for the next era of Grand Theft Auto.
+            This isn’t just a basic timer; it’s a project dedicated to the massive hype for <span class="neon-accent">Leonida</span> and our return to Vice City. No leaks, no BS—just pure vibes while we wait for <span class="neon-accent">November 19, 2026</span>.
+            <br><br>
+            <span class="neon-gta" style="font-weight: 900; letter-spacing: 2px;">VOCQL</span> 
+            <span class="neon-vi" style="font-weight: 900;">&lt;3</span>
         </div>
     </div>
 </div>
@@ -199,77 +173,57 @@
 <audio id="musicPlayer"></audio>
 
 <script>
-/* ===== COUNTDOWN ===== */
-const target = new Date('2026-11-19T00:00:00');
-function update() {
-    const diff = Math.floor((target - new Date())/1000);
-    if(diff <= 0) return;
-    document.getElementById('days').textContent = Math.floor(diff/86400).toString().padStart(3, '0');
-    document.getElementById('hours').textContent = Math.floor(diff/3600%24).toString().padStart(2, '0');
-    document.getElementById('minutes').textContent = Math.floor(diff/60%60).toString().padStart(2, '0');
-    document.getElementById('seconds').textContent = (diff%60).toString().padStart(2, '0');
-}
-setInterval(update, 1000); update();
-
-/* ===== FULLSCREEN ===== */
-function toggleFS() {
-    const p = document.getElementById('tPanel');
-    if (!document.fullscreenElement) p.requestFullscreen();
-    else document.exitFullscreen();
-}
-
-/* ===== TRAILERS ===== */
-const trailers = ["QdBZY2fkU-0", "VQRLujxTm3c"];
-let tIdx = 0;
-function changeT(d) {
-    tIdx = (tIdx + d + trailers.length) % trailers.length;
-    document.getElementById('vFrame').src = `https://www.youtube.com/embed/${trailers[tIdx]}?autoplay=1`;
-}
-
-/* ===== PARALLAX ===== */
-const card = document.getElementById('mainCard');
-document.addEventListener('mousemove', (e) => {
-    const x = (window.innerWidth / 2 - e.pageX) / 80;
-    const y = (window.innerHeight / 2 - e.pageY) / 80;
-    document.body.style.backgroundPosition = `calc(50% + ${x}px) calc(35% + ${y}px)`;
-    card.style.transform = `perspective(1000px) rotateX(${(window.innerHeight/2 - e.pageY)/70}deg) rotateY(${(e.pageX - window.innerWidth/2)/70}deg)`;
-});
-
-/* ===== MUSIC ENGINE (ALL 25 SONGS) ===== */
-const songs = [
-    {n:"Hot Together", s:"music/together.mp3"}, {n:"Love Is A Long Road", s:"music/long.mp3"}, {n:"Night", s:"music/night.mp3"}, 
-    {n:"Ocean Breeze", s:"music/ocean.mp3"}, {n:"Self Control", s:"music/self.mp3"}, {n:"Atomic", s:"music/tomic.mp3"}, 
-    {n:"Sun Glasses At Night", s:"music/sun.mp3"}, {n:"All Night Long", s:"music/all.mp3"}, {n:"Shame", s:"music/shame.mp3"}, 
-    {n:"Vice City", s:"music/vice.mp3"}, {n:"I Walk This Earth All By Myself", s:"music/earth.mp3"}, {n:"Owner Of A Lonley Heart", s:"music/heart.mp3"},
-    {n:"Tempted", s:"music/tempt.mp3"}, {n:"Poison Arrow", s:"music/arrow.mp3"}, {n:"Is It A Crime", s:"music/crime.mp3"}, 
-    {n:"Here We Are", s:"music/are.mp3"}, {n:"Through The Fire", s:"music/fire.mp3"}, {n:"Heart Of Mine", s:"music/mine.mp3"}, 
-    {n:"Fly Away", s:"music/fly.mp3"}, {n:"Ain't Nobody", s:"music/nobody.mp3"}, {n:"Thinking Of You", s:"music/you.mp3"}, 
-    {n:"Sweet Love", s:"music/love.mp3"}, {n:"I Still Remember You", s:"music/remember.mp3"}, {n:"Gamble With My Love", s:"music/gamble.mp3"}, 
-    {n:"Sukiyaki", s:"music/suki.mp3"}
-];
-
-const player = document.getElementById('musicPlayer'), list = document.getElementById('songList');
-
-songs.forEach(song => {
-    const div = document.createElement('div'); div.className = 'track'; div.innerText = song.n;
-    div.onclick = () => play(song.s, div); list.appendChild(div);
-});
-
-document.getElementById('volSlider').oninput = (e) => player.volume = e.target.value;
-document.getElementById('shuffleBtn').onclick = () => {
-    const r = Math.floor(Math.random()*songs.length);
-    play(songs[r].s, document.querySelectorAll('.track')[r]);
-};
-
-function play(src, el) {
-    if (player.src.includes(src) && !player.paused) { 
-        player.pause(); 
-    } else {
-        document.querySelectorAll('.track').forEach(t => t.classList.remove('active-song'));
-        player.src = src; player.play(); el.classList.add('active-song');
-        el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    const target = new Date('2026-11-19T00:00:00');
+    function update() {
+        const diff = Math.floor((target - new Date())/1000);
+        if(diff <= 0) return;
+        document.getElementById('days').textContent = Math.floor(diff/86400).toString().padStart(3, '0');
+        document.getElementById('hours').textContent = Math.floor(diff/3600%24).toString().padStart(2, '0');
+        document.getElementById('minutes').textContent = Math.floor(diff/60%60).toString().padStart(2, '0');
+        document.getElementById('seconds').textContent = (diff%60).toString().padStart(2, '0');
     }
-}
+    setInterval(update, 1000); update();
+
+    function toggleFS() { const p = document.getElementById('tPanel'); if (!document.fullscreenElement) p.requestFullscreen(); else document.exitFullscreen(); }
+
+    const trailers = ["QdBZY2fkU-0", "VQRLujxTm3c"];
+    let tIdx = 0;
+    function changeT(d) { tIdx = (tIdx + d + trailers.length) % trailers.length; document.getElementById('vFrame').src = `https://www.youtube.com/embed/${trailers[tIdx]}?autoplay=1`; }
+
+    const card = document.getElementById('mainCard');
+    document.addEventListener('mousemove', (e) => {
+        const x = (window.innerWidth / 2 - e.pageX) / 80;
+        const y = (window.innerHeight / 2 - e.pageY) / 80;
+        document.body.style.backgroundPosition = `calc(50% + ${x}px) calc(35% + ${y}px)`;
+        card.style.transform = `perspective(1000px) rotateX(${(window.innerHeight/2 - e.pageY)/70}deg) rotateY(${(e.pageX - window.innerWidth/2)/70}deg)`;
+    });
+
+    const songs = [
+        {n:"Hot Together", s:"music/together.mp3"}, {n:"Love Is A Long Road", s:"music/long.mp3"}, {n:"Night", s:"music/night.mp3"}, 
+        {n:"Ocean Breeze", s:"music/ocean.mp3"}, {n:"Self Control", s:"music/self.mp3"}, {n:"Atomic", s:"music/tomic.mp3"}, 
+        {n:"Sun Glasses At Night", s:"music/sun.mp3"}, {n:"All Night Long", s:"music/all.mp3"}, {n:"Shame", s:"music/shame.mp3"}, 
+        {n:"Vice City", s:"music/vice.mp3"}, {n:"I Walk This Earth All By Myself", s:"music/earth.mp3"}, {n:"Owner Of A Lonley Heart", s:"music/heart.mp3"},
+        {n:"Tempted", s:"music/tempt.mp3"}, {n:"Poison Arrow", s:"music/arrow.mp3"}, {n:"Is It A Crime", s:"music/crime.mp3"}, 
+        {n:"Here We Are", s:"music/are.mp3"}, {n:"Through The Fire", s:"music/fire.mp3"}, {n:"Heart Of Mine", s:"music/mine.mp3"}, 
+        {n:"Fly Away", s:"music/fly.mp3"}, {n:"Ain't Nobody", s:"music/nobody.mp3"}, {n:"Thinking Of You", s:"music/you.mp3"}, 
+        {n:"Sweet Love", s:"music/love.mp3"}, {n:"I Still Remember You", s:"music/remember.mp3"}, {n:"Gamble With My Love", s:"music/gamble.mp3"}, 
+        {n:"Sukiyaki", s:"music/suki.mp3"}
+    ];
+
+    const player = document.getElementById('musicPlayer'), list = document.getElementById('songList');
+    songs.forEach(song => {
+        const div = document.createElement('div'); div.className = 'track'; div.innerText = song.n;
+        div.onclick = () => {
+            document.querySelectorAll('.track').forEach(t => t.classList.remove('active-song'));
+            player.src = song.s; player.play(); div.classList.add('active-song');
+        };
+        list.appendChild(div);
+    });
+    document.getElementById('volSlider').oninput = (e) => player.volume = e.target.value;
+    document.getElementById('shuffleBtn').onclick = () => {
+        const r = Math.floor(Math.random()*songs.length);
+        list.children[r].click();
+    };
 </script>
 </body>
 </html>
