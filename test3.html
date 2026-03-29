@@ -16,46 +16,59 @@
         }
 
         .container {
-            display: grid; grid-template-columns: 320px 420px 1fr; gap: 20px;
-            width: 100%; height: 88vh; max-width: 1800px; z-index: 10;
+            display: grid; grid-template-columns: 320px 450px 1fr; gap: 20px;
+            width: 100%; height: 90vh; max-width: 1850px; z-index: 10;
         }
 
         .panel {
-            background: rgba(0, 0, 0, 0.85); border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 20px; backdrop-filter: blur(25px); display: flex; flex-direction: column; overflow: hidden;
+            background: rgba(0, 0, 0, 0.88); border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px; backdrop-filter: blur(30px); display: flex; flex-direction: column; overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.8);
         }
 
-        /* PANEL 1: HUD & RADIO */
+        /* --- NEON HUD --- */
         .hud-top { padding: 25px; border-bottom: 1px solid rgba(255,255,255,0.05); }
-        .gta-logo { font-size: 26px; font-weight: 900; letter-spacing: 2px; margin-bottom: 15px; }
-        .neon-p { color: #ff4dd2; text-shadow: 0 0 10px #ff4dd2; }
-        .neon-b { color: #00ffe0; text-shadow: 0 0 10px #00ffe0; }
+        .gta-logo { font-size: 32px; font-weight: 900; letter-spacing: 4px; margin-bottom: 15px; text-align: center; }
+        .neon-p { color: #ff4dd2; text-shadow: 0 0 15px #ff4dd2; animation: neon-pulse 2s infinite alternate; }
+        .neon-b { color: #00ffe0; text-shadow: 0 0 15px #00ffe0; animation: neon-pulse 2s infinite alternate-reverse; }
         
-        .timer { display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; }
-        .t-box { background: rgba(255,255,255,0.03); padding: 10px 0; border-radius: 8px; text-align: center; }
-        .t-num { font-size: 18px; font-weight: 900; display: block; }
-        .t-lab { font-size: 7px; opacity: 0.5; font-weight: 900; }
+        @keyframes neon-pulse {
+            from { opacity: 0.8; text-shadow: 0 0 10px currentColor; }
+            to { opacity: 1; text-shadow: 0 0 20px currentColor, 0 0 30px currentColor; }
+        }
 
+        .timer { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+        .t-box { background: rgba(255,255,255,0.03); padding: 12px 0; border-radius: 10px; text-align: center; border: 1px solid rgba(255,255,255,0.05); }
+        .t-num { font-size: 22px; font-weight: 900; color: #00ffe0; display: block; }
+        .t-lab { font-size: 8px; font-weight: 900; color: #ff4dd2; text-transform: uppercase; }
+
+        /* --- RADIO --- */
         .radio-wrap { flex: 1; padding: 20px; display: flex; flex-direction: column; overflow: hidden; }
         .vol-slider { width: 100%; accent-color: #ff4dd2; margin-bottom: 15px; cursor: pointer; height: 4px; appearance: none; background: rgba(255,255,255,0.1); border-radius: 2px; }
         .song-list { overflow-y: auto; flex: 1; }
-        .track { padding: 10px; font-size: 10px; cursor: pointer; border-bottom: 1px solid rgba(255,255,255,0.02); opacity: 0.5; transition: 0.2s; }
-        .track:hover { opacity: 0.8; background: rgba(255,255,255,0.02); }
-        .track.active { opacity: 1; color: #ff4dd2; background: rgba(255,77,210,0.05); border-left: 3px solid #ff4dd2; }
+        .track { padding: 12px; font-size: 10px; cursor: pointer; border-bottom: 1px solid rgba(255,255,255,0.02); opacity: 0.5; transition: 0.2s; }
+        .track.active { opacity: 1; color: #00ffe0; background: rgba(0, 255, 224, 0.05); border-left: 3px solid #ff4dd2; }
 
-        /* PANEL 2: MULTI-TRAILER & INTEL */
-        .trailer-section { position: relative; height: 260px; background: #000; border-bottom: 1px solid rgba(255,255,255,0.1); }
-        .vid-frame { width: 100%; height: 100%; border: none; }
-        .slider-controls { position: absolute; bottom: 0; left: 0; width: 100%; display: flex; justify-content: space-between; align-items: center; background: linear-gradient(transparent, rgba(0,0,0,0.9)); padding: 15px; z-index: 20; }
-        .slide-btn { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: #fff; padding: 6px 15px; cursor: pointer; border-radius: 4px; font-size: 10px; font-weight: 900; }
+        /* --- CINEMA TRAILER PANEL --- */
+        .trailer-section { position: relative; width: 100%; padding-top: 56.25%; background: #000; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .vid-frame { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
+        
+        .slider-controls {
+            display: flex; justify-content: space-between; align-items: center;
+            background: #111; padding: 12px 20px; border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .slide-btn, .fs-btn { 
+            background: transparent; border: 1px solid rgba(255,255,255,0.2); color: #fff; 
+            padding: 5px 12px; cursor: pointer; border-radius: 4px; font-size: 10px; font-weight: 900;
+        }
+        .slide-btn:hover, .fs-btn:hover { border-color: #ff4dd2; color: #ff4dd2; background: rgba(255,77,210,0.05); }
         .slide-counter { font-size: 10px; font-weight: 900; color: #00ffe0; letter-spacing: 2px; }
 
-        .intel-area { flex: 1; padding: 25px; display: flex; flex-direction: column; gap: 15px; }
-        .intel-header { font-size: 12px; font-weight: 900; color: #ff4dd2; letter-spacing: 2px; border-bottom: 1px solid rgba(255,77,210,0.2); padding-bottom: 10px; }
-        .status-log { font-family: monospace; font-size: 11px; line-height: 1.6; color: #00ffe0; opacity: 0.8; }
-        .status-line { margin-bottom: 8px; border-left: 2px solid #00ffe0; padding-left: 10px; }
+        .intel-area { flex: 1; padding: 25px; }
+        .status-log { font-family: monospace; font-size: 11px; color: #00ffe0; opacity: 0.7; }
+        .status-line { margin-bottom: 8px; border-left: 2px solid #ff4dd2; padding-left: 10px; }
 
-        /* PANEL 3: MAP */
+        /* --- MAP PANEL --- */
         .map-frame { width: 100%; height: 100%; border: none; }
     </style>
 </head>
@@ -66,10 +79,10 @@
         <div class="hud-top">
             <div class="gta-logo"><span class="neon-p">GTA</span> <span class="neon-b">VI</span></div>
             <div class="timer">
-                <div class="t-box"><span class="t-num" id="d">000</span><span class="t-lab">DAYS</span></div>
-                <div class="t-box"><span class="t-num" id="h">00</span><span class="t-lab">HRS</span></div>
-                <div class="t-box"><span class="t-num" id="m">00</span><span class="t-lab">MINS</span></div>
-                <div class="t-box"><span class="t-num" id="s">00</span><span class="t-lab">SECS</span></div>
+                <div class="t-box"><span class="t-num" id="d">000</span><span class="t-lab">Days</span></div>
+                <div class="t-box"><span class="t-num" id="h">00</span><span class="t-lab">Hrs</span></div>
+                <div class="t-box"><span class="t-num" id="m">00</span><span class="t-lab">Mins</span></div>
+                <div class="t-box"><span class="t-num" id="s">00</span><span class="t-lab">Secs</span></div>
             </div>
         </div>
         <div class="radio-wrap">
@@ -78,22 +91,21 @@
         </div>
     </div>
 
-    <div class="panel">
-        <div class="trailer-section">
-            <iframe id="vFrame" class="vid-frame" src="https://www.youtube.com/embed/QdBZY2fkU-0"></iframe>
-            <div class="slider-controls">
-                <button class="slide-btn" onclick="changeTrailer(-1)">PREV</button>
-                <div class="slide-counter" id="slideNum">1 / 2</div>
-                <button class="slide-btn" onclick="changeTrailer(1)">NEXT</button>
-            </div>
+    <div class="panel" id="cinemaPanel">
+        <div class="slider-controls">
+            <button class="slide-btn" onclick="changeTrailer(-1)">PREV</button>
+            <div class="slide-counter" id="slideNum">1 / 2</div>
+            <button class="slide-btn" onclick="changeTrailer(1)">NEXT</button>
+            <button class="fs-btn" onclick="toggleFS()">FULLSCREEN</button>
+        </div>
+        <div class="trailer-section" id="videoContainer">
+            <iframe id="vFrame" class="vid-frame" src="https://www.youtube.com/embed/QdBZY2fkU-0" allowfullscreen></iframe>
         </div>
         <div class="intel-area">
-            <div class="intel-header">SYSTEM_STATUS // MEDIA_ARCHIVE</div>
             <div class="status-log">
-                <div class="status-line">> RADIO_LINK: CONNECTED</div>
-                <div class="status-line">> AUDIO_PATH: /MUSIC/SOURCE</div>
-                <div class="status-line">> TARGET_LAUNCH: 11-19-2026</div>
-                <div class="status-line">> SATELLITE: VICE_CITY_PRIMARY</div>
+                <div class="status-line">> ARCHIVE_LOADED: SUCCESS</div>
+                <div class="status-line">> RESOLUTION: 4K_ULTRA</div>
+                <div class="status-line">> STATUS: MONITORING_LEONIDA</div>
             </div>
         </div>
     </div>
@@ -107,6 +119,31 @@
 
 <script>
     const musicPlayer = document.getElementById('player');
+    const trailers = ["QdBZY2fkU-0", "VQRLujxTm3c"];
+    let currentIdx = 0;
+
+    /* TRAILER LOGIC */
+    function changeTrailer(dir) {
+        currentIdx += dir;
+        if (currentIdx < 0) currentIdx = trailers.length - 1;
+        if (currentIdx >= trailers.length) currentIdx = 0;
+        document.getElementById('vFrame').src = `https://www.youtube.com/embed/${trailers[currentIdx]}?autoplay=1`;
+        document.getElementById('slideNum').innerText = `${currentIdx + 1} / ${trailers.length}`;
+    }
+
+    /* FULLSCREEN LOGIC */
+    function toggleFS() {
+        const container = document.getElementById('videoContainer');
+        if (!document.fullscreenElement) {
+            container.requestFullscreen().catch(err => {
+                alert(`Error: ${err.message}`);
+            });
+        } else {
+            document.exitFullscreen();
+        }
+    }
+
+    /* RADIO LOGIC */
     const songData = [
         { name: "Hot Together", file: "music/together.mp3" },
         { name: "Love Is A Long Road", file: "music/long.mp3" },
@@ -139,33 +176,30 @@
     songData.forEach((s, i) => {
         const d = document.createElement('div');
         d.className = 'track';
+        d.id = `track-${i}`;
         d.innerText = `${String(i+1).padStart(2, '0')}. ${s.name}`;
         d.onclick = () => {
             document.querySelectorAll('.track').forEach(t=>t.classList.remove('active'));
             d.classList.add('active');
             musicPlayer.src = s.file;
-            musicPlayer.play().catch(e => console.log("Autoplay blocked. Click a song to play."));
+            musicPlayer.play();
         };
         list.appendChild(d);
     });
 
+    musicPlayer.onended = () => {
+        let current = parseInt(document.querySelector('.track.active').id.split('-')[1]);
+        let next = (current + 1) % songData.length;
+        document.getElementById(`track-${next}`).click();
+    };
+
     function setVol(v) { musicPlayer.volume = v; }
 
-    /* TRAILER SLIDER */
-    const trailers = ["QdBZY2fkU-0", "VQRLujxTm3c"];
-    let currentIdx = 0;
-    function changeTrailer(dir) {
-        currentIdx += dir;
-        if (currentIdx < 0) currentIdx = trailers.length - 1;
-        if (currentIdx >= trailers.length) currentIdx = 0;
-        document.getElementById('vFrame').src = `https://www.youtube.com/embed/${trailers[currentIdx]}`;
-        document.getElementById('slideNum').innerText = `${currentIdx + 1} / ${trailers.length}`;
-    }
-
-    /* TIMER */
+    /* COUNTDOWN */
     const target = new Date('2026-11-19T00:00:00');
     setInterval(() => {
         const diff = Math.floor((target - new Date())/1000);
+        if(diff < 0) return;
         document.getElementById('d').innerText = Math.floor(diff/86400).toString().padStart(3,'0');
         document.getElementById('h').innerText = Math.floor(diff/3600%24).toString().padStart(2,'0');
         document.getElementById('m').innerText = Math.floor(diff/60%60).toString().padStart(2,'0');
