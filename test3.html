@@ -3,215 +3,174 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>VI | Home</title>
-
-    <link rel="icon" href="gta/npc/lucia.jpg" type="image/jpg">
+    <title>VI | Leonida OS</title>
     <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;600;900&display=swap" rel="stylesheet">
 
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
-        html, body { height: 100%; overflow: hidden; background: #000; }
+        html, body { height: 100vh; overflow: hidden; background: #050505; color: #fff; font-family: 'Exo 2', sans-serif; }
 
         body {
-            font-family: 'Exo 2', sans-serif;
-            font-weight: 300;
-            background: 
-                linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.2)),
-                url('gta/jason.jpg') center 35%/115% 115% no-repeat fixed;
-            color: #fff;
-            display: flex;
-            align-items: center;
-            justify-content: flex-start; /* Interface moves to the Left */
-            transition: background-position 0.15s ease-out;
-            padding-left: 50px; /* Space for the interface */
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.4)), url('gta/jason.jpg') center/cover no-repeat;
+            display: flex; align-items: center; justify-content: center; padding: 20px;
         }
 
-        /* ATMOSPHERIC SCANLINES */
-        body::after {
-            content: "";
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.05) 50%), 
-                        linear-gradient(90deg, rgba(255, 0, 0, 0.01), rgba(0, 255, 0, 0.005), rgba(0, 0, 255, 0.01));
-            background-size: 100% 3px, 3px 100%;
-            z-index: 100; pointer-events: none; opacity: 0.4;
+        .container {
+            display: grid; grid-template-columns: 320px 420px 1fr; gap: 20px;
+            width: 100%; height: 88vh; max-width: 1800px; z-index: 10;
         }
 
-        /* ================= RESTORED NAVBAR (Fixed at Top) ================= */
-        header {
-            position: fixed; top: 20px; right: 50px; z-index: 150; /* Moved right to balance the new UI */
-            display: flex; gap: 6px; padding: 4px;
-            border-radius: 999px; background: rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(8px); border: 1px solid rgba(255, 255, 255, 0.08);
-        }
-        .nav-btn {
-            padding: 8px 16px; border-radius: 999px; color: #fff;
-            font-size: 10px; font-weight: 600; text-decoration: none;
-            background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08);
-            transition: 0.3s; letter-spacing: 1px; text-transform: uppercase;
-        }
-        .nav-btn:hover { background: rgba(255, 255, 255, 0.12); border-color: #00ffe0; transform: translateY(-1px); }
-        .nav-btn.active { border-color: #00ffe0; color: #00ffe0; background: rgba(0, 255, 224, 0.05); }
-
-        /* ================= UNIFIED MAIN HUD (Left Side) ================= */
-        .main-hud {
-            position: relative; z-index: 10;
-            width: 320px;
-            height: auto;
-            max-height: 85vh; /* Prevents overflow */
-            display: flex; flex-direction: column;
-            gap: 15px;
-            padding: 30px;
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(2px) saturate(120%);
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            border-radius: 12px;
-            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.6);
-            transform-style: preserve-3d;
-            overflow: visible; /* Allows track list to scroll internally */
+        .panel {
+            background: rgba(0, 0, 0, 0.85); border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px; backdrop-filter: blur(25px); display: flex; flex-direction: column; overflow: hidden;
         }
 
-        /* Integration Lines for HUD look */
-        .hud-line { position: absolute; height: 1px; background: #00ffe0; opacity: 0.3; }
-        .h-line-1 { width: 100px; top: 15px; left: -110px; } /* Extends interface left */
-        .h-line-2 { width: 150px; bottom: 15px; right: -160px; } /* Extends right */
-
-        /* HUD Title & Logo */
-        .hud-header { text-align: left; }
-        .title { font-size: 32px; font-weight: 900; letter-spacing: 4px; text-transform: uppercase; margin-bottom: 2px; }
-        /* Neon text effect */
-        .neon-gta { text-shadow: 0 0 5px #ff4dd2, 0 0 10px #ff4dd2, 0 0 15px #ff4dd2, 0 0 20px #ff4dd2, 0 0 30px #ff4dd2, 0 0 40px #ff4dd2, 0 0 50px #ff4dd2, 0 0 75px #ff4dd2; color: #fff; }
-        .neon-vi { text-shadow: 0 0 5px #00ffe0, 0 0 10px #00ffe0, 0 0 15px #00ffe0, 0 0 20px #00ffe0, 0 0 30px #00ffe0, 0 0 40px #00ffe0, 0 0 50px #00ffe0, 0 0 75px #00ffe0; color: #fff; }
+        /* PANEL 1: HUD & RADIO */
+        .hud-top { padding: 25px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .gta-logo { font-size: 26px; font-weight: 900; letter-spacing: 2px; margin-bottom: 15px; }
+        .neon-p { color: #ff4dd2; text-shadow: 0 0 10px #ff4dd2; }
+        .neon-b { color: #00ffe0; text-shadow: 0 0 10px #00ffe0; }
         
-        .subtitle { font-size: 10px; letter-spacing: 2px; color: #ff4dd2; margin-bottom: 10px; font-weight: 600; }
+        .timer { display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; }
+        .t-box { background: rgba(255,255,255,0.03); padding: 10px 0; border-radius: 8px; text-align: center; }
+        .t-num { font-size: 18px; font-weight: 900; display: block; }
+        .t-lab { font-size: 7px; opacity: 0.5; font-weight: 900; }
 
-        /* Integreated Countdown */
-        .integrated-clock { display: flex; gap: 8px; justify-content: flex-start; margin-bottom: 15px;}
-        .clock-label { font-size: 8px; opacity: 0.6; margin-top: 1px; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 2px; color: #fff; }
-        .unit { padding: 8px 0; border-radius: 6px; background: rgba(0, 0, 0, 0.45); border: 1px solid rgba(255, 255, 255, 0.03); width: 60px; text-align: center;}
-        .num { font-size: 20px; font-weight: 600; color: #fff; font-family: 'Exo 2', sans-serif;}
+        .radio-wrap { flex: 1; padding: 20px; display: flex; flex-direction: column; overflow: hidden; }
+        .vol-slider { width: 100%; accent-color: #ff4dd2; margin-bottom: 15px; cursor: pointer; height: 4px; appearance: none; background: rgba(255,255,255,0.1); border-radius: 2px; }
+        .song-list { overflow-y: auto; flex: 1; }
+        .track { padding: 10px; font-size: 10px; cursor: pointer; border-bottom: 1px solid rgba(255,255,255,0.02); opacity: 0.5; transition: 0.2s; }
+        .track:hover { opacity: 0.8; background: rgba(255,255,255,0.02); }
+        .track.active { opacity: 1; color: #ff4dd2; background: rgba(255,77,210,0.05); border-left: 3px solid #ff4dd2; }
 
-        /* Restored 25-Song List (Integrated in HUD) */
-        .integrated-radio { flex: 1; display: flex; flex-direction: column; overflow: hidden; border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 15px; }
-        .radio-header { font-size: 9px; opacity: 0.5; text-transform: uppercase; color: #fff; letter-spacing: 2px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center;}
-        .shuffle-btn { background: rgba(0, 255, 224, 0.15); border: 1px solid #00ffe0; color: #00ffe0; padding: 4px 8px; border-radius: 5px; font-size: 8px; font-weight: 900; cursor: pointer; }
-        .shuffle-btn:hover { background: #00ffe0; color: #000; }
+        /* PANEL 2: MULTI-TRAILER & INTEL */
+        .trailer-section { position: relative; height: 260px; background: #000; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .vid-frame { width: 100%; height: 100%; border: none; }
+        .slider-controls { position: absolute; bottom: 0; left: 0; width: 100%; display: flex; justify-content: space-between; align-items: center; background: linear-gradient(transparent, rgba(0,0,0,0.9)); padding: 15px; z-index: 20; }
+        .slide-btn { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: #fff; padding: 6px 15px; cursor: pointer; border-radius: 4px; font-size: 10px; font-weight: 900; }
+        .slide-counter { font-size: 10px; font-weight: 900; color: #00ffe0; letter-spacing: 2px; }
 
-        .vol-wrap { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
-        input[type=range] { flex: 1; accent-color: #ff4dd2; height: 3px; cursor: pointer; background: transparent;}
+        .intel-area { flex: 1; padding: 25px; display: flex; flex-direction: column; gap: 15px; }
+        .intel-header { font-size: 12px; font-weight: 900; color: #ff4dd2; letter-spacing: 2px; border-bottom: 1px solid rgba(255,77,210,0.2); padding-bottom: 10px; }
+        .status-log { font-family: monospace; font-size: 11px; line-height: 1.6; color: #00ffe0; opacity: 0.8; }
+        .status-line { margin-bottom: 8px; border-left: 2px solid #00ffe0; padding-left: 10px; }
 
-        .integrated-song-list { overflow-y: auto; flex: 1; padding: 0;}
-        .track { padding: 10px 12px; border-radius: 6px; font-size: 10px; font-weight: 600; cursor: pointer; color: rgba(255,255,255,0.7); transition: 0.2s; border-bottom: 1px solid rgba(255,255,255,0.03); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;}
-        .track:hover { background: rgba(255, 77, 210, 0.1); color: #ff4dd2; }
-        .track.active-song { color: #00ffe0; background: rgba(0, 255, 224, 0.1); border-left: 2px solid #00ffe0; font-weight: 900;}
-
-        /* Custom Scrollbar for the HUD list */
-        .integrated-song-list::-webkit-scrollbar { width: 3px; }
-        .integrated-song-list::-webkit-scrollbar-thumb { background: #ff4dd2; border-radius: 10px; }
-
+        /* PANEL 3: MAP */
+        .map-frame { width: 100%; height: 100%; border: none; }
     </style>
 </head>
-
 <body>
 
-<header>
-    <a href="#" class="nav-btn active">Home</a>
-    <a href="#" class="nav-btn">Map</a>
-    <a href="#" class="nav-btn">Characters</a>
-    <a href="#" class="nav-btn">Places</a>
-    <a href="#" class="nav-btn">Screenshots</a>
-    <a href="#" class="nav-btn">Trailers</a>
-</header>
-
-<section class="main-hud" id="mainCard">
-    <div class="hud-line h-line-1"></div>
-    <div class="hud-line h-line-2"></div>
-
-    <div class="hud-header">
-        <h1 class="title"><span class="neon-gta">GTA</span> <span class="neon-vi">VI</span></h1>
-        <div class="subtitle">PREPARING FOR NOVEMBER 19, 2026</div>
-    </div>
-
-    <div>
-        <div class="clock-label">Time Remaining</div>
-        <div class="integrated-clock">
-            <div class="unit"><div class="num" id="days">000</div><div class="label">DAYS</div></div>
-            <div class="unit"><div class="num" id="hours">00</div><div class="label">HRS</div></div>
-            <div class="unit"><div class="num" id="minutes">00</div><div class="label">MINS</div></div>
-            <div class="unit"><div class="num" id="seconds">00</div><div class="label">SECS</div></div>
-        </div>
-    </div>
-
-    <div class="integrated-radio">
-        <div class="radio-header">
-            <span>VICE CITY RADIO</span>
-            <button class="shuffle-btn" id="shuffleBtn">Shuffle</button>
-        </div>
-        <div class="vol-wrap"><input type="range" id="volSlider" min="0" max="1" step="0.01" value="0.7"></div>
-        <div class="integrated-song-list" id="songList">
+<div class="container">
+    <div class="panel">
+        <div class="hud-top">
+            <div class="gta-logo"><span class="neon-p">GTA</span> <span class="neon-b">VI</span></div>
+            <div class="timer">
+                <div class="t-box"><span class="t-num" id="d">000</span><span class="t-lab">DAYS</span></div>
+                <div class="t-box"><span class="t-num" id="h">00</span><span class="t-lab">HRS</span></div>
+                <div class="t-box"><span class="t-num" id="m">00</span><span class="t-lab">MINS</span></div>
+                <div class="t-box"><span class="t-num" id="s">00</span><span class="t-lab">SECS</span></div>
             </div>
+        </div>
+        <div class="radio-wrap">
+            <input type="range" class="vol-slider" min="0" max="1" step="0.01" value="0.7" oninput="setVol(this.value)">
+            <div class="song-list" id="sList"></div>
+        </div>
     </div>
-</section>
 
-<audio id="musicPlayer"></audio>
+    <div class="panel">
+        <div class="trailer-section">
+            <iframe id="vFrame" class="vid-frame" src="https://www.youtube.com/embed/QdBZY2fkU-0"></iframe>
+            <div class="slider-controls">
+                <button class="slide-btn" onclick="changeTrailer(-1)">PREV</button>
+                <div class="slide-counter" id="slideNum">1 / 2</div>
+                <button class="slide-btn" onclick="changeTrailer(1)">NEXT</button>
+            </div>
+        </div>
+        <div class="intel-area">
+            <div class="intel-header">SYSTEM_STATUS // MEDIA_ARCHIVE</div>
+            <div class="status-log">
+                <div class="status-line">> RADIO_LINK: CONNECTED</div>
+                <div class="status-line">> AUDIO_PATH: /MUSIC/SOURCE</div>
+                <div class="status-line">> TARGET_LAUNCH: 11-19-2026</div>
+                <div class="status-line">> SATELLITE: VICE_CITY_PRIMARY</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel">
+        <iframe src="https://map.stateofleonida.net/" class="map-frame" scrolling="no"></iframe>
+    </div>
+</div>
+
+<audio id="player"></audio>
 
 <script>
-/* ===== COUNTDOWN ===== */
-const target = new Date('2026-11-19T00:00:00');
-function update() {
-    const diff = Math.floor((target - new Date())/1000);
-    if(diff <= 0) return;
-    document.getElementById('days').textContent = Math.floor(diff/86400).toString().padStart(3, '0');
-    document.getElementById('hours').textContent = Math.floor(diff/3600%24).toString().padStart(2, '0');
-    document.getElementById('minutes').textContent = Math.floor(diff/60%60).toString().padStart(2, '0');
-    document.getElementById('seconds').textContent = (diff%60).toString().padStart(2, '0');
-}
-setInterval(update, 1000); update();
+    const musicPlayer = document.getElementById('player');
+    const songData = [
+        { name: "Hot Together", file: "music/together.mp3" },
+        { name: "Love Is A Long Road", file: "music/long.mp3" },
+        { name: "Night", file: "music/night.mp3" },
+        { name: "Ocean Breeze", file: "music/ocean.mp3" },
+        { name: "Self Control", file: "music/self.mp3" },
+        { name: "Atomic", file: "music/tomic.mp3" },
+        { name: "Sun Glasses At Night", file: "music/sun.mp3" },
+        { name: "All Night Long", file: "music/all.mp3" },
+        { name: "Shame", file: "music/shame.mp3" },
+        { name: "Vice City", file: "music/vice.mp3" },
+        { name: "I Walk This Earth All By Myself", file: "music/earth.mp3" },
+        { name: "Owner Of A Lonley Heart", file: "music/heart.mp3" },
+        { name: "Tempted", file: "music/tempt.mp3" },
+        { name: "Poison Arrow", file: "music/arrow.mp3" },
+        { name: "Is It A Crime", file: "music/crime.mp3" },
+        { name: "Here We Are", file: "music/are.mp3" },
+        { name: "Through The Fire", file: "music/fire.mp3" },
+        { name: "Heart Of Mine", file: "music/mine.mp3" },
+        { name: "Fly Away", file: "music/fly.mp3" },
+        { name: "Ain't Nobody", file: "music/nobody.mp3" },
+        { name: "Thinking Of You", file: "music/you.mp3" },
+        { name: "Sweet Love", file: "music/love.mp3" },
+        { name: "I Still Remember You", file: "music/remember.mp3" },
+        { name: "Gamble With My Love", file: "music/gamble.mp3" },
+        { name: "Sukiyaki", file: "music/suki.mp3" }
+    ];
 
-/* ===== PARALLAX ===== */
-const card = document.getElementById('mainCard');
-document.addEventListener('mousemove', (e) => {
-    const x = (window.innerWidth / 2 - e.pageX) / 80;
-    const y = (window.innerHeight / 2 - e.pageY) / 80;
-    document.body.style.backgroundPosition = `calc(50% + ${x}px) calc(35% + ${y}px)`;
-    card.style.transform = `perspective(1000px) rotateX(${(window.innerHeight/2 - e.pageY)/70}deg) rotateY(${(e.pageX - window.innerWidth/2)/70}deg)`;
-});
+    const list = document.getElementById('sList');
+    songData.forEach((s, i) => {
+        const d = document.createElement('div');
+        d.className = 'track';
+        d.innerText = `${String(i+1).padStart(2, '0')}. ${s.name}`;
+        d.onclick = () => {
+            document.querySelectorAll('.track').forEach(t=>t.classList.remove('active'));
+            d.classList.add('active');
+            musicPlayer.src = s.file;
+            musicPlayer.play().catch(e => console.log("Autoplay blocked. Click a song to play."));
+        };
+        list.appendChild(d);
+    });
 
-/* ===== RESTORED MUSIC ENGINE ===== */
-const songs = [
-    {n:"Hot Together", s:"music/together.mp3"}, {n:"Love Is A Long Road", s:"music/long.mp3"}, {n:"Night", s:"music/night.mp3"}, 
-    {n:"Ocean Breeze", s:"music/ocean.mp3"}, {n:"Self Control", s:"music/self.mp3"}, {n:"Atomic", s:"music/tomic.mp3"}, 
-    {n:"Sun Glasses At Night", s:"music/sun.mp3"}, {n:"All Night Long", s:"music/all.mp3"}, {n:"Shame", s:"music/shame.mp3"}, 
-    {n:"Vice City", s:"music/vice.mp3"}, {n:"I Walk This Earth All By Myself", s:"music/earth.mp3"}, {n:"Owner Of A Lonley Heart", s:"music/heart.mp3"},
-    {n:"Tempted", s:"music/tempt.mp3"}, {n:"Poison Arrow", s:"music/arrow.mp3"}, {n:"Is It A Crime", s:"music/crime.mp3"}, 
-    {n:"Here We Are", s:"music/are.mp3"}, {n:"Through The Fire", s:"music/fire.mp3"}, {n:"Heart Of Mine", s:"music/mine.mp3"}, 
-    {n:"Fly Away", s:"music/fly.mp3"}, {n:"Ain't Nobody", s:"music/nobody.mp3"}, {n:"Thinking Of You", s:"music/you.mp3"}, 
-    {n:"Sweet Love", s:"music/love.mp3"}, {n:"I Still Remember You", s:"music/remember.mp3"}, {n:"Gamble With My Love", s:"music/gamble.mp3"}, 
-    {n:"Sukiyaki", s:"music/suki.mp3"}
-];
+    function setVol(v) { musicPlayer.volume = v; }
 
-const player = document.getElementById('musicPlayer'), list = document.getElementById('songList');
-
-// Inject the RESTORED 25 Songs
-songs.forEach(song => {
-    const div = document.createElement('div'); div.className = 'track'; div.innerText = song.n;
-    div.onclick = () => play(song.s, div); list.appendChild(div);
-});
-
-document.getElementById('volSlider').oninput = (e) => player.volume = e.target.value;
-document.getElementById('shuffleBtn').onclick = () => {
-    const r = Math.floor(Math.random()*songs.length);
-    play(songs[r].s, document.querySelectorAll('.track')[r]);
-};
-
-function play(src, el) {
-    if (player.src.includes(src) && !player.paused) { 
-        player.pause(); 
-    } else {
-        document.querySelectorAll('.track').forEach(t => t.classList.remove('active-song'));
-        player.src = src; player.play(); el.classList.add('active-song');
-        el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    /* TRAILER SLIDER */
+    const trailers = ["QdBZY2fkU-0", "VQRLujxTm3c"];
+    let currentIdx = 0;
+    function changeTrailer(dir) {
+        currentIdx += dir;
+        if (currentIdx < 0) currentIdx = trailers.length - 1;
+        if (currentIdx >= trailers.length) currentIdx = 0;
+        document.getElementById('vFrame').src = `https://www.youtube.com/embed/${trailers[currentIdx]}`;
+        document.getElementById('slideNum').innerText = `${currentIdx + 1} / ${trailers.length}`;
     }
-}
+
+    /* TIMER */
+    const target = new Date('2026-11-19T00:00:00');
+    setInterval(() => {
+        const diff = Math.floor((target - new Date())/1000);
+        document.getElementById('d').innerText = Math.floor(diff/86400).toString().padStart(3,'0');
+        document.getElementById('h').innerText = Math.floor(diff/3600%24).toString().padStart(2,'0');
+        document.getElementById('m').innerText = Math.floor(diff/60%60).toString().padStart(2,'0');
+        document.getElementById('s').innerText = (diff%60).toString().padStart(2,'0');
+    }, 1000);
 </script>
 </body>
 </html>
