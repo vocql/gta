@@ -24,7 +24,6 @@
             gap: 25px;
         }
 
-        /* ATMOSPHERIC SCANLINES */
         body::after {
             content: "";
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -34,7 +33,7 @@
             z-index: 100; pointer-events: none; opacity: 0.4;
         }
 
-        /* ================= ERROR MENU ================= */
+        /* ERROR MENU */
         #errorOverlay {
             position: fixed; inset: 0; background: rgba(0, 0, 0, 0.85);
             backdrop-filter: blur(10px); z-index: 1000;
@@ -53,7 +52,7 @@
         }
         .close-btn:hover { background: #00ffe0; color: #000; }
 
-        /* ================= NAVBAR ================= */
+        /* NAVBAR */
         header {
             position: fixed; top: 20px; right: 50px; z-index: 150;
             display: flex; gap: 6px; padding: 4px;
@@ -69,7 +68,7 @@
         .nav-btn:hover { background: rgba(255, 255, 255, 0.12); border-color: #00ffe0; transform: translateY(-1px); }
         .nav-btn.active { border-color: #00ffe0; color: #00ffe0; background: rgba(0, 255, 224, 0.05); }
 
-        /* ================= PANEL BASE ================= */
+        /* PANELS */
         .main-hud, .side-panel {
             position: relative; z-index: 10;
             background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(2px) saturate(120%);
@@ -82,18 +81,16 @@
         .trailer-panel { flex: 0 0 auto; overflow: hidden; background: #000; display: flex; flex-direction: column; }
         .vid-frame { width: 100%; aspect-ratio: 16/9; border: none; display: block; }
         .vid-ctrls { padding: 12px; display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.8); border-top: 1px solid rgba(255,255,255,0.05); }
-        .trailer-panel:fullscreen { width: 100vw; height: 100vh; border-radius: 0; }
-        .trailer-panel:fullscreen .vid-frame { flex: 1; aspect-ratio: auto; }
 
         .desc-panel { flex: 1; padding: 25px; display: flex; flex-direction: column; gap: 15px; overflow-y: auto; border-left: 2px solid #ff4dd2; }
         .desc-content { font-size: 13px; line-height: 1.8; color: rgba(255, 255, 255, 0.9); }
         .neon-accent { color: #00ffe0; font-weight: 600; text-shadow: 0 0 5px #00ffe0; }
         .highlight { color: #ff4dd2; font-weight: 600; }
 
-        .map-panel { width: 500px; height: 85vh; overflow: hidden; }
+        .map-panel { width: 500px; height: 85vh; overflow: hidden; position: relative; }
         .map-frame { width: 100%; height: 100%; border: none; }
 
-        /* HUD DETAILS */
+        /* HUD STYLES (unchanged) */
         .hud-line { position: absolute; height: 1px; background: #00ffe0; opacity: 0.3; }
         .h-line-1 { width: 100px; top: 15px; left: -110px; }
         .h-line-2 { width: 150px; bottom: 15px; right: -160px; }
@@ -118,26 +115,25 @@
         .integrated-song-list::-webkit-scrollbar { width: 3px; }
         .integrated-song-list::-webkit-scrollbar-thumb { background: #ff4dd2; border-radius: 10px; }
 
-        /* ================= NEW WATERMARK (Like in your image) ================= */
+        /* ================= WATERMARK - OUTSIDE MAP, IN THE SPACE ON THE RIGHT, TEXT FLIPPED ================= */
         .page-watermark {
             position: fixed;
-            right: 25px;
+            right: 18px;                    /* Adjust this if you want it closer or farther from the map */
             top: 50%;
-            transform: translateY(-50%) rotate(-90deg);   /* Faces the map (left) */
+            transform: translateY(-50%) rotate(90deg);   /* Flipped rotation as requested */
             font-family: 'Exo 2', sans-serif;
-            font-size: 68px;                  /* Much bigger */
+            font-size: 76px;
             font-weight: 900;
-            letter-spacing: 12px;
+            letter-spacing: 14px;
             text-transform: uppercase;
-            color: rgba(255, 255, 255, 0.9);
-            opacity: 0.13;                    /* Subtle like the mockup */
+            color: rgba(255, 255, 255, 0.88);
+            opacity: 0.13;
             pointer-events: none;
-            z-index: 90;
+            z-index: 95;
             text-shadow: 
-                0 0 10px #ff4dd2,
-                0 0 25px #ff4dd2,
-                0 0 45px rgba(255, 77, 210, 0.7),
-                0 0 70px rgba(255, 77, 210, 0.4);
+                0 0 18px #ff4dd2,
+                0 0 38px #ff4dd2,
+                0 0 70px rgba(255, 77, 210, 0.65);
             white-space: nowrap;
             user-select: none;
         }
@@ -161,7 +157,7 @@
     <a href="trailers" class="nav-btn active">Trailers</a>
 </header>
 
-<!-- Updated Watermark -->
+<!-- Watermark placed outside the map, in the empty space on the right -->
 <div class="page-watermark">MADE BY VOCQL</div>
 
 <section class="main-hud" id="mainCard">
@@ -216,7 +212,7 @@
 <audio id="musicPlayer"></audio>
 
 <script>
-/* ERROR LOGIC */
+/* ERROR */
 function triggerError() { document.getElementById('errorOverlay').style.display = 'flex'; }
 function closeError() { document.getElementById('errorOverlay').style.display = 'none'; }
 
@@ -256,7 +252,7 @@ document.addEventListener('mousemove', (e) => {
     card.style.transform = `perspective(1000px) rotateX(${(window.innerHeight/2 - e.pageY)/70}deg) rotateY(${(e.pageX - window.innerWidth/2)/70}deg)`;
 });
 
-/* MUSIC ENGINE */
+/* MUSIC */
 const songs = [
     {n:"Hot Together", s:"music/together.mp3"}, {n:"Love Is A Long Road", s:"music/long.mp3"}, {n:"Night", s:"music/night.mp3"},
     {n:"Ocean Breeze", s:"music/ocean.mp3"}, {n:"Self Control", s:"music/self.mp3"}, {n:"Atomic", s:"music/tomic.mp3"},
