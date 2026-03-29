@@ -60,13 +60,12 @@
             box-shadow: 0 15px 50px rgba(0, 0, 0, 0.6);
         }
 
-        .main-hud { width: 320px; height: auto; max-height: 85vh; display: flex; flex-direction: column; gap: 15px; padding: 30px; transform-style: preserve-3d; }
+        .main-hud { width: 320px; height: 85vh; display: flex; flex-direction: column; gap: 15px; padding: 30px; transform-style: preserve-3d; }
         .mid-col { display: flex; flex-direction: column; gap: 20px; width: 450px; height: 85vh; }
         
         .trailer-panel { flex: 0 0 auto; overflow: hidden; background: #000; display: flex; flex-direction: column; }
         .vid-frame { width: 100%; aspect-ratio: 16/9; border: none; display: block; }
         .vid-ctrls { padding: 12px; display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.8); border-top: 1px solid rgba(255,255,255,0.05); }
-        .trailer-panel:fullscreen { width: 100vw; height: 100vh; border-radius: 0; }
 
         /* DESCRIPTION PANEL */
         .desc-panel { flex: 1; padding: 25px; display: flex; flex-direction: column; gap: 15px; overflow-y: auto; border-left: 2px solid #ff4dd2; }
@@ -74,7 +73,6 @@
         .neon-accent { color: #00ffe0; font-weight: 600; text-shadow: 0 0 5px #00ffe0; }
         .highlight { color: #ff4dd2; font-weight: 600; }
 
-        /* NEON TEXT EFFECTS */
         .neon-gta { text-shadow: 0 0 5px #ff4dd2, 0 0 10px #ff4dd2; color: #fff; }
         .neon-vi { text-shadow: 0 0 5px #00ffe0, 0 0 10px #00ffe0; color: #fff; }
 
@@ -94,20 +92,39 @@
         .title { font-size: 32px; font-weight: 900; letter-spacing: 4px; text-transform: uppercase; margin-bottom: 2px; }
         .subtitle { font-size: 10px; letter-spacing: 2px; color: #ff4dd2; margin-bottom: 10px; font-weight: 600; }
 
-        .integrated-clock { display: flex; gap: 8px; justify-content: flex-start; margin-bottom: 15px;}
-        .clock-label { font-size: 8px; opacity: 0.6; margin-top: 1px; letter-spacing: 1px; text-transform: uppercase; color: #fff; }
-        .unit { padding: 8px 0; border-radius: 6px; background: rgba(0, 0, 0, 0.45); border: 1px solid rgba(255, 255, 255, 0.03); width: 60px; text-align: center;}
-        .num { font-size: 20px; font-weight: 600; color: #fff; font-family: 'Exo 2', sans-serif;}
-
-        .integrated-radio { flex: 1; display: flex; flex-direction: column; overflow: hidden; border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 15px; }
+        /* RADIO & SCROLL WHEEL FIX */
+        .integrated-radio { 
+            flex: 1; 
+            display: flex; 
+            flex-direction: column; 
+            overflow: hidden; 
+            border-top: 1px solid rgba(255, 255, 255, 0.1); 
+            padding-top: 15px;
+            min-height: 0; /* Critical for inner scrolling */
+        }
         .radio-header { font-size: 9px; opacity: 0.5; text-transform: uppercase; color: #fff; letter-spacing: 2px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center;}
         .shuffle-btn { background: rgba(0, 255, 224, 0.15); border: 1px solid #00ffe0; color: #00ffe0; padding: 4px 8px; border-radius: 5px; font-size: 8px; font-weight: 900; cursor: pointer; }
         
         input[type=range] { width: 100%; accent-color: #ff4dd2; height: 3px; cursor: pointer; margin-bottom: 10px;}
 
-        .integrated-song-list { overflow-y: auto; flex: 1; }
-        .track { padding: 10px 12px; border-radius: 6px; font-size: 10px; font-weight: 600; cursor: pointer; color: rgba(255,255,255,0.7); border-bottom: 1px solid rgba(255,255,255,0.03); }
+        .integrated-song-list { 
+            overflow-y: auto; 
+            flex: 1;
+            padding-right: 5px;
+        }
+        .track { padding: 10px 12px; border-radius: 6px; font-size: 10px; font-weight: 600; cursor: pointer; color: rgba(255,255,255,0.7); border-bottom: 1px solid rgba(255,255,255,0.03); transition: 0.2s; }
+        .track:hover { background: rgba(255, 77, 210, 0.1); color: #ff4dd2; }
         .track.active-song { color: #00ffe0; background: rgba(0, 255, 224, 0.1); border-left: 2px solid #00ffe0; font-weight: 900;}
+
+        /* PINK NEON SCROLLBAR */
+        .integrated-song-list::-webkit-scrollbar { width: 4px; }
+        .integrated-song-list::-webkit-scrollbar-thumb { background: #ff4dd2; border-radius: 10px; box-shadow: 0 0 5px #ff4dd2; }
+        .integrated-song-list::-webkit-scrollbar-track { background: rgba(255, 255, 255, 0.05); }
+
+        .integrated-clock { display: flex; gap: 8px; margin-bottom: 15px; }
+        .clock-label { font-size: 8px; opacity: 0.6; letter-spacing: 1px; text-transform: uppercase; color: #fff; margin-bottom: 5px; }
+        .unit { padding: 8px 0; border-radius: 6px; background: rgba(0, 0, 0, 0.45); border: 1px solid rgba(255, 255, 255, 0.03); width: 60px; text-align: center;}
+        .num { font-size: 20px; font-weight: 600; color: #fff; }
     </style>
 </head>
 
@@ -115,11 +132,11 @@
 
 <header>
     <a href="#" class="nav-btn active">Home</a>
-    <a href="map" class="nav-btn active">Map</a>
-    <a href="characters" class="nav-btn active">Characters</a>
-    <a href="places" class="nav-btn active">Places</a>
-    <a href="screenshots" class="nav-btn active">Screenshots</a>
-    <a href="trailers" class="nav-btn active">Trailers</a>
+    <a href="map" class="nav-btn">Map</a>
+    <a href="characters" class="nav-btn">Characters</a>
+    <a href="places" class="nav-btn">Places</a>
+    <a href="screenshots" class="nav-btn">Screenshots</a>
+    <a href="trailers" class="nav-btn">Trailers</a>
 </header>
 
 <div class="page-watermark">MADE BY VOCQL</div>
@@ -130,10 +147,10 @@
 
     <div class="clock-label">Time Remaining</div>
     <div class="integrated-clock">
-        <div class="unit"><div class="num" id="days">000</div><div class="label" style="font-size: 8px;">DAYS</div></div>
-        <div class="unit"><div class="num" id="hours">00</div><div class="label" style="font-size: 8px;">HRS</div></div>
-        <div class="unit"><div class="num" id="minutes">00</div><div class="label" style="font-size: 8px;">MINS</div></div>
-        <div class="unit"><div class="num" id="seconds">00</div><div class="label" style="font-size: 8px;">SECS</div></div>
+        <div class="unit"><div class="num" id="days">000</div><div style="font-size: 8px; opacity: 0.5;">DAYS</div></div>
+        <div class="unit"><div class="num" id="hours">00</div><div style="font-size: 8px; opacity: 0.5;">HRS</div></div>
+        <div class="unit"><div class="num" id="minutes">00</div><div style="font-size: 8px; opacity: 0.5;">MINS</div></div>
+        <div class="unit"><div class="num" id="seconds">00</div><div style="font-size: 8px; opacity: 0.5;">SECS</div></div>
     </div>
 
     <div class="integrated-radio">
@@ -198,6 +215,7 @@
         card.style.transform = `perspective(1000px) rotateX(${(window.innerHeight/2 - e.pageY)/70}deg) rotateY(${(e.pageX - window.innerWidth/2)/70}deg)`;
     });
 
+    // ALL 25 SONGS VERIFIED
     const songs = [
         {n:"Hot Together", s:"music/together.mp3"}, {n:"Love Is A Long Road", s:"music/long.mp3"}, {n:"Night", s:"music/night.mp3"}, 
         {n:"Ocean Breeze", s:"music/ocean.mp3"}, {n:"Self Control", s:"music/self.mp3"}, {n:"Atomic", s:"music/tomic.mp3"}, 
@@ -223,6 +241,7 @@
     document.getElementById('shuffleBtn').onclick = () => {
         const r = Math.floor(Math.random()*songs.length);
         list.children[r].click();
+        list.children[r].scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     };
 </script>
 </body>
