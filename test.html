@@ -10,7 +10,6 @@
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
         html, body { height: 100vh; overflow: hidden; background: #050505; color: #fff; font-family: 'Exo 2', sans-serif; }
 
-        /* BACKGROUND & SCANLINES */
         body {
             background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.3)), url('gta/jason.jpg') center/cover no-repeat;
             display: flex; align-items: center; justify-content: center; padding: 20px;
@@ -20,7 +19,6 @@
             background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%); background-size: 100% 4px;
         }
 
-        /* TOP NAV (NUDGED UP) */
         header {
             position: fixed; top: 10px; right: 40px; z-index: 200;
             display: flex; gap: 8px; padding: 5px; border-radius: 50px;
@@ -32,10 +30,9 @@
         }
         .nav-btn.active { background: #00ffe0; color: #000; }
 
-        /* THREE PANEL LAYOUT */
         .container {
             display: grid; grid-template-columns: 320px 380px 1fr; gap: 20px;
-            width: 100%; height: 85vh; max-width: 1600px; z-index: 10;
+            width: 100%; height: 85vh; max-width: 1800px; z-index: 10;
         }
 
         .panel {
@@ -43,7 +40,7 @@
             border-radius: 15px; backdrop-filter: blur(15px); display: flex; flex-direction: column; overflow: hidden;
         }
 
-        /* --- PANEL 1: HUD & RADIO --- */
+        /* PANEL 1: HUD & FULL RADIO */
         .hud-top { padding: 25px; border-bottom: 1px solid rgba(255,255,255,0.1); }
         .gta-logo { font-size: 28px; font-weight: 900; letter-spacing: 2px; margin-bottom: 15px; }
         .neon-p { color: #ff4dd2; text-shadow: 0 0 10px #ff4dd2; }
@@ -56,15 +53,17 @@
 
         .radio-wrap { flex: 1; padding: 20px; display: flex; flex-direction: column; overflow: hidden; }
         .radio-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
-        .shuffle { background: #00ffe0; color: #000; border: none; padding: 4px 10px; border-radius: 4px; font-size: 8px; font-weight: 900; cursor: pointer; }
-        input[type=range] { width: 100%; accent-color: #ff4dd2; margin-bottom: 15px; cursor: pointer; }
+        .shuffle { background: transparent; color: #00ffe0; border: 1px solid #00ffe0; padding: 4px 10px; border-radius: 4px; font-size: 8px; font-weight: 900; cursor: pointer; transition: 0.2s; }
+        .shuffle:hover { background: rgba(0, 255, 224, 0.1); }
+        input[type=range] { width: 100%; accent-color: #ff4dd2; margin-bottom: 15px; cursor: pointer; background: rgba(255,255,255,0.1); height: 4px; border-radius: 2px; appearance: none; }
+        
         .song-list { overflow-y: auto; flex: 1; padding-right: 5px; }
         .song-list::-webkit-scrollbar { width: 3px; }
-        .song-list::-webkit-scrollbar-thumb { background: #ff4dd2; }
+        .song-list::-webkit-scrollbar-thumb { background: #ff4dd2; border-radius: 10px; }
         .track { padding: 10px; font-size: 10px; cursor: pointer; border-bottom: 1px solid rgba(255,255,255,0.03); opacity: 0.6; transition: 0.2s; }
-        .track:hover, .track.active { opacity: 1; color: #ff4dd2; background: rgba(255,77,210,0.1); }
+        .track:hover, .track.active { opacity: 1; color: #ff4dd2; background: rgba(255,77,210,0.1); border-left: 2px solid #ff4dd2; }
 
-        /* --- PANEL 2: TRAILERS & RANDOM --- */
+        /* PANEL 2: TRAILERS & RANDOM */
         .trailer-tabs { display: flex; }
         .tab { flex: 1; padding: 15px; border: none; background: rgba(255,255,255,0.03); color: #fff; font-size: 9px; font-weight: 900; cursor: pointer; border-bottom: 2px solid transparent; }
         .tab.active { background: rgba(0,255,224,0.1); color: #00ffe0; border-bottom: 2px solid #00ffe0; }
@@ -74,7 +73,7 @@
         .log { margin-bottom: 10px; border-left: 2px solid #00ffe0; padding-left: 10px; opacity: 0.8; }
         .alert { color: #ff4dd2; border-color: #ff4dd2; }
 
-        /* --- PANEL 3: MAP --- */
+        /* PANEL 3: MAP */
         .map-frame { width: 100%; height: 100%; border: none; overflow: hidden; }
 
     </style>
@@ -85,7 +84,7 @@
     <a href="index.html" class="nav-btn">Home</a>
     <a href="map.html" class="nav-btn active">Map</a>
     <a href="characters.html" class="nav-btn">Characters</a>
-    <a href="#" class="nav-btn">Trailers</a>
+    <a href="#" class="nav-btn">Places</a>
 </header>
 
 <div class="container">
@@ -116,12 +115,13 @@
         </div>
         <iframe id="vFrame" class="vid-frame" src="https://www.youtube.com/embed/QdBZY2fkU-0" allowfullscreen></iframe>
         <div class="random-box">
-            <div style="font-weight:900; color:#ff4dd2; margin-bottom:15px;">[ LEONIDA LIVE DATA ]</div>
-            <div class="log">> SATELLITE LINK: ACTIVE</div>
-            <div class="log">> WEATHER: 92°F // HUMIDITY 85%</div>
-            <div class="log alert">> BOLO: UNKNOWN MALE/FEMALE IN PURSUIT</div>
-            <div class="log">> STATUS: PREPARING LAUNCH PROTOCOL</div>
-            <div class="log">> REVENUE: $$$$,$$$,$$$</div>
+            <div style="font-weight:900; color:#ff4dd2; margin-bottom:15px;">[ LEONIDA LIVE INTEL ]</div>
+            <div class="log">> SATELLITE LINK: STABLE</div>
+            <div class="log">> AREA: KELLY COUNTY / VICE CITY</div>
+            <div class="log alert">> HIGH SPEED CHASE REPORTED ON I-95</div>
+            <div class="log">> TEMP: 89°F // WIND: 12MPH SE</div>
+            <div class="log">> DATA_ENCRYPTION: AES-256 ACTIVE</div>
+            <div class="log">> REVENUE_ESTIMATE: $1.2B (PRE-ORDER)</div>
         </div>
     </div>
 
@@ -133,21 +133,37 @@
 <audio id="player"></audio>
 
 <script>
-    /* RADIO */
-    const songs = ["Hot Together", "Love Is A Long Road", "Night", "Ocean Breeze", "Self Control", "Atomic", "Sun Glasses At Night", "All Night Long", "Shame", "Vice City", "Tempted", "Sweet Love"];
+    /* RADIO - FULL 25 SONG SUITE */
+    const songs = [
+        "Hot Together", "Love Is A Long Road", "Night", "Ocean Breeze", "Self Control", 
+        "Atomic", "Sun Glasses At Night", "All Night Long", "Shame", "Vice City", 
+        "I Walk This Earth All By Myself", "Owner Of A Lonley Heart", "Tempted", 
+        "Poison Arrow", "Is It A Crime", "Here We Are", "Through The Fire", 
+        "Heart Of Mine", "Fly Away", "Ain't Nobody", "Thinking Of You", 
+        "Sweet Love", "I Still Remember You", "Gamble With My Love", "Sukiyaki"
+    ];
+    
     const list = document.getElementById('sList');
     songs.forEach((s, i) => {
         const d = document.createElement('div');
-        d.className = 'track'; d.innerText = `${i+1}. ${s}`;
-        d.onclick = () => { document.querySelectorAll('.track').forEach(t=>t.classList.remove('active')); d.classList.add('active'); };
+        d.className = 'track'; d.innerText = `${String(i+1).padStart(2, '0')}. ${s}`;
+        d.onclick = () => { 
+            document.querySelectorAll('.track').forEach(t=>t.classList.remove('active')); 
+            d.classList.add('active'); 
+            d.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        };
         list.appendChild(d);
     });
+
     function setVol(v) { document.getElementById('player').volume = v; }
-    function shuffle() { const t = document.querySelectorAll('.track'); t[Math.floor(Math.random()*t.length)].click(); }
+    function shuffle() { 
+        const t = document.querySelectorAll('.track'); 
+        t[Math.floor(Math.random()*t.length)].click(); 
+    }
 
     /* VIDEO TABS */
     function swapVid(id, btn) {
-        document.getElementById('vFrame').src = `https://www.youtube.com/embed/${id}`;
+        document.getElementById('vFrame').src = `https://www.youtube.com/embed/${id}?autoplay=1`;
         document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
         btn.classList.add('active');
     }
@@ -156,6 +172,7 @@
     const end = new Date('2026-11-19T00:00:00');
     setInterval(() => {
         const diff = Math.floor((end - new Date())/1000);
+        if(diff <= 0) return;
         document.getElementById('d').innerText = Math.floor(diff/86400).toString().padStart(3,'0');
         document.getElementById('h').innerText = Math.floor(diff/3600%24).toString().padStart(2,'0');
         document.getElementById('m').innerText = Math.floor(diff/60%60).toString().padStart(2,'0');
