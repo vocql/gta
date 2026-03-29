@@ -9,7 +9,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;600;900&display=swap" rel="stylesheet">
 
     <style>
-        /* ================= ORIGINAL CORE STYLES (UNTOUCHED) ================= */
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
         html, body { height: 100%; overflow: hidden; background: #000; }
 
@@ -25,7 +24,7 @@
             justify-content: flex-start;
             transition: background-position 0.15s ease-out;
             padding-left: 50px;
-            gap: 25px; /* Spacing between the new panels */
+            gap: 25px; 
         }
 
         body::after {
@@ -72,7 +71,7 @@
         .nav-btn:hover { background: rgba(255, 255, 255, 0.12); border-color: #00ffe0; transform: translateY(-1px); }
         .nav-btn.active { border-color: #00ffe0; color: #00ffe0; background: rgba(0, 255, 224, 0.05); }
 
-        /* ================= PANEL BASE (Shared with HUD) ================= */
+        /* ================= PANEL BASE ================= */
         .main-hud, .side-panel {
             position: relative; z-index: 10;
             background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(2px) saturate(120%);
@@ -82,14 +81,17 @@
 
         .main-hud { width: 320px; height: auto; max-height: 85vh; display: flex; flex-direction: column; gap: 15px; padding: 30px; transform-style: preserve-3d; }
         
-        /* MIDDLE COLUMN (Trailers + Socials) */
         .mid-col { display: flex; flex-direction: column; gap: 20px; width: 450px; height: 85vh; }
         
-        .trailer-panel { flex: 0 0 auto; overflow: hidden; }
+        /* TRAILER PANEL + FULLSCREEN FIX */
+        .trailer-panel { flex: 0 0 auto; overflow: hidden; background: #000; display: flex; flex-direction: column; }
         .vid-frame { width: 100%; aspect-ratio: 16/9; border: none; display: block; }
-        .vid-ctrls { padding: 12px; display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.3); border-top: 1px solid rgba(255,255,255,0.05); }
-        
-        /* RANDOM SOCIALS PANEL */
+        .vid-ctrls { padding: 12px; display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.8); border-top: 1px solid rgba(255,255,255,0.05); }
+
+        .trailer-panel:fullscreen { width: 100vw; height: 100vh; border-radius: 0; }
+        .trailer-panel:fullscreen .vid-frame { flex: 1; aspect-ratio: auto; }
+
+        /* SOCIALS PANEL */
         .socials-panel { flex: 1; padding: 20px; display: flex; flex-direction: column; gap: 10px; overflow-y: auto; }
         .s-item { 
             display: flex; justify-content: space-between; padding: 12px 15px; 
@@ -104,7 +106,7 @@
         .map-panel { width: 500px; height: 85vh; overflow: hidden; }
         .map-frame { width: 100%; height: 100%; border: none; }
 
-        /* HUD DETAILS */
+        /* HUD STYLING */
         .hud-line { position: absolute; height: 1px; background: #00ffe0; opacity: 0.3; }
         .h-line-1 { width: 100px; top: 15px; left: -110px; }
         .h-line-2 { width: 150px; bottom: 15px; right: -160px; }
@@ -115,7 +117,7 @@
         .subtitle { font-size: 10px; letter-spacing: 2px; color: #ff4dd2; margin-bottom: 10px; font-weight: 600; }
 
         .integrated-clock { display: flex; gap: 8px; justify-content: flex-start; margin-bottom: 15px;}
-        .clock-label { font-size: 8px; opacity: 0.6; margin-top: 1px; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 2px; color: #fff; }
+        .clock-label { font-size: 8px; opacity: 0.6; margin-top: 1px; letter-spacing: 1px; text-transform: uppercase; color: #fff; }
         .unit { padding: 8px 0; border-radius: 6px; background: rgba(0, 0, 0, 0.45); border: 1px solid rgba(255, 255, 255, 0.03); width: 60px; text-align: center;}
         .num { font-size: 20px; font-weight: 600; color: #fff; font-family: 'Exo 2', sans-serif;}
 
@@ -133,7 +135,6 @@
 
         .integrated-song-list::-webkit-scrollbar { width: 3px; }
         .integrated-song-list::-webkit-scrollbar-thumb { background: #ff4dd2; border-radius: 10px; }
-
     </style>
 </head>
 
@@ -146,15 +147,6 @@
         <button class="close-btn" onclick="closeError()">Return to Home</button>
     </div>
 </div>
-
-<header>
-    <a href="#" class="nav-btn active">Home</a>
-    <a href="map" class="nav-btn active">Map</a>
-    <a href="characters" class="nav-btn active">Characters</a>
-    <a href="places" class="nav-btn active">Places</a>
-    <a href="screenshots" class="nav-btn active">Screenshots</a>
-    <a href="trailers" class="nav-btn active">Trailers</a>
-</header>
 
 <section class="main-hud" id="mainCard">
     <div class="hud-line h-line-1"></div>
@@ -186,21 +178,18 @@
 </section>
 
 <div class="mid-col">
-    <div class="side-panel trailer-panel">
-        <iframe id="vFrame" class="vid-frame" src="https://www.youtube.com/embed/QdBZY2fkU-0"></iframe>
+    <div class="side-panel trailer-panel" id="tPanel">
+        <iframe id="vFrame" class="vid-frame" src="https://www.youtube.com/embed/QdBZY2fkU-0" allowfullscreen></iframe>
         <div class="vid-ctrls">
             <button class="shuffle-btn" onclick="changeT(-1)">Prev</button>
-            <span style="font-size: 9px; font-weight: 900; color: #00ffe0; letter-spacing: 2px;">OFFICIAL_TRAILER</span>
+            <button class="shuffle-btn" onclick="toggleFS()">Full Screen</button>
             <button class="shuffle-btn" onclick="changeT(1)">Next</button>
         </div>
     </div>
 
     <div class="side-panel socials-panel">
-        <div class="radio-header"><span>NETWORK_STATUS</span></div>
-        <a href="#" class="s-item"><span class="s-label">Discord</span><span class="s-val">o5bo</span></a>
-        <a href="#" class="s-item"><span class="s-label">TikTok</span><span class="s-val">@vocql</span></a>
-        <a href="#" class="s-item"><span class="s-label">Twitch</span><span class="s-val">o5bo</span></a>
-        <a href="#" class="s-item"><span class="s-label">YouTube</span><span class="s-val">vocql</span></a>
+        <div class="radio-header"><span>DEVELOPER</span></div>
+        <a href="#" class="s-item"><span class="s-label">VOCQL</span><span class="s-val">o5bo</span></a>
     </div>
 </div>
 
@@ -227,7 +216,14 @@ function update() {
 }
 setInterval(update, 1000); update();
 
-/* ===== TRAILER ENGINE ===== */
+/* ===== FULLSCREEN ===== */
+function toggleFS() {
+    const p = document.getElementById('tPanel');
+    if (!document.fullscreenElement) p.requestFullscreen();
+    else document.exitFullscreen();
+}
+
+/* ===== TRAILERS ===== */
 const trailers = ["QdBZY2fkU-0", "VQRLujxTm3c"];
 let tIdx = 0;
 function changeT(d) {
@@ -244,7 +240,7 @@ document.addEventListener('mousemove', (e) => {
     card.style.transform = `perspective(1000px) rotateX(${(window.innerHeight/2 - e.pageY)/70}deg) rotateY(${(e.pageX - window.innerWidth/2)/70}deg)`;
 });
 
-/* ===== MUSIC ENGINE ===== */
+/* ===== MUSIC ENGINE (ALL 25 SONGS) ===== */
 const songs = [
     {n:"Hot Together", s:"music/together.mp3"}, {n:"Love Is A Long Road", s:"music/long.mp3"}, {n:"Night", s:"music/night.mp3"}, 
     {n:"Ocean Breeze", s:"music/ocean.mp3"}, {n:"Self Control", s:"music/self.mp3"}, {n:"Atomic", s:"music/tomic.mp3"}, 
