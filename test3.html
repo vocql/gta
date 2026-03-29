@@ -1,323 +1,256 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>VI | Home</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>VI | Home</title>
 
-<link rel="icon" href="gta/npc/lucia.jpg" type="image/jpg">
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
+    <link rel="icon" href="gta/npc/lucia.jpg" type="image/jpg">
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;600;900&display=swap" rel="stylesheet">
 
-<style>
-/* ================= GLOBAL STYLES ================= */
-*{margin:0;padding:0;box-sizing:border-box}
-html,body{height:100%;overflow:hidden}
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+        html, body { height: 100%; overflow: hidden; background: #000; }
 
-body{
-  font-family:'Orbitron',sans-serif;
-  background:
-    linear-gradient(135deg, rgba(255,77,210,0.15), rgba(0,255,224,0.10)),
-    url('gta/jason.jpg') center/cover no-repeat fixed;
-  background-blend-mode: overlay;
-  color:#fff;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  background-position:center 40%;
-}
+        /* OPTIMIZED BACKGROUND: Using transform instead of background-position for 60fps */
+        .bg-layer {
+            position: fixed; top: -10%; left: -10%; width: 120%; height: 120%;
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.3)),
+                        url('gta/jason.jpg') center 35%/cover no-repeat;
+            z-index: -1;
+            will-change: transform;
+            transition: transform 0.1s ease-out;
+        }
 
-/* ================= POPUP MODAL ================= */
-#siteAlert {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.85);
-  backdrop-filter: blur(10px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 9999;
-  transition: opacity 0.5s ease;
-}
+        body {
+            font-family: 'Exo 2', sans-serif;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            padding-left: 50px;
+            gap: 25px; 
+        }
 
-.modal-content {
-  background: rgba(15, 15, 15, 0.95);
-  padding: 40px;
-  border-radius: 20px;
-  border: 2px solid #ff4dd2;
-  text-align: center;
-  max-width: 500px;
-  width: 90%;
-  box-shadow: 0 0 40px rgba(255, 77, 210, 0.3);
-}
+        /* Subtle Scanline Overlay */
+        body::after {
+            content: "";
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.05) 50%);
+            background-size: 100% 4px;
+            z-index: 100; pointer-events: none; opacity: 0.3;
+        }
 
-.modal-content h2 {
-  color: #ff4dd2;
-  margin-bottom: 20px;
-  font-weight: 900;
-  text-shadow: 0 0 10px rgba(255, 77, 210, 0.5);
-}
+        /* ================= NAVBAR ================= */
+        header {
+            position: fixed; top: 20px; right: 50px; z-index: 150;
+            display: flex; gap: 8px; padding: 5px;
+            border-radius: 999px; background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .nav-btn {
+            padding: 8px 18px; border-radius: 999px; color: #fff;
+            font-size: 11px; font-weight: 600; text-decoration: none;
+            background: rgba(255, 255, 255, 0.03); border: 1px solid transparent;
+            transition: 0.2s; letter-spacing: 1px; text-transform: uppercase; cursor: pointer;
+        }
+        .nav-btn:hover { border-color: #00ffe0; color: #00ffe0; background: rgba(0, 255, 224, 0.05); }
 
-.modal-content p {
-  margin-bottom: 20px;
-  line-height: 1.6;
-  font-size: 14px;
-  color: #ccc;
-  font-family: sans-serif; /* Better readability for notices */
-}
+        /* ================= PANEL BASE ================= */
+        .main-hud, .side-panel {
+            position: relative; z-index: 10;
+            background: rgba(0, 0, 0, 0.75); backdrop-filter: blur(12px) saturate(150%);
+            border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 15px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            will-change: transform;
+        }
 
-/* ================= NAVBAR ================= */
-header {
-  position: fixed;
-  top: 18px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 50;
-  display: flex;
-  gap: 12px;
-  padding: 8px 14px;
-  border-radius: 999px;
-  background: rgba(0, 0, 0, 0.25);
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
-  transition: 0.25s;
-}
-header:hover {
-  box-shadow: 0 12px 40px rgba(255, 77, 210, 0.35);
-}
-.nav-btn {
-  padding: 9px 17px;
-  border-radius: 999px;
-  color: #fff;
-  font-weight: 600;
-  text-decoration: none;
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  box-shadow: inset 0 1.2px 1.5px rgba(255, 255, 255, 0.4),
-              0 4px 18px rgba(0, 0, 0, 0.3);
-  transition: 0.25s;
-  cursor: pointer;
-}
-.nav-btn:hover {
-  background: rgba(255, 255, 255, 0.14);
-  transform: scale(1.05);
-}
+        .main-hud { width: 340px; height: 85vh; padding: 30px; display: flex; flex-direction: column; gap: 20px; }
+        .mid-col { display: flex; flex-direction: column; gap: 20px; width: 480px; height: 85vh; }
+        
+        /* TRAILER PANEL */
+        .trailer-panel { flex: 0 0 auto; overflow: hidden; background: #000; border-radius: 15px; }
+        .vid-frame { width: 100%; aspect-ratio: 16/9; border: none; display: block; }
+        .vid-ctrls { padding: 12px; display: flex; justify-content: space-between; background: rgba(0,0,0,0.8); border-top: 1px solid rgba(255,255,255,0.05); }
 
-/* ================= COUNTDOWN ================= */
-.countdown-wrap{
-  backdrop-filter:blur(1px);
-  border-radius:20px;
-  padding:26px 34px;
-  text-align:center;
-  width:88%;
-  max-width:600px;
-  margin-top:120px;
-  background:rgba(0,0,0,0.25);
-  border:2px solid #fff;
-}
-.title{font-size:32px;font-weight:900}
-.subtitle{font-size:14px;margin:10px 0 24px}
+        /* ABOUT PANEL */
+        .desc-panel { flex: 1; padding: 25px; overflow-y: auto; border-left: 4px solid #ff4dd2; }
+        .desc-content { font-size: 13.5px; line-height: 1.8; color: rgba(255, 255, 255, 0.85); }
+        .neon-accent { color: #00ffe0; text-shadow: 0 0 8px rgba(0, 255, 224, 0.4); }
+        .highlight { color: #ff4dd2; font-weight: 600; }
 
-.clock{
-  display:flex;
-  gap:12px;
-  justify-content:center;
-}
-.unit{
-  min-width:72px;
-  padding:12px;
-  border-radius:12px;
-  background:rgba(0,0,0,0.35);
-}
-.num{font-size:32px;font-weight:900}
-.label{font-size:11px;opacity:.8}
+        /* MAP PANEL */
+        .map-panel { width: 550px; height: 85vh; overflow: hidden; }
+        .map-frame { width: 100%; height: 100%; border: none; }
 
-/* ================= MUSIC ================= */
-.music-trigger{
-  position:fixed;
-  bottom:18px;
-  left:18px;
-  width:40px;
-  height:40px;
-  cursor:pointer;
-  z-index:200;
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid rgba(255,255,255,0.2);
-}
+        /* HUD ELEMENTS */
+        .title { font-size: 34px; font-weight: 900; letter-spacing: 3px; }
+        .neon-gta { text-shadow: 0 0 15px #ff4dd2; color: #fff; }
+        .neon-vi { text-shadow: 0 0 15px #00ffe0; color: #fff; }
+        .subtitle { font-size: 10px; color: #ff4dd2; margin-bottom: 10px; font-weight: 900; letter-spacing: 1px; }
 
-.music-wheel{
-  position:fixed;
-  bottom:18px;
-  left:70px;
-  display:flex;
-  gap:8px;
-  max-width:calc(100% - 90px);
-  overflow-x:auto;
-  padding-bottom:10px;
-  opacity:0;
-  pointer-events:none;
-  transform:translateX(-10px);
-  transition:.25s ease;
-}
-.music-wheel.active{
-  opacity:1;
-  pointer-events:auto;
-  transform:translateX(0);
-}
+        .integrated-clock { display: flex; gap: 8px; margin-bottom: 5px; }
+        .unit { padding: 10px 0; border-radius: 8px; background: rgba(255, 255, 255, 0.04); width: 65px; text-align: center; border: 1px solid rgba(255,255,255,0.06); }
+        .num { font-size: 22px; font-weight: 900; color: #fff; }
+        .label { font-size: 8px; opacity: 0.5; margin-top: 2px; }
 
-.music-item{
-  padding:9px 17px;
-  border-radius:999px;
-  font-size:12px;
-  font-weight:600;
-  white-space:nowrap;
-  background: rgba(255,255,255,0.08);
-  border: 1px solid rgba(255,255,255,0.18);
-  box-shadow: inset 0 1.2px 1.5px rgba(255,255,255,0.4), 0 4px 18px rgba(0,0,0,0.3);
-  cursor: pointer;
-  flex-shrink:0;
-  transition: 0.25s ease;
-  color: #fff;
-}
+        /* RADIO SYSTEM */
+        .integrated-radio { flex: 1; overflow: hidden; display: flex; flex-direction: column; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 15px; }
+        .radio-header { font-size: 9px; letter-spacing: 2px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; opacity: 0.7; }
+        .shuffle-btn { background: rgba(0, 255, 224, 0.1); border: 1px solid #00ffe0; color: #00ffe0; padding: 5px 10px; border-radius: 5px; font-size: 9px; font-weight: 900; cursor: pointer; transition: 0.2s; }
+        .shuffle-btn:hover { background: #00ffe0; color: #000; }
 
-.music-item:hover{
-  background: rgba(255,255,255,0.14);
-  transform: translateY(-1px) scale(1.05);
-}
+        .integrated-song-list { overflow-y: auto; flex: 1; margin-top: 5px; }
+        .track { padding: 12px; font-size: 10.5px; cursor: pointer; border-bottom: 1px solid rgba(255,255,255,0.03); transition: 0.2s; color: rgba(255,255,255,0.7); }
+        .track:hover { background: rgba(255, 77, 210, 0.1); color: #ff4dd2; }
+        .track.active-song { color: #00ffe0; background: rgba(0, 255, 224, 0.1); border-left: 3px solid #00ffe0; font-weight: 900; }
 
-.music-wheel::-webkit-scrollbar{height:6px;}
-.music-wheel::-webkit-scrollbar-thumb{
-  background: rgba(255,255,255,0.3);
-  border-radius:3px;
-}
-</style>
+        input[type=range] { width: 100%; accent-color: #ff4dd2; cursor: pointer; margin-bottom: 10px; height: 4px; }
+        
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-thumb { background: #ff4dd2; border-radius: 10px; }
+    </style>
 </head>
 
 <body>
 
-<div id="siteAlert">
-  <div class="modal-content">
-    <h2>SYSTEM NOTICE</h2>
-    <p>The updated code for the site is currently very laggy and buggy. It will be fixed soon.</p>
-    <p>We have temporarily reverted to this stable version of the site.</p>
-    <div class="nav-btn" onclick="closeAlert()">I UNDERSTAND</div>
-  </div>
-</div>
+<div class="bg-layer" id="bgLayer"></div>
 
 <header>
-  <a href="index" class="nav-btn">Home</a>
-  <a href="map" class="nav-btn">Map</a>
-  <a href="characters" class="nav-btn">Characters</a>
-  <a href="places" class="nav-btn">Places</a>
-  <a href="screenshots" class="nav-btn">Screenshots</a>
-  <a href="trailers" class="nav-btn">Trailers</a>
+    <a href="#" class="nav-btn">Home</a>
+    <a href="#" class="nav-btn">Map</a>
+    <a href="#" class="nav-btn">Media</a>
+    <a href="#" class="nav-btn">Social</a>
 </header>
 
-<section class="countdown-wrap">
-  <h1 class="title">Grand Theft Auto VI</h1>
-  <div class="subtitle">RELEASE COUNTDOWN – NOVEMBER 19TH, 2026</div>
+<section class="main-hud" id="mainCard">
+    <div class="hud-header">
+        <h1 class="title"><span class="neon-gta">GTA</span> <span class="neon-vi">VI</span></h1>
+        <div class="subtitle">ESTABLISHED NOVEMBER 19, 2026</div>
+    </div>
 
-  <div class="clock">
-    <div class="unit"><div class="num" id="days">000</div><div class="label">DAYS</div></div>
-    <div class="unit"><div class="num" id="hours">00</div><div class="label">HOURS</div></div>
-    <div class="unit"><div class="num" id="minutes">00</div><div class="label">MINUTES</div></div>
-    <div class="unit"><div class="num" id="seconds">00</div><div class="label">SECONDS</div></div>
-  </div>
+    <div>
+        <div class="radio-header"><span>MISSION_TIMER</span></div>
+        <div class="integrated-clock">
+            <div class="unit"><div class="num" id="days">000</div><div class="label">DAYS</div></div>
+            <div class="unit"><div class="num" id="hours">00</div><div class="label">HRS</div></div>
+            <div class="unit"><div class="num" id="minutes">00</div><div class="label">MINS</div></div>
+            <div class="unit"><div class="num" id="seconds">00</div><div class="label">SECS</div></div>
+        </div>
+    </div>
+
+    <div class="integrated-radio">
+        <div class="radio-header"><span>LEONIDA_FM // 91.3</span> <button class="shuffle-btn" id="shuffleBtn">SHUFFLE</button></div>
+        <input type="range" id="volSlider" min="0" max="1" step="0.01" value="0.6">
+        <div class="integrated-song-list" id="songList"></div>
+    </div>
 </section>
 
-<div class="music-trigger" id="musicTrigger">🎵</div>
+<div class="mid-col">
+    <div class="side-panel trailer-panel" id="tPanel">
+        <iframe id="vFrame" class="vid-frame" src="https://www.youtube.com/embed/QdBZY2fkU-0" loading="lazy" allowfullscreen></iframe>
+        <div class="vid-ctrls">
+            <button class="shuffle-btn" onclick="changeT(-1)">PREV</button>
+            <button class="shuffle-btn" onclick="toggleFS()">FULLSCREEN</button>
+            <button class="shuffle-btn" onclick="changeT(1)">NEXT</button>
+        </div>
+    </div>
 
-<div class="music-wheel" id="musicWheel">
-  <div class="music-item" data-song="music/together.mp3">Hot Together</div>
-  <div class="music-item" data-song="music/long.mp3">Love Is A Long Road</div>
-  <div class="music-item" data-song="music/night.mp3">Night</div>
-  <div class="music-item" data-song="music/ocean.mp3">Ocean Breeze</div>
-  <div class="music-item" data-song="music/self.mp3">Self Control</div>
-  <div class="music-item" data-song="music/tomic.mp3">Atomic</div>
-  <div class="music-item" data-song="music/sun.mp3">Sun Glasses At Night</div>
-  <div class="music-item" data-song="music/all.mp3">All Night Long</div>
-  <div class="music-item" data-song="music/shame.mp3">Shame</div>
-  <div class="music-item" data-song="music/vice.mp3">Vice City</div>
-  <div class="music-item" data-song="music/earth.mp3">I Walk This Earth All By Myself</div>
-  <div class="music-item" data-song="music/heart.mp3">Owner Of A Lonley Heart</div>
-  <div class="music-item" data-song="music/tempt.mp3">Tempted</div>
-  <div class="music-item" data-song="music/arrow.mp3">Poison Arrow</div>
-  <div class="music-item" data-song="music/crime.mp3">Is It A Crime</div>
-  <div class="music-item" data-song="music/are.mp3">Here We Are</div>
-  <div class="music-item" data-song="music/fire.mp3">Through The Fire</div>
-  <div class="music-item" data-song="music/mine.mp3">Heart Of Mine</div>
-  <div class="music-item" data-song="music/fly.mp3">Fly Away</div>
-  <div class="music-item" data-song="music/nobody.mp3">Ain't Nobody</div>
-  <div class="music-item" data-song="music/you.mp3">Thinking Of You</div>
-  <div class="music-item" data-song="music/love.mp3">Sweet Love</div>
-  <div class="music-item" data-song="music/remember.mp3">I Still Remember You</div>
-  <div class="music-item" data-song="music/gamble.mp3">Gamble With My Love</div>
-  <div class="music-item" data-song="music/suki.mp3">Sukiyaki</div>
+    <div class="side-panel desc-panel">
+        <div class="radio-header"><span>DEVELOPER_LOG // INTEL</span></div>
+        <div class="desc-content">
+            I built this site because <span class="highlight">coding is a passion.</span> Bringing digital Leonida to life through a smooth, interactive HUD was the ultimate goal.
+            <br><br>
+            The <span class="neon-accent">GTA VI Countdown</span> isn't just a timer—it's an atmospheric dashboard for the wait. Everything from the parallax background to the radio station is designed for performance.
+        </div>
+    </div>
+</div>
+
+<div class="side-panel map-panel">
+    <iframe src="https://map.stateofleonida.net/" class="map-frame" loading="lazy"></iframe>
 </div>
 
 <audio id="musicPlayer"></audio>
 
 <script>
-/* ===== MODAL ===== */
-function closeAlert() {
-  const modal = document.getElementById('siteAlert');
-  modal.style.opacity = '0';
-  setTimeout(() => { modal.style.display = 'none'; }, 500);
-}
+/* ===== 60FPS PARALLAX ENGINE ===== */
+const card = document.getElementById('mainCard');
+const bg = document.getElementById('bgLayer');
+let ticking = false;
 
-/* ===== COUNTDOWN (Corrected for Nov 19 2026) ===== */
-const targetDate = new Date('2026-11-19T00:00:00').getTime();
-const daysEl = document.getElementById('days');
-const hoursEl = document.getElementById('hours');
-const minutesEl = document.getElementById('minutes');
-const secondsEl = document.getElementById('seconds');
-
-function updateCountdown(){
-  const now = new Date().getTime();
-  const diff = targetDate - now;
-
-  if(diff <= 0) return;
-
-  const d = Math.floor(diff / (1000 * 60 * 60 * 24));
-  const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-  const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-  const s = Math.floor((diff % (1000 * 60)) / 1000);
-
-  daysEl.textContent = d.toString().padStart(3, '0');
-  hoursEl.textContent = h.toString().padStart(2, '0');
-  minutesEl.textContent = m.toString().padStart(2, '0');
-  secondsEl.textContent = s.toString().padStart(2, '0');
-}
-
-setInterval(updateCountdown, 1000);
-updateCountdown();
-
-/* ===== MUSIC ===== */
-const trigger = document.getElementById('musicTrigger');
-const wheel = document.getElementById('musicWheel');
-const player = document.getElementById('musicPlayer');
-
-let open = false;
-trigger.onclick = () => {
-  open = !open;
-  wheel.classList.toggle('active', open);
-};
-
-document.querySelectorAll('.music-item').forEach(btn => {
-  btn.onclick = () => {
-    player.src = btn.dataset.song;
-    player.play();
-    // Visual feedback for selected track
-    document.querySelectorAll('.music-item').forEach(b => b.style.borderColor = 'rgba(255,255,255,0.18)');
-    btn.style.borderColor = '#ff4dd2';
-  };
+document.addEventListener('mousemove', (e) => {
+    if (!ticking) {
+        window.requestAnimationFrame(() => {
+            const x = (window.innerWidth / 2 - e.clientX) / 60;
+            const y = (window.innerHeight / 2 - e.clientY) / 60;
+            bg.style.transform = `translate3d(${x}px, ${y}px, 0)`;
+            card.style.transform = `perspective(1000px) rotateX(${y/-2}deg) rotateY(${x/2}deg)`;
+            ticking = false;
+        });
+        ticking = true;
+    }
 });
-</script>
 
+/* ===== COUNTDOWN ===== */
+const target = new Date('2026-11-19T00:00:00');
+function update() {
+    const diff = Math.floor((target - new Date())/1000);
+    if(diff <= 0) return;
+    document.getElementById('days').textContent = Math.floor(diff/86400).toString().padStart(3, '0');
+    document.getElementById('hours').textContent = Math.floor(diff/3600%24).toString().padStart(2, '0');
+    document.getElementById('minutes').textContent = Math.floor(diff/60%60).toString().padStart(2, '0');
+    document.getElementById('seconds').textContent = (diff%60).toString().padStart(2, '0');
+}
+setInterval(update, 1000); update();
+
+/* ===== TRAILER CONTROLS ===== */
+const trailers = ["QdBZY2fkU-0", "VQRLujxTm3c"];
+let tIdx = 0;
+function changeT(d) {
+    tIdx = (tIdx + d + trailers.length) % trailers.length;
+    document.getElementById('vFrame').src = `https://www.youtube.com/embed/${trailers[tIdx]}?autoplay=1`;
+}
+function toggleFS() {
+    const p = document.getElementById('tPanel');
+    if (!document.fullscreenElement) p.requestFullscreen();
+    else document.exitFullscreen();
+}
+
+/* ===== RADIO STATION (ALL 25 SONGS) ===== */
+const songs = [
+    {n:"Hot Together", s:"music/together.mp3"}, {n:"Love Is A Long Road", s:"music/long.mp3"}, {n:"Night", s:"music/night.mp3"}, 
+    {n:"Ocean Breeze", s:"music/ocean.mp3"}, {n:"Self Control", s:"music/self.mp3"}, {n:"Atomic", s:"music/tomic.mp3"}, 
+    {n:"Sun Glasses At Night", s:"music/sun.mp3"}, {n:"All Night Long", s:"music/all.mp3"}, {n:"Shame", s:"music/shame.mp3"}, 
+    {n:"Vice City", s:"music/vice.mp3"}, {n:"I Walk This Earth All By Myself", s:"music/earth.mp3"}, {n:"Owner Of A Lonley Heart", s:"music/heart.mp3"},
+    {n:"Tempted", s:"music/tempt.mp3"}, {n:"Poison Arrow", s:"music/arrow.mp3"}, {n:"Is It A Crime", s:"music/crime.mp3"}, 
+    {n:"Here We Are", s:"music/are.mp3"}, {n:"Through The Fire", s:"music/fire.mp3"}, {n:"Heart Of Mine", s:"music/mine.mp3"}, 
+    {n:"Fly Away", s:"music/fly.mp3"}, {n:"Ain't Nobody", s:"music/nobody.mp3"}, {n:"Thinking Of You", s:"music/you.mp3"}, 
+    {n:"Sweet Love", s:"music/love.mp3"}, {n:"I Still Remember You", s:"music/remember.mp3"}, {n:"Gamble With My Love", s:"music/gamble.mp3"}, 
+    {n:"Sukiyaki", s:"music/suki.mp3"}
+];
+
+const player = document.getElementById('musicPlayer');
+const list = document.getElementById('songList');
+
+songs.forEach((song, i) => {
+    const div = document.createElement('div');
+    div.className = 'track';
+    div.innerText = `${(i+1).toString().padStart(2, '0')}. ${song.n}`;
+    div.onclick = () => playSong(i);
+    list.appendChild(div);
+});
+
+function playSong(i) {
+    document.querySelectorAll('.track').forEach(t => t.classList.remove('active-song'));
+    const trackEl = document.querySelectorAll('.track')[i];
+    trackEl.classList.add('active-song');
+    trackEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    player.src = songs[i].s;
+    player.play();
+}
+
+document.getElementById('volSlider').oninput = (e) => player.volume = e.target.value;
+document.getElementById('shuffleBtn').onclick = () => playSong(Math.floor(Math.random()*songs.length));
+</script>
 </body>
 </html>
