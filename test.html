@@ -83,7 +83,7 @@
         
         .mid-col { display: flex; flex-direction: column; gap: 20px; width: 450px; height: 85vh; }
         
-        /* TRAILER PANEL + FULLSCREEN FIX */
+        /* TRAILER PANEL */
         .trailer-panel { flex: 0 0 auto; overflow: hidden; background: #000; display: flex; flex-direction: column; }
         .vid-frame { width: 100%; aspect-ratio: 16/9; border: none; display: block; }
         .vid-ctrls { padding: 12px; display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.8); border-top: 1px solid rgba(255,255,255,0.05); }
@@ -91,16 +91,11 @@
         .trailer-panel:fullscreen { width: 100vw; height: 100vh; border-radius: 0; }
         .trailer-panel:fullscreen .vid-frame { flex: 1; aspect-ratio: auto; }
 
-        /* SOCIALS PANEL */
-        .socials-panel { flex: 1; padding: 20px; display: flex; flex-direction: column; gap: 10px; overflow-y: auto; }
-        .s-item { 
-            display: flex; justify-content: space-between; padding: 12px 15px; 
-            background: rgba(255,255,255,0.03); border-radius: 8px; border: 1px solid rgba(255,255,255,0.05);
-            text-decoration: none; transition: 0.2s;
-        }
-        .s-item:hover { border-color: #00ffe0; background: rgba(0,255,224,0.05); }
-        .s-label { font-size: 9px; font-weight: 900; color: #ff4dd2; text-transform: uppercase; letter-spacing: 1px; }
-        .s-val { font-size: 11px; color: #00ffe0; font-family: monospace; font-weight: bold; }
+        /* DESCRIPTION PANEL (ABOUT ME) */
+        .desc-panel { flex: 1; padding: 25px; display: flex; flex-direction: column; gap: 15px; overflow-y: auto; border-left: 2px solid #ff4dd2; }
+        .desc-content { font-size: 13px; line-height: 1.8; color: rgba(255, 255, 255, 0.9); }
+        .neon-accent { color: #00ffe0; font-weight: 600; text-shadow: 0 0 5px #00ffe0; }
+        .highlight { color: #ff4dd2; font-weight: 600; }
 
         /* MAP PANEL */
         .map-panel { width: 500px; height: 85vh; overflow: hidden; }
@@ -148,6 +143,15 @@
     </div>
 </div>
 
+<header>
+    <a href="#" class="nav-btn active">Home</a>
+    <a href="map" class="nav-btn active">Map</a>
+    <a href="characters" class="nav-btn active">Characters</a>
+    <a href="places" class="nav-btn active">Places</a>
+    <a href="screenshots" class="nav-btn active">Screenshots</a>
+    <a href="trailers" class="nav-btn active">Trailers</a>
+</header>
+
 <section class="main-hud" id="mainCard">
     <div class="hud-line h-line-1"></div>
     <div class="hud-line h-line-2"></div>
@@ -187,9 +191,13 @@
         </div>
     </div>
 
-    <div class="side-panel socials-panel">
-        <div class="radio-header"><span>DEVELOPER</span></div>
-        <a href="#" class="s-item"><span class="s-label">VOCQL</span><span class="s-val">o5bo</span></a>
+    <div class="side-panel desc-panel">
+        <div class="radio-header"><span>DEVELOPER_LOG // MISSION_INTEL</span></div>
+        <div class="desc-content">
+            I built this site because <span class="highlight">coding isn't just a skill for me—it's a passion.</span> I love the challenge of bringing a digital world to life, one line at a time.
+            <br><br>
+            The <span class="neon-accent">GTA VI Countdown</span> site started as a way to combine my love for programming with the massive hype for Leonida. This isn't just a timer; it's a hub for the community to wait together for the next era of Grand Theft Auto.
+        </div>
     </div>
 </div>
 
@@ -200,10 +208,6 @@
 <audio id="musicPlayer"></audio>
 
 <script>
-/* ERROR LOGIC */
-function triggerError() { document.getElementById('errorOverlay').style.display = 'flex'; }
-function closeError() { document.getElementById('errorOverlay').style.display = 'none'; }
-
 /* ===== COUNTDOWN ===== */
 const target = new Date('2026-11-19T00:00:00');
 function update() {
