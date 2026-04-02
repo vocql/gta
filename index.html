@@ -1,261 +1,589 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>VI | Home</title>
-
-<link rel="icon" href="gta/npc/lucia.jpg" type="image/jpg">
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
-
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Universe Sandbox 3D</title>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
-html,body{height:100%;overflow:hidden}
-
-body{
-  font-family:'Orbitron',sans-serif;
-  background:
-    linear-gradient(135deg, rgba(255,77,210,0.15), rgba(0,255,224,0.10)),
-    url('gta/jason.jpg') center/cover no-repeat fixed;
-  background-blend-mode: overlay;
-  color:#fff;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  background-position:center 40%;
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --bg:#000008;--panel:rgba(5,8,25,0.9);--border:rgba(255,255,255,0.09);
+  --gold:#f0a030;--gold-dim:rgba(240,160,48,0.18);
+  --text:#c8d8f0;--dim:rgba(200,216,240,0.4);
+  --mono:'Share Tech Mono','Courier New',monospace;
 }
-
-/* ================= NAVBAR ================= */
-header {
-  position: fixed;
-  top: 18px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 50;
-  display: flex;
-  gap: 12px;
-  padding: 8px 14px;
-  border-radius: 999px;
-  background: rgba(0, 0, 0, 0.25);
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
-  transition: 0.25s;
+html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);font-family:'Segoe UI',sans-serif;color:var(--text);}
+#c{display:block;position:absolute;inset:0;}
+#topbar{
+  position:absolute;top:0;left:0;right:0;height:50px;
+  background:rgba(4,6,18,0.92);border-bottom:1px solid var(--border);
+  display:flex;align-items:center;padding:0 16px;gap:10px;
+  backdrop-filter:blur(12px);z-index:10;
 }
-header:hover {
-  box-shadow: 0 12px 40px rgba(255, 77, 210, 0.35);
+#logo{font-family:var(--mono);font-size:13px;letter-spacing:2px;color:#fff;white-space:nowrap;}
+#logo span{color:var(--gold);}
+.sep{flex:1;}
+.top-btn{
+  padding:5px 12px;border-radius:5px;border:1px solid var(--border);
+  background:rgba(255,255,255,0.04);color:var(--text);font-size:11px;
+  font-family:var(--mono);letter-spacing:1px;cursor:pointer;transition:all 0.15s;white-space:nowrap;
 }
-.nav-btn {
-  padding: 9px 17px;
-  border-radius: 999px;
-  color: #fff;
-  font-weight: 600;
-  text-decoration: none;
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  box-shadow: inset 0 1.2px 1.5px rgba(255, 255, 255, 0.4),
-              0 4px 18px rgba(0, 0, 0, 0.3);
-  transition: 0.25s;
+.top-btn:hover{background:rgba(255,255,255,0.1);color:#fff;}
+.top-btn.active{background:var(--gold-dim);border-color:rgba(240,160,48,0.5);color:var(--gold);}
+#modeLabel{font-family:var(--mono);font-size:10px;letter-spacing:2px;color:var(--gold);min-width:130px;}
+#leftPanel{
+  position:absolute;top:60px;left:12px;width:200px;
+  background:var(--panel);border:1px solid var(--border);
+  border-radius:10px;padding:12px 13px;
+  backdrop-filter:blur(14px);z-index:10;
+  display:flex;flex-direction:column;gap:9px;
+  max-height:calc(100vh - 72px);overflow-y:auto;
 }
-.nav-btn:hover {
-  background: rgba(255, 255, 255, 0.14);
-  transform: scale(1.05);
+#leftPanel::-webkit-scrollbar{width:3px;}
+#leftPanel::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.15);border-radius:2px;}
+.sec-title{
+  font-family:var(--mono);font-size:9px;letter-spacing:3px;
+  text-transform:uppercase;color:var(--gold);
+  border-bottom:1px solid rgba(240,160,48,0.25);padding-bottom:6px;
 }
-
-/* ================= COUNTDOWN ================= */
-.countdown-wrap{
-  backdrop-filter:blur(1px);
-  border-radius:20px;
-  padding:26px 34px;
-  text-align:center;
-  width:88%;
-  max-width:600px;
-  margin-top:120px;
-  background:rgba(0,0,0,0.25);
-  border:2px solid #fff;
+.planet-list{display:flex;flex-direction:column;gap:3px;}
+.planet-btn{
+  display:flex;align-items:center;gap:8px;padding:6px 8px;
+  border-radius:6px;cursor:pointer;transition:all 0.15s;
+  border:1px solid transparent;background:transparent;
+  font-size:12px;color:var(--text);text-align:left;width:100%;
 }
-.title{font-size:32px;font-weight:900}
-.subtitle{font-size:14px;margin:10px 0 24px}
-
-.clock{
-  display:flex;
-  gap:12px;
-  justify-content:center;
+.planet-btn:hover{background:rgba(255,255,255,0.06);}
+.planet-btn.active{background:var(--gold-dim);border-color:rgba(240,160,48,0.4);color:#fff;}
+.pdot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
+.pname{flex:1;font-size:11px;}
+.pdist{font-family:var(--mono);font-size:9px;color:var(--dim);}
+#weapPanel{
+  position:absolute;top:60px;right:12px;width:205px;
+  background:var(--panel);border:1px solid rgba(255,64,64,0.25);
+  border-radius:10px;padding:12px 13px;
+  backdrop-filter:blur(14px);z-index:10;
+  display:flex;flex-direction:column;gap:7px;
 }
-.unit{
-  min-width:72px;
-  padding:12px;
-  border-radius:12px;
-  background:rgba(0,0,0,0.35);
+.weap-sec{font-family:var(--mono);font-size:9px;letter-spacing:3px;text-transform:uppercase;color:#ff7070;border-bottom:1px solid rgba(255,64,64,0.2);padding-bottom:6px;}
+.weap-btn{
+  width:100%;padding:7px 10px;border-radius:6px;cursor:pointer;transition:all 0.15s;
+  border:1px solid rgba(255,255,255,0.08);background:rgba(255,255,255,0.03);
+  font-family:var(--mono);font-size:11px;color:var(--text);text-align:left;
+  display:flex;align-items:center;gap:8px;
 }
-.num{font-size:32px;font-weight:900}
-.label{font-size:11px;opacity:.8}
-
-/* ================= MUSIC ================= */
-
-/* Invisible trigger */
-.music-trigger{
-  position:fixed;
-  bottom:18px;
-  left:18px;
-  width:40px;
-  height:40px;
-  cursor:pointer;
-  z-index:200;
+.weap-btn:hover{background:rgba(255,255,255,0.07);border-color:rgba(255,255,255,0.2);}
+.weap-btn.sel{background:rgba(255,64,64,0.18);border-color:rgba(255,64,64,0.55);color:#ff9090;}
+.weap-ico{font-size:15px;width:20px;text-align:center;flex-shrink:0;}
+.weap-desc{display:flex;flex-direction:column;gap:2px;}
+.weap-sub{font-size:9px;color:var(--dim);line-height:1.3;}
+.aim-hint{font-family:var(--mono);font-size:9px;color:rgba(255,120,120,0.65);text-align:center;padding:3px 0;letter-spacing:1px;}
+.restore-btn{
+  width:100%;padding:7px 10px;border-radius:6px;cursor:pointer;
+  border:1px solid rgba(80,200,80,0.3);background:rgba(80,200,80,0.06);
+  font-family:var(--mono);font-size:11px;color:#80d080;text-align:left;
+  display:flex;align-items:center;gap:8px;transition:all 0.15s;
 }
-
-/* pill container */
-.music-wheel{
-  position:fixed;
-  bottom:18px;
-  left:70px;
-  display:flex;
-  gap:8px;
-  max-width:calc(100% - 90px);
-  overflow-x:auto;
-  padding-bottom:4px;
-  opacity:0;
-  pointer-events:none;
-  transform:translateX(-10px);
-  transition:.25s ease;
+.restore-btn:hover{background:rgba(80,200,80,0.15);}
+#infoPanel{
+  position:absolute;bottom:54px;right:12px;width:200px;
+  background:var(--panel);border:1px solid var(--border);
+  border-radius:10px;padding:12px 13px;
+  backdrop-filter:blur(14px);z-index:10;
+  display:none;flex-direction:column;gap:7px;
 }
-.music-wheel.active{
-  opacity:1;
-  pointer-events:auto;
-  transform:translateX(0);
+#infoPanel.show{display:flex;}
+#infoPlanetName{font-size:15px;font-weight:600;color:#fff;}
+#infoPlanetType{font-family:var(--mono);font-size:9px;letter-spacing:2px;color:var(--gold);margin-top:-3px;}
+.info-row{display:flex;justify-content:space-between;font-size:11px;}
+.info-key{color:var(--dim);}
+.info-val{color:#fff;font-family:var(--mono);font-size:11px;}
+#infoClose{align-self:flex-end;background:none;border:1px solid var(--border);color:var(--dim);border-radius:4px;padding:2px 8px;font-size:10px;cursor:pointer;}
+#bottomBar{
+  position:absolute;bottom:0;left:0;right:0;height:46px;
+  background:rgba(4,6,18,0.9);border-top:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;gap:7px;
+  backdrop-filter:blur(10px);z-index:10;padding:0 14px;
 }
-
-/* pills - match navbar style */
-.music-item{
-  padding:9px 17px;
-  border-radius:999px;
-  font-size:12px;
-  font-weight:600;
-  white-space:nowrap;
-  background: rgba(255,255,255,0.08);       /* same as nav button */
-  border: 1px solid rgba(255,255,255,0.18); /* same as nav button */
-  box-shadow: inset 0 1.2px 1.5px rgba(255,255,255,0.4), 0 4px 18px rgba(0,0,0,0.3);
-  cursor: pointer;
-  flex-shrink:0;
-  transition: 0.25s ease;
+.speed-btn{
+  padding:4px 11px;border-radius:4px;border:1px solid var(--border);
+  background:rgba(255,255,255,0.03);color:var(--text);
+  font-family:var(--mono);font-size:11px;cursor:pointer;transition:all 0.15s;
 }
-
-.music-item:hover{
-  background: rgba(255,255,255,0.14);       /* match hover nav button */
-  transform: translateY(-1px) scale(1.05);
-  box-shadow: inset 0 1.2px 1.5px rgba(255,255,255,0.45), 0 4px 20px rgba(0,0,0,0.35);
+.speed-btn:hover{background:rgba(255,255,255,0.1);color:#fff;}
+.speed-btn.active{background:var(--gold-dim);border-color:rgba(240,160,48,0.45);color:var(--gold);}
+#dateDisplay{font-family:var(--mono);font-size:11px;color:var(--dim);min-width:150px;text-align:center;}
+.bsep{width:1px;height:22px;background:var(--border);margin:0 3px;}
+#tt{
+  position:absolute;background:rgba(4,6,18,0.93);
+  border:1px solid rgba(255,255,255,0.15);border-radius:7px;
+  padding:6px 11px;font-family:var(--mono);font-size:11px;color:#eee;
+  pointer-events:none;display:none;z-index:20;white-space:nowrap;
 }
-
-/* Scrollbar styling */
-.music-wheel::-webkit-scrollbar{
-  height:6px;
+#kf{position:absolute;inset:0;background:rgba(0,0,0,0);pointer-events:none;z-index:50;transition:background 0.08s;}
+body.arm{cursor:crosshair!important;}
+body.arm *{cursor:crosshair!important;}
+#loading{
+  position:absolute;inset:0;background:#000010;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  z-index:100;gap:16px;
 }
-.music-wheel::-webkit-scrollbar-track{background:transparent;}
-.music-wheel::-webkit-scrollbar-thumb{
-  background: rgba(255,255,255,0.3);
-  border-radius:3px;
-}
+#loading h1{font-family:var(--mono);font-size:22px;letter-spacing:4px;color:#fff;}
+#loading h1 span{color:var(--gold);}
+#lbw{width:240px;height:3px;background:rgba(255,255,255,0.1);border-radius:2px;overflow:hidden;}
+#lb{height:100%;background:var(--gold);width:0%;transition:width 0.3s;border-radius:2px;}
+#ltxt{font-family:var(--mono);font-size:10px;color:var(--dim);letter-spacing:2px;}
 </style>
 </head>
-
 <body>
+<div id="loading"><h1>UNIVERSE <span>SANDBOX</span></h1><div id="lbw"><div id="lb"></div></div><div id="ltxt">INITIALIZING...</div></div>
+<canvas id="c"></canvas>
+<div id="kf"></div>
 
-<header>
-  <a href="index" class="nav-btn">Home</a>
-  <a href="map" class="nav-btn">Map</a>
-  <a href="characters" class="nav-btn">Characters</a>
-  <a href="places" class="nav-btn">Places</a>
-  <a href="screenshots" class="nav-btn">Screenshots</a>
-  <a href="trailers" class="nav-btn">Trailers</a>
-</header>
-
-<section class="countdown-wrap">
-  <h1 class="title">Grand Theft Auto VI</h1>
-  <div class="subtitle">RELEASE COUNTDOWN – NOVEMBER 19TH, 2026</div>
-
-  <div class="clock">
-    <div class="unit"><div class="num" id="days">000</div><div class="label">DAYS</div></div>
-    <div class="unit"><div class="num" id="hours">00</div><div class="label">HOURS</div></div>
-    <div class="unit"><div class="num" id="minutes">00</div><div class="label">MINUTES</div></div>
-    <div class="unit"><div class="num" id="seconds">00</div><div class="label">SECONDS</div></div>
-  </div>
-</section>
-
-<!-- Invisible Music Trigger -->
-<div class="music-trigger" id="musicTrigger"></div>
-
-<!-- Music Pills -->
-<div class="music-wheel" id="musicWheel">
-  <div class="music-item" data-song="music/together.mp3">Hot Together</div>
-  <div class="music-item" data-song="music/long.mp3">Love Is A Long Road</div>
-  <div class="music-item" data-song="music/night.mp3">Night</div>
-  <div class="music-item" data-song="music/ocean.mp3">Ocean Breeze</div>
-  <div class="music-item" data-song="music/self.mp3">Self Control</div>
-  <div class="music-item" data-song="music/tomic.mp3">Atomic</div>
-  <div class="music-item" data-song="music/sun.mp3">Sun Glasses At Night</div>
-  <div class="music-item" data-song="music/all.mp3">All Night Long</div>
-  <div class="music-item" data-song="music/shame.mp3">Shame</div>
-  <div class="music-item" data-song="music/vice.mp3">Vice City</div>
-  <div class="music-item" data-song="music/earth.mp3">I Walk This Earth All By Myself</div>
-  <div class="music-item" data-song="music/heart.mp3">Owner Of A Lonley Heart</div>
-  <div class="music-item" data-song="music/tempt.mp3">Tempted</div>
-  <div class="music-item" data-song="music/arrow.mp3">Poison Arrow</div>
-  <div class="music-item" data-song="music/crime.mp3">Is It A Crime</div>
-  <div class="music-item" data-song="music/are.mp3">Here We Are</div>
-  <div class="music-item" data-song="music/fire.mp3">Through The Fire</div>
-  <div class="music-item" data-song="music/mine.mp3">Heart Of Mine</div>
-  <div class="music-item" data-song="music/fly.mp3">Fly Away</div>
-  <div class="music-item" data-song="music/nobody.mp3">Ain't Nobody</div>
-  <div class="music-item" data-song="music/you.mp3">Thinking Of You</div>
-  <div class="music-item" data-song="music/love.mp3">Sweet Love</div>
-  <div class="music-item" data-song="music/remember.mp3">I Still Remember You</div>
-  <div class="music-item" data-song="music/love.mp3">Sweet Love</div>
-  <div class="music-item" data-song="music/gamble.mp3">Gamble With My Love</div>
-  <div class="music-item" data-song="music/suki.mp3">Sukiyaki</div>
+<div id="topbar">
+  <div id="logo">UNIVERSE <span>SANDBOX</span></div>
+  <div class="sep"></div>
+  <button class="top-btn active" id="btnOrbits">Orbits</button>
+  <button class="top-btn active" id="btnLabels">Labels</button>
+  <button class="top-btn" id="btnBelt">Asteroid Belt</button>
+  <button class="top-btn" id="btnReset">Reset View</button>
+  <div class="sep"></div>
+  <div id="modeLabel">OBSERVE MODE</div>
 </div>
 
-<audio id="musicPlayer"></audio>
+<div id="leftPanel">
+  <div class="sec-title">Solar System</div>
+  <div class="planet-list" id="pList"></div>
+</div>
 
+<div id="weapPanel">
+  <div class="weap-sec">⚠ Arsenal</div>
+  <button class="weap-btn" data-w="nuke"><span class="weap-ico">☢</span><div class="weap-desc"><span>Nuke</span><div class="weap-sub">Thermonuclear detonation</div></div></button>
+  <button class="weap-btn" data-w="asteroid"><span class="weap-ico">☄</span><div class="weap-desc"><span>Rogue Asteroid</span><div class="weap-sub">Giant impactor on a direct path</div></div></button>
+  <button class="weap-btn" data-w="blackhole"><span class="weap-ico">◉</span><div class="weap-desc"><span>Black Hole</span><div class="weap-sub">Drop a micro black hole nearby</div></div></button>
+  <button class="weap-btn" data-w="supernova"><span class="weap-ico">✦</span><div class="weap-desc"><span>Supernova</span><div class="weap-sub">Detonate the entire Sun</div></div></button>
+  <button class="weap-btn" data-w="comet"><span class="weap-ico">💫</span><div class="weap-desc"><span>Death Comet</span><div class="weap-sub">High-velocity icy impactor</div></div></button>
+  <div class="aim-hint" id="aimHint">SELECT A WEAPON ABOVE</div>
+  <button class="restore-btn" id="btnRestore"><span class="weap-ico">↺</span><div class="weap-desc"><span>Restore All Planets</span><div class="weap-sub" style="color:rgba(128,208,128,0.6)">Undo all destruction</div></div></button>
+</div>
+
+<div id="infoPanel">
+  <button id="infoClose">✕ close</button>
+  <div id="iDot" style="width:36px;height:36px;border-radius:50%;align-self:center;margin-bottom:2px;"></div>
+  <div id="iName">—</div>
+  <div id="iType">PLANET</div>
+  <div class="info-row"><span class="info-key">Diameter</span><span class="info-val" id="iDiam">—</span></div>
+  <div class="info-row"><span class="info-key">Orbit Period</span><span class="info-val" id="iOrbit">—</span></div>
+  <div class="info-row"><span class="info-key">Distance (AU)</span><span class="info-val" id="iAU">—</span></div>
+  <div class="info-row"><span class="info-key">Moons</span><span class="info-val" id="iMoons">—</span></div>
+  <div class="info-row"><span class="info-key">Gravity</span><span class="info-val" id="iGrav">—</span></div>
+  <div class="info-row"><span class="info-key">Status</span><span class="info-val" id="iStat">Intact</span></div>
+</div>
+
+<div id="bottomBar">
+  <span style="font-family:var(--mono);font-size:10px;color:var(--dim);margin-right:2px;">SPEED</span>
+  <button class="speed-btn" data-s="0">⏸</button>
+  <button class="speed-btn" data-s="0.1">0.1×</button>
+  <button class="speed-btn active" data-s="1">1×</button>
+  <button class="speed-btn" data-s="5">5×</button>
+  <button class="speed-btn" data-s="20">20×</button>
+  <button class="speed-btn" data-s="100">100×</button>
+  <button class="speed-btn" data-s="365">1yr/s</button>
+  <div class="bsep"></div>
+  <div id="dateDisplay">—</div>
+</div>
+<div id="tt"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script>
-/* ===== COUNTDOWN ===== */
-const targetDate = new Date('2026-11-19T00:00:00');
-const daysEl = document.getElementById('days');
-const hoursEl = document.getElementById('hours');
-const minutesEl = document.getElementById('minutes');
-const secondsEl = document.getElementById('seconds');
+const PDATA=[
+  {name:'Sun',     type:'Star',   c:0xffd060,e:0xff8800,r:6.0,AU:0,    T:0,    tilt:7.25, moons:0,  diam:'1,392,700 km',grav:'274.0 m/s²'},
+  {name:'Mercury', type:'Planet', c:0xb0a090,e:0x302820,r:0.7,AU:0.387,T:88,   tilt:0.03, moons:0,  diam:'4,879 km',    grav:'3.7 m/s²'},
+  {name:'Venus',   type:'Planet', c:0xe8c060,e:0x402800,r:1.1,AU:0.723,T:225,  tilt:177.4,moons:0,  diam:'12,104 km',   grav:'8.87 m/s²'},
+  {name:'Earth',   type:'Planet', c:0x3878c8,e:0x081428,r:1.2,AU:1.0,  T:365,  tilt:23.4, moons:1,  diam:'12,742 km',   grav:'9.81 m/s²'},
+  {name:'Mars',    type:'Planet', c:0xc84828,e:0x280800,r:0.9,AU:1.524,T:687,  tilt:25.2, moons:2,  diam:'6,779 km',    grav:'3.72 m/s²'},
+  {name:'Jupiter', type:'Planet', c:0xc8a878,e:0x301808,r:3.5,AU:5.203,T:4333, tilt:3.13, moons:95, diam:'139,820 km',  grav:'24.79 m/s²'},
+  {name:'Saturn',  type:'Planet', c:0xe0c890,e:0x382808,r:3.0,AU:9.537,T:10759,tilt:26.7, moons:146,diam:'116,460 km',  grav:'10.44 m/s²'},
+  {name:'Uranus',  type:'Planet', c:0x78c8d8,e:0x082028,r:2.0,AU:19.19,T:30687,tilt:97.8, moons:28, diam:'50,724 km',   grav:'8.69 m/s²'},
+  {name:'Neptune', type:'Planet', c:0x3848c8,e:0x080828,r:1.9,AU:30.07,T:60190,tilt:28.3, moons:16, diam:'49,244 km',   grav:'11.15 m/s²'},
+];
+function au2s(au){return au===0?0:14+Math.log(au+1)*38;}
 
-function pad(n){ return String(n).padStart(2,'0'); }
+// THREE SETUP
+const cv=document.getElementById('c');
+const R=new THREE.WebGLRenderer({canvas:cv,antialias:true});
+R.setPixelRatio(Math.min(devicePixelRatio,2));
+R.setSize(innerWidth,innerHeight);
+R.toneMapping=THREE.ACESFilmicToneMapping;R.toneMappingExposure=1.1;
+const SC=new THREE.Scene();
+const CAM=new THREE.PerspectiveCamera(55,innerWidth/innerHeight,0.1,10000);
+CAM.position.set(0,90,160);
+window.addEventListener('resize',()=>{CAM.aspect=innerWidth/innerHeight;CAM.updateProjectionMatrix();R.setSize(innerWidth,innerHeight);});
 
-function updateCountdown(){
-  const now = new Date();
-  const diff = Math.floor((targetDate - now)/1000);
-  if(diff<=0) return;
+// CAMERA CONTROLS
+let isDrag=false,pm={x:0,y:0};
+let sph={t:0.3,p:1.1,r:220},ts={t:0.3,p:1.1,r:220};
+cv.addEventListener('mousedown',e=>{if(e.button===0){isDrag=true;pm={x:e.clientX,y:e.clientY};}});
+window.addEventListener('mouseup',()=>isDrag=false);
+cv.addEventListener('mousemove',e=>{if(!isDrag)return;ts.t-=(e.clientX-pm.x)*0.005;ts.p=Math.max(0.12,Math.min(Math.PI*0.47,ts.p+(e.clientY-pm.y)*0.005));pm={x:e.clientX,y:e.clientY};});
+cv.addEventListener('wheel',e=>{ts.r=Math.max(18,Math.min(900,ts.r+e.deltaY*0.3));},{passive:true});
 
-  daysEl.textContent = Math.floor(diff/86400);
-  hoursEl.textContent = pad(Math.floor(diff/3600%24));
-  minutesEl.textContent = pad(Math.floor(diff/60%60));
-  secondsEl.textContent = pad(diff%60);
+// LIGHTS
+SC.add(new THREE.AmbientLight(0x111133,1.2));
+const SL=new THREE.PointLight(0xfff5e0,3.5,2000);SC.add(SL);
+
+// STARFIELD
+{const g=new THREE.BufferGeometry(),v=[];for(let i=0;i<9000;i++){const t=Math.random()*Math.PI*2,p=Math.acos(2*Math.random()-1),r=500+Math.random()*400;v.push(r*Math.sin(p)*Math.cos(t),r*Math.sin(p)*Math.sin(t),r*Math.cos(p));}g.setAttribute('position',new THREE.Float32BufferAttribute(v,3));SC.add(new THREE.Points(g,new THREE.PointsMaterial({color:0xffffff,size:0.7,sizeAttenuation:true})));}
+
+// PLANET DATA
+const PM=[]; // planet meshes array: {mesh,pd,orbitR,angle,speed,alive,status}
+const OL=[]; // orbit lines
+const LD=[]; // label divs
+const AB=[]; // asteroid belt data
+let showO=true,showL=true,showB=false;
+
+const LC=document.createElement('div');
+LC.style.cssText='position:absolute;inset:0;pointer-events:none;z-index:5;';
+document.body.appendChild(LC);
+function mkLbl(name,col){const d=document.createElement('div');d.style.cssText=`position:absolute;font-family:'Share Tech Mono',monospace;font-size:10px;color:${col};letter-spacing:1px;pointer-events:none;white-space:nowrap;transform:translate(-50%,-50%);text-shadow:0 0 6px ${col}88;transition:opacity 0.2s;`;d.textContent=name;LC.appendChild(d);return d;}
+
+// BUILD SUN
+{
+  const m=new THREE.Mesh(new THREE.SphereGeometry(8,32,32),new THREE.MeshStandardMaterial({color:0xffd060,emissive:0xff9900,emissiveIntensity:2.5,roughness:1,metalness:0}));
+  SC.add(m);
+  SC.add(new THREE.Mesh(new THREE.SphereGeometry(10,32,32),new THREE.MeshBasicMaterial({color:0xff8800,transparent:true,opacity:0.18,side:THREE.BackSide})));
+  SC.add(new THREE.Mesh(new THREE.SphereGeometry(14,32,32),new THREE.MeshBasicMaterial({color:0xff6600,transparent:true,opacity:0.06,side:THREE.BackSide})));
+  PM.push({mesh:m,pd:PDATA[0],orbitR:0,angle:0,speed:0,alive:true,status:'Star'});
+  LD.push(mkLbl('Sun','#ffcc66'));
 }
 
-updateCountdown();
-setInterval(updateCountdown,1000);
+// BUILD PLANETS
+for(let i=1;i<PDATA.length;i++){
+  const pd=PDATA[i];const orbitR=au2s(pd.AU);
+  const pts=[];for(let s=0;s<=128;s++){const a=s/128*Math.PI*2;pts.push(new THREE.Vector3(Math.cos(a)*orbitR,0,Math.sin(a)*orbitR));}
+  const ol=new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts),new THREE.LineBasicMaterial({color:0xffffff,transparent:true,opacity:0.1}));
+  SC.add(ol);OL.push(ol);
+  const mesh=new THREE.Mesh(new THREE.SphereGeometry(pd.r,32,32),new THREE.MeshStandardMaterial({color:pd.c,emissive:pd.e,emissiveIntensity:0.25,roughness:0.85,metalness:0.05}));
+  mesh.rotation.z=THREE.MathUtils.degToRad(pd.tilt);
+  if(pd.name==='Saturn'){
+    const ar=(r1,r2,col,op)=>{const m2=new THREE.Mesh(new THREE.RingGeometry(r1,r2,64),new THREE.MeshBasicMaterial({color:col,side:THREE.DoubleSide,transparent:true,opacity:op}));m2.rotation.x=Math.PI*0.44;mesh.add(m2);};
+    ar(pd.r*1.4,pd.r*2.5,0xd4b060,0.55);ar(pd.r*2.6,pd.r*3.0,0xc0a050,0.3);
+  }
+  if(pd.name==='Uranus'){const m2=new THREE.Mesh(new THREE.RingGeometry(pd.r*1.3,pd.r*1.7,64),new THREE.MeshBasicMaterial({color:0x88d0d8,side:THREE.DoubleSide,transparent:true,opacity:0.2}));m2.rotation.x=Math.PI*0.05;mesh.add(m2);}
+  if(pd.name==='Earth'){mesh.add(new THREE.Mesh(new THREE.SphereGeometry(pd.r*1.03,32,32),new THREE.MeshBasicMaterial({color:0xffffff,transparent:true,opacity:0.12})));}
+  if(pd.name==='Jupiter'){mesh.add(new THREE.Mesh(new THREE.SphereGeometry(pd.r*1.005,32,32),new THREE.MeshBasicMaterial({color:0xa07850,transparent:true,opacity:0.3,side:THREE.BackSide})));}
+  SC.add(mesh);
+  PM.push({mesh,pd,orbitR,angle:Math.random()*Math.PI*2,speed:2*Math.PI/pd.T,alive:true,status:'Intact'});
+  LD.push(mkLbl(pd.name,'#'+pd.c.toString(16).padStart(6,'0')));
+}
 
-/* ===== MUSIC ===== */
-const trigger = document.getElementById('musicTrigger');
-const wheel = document.getElementById('musicWheel');
-const player = document.getElementById('musicPlayer');
+// ASTEROID BELT
+{
+  const g=new THREE.BufferGeometry(),verts=[],cols=[];
+  for(let i=0;i<2000;i++){
+    const au=2.2+Math.random()*1.0,r=au2s(au),a=Math.random()*Math.PI*2,y=(Math.random()-0.5)*4;
+    verts.push(Math.cos(a)*r,y,Math.sin(a)*r);
+    const b=0.3+Math.random()*0.4;cols.push(b,b*0.9,b*0.8);
+    AB.push({r,a,sp:0.0003+Math.random()*0.0002,y});
+  }
+  g.setAttribute('position',new THREE.Float32BufferAttribute(verts,3));
+  g.setAttribute('color',new THREE.Float32BufferAttribute(cols,3));
+  const bm=new THREE.Points(g,new THREE.PointsMaterial({size:0.5,vertexColors:true}));
+  bm.visible=false;SC.add(bm);window._bm=bm;window._bg=g;
+}
 
-let open = false;
-trigger.onclick = () => {
-  open = !open;
-  wheel.classList.toggle('active', open);
-};
+// EFFECTS
+const PARTS=[],EXPL=[],BHS=[];
 
-document.querySelectorAll('.music-item').forEach(btn=>{
-  btn.onclick = () => {
-    player.src = btn.dataset.song;
-    player.play();
+function flash(col,op,dur){const kf=document.getElementById('kf');kf.style.background=`rgba(${col},${op})`;setTimeout(()=>kf.style.background='',dur);}
+
+function explode(pos,scale,c1,c2,count){
+  // Shockwave ring
+  const addRing=(sc,col,op,delay)=>{
+    const m=new THREE.Mesh(new THREE.RingGeometry(0.1,sc*0.2,48),new THREE.MeshBasicMaterial({color:col,transparent:true,opacity:op,side:THREE.DoubleSide}));
+    m.position.copy(pos);m.lookAt(CAM.position);SC.add(m);
+    EXPL.push({mesh:m,life:1,sc,type:'ring',delay:delay||0});
   };
-});
-</script>
+  addRing(scale,c1,0.85);
+  addRing(scale*0.65,c2,0.6,0.1);
+  addRing(scale*0.4,0xffffff,0.4,0.2);
 
+  // Fireball
+  const fb=new THREE.Mesh(new THREE.SphereGeometry(scale*0.25,16,16),new THREE.MeshBasicMaterial({color:c1,transparent:true,opacity:0.9}));
+  fb.position.copy(pos);SC.add(fb);EXPL.push({mesh:fb,life:1,sc:scale*0.25,type:'fireball'});
+
+  // Debris
+  for(let i=0;i<count;i++){
+    const m=new THREE.Mesh(new THREE.SphereGeometry(0.1+Math.random()*0.2,4,4),new THREE.MeshBasicMaterial({color:Math.random()<0.5?c1:c2,transparent:true,opacity:1}));
+    m.position.copy(pos);SC.add(m);
+    const dir=new THREE.Vector3(Math.random()-0.5,Math.random()-0.5,Math.random()-0.5).normalize();
+    PARTS.push({mesh:m,vel:dir.multiplyScalar((0.2+Math.random()*0.7)*scale*0.04),life:1,dec:0.014+Math.random()*0.018});
+  }
+}
+
+function killPlanet(idx,status){
+  const p=PM[idx];if(!p||!p.alive)return;
+  p.alive=false;p.status=status;
+  p.mesh.visible=false;
+  if(LD[idx]){LD[idx].style.opacity='0.25';LD[idx].style.textDecoration='line-through';}
+}
+
+// WEAPONS
+function doNuke(idx){
+  const p=PM[idx];if(!p||!p.alive)return;
+  const pos=p.mesh.position.clone(),r=p.pd.r;
+  flash('255,160,40',0.75,100);
+  setTimeout(()=>flash('255,80,0',0.35,250),120);
+  explode(pos,r*7,0xff8800,0xff2200,90);
+  setTimeout(()=>explode(pos,r*5,0xffff00,0xff6600,50),150);
+  setTimeout(()=>explode(pos,r*3,0xffffff,0xff9900,25),320);
+  // Mushroom cloud rings
+  for(let i=0;i<6;i++){
+    setTimeout(()=>{
+      const rp=pos.clone();rp.y+=i*r*0.55;
+      const m=new THREE.Mesh(new THREE.RingGeometry(r*(0.15+i*0.12),r*(0.35+i*0.18),32),new THREE.MeshBasicMaterial({color:i<2?0xff6600:0x998877,side:THREE.DoubleSide,transparent:true,opacity:0.55}));
+      m.position.copy(rp);m.rotation.x=Math.PI/2;SC.add(m);
+      EXPL.push({mesh:m,life:1,sc:r*(0.35+i*0.18),type:'ring',delay:0});
+    },i*70);
+  }
+  killPlanet(idx,'NUKED ☢');
+}
+
+function doAsteroid(idx){
+  const p=PM[idx];if(!p||!p.alive)return;
+  const pos=p.mesh.position.clone(),r=p.pd.r;
+  const astM=new THREE.Mesh(new THREE.SphereGeometry(r*0.65,10,10),new THREE.MeshStandardMaterial({color:0x887755,roughness:1}));
+  const start=pos.clone().add(new THREE.Vector3(r*8+Math.random()*3,r*4,r*4).normalize().multiplyScalar(r*18));
+  astM.position.copy(start);SC.add(astM);
+  let tc=0;
+  const id=setInterval(()=>{
+    tc+=0.055;astM.position.lerpVectors(start,pos,Math.min(tc,1));astM.rotation.x+=0.05;astM.rotation.z+=0.03;
+    // tail particles
+    if(tc<1&&Math.random()<0.5){
+      const tp=new THREE.Mesh(new THREE.SphereGeometry(0.12,4,4),new THREE.MeshBasicMaterial({color:0xcc8844,transparent:true,opacity:0.8}));
+      tp.position.copy(astM.position).add(new THREE.Vector3((Math.random()-0.5)*0.4,(Math.random()-0.5)*0.4,(Math.random()-0.5)*0.4));
+      SC.add(tp);PARTS.push({mesh:tp,vel:new THREE.Vector3(0,0,0),life:0.8,dec:0.04});
+    }
+    if(tc>=1){clearInterval(id);SC.remove(astM);flash('255,120,0',0.55,150);explode(pos,r*5,0xff7700,0xcc3300,70);setTimeout(()=>explode(pos,r*3,0xffaa44,0x884400,35),120);killPlanet(idx,'IMPACTED ☄');}
+  },16);
+}
+
+function doBlackhole(idx){
+  const p=PM[idx];if(!p)return;
+  const pos=p.mesh.position.clone().add(new THREE.Vector3(p.pd.r*4,0,0));
+  const bhM=new THREE.Mesh(new THREE.SphereGeometry(p.pd.r*0.85,32,32),new THREE.MeshBasicMaterial({color:0x000000}));
+  bhM.position.copy(pos);SC.add(bhM);
+  bhM.add(new THREE.Mesh(new THREE.SphereGeometry(p.pd.r*2.8,32,32),new THREE.MeshBasicMaterial({color:0x8800ff,transparent:true,opacity:0.22,side:THREE.BackSide})));
+  const ring=new THREE.Mesh(new THREE.RingGeometry(p.pd.r*1.1,p.pd.r*2.0,64),new THREE.MeshBasicMaterial({color:0xcc44ff,side:THREE.DoubleSide,transparent:true,opacity:0.5}));
+  ring.rotation.x=Math.PI*0.3;bhM.add(ring);
+  BHS.push({mesh:bhM,life:14});
+  if(p.alive){
+    let st=0;
+    const sid=setInterval(()=>{
+      st+=0.025;p.mesh.position.lerp(bhM.position,0.05);p.mesh.scale.setScalar(Math.max(0,1-st));
+      if(st>=1){clearInterval(sid);killPlanet(idx,'CONSUMED ◉');}
+    },16);
+  }
+}
+
+function doSupernova(){
+  flash('255,255,255',0.95,70);setTimeout(()=>flash('255,200,100',0.6,200),70);setTimeout(()=>flash('255,100,0',0.3,400),270);
+  const o=new THREE.Vector3(0,0,0);
+  explode(o,45,0xffffff,0xffaa00,160);
+  setTimeout(()=>explode(o,65,0xff8800,0xff3300,110),110);
+  setTimeout(()=>explode(o,85,0xffff00,0xff6600,80),260);
+  setTimeout(()=>explode(o,110,0xff4400,0x880000,60),460);
+  for(let i=1;i<PM.length;i++){setTimeout(()=>{if(PM[i].alive)killPlanet(i,'SUPERNOVA ✦');},350+i*120);}
+}
+
+function doComet(idx){
+  const p=PM[idx];if(!p||!p.alive)return;
+  const pos=p.mesh.position.clone(),r=p.pd.r;
+  const cM=new THREE.Mesh(new THREE.SphereGeometry(r*0.45,8,8),new THREE.MeshStandardMaterial({color:0xaaffcc,emissive:0x00ff88,emissiveIntensity:0.6}));
+  const start=pos.clone().add(new THREE.Vector3(-r*9,r*7,r*2));
+  cM.position.copy(start);SC.add(cM);
+  let tc=0;
+  const id=setInterval(()=>{
+    tc+=0.07;cM.position.lerpVectors(start,pos,Math.min(tc,1));
+    if(Math.random()<0.6){
+      const tp=new THREE.Mesh(new THREE.SphereGeometry(0.1+Math.random()*0.12,4,4),new THREE.MeshBasicMaterial({color:0x88ffdd,transparent:true,opacity:0.75}));
+      tp.position.copy(cM.position).add(new THREE.Vector3((Math.random()-0.5)*0.5,(Math.random()-0.5)*0.5,(Math.random()-0.5)*0.5));
+      SC.add(tp);PARTS.push({mesh:tp,vel:new THREE.Vector3(0,0,0),life:0.9,dec:0.05});
+    }
+    if(tc>=1){clearInterval(id);SC.remove(cM);flash('80,255,160',0.4,200);explode(pos,r*4.5,0x88ffcc,0x00aa66,55);setTimeout(()=>explode(pos,r*3,0xffffff,0x44ffaa,30),100);killPlanet(idx,'COMET IMPACT 💫');}
+  },16);
+}
+
+// WEAPON UI
+let selW=null;
+const WB=document.querySelectorAll('.weap-btn[data-w]');
+WB.forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const w=btn.dataset.w;
+    if(selW===w){selW=null;WB.forEach(b=>b.classList.remove('sel'));document.getElementById('aimHint').textContent='SELECT A WEAPON ABOVE';document.getElementById('modeLabel').textContent='OBSERVE MODE';document.body.classList.remove('arm');}
+    else{selW=w;WB.forEach(b=>b.classList.remove('sel'));btn.classList.add('sel');
+      const hints={nuke:'AIM AT PLANET → DETONATE',asteroid:'AIM AT PLANET → IMPACT',blackhole:'AIM AT PLANET → DROP BH',supernova:'CLICK ANYWHERE → DETONATE SUN',comet:'AIM AT PLANET → LAUNCH'};
+      document.getElementById('aimHint').textContent=hints[w]||'AIM AND CLICK';
+      document.getElementById('modeLabel').textContent='⚠ WEAPON ARMED';document.body.classList.add('arm');
+    }
+  });
+});
+
+function deselW(){selW=null;WB.forEach(b=>b.classList.remove('sel'));document.getElementById('aimHint').textContent='SELECT A WEAPON ABOVE';document.getElementById('modeLabel').textContent='OBSERVE MODE';document.body.classList.remove('arm');}
+
+document.getElementById('btnRestore').addEventListener('click',()=>{
+  PM.forEach((p,i)=>{p.alive=true;p.mesh.visible=true;p.mesh.scale.setScalar(1);p.status=i===0?'Star':'Intact';if(LD[i]){LD[i].style.opacity='1';LD[i].style.textDecoration='';}});
+  BHS.forEach(b=>SC.remove(b.mesh));BHS.length=0;
+  PARTS.forEach(p=>SC.remove(p.mesh));PARTS.length=0;
+  EXPL.forEach(e=>SC.remove(e.mesh));EXPL.length=0;
+});
+
+// RAYCASTER
+const RC=new THREE.Raycaster(),MV=new THREE.Vector2();
+const tt=document.getElementById('tt');
+let focP=null;
+
+cv.addEventListener('mousemove',e=>{
+  MV.x=(e.clientX/innerWidth)*2-1;MV.y=-(e.clientY/innerHeight)*2+1;
+  RC.setFromCamera(MV,CAM);
+  const hits=RC.intersectObjects(PM.map(p=>p.mesh));
+  if(hits.length>0){
+    const idx=PM.findIndex(p=>p.mesh===hits[0].object);
+    if(idx>=0){tt.style.display='block';tt.style.left=(e.clientX+14)+'px';tt.style.top=(e.clientY-8)+'px';tt.textContent=selW?`☢ ${PM[idx].pd.name} — FIRE?`:PM[idx].pd.name;tt.style.color=selW?'#ff8080':'#eee';if(!isDrag)cv.style.cursor=selW?'crosshair':'pointer';}
+  }else{tt.style.display='none';if(!isDrag)cv.style.cursor=selW?'crosshair':'grab';}
+});
+
+cv.addEventListener('click',e=>{
+  if(isDrag)return;
+  RC.setFromCamera(MV,CAM);
+  const hits=RC.intersectObjects(PM.map(p=>p.mesh));
+  if(selW){
+    if(selW==='supernova'){doSupernova();deselW();return;}
+    if(hits.length>0){
+      const idx=PM.findIndex(p=>p.mesh===hits[0].object);
+      if(idx>=0){
+        if(selW==='nuke')doNuke(idx);
+        else if(selW==='asteroid')doAsteroid(idx);
+        else if(selW==='blackhole')doBlackhole(idx);
+        else if(selW==='comet')doComet(idx);
+        deselW();return;
+      }
+    }return;
+  }
+  if(hits.length>0){const idx=PM.findIndex(p=>p.mesh===hits[0].object);if(idx>=0)showInfo(idx);}
+});
+
+function showInfo(idx){
+  focP=idx;const pd=PM[idx].pd;
+  document.getElementById('iDot').style.background='#'+pd.c.toString(16).padStart(6,'0');
+  document.getElementById('iName').textContent=pd.name;
+  document.getElementById('iType').textContent=pd.type.toUpperCase();
+  document.getElementById('iDiam').textContent=pd.diam;
+  document.getElementById('iOrbit').textContent=pd.T>0?`${pd.T} days`:'—';
+  document.getElementById('iAU').textContent=pd.AU.toFixed(3);
+  document.getElementById('iMoons').textContent=pd.moons;
+  document.getElementById('iGrav').textContent=pd.grav;
+  const alive=PM[idx].alive;
+  document.getElementById('iStat').textContent=PM[idx].status;
+  document.getElementById('iStat').style.color=alive?'#80d080':'#ff7070';
+  document.getElementById('infoPanel').classList.add('show');
+  document.querySelectorAll('.planet-btn').forEach((b,i)=>b.classList.toggle('active',i===idx));
+}
+document.getElementById('infoClose').addEventListener('click',()=>{document.getElementById('infoPanel').classList.remove('show');document.querySelectorAll('.planet-btn').forEach(b=>b.classList.remove('active'));focP=null;});
+
+// PLANET LIST
+const PL=document.getElementById('pList');
+PDATA.forEach((pd,i)=>{
+  const btn=document.createElement('button');btn.className='planet-btn';
+  const hex='#'+pd.c.toString(16).padStart(6,'0');
+  btn.innerHTML=`<span class="pdot" style="background:${hex};box-shadow:0 0 5px ${hex}88"></span><span class="pname">${pd.name}</span><span class="pdist">${pd.AU>0?pd.AU+'AU':''}</span>`;
+  btn.addEventListener('click',()=>showInfo(i));PL.appendChild(btn);
+});
+
+// TOGGLE BUTTONS
+document.getElementById('btnOrbits').addEventListener('click',function(){showO=!showO;this.classList.toggle('active',showO);OL.forEach(l=>l.visible=showO);});
+document.getElementById('btnLabels').addEventListener('click',function(){showL=!showL;this.classList.toggle('active',showL);LD.forEach(l=>l.style.display=showL?'block':'none');});
+document.getElementById('btnBelt').addEventListener('click',function(){showB=!showB;this.classList.toggle('active',showB);window._bm.visible=showB;});
+document.getElementById('btnReset').addEventListener('click',()=>{ts={t:0.3,p:1.1,r:220};});
+
+// SPEED
+let spd=1;
+document.querySelectorAll('.speed-btn').forEach(btn=>{
+  btn.addEventListener('click',function(){
+    spd=parseFloat(this.dataset.s);
+    document.querySelectorAll('.speed-btn').forEach(b=>b.classList.remove('active'));
+    this.classList.add('active');
+  });
+});
+
+// DATE
+let simD=new Date('2025-01-01');
+const MO=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const _v=new THREE.Vector3();
+function proj(wp){_v.copy(wp).project(CAM);return{x:(_v.x*.5+.5)*innerWidth,y:(.5-_v.y*.5)*innerHeight,behind:_v.z>1};}
+
+// MAIN LOOP
+let lastT=0;
+function anim(t){
+  requestAnimationFrame(anim);
+  const dt=Math.min((t-lastT)*0.001,0.05);lastT=t;
+
+  sph.t+=(ts.t-sph.t)*0.08;sph.p+=(ts.p-sph.p)*0.08;sph.r+=(ts.r-sph.r)*0.08;
+  CAM.position.set(sph.r*Math.sin(sph.p)*Math.sin(sph.t),sph.r*Math.cos(sph.p),sph.r*Math.sin(sph.p)*Math.cos(sph.t));
+  CAM.lookAt(0,0,0);
+
+  simD=new Date(simD.getTime()+dt*spd*86400000);
+  document.getElementById('dateDisplay').textContent=`${simD.getDate()} ${MO[simD.getMonth()]} ${simD.getFullYear()}`;
+
+  // Orbit planets
+  PM.forEach((p,i)=>{
+    if(p.pd.AU===0)return;
+    if(p.alive){p.angle+=p.speed*dt*spd;p.mesh.position.set(Math.cos(p.angle)*p.orbitR,0,Math.sin(p.angle)*p.orbitR);p.mesh.rotation.y+=dt*spd*0.5;}
+    if(showL&&LD[i]){const pr=proj(p.mesh.position);if(!pr.behind){LD[i].style.left=pr.x+'px';LD[i].style.top=(pr.y-p.pd.r*12-6)+'px';} else LD[i].style.opacity=(LD[i].style.opacity==='0.25'?'0.25':'0');}
+  });
+  if(showL&&LD[0]){const pr=proj(new THREE.Vector3(0,0,0));LD[0].style.left=pr.x+'px';LD[0].style.top=(pr.y-72)+'px';LD[0].style.opacity='1';}
+
+  // Asteroid belt
+  if(showB&&window._bg){
+    const pos=window._bg.attributes.position.array;
+    for(let i=0;i<AB.length;i++){AB[i].a+=AB[i].sp*dt*spd;pos[i*3]=Math.cos(AB[i].a)*AB[i].r;pos[i*3+2]=Math.sin(AB[i].a)*AB[i].r;}
+    window._bg.attributes.position.needsUpdate=true;
+  }
+
+  // Debris particles
+  for(let i=PARTS.length-1;i>=0;i--){
+    const p=PARTS[i];p.mesh.position.add(p.vel);p.vel.multiplyScalar(0.96);
+    p.life-=p.dec;p.mesh.material.opacity=Math.max(0,p.life);
+    if(p.life<=0){SC.remove(p.mesh);PARTS.splice(i,1);}
+  }
+
+  // Explosions
+  for(let i=EXPL.length-1;i>=0;i--){
+    const e=EXPL[i];
+    if(e.delay>0){e.delay-=dt;continue;}
+    e.life-=dt*1.3;
+    if(e.type==='ring'){e.mesh.scale.setScalar(1+(1-e.life)*e.sc*0.25);e.mesh.lookAt(CAM.position);e.mesh.material.opacity=Math.max(0,e.life*0.75);}
+    else if(e.type==='fireball'){e.mesh.scale.setScalar(1+(1-e.life)*2.5);e.mesh.material.opacity=Math.max(0,e.life*0.8);}
+    if(e.life<=0){SC.remove(e.mesh);EXPL.splice(i,1);}
+  }
+
+  // Black holes
+  for(let i=BHS.length-1;i>=0;i--){
+    BHS[i].life-=dt;BHS[i].mesh.rotation.y+=dt*0.7;
+    if(BHS[i].life<3)BHS[i].mesh.traverse(c=>{if(c.material&&c.material.transparent)c.material.opacity=Math.max(0,(BHS[i].life/3)*0.25);});
+    if(BHS[i].life<=0){SC.remove(BHS[i].mesh);BHS.splice(i,1);}
+  }
+
+  SL.intensity=3.2+Math.sin(t*0.001)*0.3;
+  R.render(SC,CAM);
+}
+
+// LOAD
+const lb=document.getElementById('lb'),ltxt=document.getElementById('ltxt');
+const msgs=['LOADING PLANET DATA...','CALCULATING ORBITS...','CHARGING ARSENAL...','BUILDING SOLAR SYSTEM...','READY TO DESTROY'];
+function ls(i){if(i>=msgs.length){document.getElementById('loading').style.display='none';requestAnimationFrame(anim);return;}ltxt.textContent=msgs[i];lb.style.width=((i+1)/msgs.length*100)+'%';setTimeout(()=>ls(i+1),i===msgs.length-1?300:250);}
+ls(0);
+</script>
 </body>
 </html>
