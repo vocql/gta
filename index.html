@@ -14,11 +14,10 @@
 
     /* BG */
     #bg-layer { position:fixed; inset:0; z-index:0; background:url('gta/jason.jpg') center/cover no-repeat; will-change:transform; }
-    #bg-overlay { position:fixed; inset:0; z-index:1; background:linear-gradient(135deg,rgba(255,77,210,0.18),rgba(0,255,224,0.10)),linear-gradient(rgba(0,0,0,0.55),rgba(0,0,0,0.35)); pointer-events:none; }
+    #bg-overlay { position:fixed; inset:0; z-index:1; background:linear-gradient(rgba(0,0,0,0.55),rgba(0,0,0,0.35)); pointer-events:none; }
     html::after { content:""; position:fixed; inset:0; background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.03) 2px,rgba(0,0,0,0.03) 4px); z-index:100; pointer-events:none; }
 
-    /* WATERMARK */
-    .page-watermark { position:fixed; right:20px; top:50%; transform:translateY(-50%) rotate(180deg); writing-mode:vertical-rl; font-size:32px; font-weight:900; color:#fff; letter-spacing:5px; opacity:1; pointer-events:none; z-index:200; text-shadow:0 0 10px #ff4dd2,0 0 20px #ff4dd2; font-family:'Exo 2',sans-serif; }
+
 
     /* NAV */
     header { position:fixed; top:14px; left:50%; transform:translateX(-50%); z-index:150; display:flex; gap:5px; padding:5px 10px; border-radius:999px; background:rgba(0,0,0,0.6); border:1px solid rgba(255,255,255,0.1); box-shadow:0 6px 20px rgba(0,0,0,0.5); flex-wrap:wrap; justify-content:center; }
@@ -31,17 +30,6 @@
     .page-slide { min-width:100vw; height:100vh; overflow-y:auto; overflow-x:hidden; padding-top:68px; display:flex; flex-direction:column; }
     .page-slide::-webkit-scrollbar { width:4px; }
     .page-slide::-webkit-scrollbar-thumb { background:#ff4dd2; border-radius:10px; }
-
-    /* ARROWS */
-    .slide-arrow { position:fixed; top:50%; z-index:160; background:rgba(0,0,0,0.55); border:1px solid rgba(255,255,255,0.15); color:#fff; font-size:22px; width:42px; height:42px; border-radius:50%; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:background 0.2s,transform 0.2s; transform:translateY(-50%); }
-    .slide-arrow:hover { background:rgba(255,77,210,0.35); border-color:#ff4dd2; transform:translateY(-50%) scale(1.1); }
-    #arrow-prev { left:14px; }
-    #arrow-next { right:54px; }
-
-    /* DOTS */
-    #page-dots { position:fixed; bottom:16px; left:50%; transform:translateX(-50%); z-index:160; display:flex; gap:8px; }
-    .dot { width:8px; height:8px; border-radius:50%; background:rgba(255,255,255,0.25); cursor:pointer; transition:background 0.2s,transform 0.2s; border:1px solid rgba(255,255,255,0.2); }
-    .dot.active { background:#ff4dd2; transform:scale(1.35); border-color:#ff4dd2; }
 
     /* ── HOME ── */
     #page-home { flex-direction:row; align-items:center; padding:72px 50px 20px; gap:22px; }
@@ -193,6 +181,7 @@
 <div id="bg-layer"></div>
 <div id="bg-overlay"></div>
 
+
 <!-- NAV -->
 <header>
   <button class="nav-btn active" data-page="0">Home</button>
@@ -203,19 +192,6 @@
   <button class="nav-btn" data-page="5">Trailers</button>
   <button class="nav-btn" data-page="6">Settings</button>
 </header>
-
-<button class="slide-arrow" id="arrow-prev">&#8249;</button>
-<button class="slide-arrow" id="arrow-next">&#8250;</button>
-
-<div id="page-dots">
-  <div class="dot active" data-page="0"></div>
-  <div class="dot" data-page="1"></div>
-  <div class="dot" data-page="2"></div>
-  <div class="dot" data-page="3"></div>
-  <div class="dot" data-page="4"></div>
-  <div class="dot" data-page="5"></div>
-  <div class="dot" data-page="6"></div>
-</div>
 
 <!-- ==================== SLIDER ==================== -->
 <div id="slider-track">
@@ -250,7 +226,7 @@
 
     <div class="mid-col">
       <div class="panel-box trailer-panel" id="tPanel">
-        <iframe id="vFrame" class="vid-frame" src="https://www.youtube.com/embed/QdBZY2fkU-0" allowfullscreen></iframe>
+        <iframe id="vFrame" class="vid-frame" src="https://www.youtube.com/embed/QdBZY2fkU-0?enablejsapi=1&origin=https://vocql.site" allowfullscreen></iframe>
         <div class="vid-ctrls">
           <button class="shuffle-btn" onclick="changeT(-1)">Prev</button>
           <button class="shuffle-btn" onclick="toggleFS()">Full Screen</button>
@@ -361,16 +337,16 @@
     <div class="page-inner">
       <h1 class="page-title">GTA VI — Trailers</h1>
       <div class="trailers-grid">
-        <div class="trailer-card-big" data-video="https://www.youtube.com/embed/QdBZY2fkU-0">
+        <div class="trailer-card-big" data-video="https://www.youtube.com/embed/QdBZY2fkU-0?enablejsapi=1&origin=https://vocql.site">
           <div class="vid-wrap">
-            <iframe src="https://www.youtube.com/embed/QdBZY2fkU-0?mute=1&controls=0" loading="lazy" allowfullscreen></iframe>
+            <iframe src="https://www.youtube.com/embed/QdBZY2fkU-0?mute=1&controls=0&enablejsapi=1&origin=https://vocql.site" loading="lazy" allowfullscreen></iframe>
           </div>
           <div class="trailer-info"><h2>Trailer 1 – Reveal</h2></div>
         </div>
-        <div class="trailer-card-big" data-video="https://www.youtube.com/embed/VQRLujxTm3c">
+        <div class="trailer-card-big" data-video="https://www.youtube.com/embed/VQRLujxTm3c?enablejsapi=1&origin=https://vocql.site">
           <div class="new-badge">NEW</div>
           <div class="vid-wrap">
-            <iframe src="https://www.youtube.com/embed/VQRLujxTm3c?mute=1&controls=0" loading="lazy" allowfullscreen></iframe>
+            <iframe src="https://www.youtube.com/embed/VQRLujxTm3c?mute=1&controls=0&enablejsapi=1&origin=https://vocql.site" loading="lazy" allowfullscreen></iframe>
           </div>
           <div class="trailer-info"><h2>Trailer 2 – Jason & Lucia</h2></div>
         </div>
@@ -468,16 +444,12 @@
           <div class="settings-panel" data-panel="navigation">
             <div class="settings-section-title">Navigation Settings</div>
             <div class="setting-row">
-              <div class="setting-info"><div class="setting-name">Show Arrow Buttons</div><div class="setting-desc">Display the left/right navigation arrows on screen</div></div>
-              <label class="toggle-wrap"><input type="checkbox" id="set-arrows" checked onchange="document.getElementById('arrow-prev').style.display=this.checked?'flex':'none';document.getElementById('arrow-next').style.display=this.checked?'flex':'none'"><span class="toggle-slider"></span></label>
-            </div>
-            <div class="setting-row">
-              <div class="setting-info"><div class="setting-name">Show Page Dots</div><div class="setting-desc">Display the page indicator dots at the bottom</div></div>
-              <label class="toggle-wrap"><input type="checkbox" id="set-dots" checked onchange="document.getElementById('page-dots').style.display=this.checked?'flex':'none'"><span class="toggle-slider"></span></label>
-            </div>
-            <div class="setting-row">
-              <div class="setting-info"><div class="setting-name">Keyboard Navigation</div><div class="setting-desc">Use arrow keys to switch between pages</div></div>
-              <label class="toggle-wrap"><input type="checkbox" id="set-keyboard" checked><span class="toggle-slider"></span></label>
+              <div class="setting-info"><div class="setting-name">Page Transition Speed</div><div class="setting-desc">Slide animation duration when switching pages</div></div>
+              <select class="setting-select" id="set-transition-nav">
+                <option value="0.3">Fast (0.3s)</option>
+                <option value="0.55" selected>Normal (0.55s)</option>
+                <option value="0.9">Slow (0.9s)</option>
+              </select>
             </div>
             <button class="settings-save-btn" onclick="saveSettings('save-toast-nav')">Save Settings <span class="save-toast" id="save-toast-nav">✓ Saved</span></button>
           </div>
@@ -523,6 +495,29 @@
     </div>
   </div>
 
+</div><!-- /slider-track -->
+
+<!-- MODALS -->
+<div class="char-modal" id="charModal">
+  <div class="modal-box">
+    <button class="modal-close" id="modalClose">✕</button>
+    <img id="modalImg" alt="">
+    <div><h2 id="modalTitle"></h2><p id="modalDesc"></p></div>
+  </div>
+</div>
+
+<div class="ss-viewer" id="ssViewer">
+  <button class="ss-close" id="ssClose">✕</button>
+  <button class="ss-arrow ss-prev" id="ssPrev">&#8249;</button>
+  <img id="ssImg" src="" alt="">
+  <button class="ss-arrow ss-next" id="ssNext">&#8250;</button>
+</div>
+
+<div class="t-overlay" id="tOverlay">
+  <button class="t-close" id="tClose">✕</button>
+  <iframe id="tOverlayFrame" src="" allowfullscreen></iframe>
+</div>
+
 <audio id="musicPlayer"></audio>
 
 <script>
@@ -531,18 +526,13 @@ const TOTAL = 7;
 let cur = 0;
 const track = document.getElementById('slider-track');
 const navBtns = document.querySelectorAll('.nav-btn[data-page]');
-const dots = document.querySelectorAll('.dot');
 
 function goTo(n) {
   cur = Math.max(0, Math.min(TOTAL - 1, n));
   track.style.transform = `translateX(-${cur * 100}vw)`;
   navBtns.forEach(b => b.classList.toggle('active', +b.dataset.page === cur));
-  dots.forEach(d => d.classList.toggle('active', +d.dataset.page === cur));
 }
 navBtns.forEach(b => b.addEventListener('click', () => goTo(+b.dataset.page)));
-dots.forEach(d => d.addEventListener('click', () => goTo(+d.dataset.page)));
-document.getElementById('arrow-prev').addEventListener('click', () => goTo(cur - 1));
-document.getElementById('arrow-next').addEventListener('click', () => goTo(cur + 1));
 
 /* ── COUNTDOWN ── */
 const target = new Date('2026-11-19T00:00:00');
@@ -566,7 +556,7 @@ const homeTrailers = ["QdBZY2fkU-0","VQRLujxTm3c"];
 let tIdx = 0;
 function changeT(d) {
   tIdx = (tIdx + d + homeTrailers.length) % homeTrailers.length;
-  document.getElementById('vFrame').src = `https://www.youtube.com/embed/${homeTrailers[tIdx]}?autoplay=1`;
+  document.getElementById('vFrame').src = `https://www.youtube.com/embed/${homeTrailers[tIdx]}?autoplay=1&enablejsapi=1&origin=https://vocql.site`;
 }
 function toggleFS() {
   const p = document.getElementById('tPanel');
@@ -655,7 +645,7 @@ document.getElementById('ssNext').addEventListener('click',()=>{ ssIdx=(ssIdx+1)
 /* ── TRAILERS PAGE ── */
 const tOverlay=document.getElementById('tOverlay');
 const tFrame=document.getElementById('tOverlayFrame');
-document.querySelectorAll('.trailer-card-big').forEach(c=>{ c.addEventListener('click',()=>{ tFrame.src=c.dataset.video+'?autoplay=1&rel=0'; tOverlay.classList.add('active'); }); });
+document.querySelectorAll('.trailer-card-big').forEach(c=>{ c.addEventListener('click',()=>{ tFrame.src=c.dataset.video+'&autoplay=1&rel=0'; tOverlay.classList.add('active'); }); });
 function closeTOverlay(){ tOverlay.classList.remove('active'); tFrame.src=''; }
 document.getElementById('tClose').addEventListener('click',closeTOverlay);
 tOverlay.addEventListener('click',e=>{ if(e.target===tOverlay)closeTOverlay(); });
@@ -670,10 +660,7 @@ document.addEventListener('keydown',e=>{
     return;
   }
   if(tOverlay.classList.contains('active')){ if(e.key==='Escape')closeTOverlay(); return; }
-  if(document.getElementById('set-keyboard').checked){
-    if(e.key==='ArrowRight')goTo(cur+1);
-    if(e.key==='ArrowLeft')goTo(cur-1);
-  }
+  /* Arrow key page navigation removed */
 });
 
 /* ── SETTINGS ── */
@@ -696,9 +683,7 @@ document.getElementById('accent-swatches').addEventListener('click',e=>{
   const sw=e.target.closest('.color-swatch'); if(!sw)return;
   document.querySelectorAll('.color-swatch').forEach(s=>s.classList.remove('selected'));
   sw.classList.add('selected');
-  // Apply to accent elements
-  document.querySelectorAll('.nav-btn.active,.shuffle-btn,.dot.active,.neon-accent').forEach(el=>el.style.color=sw.dataset.color);
-  document.querySelectorAll('.dot.active').forEach(d=>d.style.background=sw.dataset.color);
+  document.querySelectorAll('.nav-btn.active,.shuffle-btn,.neon-accent').forEach(el=>el.style.color=sw.dataset.color);
 });
 
 function saveSettings(toastId){
@@ -713,9 +698,6 @@ function resetSettings(){
   document.getElementById('set-transition').value='0.55'; track.style.transition='transform 0.55s cubic-bezier(0.77,0,0.175,1)';
   document.getElementById('set-dim').value=55; document.getElementById('dim-val').textContent='55%'; document.getElementById('bg-overlay').style.opacity=1;
   document.getElementById('set-vol').value=70; document.getElementById('vol-val').textContent='70%'; player.volume=0.7; document.getElementById('volSlider').value=0.7;
-  document.getElementById('set-arrows').checked=true; document.getElementById('arrow-prev').style.display='flex'; document.getElementById('arrow-next').style.display='flex';
-  document.getElementById('set-dots').checked=true; document.getElementById('page-dots').style.display='flex';
-  document.getElementById('set-keyboard').checked=true;
   document.getElementById('set-watermark').checked=true; document.querySelector('.page-watermark').style.display='block';
   document.querySelectorAll('.color-swatch').forEach((s,i)=>s.classList.toggle('selected',i===0));
 }
