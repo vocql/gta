@@ -15,7 +15,7 @@
         /* BG is now on a separate GPU-composited layer — no longer tied to body repaints */
         #bg-layer {
             position: fixed; inset: 0; z-index: 0;
-            background: url('gta/others.jpg') center 35%/cover no-repeat;
+            background: url('gta/jason.jpg') center 35%/cover no-repeat;
             will-change: transform;
             /* Use transform for parallax instead of background-position — avoids full repaints */
         }
@@ -123,6 +123,7 @@
         .neon-accent { color: #00ffe0; font-weight: 600; text-shadow: 0 0 5px #00ffe0; }
         .highlight { color: #ff4dd2; font-weight: 600; }
 
+
         /* WATERMARK */
         .page-watermark {
         position: fixed; 
@@ -139,7 +140,7 @@
         z-index: 95;
         text-shadow: 0 0 10px #ff4dd2;
         }
-      
+        
         /* MAP PANEL */
         .map-panel { width: 500px; height: 85vh; overflow: hidden; }
         .map-frame { width: 100%; height: 100%; border: none; }
@@ -223,12 +224,13 @@
         </div>
     </div>
 
-  <div class="side-panel desc-panel">
-    <div class="radio-header"><span>DEVELOPER ABOUT ME</span></div>
-    <div class="desc-content">
-        I began coding seven years ago. The announcement and ongoing development of Grand Theft Auto VI sparked my interest in countdown sites, leading me to build this one.<br><br>
-
-        What started as a personal project has become a dedicated hub for the community to track the release timeline and share the anticipation for the next Grand Theft Auto title set in Leonida.
+    <div class="side-panel desc-panel">
+        <div class="radio-header"><span>DEVELOPER_LOG // MISSION_INTEL</span></div>
+        <div class="desc-content">
+            I built this site because <span class="highlight">coding isn't just a skill for me—it's a passion.</span> I love the challenge of bringing a digital world to life, one line at a time.
+            <br><br>
+            The <span class="neon-accent">GTA VI Countdown</span> site started as a way to combine my love for programming with the massive hype for Leonida. This isn't just a timer; it's a hub for the community to wait together for the next era of Grand Theft Auto.
+        </div>
     </div>
 </div>
 
@@ -240,7 +242,7 @@
 
 <script>
 /* ===== COUNTDOWN ===== */
-const target = new Date('2026-11-18T00:00:00');
+const target = new Date('2026-11-19T00:00:00');
 const dEl = document.getElementById('days'),
       hEl = document.getElementById('hours'),
       mEl = document.getElementById('minutes'),
