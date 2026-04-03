@@ -77,14 +77,21 @@
         .neon-vi { text-shadow: 0 0 5px #00ffe0, 0 0 10px #00ffe0; color: #fff; }
 
         /* WATERMARK */
-        .page-watermark {
-            position: fixed; right: 20px; top: 50%;
-            transform: translateY(-50%) rotate(180deg);
-            writing-mode: vertical-rl;
-            font-size: 32px; font-weight: 900; color: #fff;
-            letter-spacing: 5px; opacity: 1.00; pointer-events: none; z-index: 95;
-            text-shadow: 0 0 10px #ff4dd2;
-        }
+.page-watermark {
+    position: fixed; 
+    right: 20px; 
+    top: 50%;
+    transform: translateY(-50%) rotate(180deg);
+    writing-mode: vertical-rl;
+    font-size: 32px; 
+    font-weight: 900; 
+    color: #ffffff;           /* Pure white */
+    letter-spacing: 5px; 
+    opacity: 1;               /* Fully opaque (no transparency) */
+    pointer-events: none; 
+    z-index: 95;
+    text-shadow: 0 0 10px #ff4dd2;
+}
 
         .map-panel { width: 500px; height: 85vh; overflow: hidden; }
         .map-frame { width: 100%; height: 100%; border: none; }
