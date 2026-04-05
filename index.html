@@ -6,32 +6,225 @@
   <title>GTA VI</title>
   <link rel="icon" href="gta/npc/lucia.jpg" type="image/jpg">
   <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;600;900&family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
-
   <style>
     *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; -webkit-font-smoothing:antialiased; }
     html, body { height:100%; overflow:hidden; background:#000; }
     body { font-family:'Orbitron', sans-serif; color:#fff; position:relative; }
 
-    /* BG */
     #bg-layer { position:fixed; inset:0; z-index:0; background:url('gta/jason.jpg') center/cover no-repeat; will-change:transform; }
     #bg-overlay { position:fixed; inset:0; z-index:1; background:linear-gradient(rgba(0,0,0,0.55),rgba(0,0,0,0.35)); pointer-events:none; }
-    html::after { content:""; position:fixed; inset:0; background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.03) 2px,rgba(0,0,0,0.03) 4px); z-index:100; pointer-events:none; }
+    #scanline-layer { position:fixed; inset:0; background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.03) 2px,rgba(0,0,0,0.03) 4px); z-index:100; pointer-events:none; }
 
+    /* ══════════════════════════════════════
+       SITE SHUTDOWN OVERLAY
+    ══════════════════════════════════════ */
+    #shutdown-overlay {
+      position:fixed; inset:0; z-index:99999;
+      background:#000;
+      display:none; align-items:center; justify-content:center; flex-direction:column; gap:20px;
+      text-align:center; padding:20px;
+    }
+    #shutdown-overlay.active { display:flex; }
+    .sd-logo { font-size:48px; font-weight:900; letter-spacing:6px; }
+    .sd-neon-gta { text-shadow:0 0 5px #ff4dd2,0 0 10px #ff4dd2; }
+    .sd-neon-vi  { text-shadow:0 0 5px #00ffe0,0 0 10px #00ffe0; }
+    .sd-title { font-size:20px; letter-spacing:4px; color:#ff4dd2; margin-top:4px; }
+    .sd-msg { font-size:13px; color:rgba(255,255,255,0.45); font-family:'Exo 2',sans-serif; max-width:440px; line-height:1.8; }
+    .sd-spinner { width:40px; height:40px; border:3px solid rgba(255,255,255,0.1); border-top-color:#ff4dd2; border-radius:50%; animation:spin 1s linear infinite; }
+    @keyframes spin { to { transform:rotate(360deg); } }
+    .sd-eta { font-size:10px; color:rgba(255,255,255,0.25); letter-spacing:2px; font-family:'Exo 2',sans-serif; }
+    /* admin bypass on shutdown */
+    .sd-admin-bypass {
+      margin-top:18px; display:flex; flex-direction:column; gap:8px; align-items:center;
+    }
+    .sd-bypass-toggle { font-size:9px; color:rgba(255,255,255,0.2); cursor:pointer; letter-spacing:1px; text-decoration:underline; }
+    .sd-bypass-toggle:hover { color:#ff4dd2; }
+    .sd-bypass-form { display:none; flex-direction:column; gap:8px; width:280px; }
+    .sd-bypass-form.open { display:flex; }
+    .sd-bypass-input {
+      padding:9px 13px; background:rgba(255,255,255,0.05);
+      border:1px solid rgba(255,255,255,0.12); border-radius:8px; color:#fff;
+      font-family:'Exo 2',sans-serif; font-size:12px; outline:none;
+    }
+    .sd-bypass-input:focus { border-color:#ff4dd2; }
+    .sd-bypass-btn {
+      padding:9px; background:rgba(255,77,210,0.2); border:1px solid #ff4dd2;
+      border-radius:8px; color:#fff; font-family:'Orbitron',sans-serif;
+      font-size:9px; font-weight:900; letter-spacing:2px; cursor:pointer;
+    }
+    .sd-bypass-error { font-size:10px; color:#ff4d4d; letter-spacing:1px; font-family:'Exo 2',sans-serif; min-height:14px; text-align:center; }
 
+    /* ══════════════════════════════════════
+       LOGIN SCREEN
+    ══════════════════════════════════════ */
+    #login-screen {
+      position:fixed; inset:0; z-index:999;
+      background:url('gta/jason.jpg') center/cover no-repeat;
+      display:flex; align-items:center; justify-content:center;
+      transition:opacity 0.8s ease;
+    }
+    #login-screen::before {
+      content:""; position:absolute; inset:0;
+      background:linear-gradient(135deg,rgba(0,0,0,0.9),rgba(0,0,0,0.65));
+    }
+    #login-screen.fade-out { opacity:0; pointer-events:none; }
 
-    /* NAV */
-    header { position:fixed; top:14px; left:50%; transform:translateX(-50%); z-index:150; display:flex; gap:5px; padding:5px 10px; border-radius:999px; background:rgba(0,0,0,0.6); border:1px solid rgba(255,255,255,0.1); box-shadow:0 6px 20px rgba(0,0,0,0.5); flex-wrap:wrap; justify-content:center; }
-    .nav-btn { padding:7px 13px; border-radius:999px; color:#fff; font-size:9px; font-weight:700; text-decoration:none; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); transition:background 0.2s,border-color 0.2s,color 0.2s; letter-spacing:1px; text-transform:uppercase; cursor:pointer; font-family:'Orbitron',sans-serif; }
+    .login-box {
+      position:relative; z-index:2;
+      background:rgba(5,5,15,0.88);
+      border:1px solid rgba(255,255,255,0.1);
+      border-radius:22px;
+      padding:36px 42px 40px;
+      width:460px;
+      box-shadow:0 40px 90px rgba(0,0,0,0.95), 0 0 60px rgba(255,77,210,0.1);
+      display:flex; flex-direction:column; align-items:center; gap:14px;
+    }
+    .login-logo { font-size:40px; font-weight:900; letter-spacing:6px; }
+    .login-sub { font-size:8px; letter-spacing:3px; color:#ff4dd2; margin-top:-6px; }
+    .login-divider { width:100%; height:1px; background:rgba(255,255,255,0.08); margin:2px 0; }
+    .login-section-label { font-size:8px; letter-spacing:2px; color:rgba(255,255,255,0.4); align-self:flex-start; text-transform:uppercase; }
+
+    /* Avatar picker */
+    .avatar-grid { display:grid; grid-template-columns:repeat(5,1fr); gap:10px; width:100%; }
+    .avatar-opt {
+      position:relative; border-radius:50%; overflow:hidden; aspect-ratio:1;
+      border:2px solid rgba(255,255,255,0.1); cursor:pointer;
+      transition:transform 0.22s, border-color 0.22s, box-shadow 0.22s;
+    }
+    .avatar-opt img { width:100%; height:100%; object-fit:cover; display:block; }
+    .avatar-opt:hover { transform:scale(1.1); border-color:rgba(255,77,210,0.6); }
+    .avatar-opt.selected {
+      border-color:#ff4dd2; box-shadow:0 0 0 3px rgba(255,77,210,0.3), 0 0 20px rgba(255,77,210,0.4);
+      transform:scale(1.08);
+    }
+    .avatar-opt .av-check { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; background:rgba(255,77,210,0.35); opacity:0; transition:opacity 0.2s; font-size:18px; }
+    .avatar-opt.selected .av-check { opacity:1; }
+
+    .login-name-row { display:flex; gap:10px; width:100%; align-items:center; }
+    .selected-avatar-preview { width:44px; height:44px; border-radius:50%; overflow:hidden; flex-shrink:0; border:2px solid #ff4dd2; box-shadow:0 0 14px rgba(255,77,210,0.4); background:rgba(255,255,255,0.05); }
+    .selected-avatar-preview img { width:100%; height:100%; object-fit:cover; display:block; }
+
+    .login-input { flex:1; padding:11px 14px; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.14); border-radius:9px; color:#fff; font-family:'Exo 2',sans-serif; font-size:13px; outline:none; transition:border-color 0.2s; }
+    .login-input:focus { border-color:#ff4dd2; }
+    .login-input::placeholder { color:rgba(255,255,255,0.25); }
+
+    /* Friend/Admin login toggle */
+    .login-mode-toggle {
+      display:flex; gap:8px; width:100%;
+    }
+    .login-mode-btn {
+      flex:1; padding:8px; border-radius:8px; font-family:'Orbitron',sans-serif;
+      font-size:8px; font-weight:900; letter-spacing:1px; cursor:pointer;
+      border:1px solid rgba(255,255,255,0.12); color:rgba(255,255,255,0.4);
+      background:rgba(255,255,255,0.04); transition:all 0.2s;
+    }
+    .login-mode-btn.active { border-color:#ff4dd2; color:#ff4dd2; background:rgba(255,77,210,0.1); }
+    .login-cred-fields { display:none; flex-direction:column; gap:10px; width:100%; }
+    .login-cred-fields.open { display:flex; }
+
+    .login-btn {
+      width:100%; padding:13px;
+      background:linear-gradient(135deg,rgba(255,77,210,0.3),rgba(0,255,224,0.18));
+      border:1px solid #ff4dd2; border-radius:9px;
+      color:#fff; font-family:'Orbitron',sans-serif;
+      font-size:11px; font-weight:900; letter-spacing:2px;
+      cursor:pointer; transition:all 0.2s; text-transform:uppercase;
+    }
+    .login-btn:hover { background:linear-gradient(135deg,rgba(255,77,210,0.55),rgba(0,255,224,0.32)); box-shadow:0 0 28px rgba(255,77,210,0.45); transform:translateY(-1px); }
+    .login-skip { font-size:9px; color:rgba(255,255,255,0.3); cursor:pointer; letter-spacing:1px; text-decoration:underline; }
+    .login-skip:hover { color:#ff4dd2; }
+    .login-error { font-size:10px; color:#ff4d4d; letter-spacing:1px; min-height:14px; }
+
+    /* ══════════════════════════════════════
+       NAV
+    ══════════════════════════════════════ */
+    header {
+      position:fixed; top:14px; left:50%; transform:translateX(-50%);
+      z-index:150; display:flex; gap:5px; padding:5px 10px;
+      border-radius:999px; background:rgba(0,0,0,0.6);
+      border:1px solid rgba(255,255,255,0.1); box-shadow:0 6px 20px rgba(0,0,0,0.5);
+      flex-wrap:wrap; justify-content:center;
+    }
+    .nav-btn {
+      padding:7px 13px; border-radius:999px; color:#fff; font-size:9px; font-weight:700;
+      text-decoration:none; background:rgba(255,255,255,0.05);
+      border:1px solid rgba(255,255,255,0.1);
+      transition:background 0.2s,border-color 0.2s,color 0.2s;
+      letter-spacing:1px; text-transform:uppercase; cursor:pointer;
+      font-family:'Orbitron',sans-serif;
+    }
     .nav-btn:hover { background:rgba(255,255,255,0.12); border-color:#00ffe0; }
     .nav-btn.active { border-color:#ff4dd2; color:#ff4dd2; background:rgba(255,77,210,0.08); }
 
-    /* SLIDER */
+    /* ══════════════════════════════════════
+       PROFILE CIRCLE
+    ══════════════════════════════════════ */
+    #profile-trigger {
+      position:fixed; top:12px; right:18px; z-index:200;
+      width:42px; height:42px; border-radius:50%; overflow:hidden;
+      border:2px solid rgba(255,77,210,0.7);
+      box-shadow:0 0 16px rgba(255,77,210,0.35), 0 4px 12px rgba(0,0,0,0.6);
+      cursor:pointer; transition:transform 0.22s, box-shadow 0.22s, border-color 0.22s;
+      background:rgba(0,0,0,0.6);
+    }
+    #profile-trigger:hover { transform:scale(1.1); box-shadow:0 0 28px rgba(255,77,210,0.6), 0 6px 18px rgba(0,0,0,0.7); border-color:#ff4dd2; }
+    #profile-trigger img { width:100%; height:100%; object-fit:cover; display:block; }
+
+    /* Profile Panel */
+    #profile-panel {
+      position:fixed; top:62px; right:14px; z-index:500;
+      width:320px;
+      background:rgba(5,5,15,0.96);
+      border:1px solid rgba(255,255,255,0.12);
+      border-radius:18px;
+      box-shadow:0 30px 70px rgba(0,0,0,0.95), 0 0 40px rgba(255,77,210,0.12);
+      padding:24px;
+      transform:translateY(-10px) scale(0.96); opacity:0;
+      pointer-events:none;
+      transition:transform 0.25s ease, opacity 0.25s ease;
+    }
+    #profile-panel.open { transform:translateY(0) scale(1); opacity:1; pointer-events:auto; }
+    .pp-header { display:flex; align-items:center; gap:14px; margin-bottom:18px; }
+    .pp-avatar-big { width:58px; height:58px; border-radius:50%; overflow:hidden; border:2px solid #ff4dd2; box-shadow:0 0 18px rgba(255,77,210,0.4); flex-shrink:0; }
+    .pp-avatar-big img { width:100%; height:100%; object-fit:cover; }
+    .pp-name { font-size:16px; font-weight:900; letter-spacing:1px; }
+    .pp-role { font-size:8px; letter-spacing:2px; color:#ff4dd2; margin-top:3px; }
+    .pp-divider { height:1px; background:rgba(255,255,255,0.07); margin:14px 0; }
+    .pp-label { font-size:8px; letter-spacing:2px; color:rgba(255,255,255,0.4); text-transform:uppercase; margin-bottom:8px; }
+    .pp-avatar-mini-grid { display:grid; grid-template-columns:repeat(5,1fr); gap:7px; margin-bottom:14px; }
+    .pp-av-mini { border-radius:50%; overflow:hidden; aspect-ratio:1; border:2px solid rgba(255,255,255,0.08); cursor:pointer; transition:transform 0.2s, border-color 0.2s; }
+    .pp-av-mini img { width:100%; height:100%; object-fit:cover; display:block; }
+    .pp-av-mini:hover { transform:scale(1.12); border-color:rgba(255,77,210,0.6); }
+    .pp-av-mini.selected { border-color:#ff4dd2; box-shadow:0 0 10px rgba(255,77,210,0.4); }
+    .pp-input-row { display:flex; gap:8px; margin-bottom:12px; }
+    .pp-input { flex:1; padding:9px 12px; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.12); border-radius:8px; color:#fff; font-family:'Exo 2',sans-serif; font-size:12px; outline:none; transition:border-color 0.2s; }
+    .pp-input:focus { border-color:#ff4dd2; }
+    .pp-save-btn { padding:9px 18px; border-radius:8px; background:rgba(255,77,210,0.25); border:1px solid #ff4dd2; color:#fff; font-family:'Orbitron',sans-serif; font-size:9px; font-weight:900; letter-spacing:1px; cursor:pointer; transition:all 0.2s; white-space:nowrap; }
+    .pp-save-btn:hover { background:rgba(255,77,210,0.45); box-shadow:0 0 16px rgba(255,77,210,0.4); }
+    .pp-greeting-select { width:100%; padding:9px 12px; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.12); border-radius:8px; color:#fff; font-family:'Orbitron',sans-serif; font-size:9px; outline:none; cursor:pointer; }
+    .pp-greeting-select:focus { border-color:#ff4dd2; }
+    .pp-saved { font-size:9px; color:#00ffe0; letter-spacing:1px; min-height:14px; text-align:center; opacity:0; transition:opacity 0.3s; }
+    .pp-saved.show { opacity:1; }
+    .pp-logout { width:100%; padding:9px; border-radius:8px; margin-top:4px; background:rgba(255,60,60,0.1); border:1px solid rgba(255,60,60,0.3); color:rgba(255,120,120,0.9); font-family:'Orbitron',sans-serif; font-size:9px; font-weight:700; letter-spacing:1px; cursor:pointer; transition:all 0.2s; }
+    .pp-logout:hover { background:rgba(255,60,60,0.25); border-color:rgba(255,60,60,0.6); }
+    /* role badge in profile */
+    .pp-role-badge { display:inline-block; padding:2px 8px; border-radius:999px; font-size:7px; letter-spacing:1px; font-family:'Orbitron',sans-serif; font-weight:900; margin-top:4px; }
+    .role-owner  { background:rgba(255,215,0,0.2); border:1px solid rgba(255,215,0,0.5); color:#ffd700; }
+    .role-admin  { background:rgba(255,77,210,0.2); border:1px solid rgba(255,77,210,0.5); color:#ff4dd2; }
+    .role-friend { background:rgba(0,255,224,0.15); border:1px solid rgba(0,255,224,0.4); color:#00ffe0; }
+    .role-guest  { background:rgba(255,255,255,0.07); border:1px solid rgba(255,255,255,0.2); color:rgba(255,255,255,0.5); }
+
+    /* ══════════════════════════════════════
+       SLIDER
+    ══════════════════════════════════════ */
     #slider-track { position:fixed; inset:0; z-index:10; display:flex; transition:transform 0.55s cubic-bezier(0.77,0,0.175,1); will-change:transform; }
     .page-slide { min-width:100vw; height:100vh; overflow-y:auto; overflow-x:hidden; padding-top:68px; display:flex; flex-direction:column; }
     .page-slide::-webkit-scrollbar { width:4px; }
     .page-slide::-webkit-scrollbar-thumb { background:#ff4dd2; border-radius:10px; }
 
-    /* ── HOME ── */
+    /* ══════════════════════════════════════
+       HOME
+    ══════════════════════════════════════ */
     #page-home { flex-direction:row; align-items:center; padding:72px 50px 20px; gap:22px; }
     .main-hud { position:relative; z-index:10; background:rgba(0,0,0,0.72); border:1px solid rgba(255,255,255,0.12); border-radius:12px; box-shadow:0 8px 30px rgba(0,0,0,0.7); width:310px; flex-shrink:0; display:flex; flex-direction:column; gap:14px; padding:28px; height:calc(100vh - 110px); overflow:hidden; }
     .hud-line { position:absolute; height:1px; background:#00ffe0; opacity:0.3; }
@@ -39,7 +232,7 @@
     .h-line-2 { width:150px; bottom:15px; right:-160px; }
     .title { font-size:30px; font-weight:900; letter-spacing:4px; text-transform:uppercase; margin-bottom:2px; font-family:'Exo 2',sans-serif; }
     .neon-gta { text-shadow:0 0 5px #ff4dd2,0 0 10px #ff4dd2; }
-    .neon-vi { text-shadow:0 0 5px #00ffe0,0 0 10px #00ffe0; }
+    .neon-vi  { text-shadow:0 0 5px #00ffe0,0 0 10px #00ffe0; }
     .subtitle { font-size:9px; letter-spacing:2px; color:#ff4dd2; margin-bottom:8px; font-weight:600; }
     .clock-label { font-size:8px; opacity:0.6; letter-spacing:1px; text-transform:uppercase; }
     .integrated-clock { display:flex; gap:7px; margin-bottom:12px; }
@@ -64,22 +257,55 @@
     .vid-ctrls { padding:9px 12px; display:flex; justify-content:space-between; align-items:center; background:rgba(0,0,0,0.85); border-top:1px solid rgba(255,255,255,0.05); }
     .desc-panel { flex:1; padding:20px; display:flex; flex-direction:column; gap:10px; overflow-y:auto; border-left:2px solid #ff4dd2; }
     .desc-content { font-size:12px; line-height:1.8; color:rgba(255,255,255,0.9); font-family:'Exo 2',sans-serif; }
-    .neon-accent { color:#00ffe0; font-weight:600; text-shadow:0 0 5px #00ffe0; }
-    .highlight { color:#ff4dd2; font-weight:600; }
     .map-home { flex:1; min-width:0; height:calc(100vh - 110px); overflow:hidden; border-radius:12px; background:rgba(0,0,0,0.72); border:1px solid rgba(255,255,255,0.12); box-shadow:0 8px 30px rgba(0,0,0,0.7); }
     .map-home iframe { width:100%; height:100%; border:none; }
 
-    /* ── SHARED PAGE LAYOUT ── */
+    /* ══════════════════════════════════════
+       SHARED PAGE LAYOUT
+    ══════════════════════════════════════ */
     .page-inner { width:clamp(860px,90vw,1440px); margin:0 auto; padding:28px 20px 70px; }
     .page-title { text-align:center; font-size:clamp(34px,4.5vw,50px); font-weight:900; margin-bottom:44px; text-shadow:0 6px 16px rgba(0,0,0,0.7),0 0 20px rgba(255,77,210,0.3); }
 
-    /* ── MAP PAGE ── */
+    /* ══════════════════════════════════════
+       MAP PAGE
+    ══════════════════════════════════════ */
     #page-map { padding:68px 0 0; }
     .map-full-wrap { width:clamp(860px,90vw,1400px); height:calc(100vh - 108px); margin:0 auto; border-radius:18px; overflow:hidden; background:rgba(0,0,0,0.72); border:1px solid rgba(255,255,255,0.1); box-shadow:0 20px 60px rgba(0,0,0,0.7); display:flex; flex-direction:column; }
     .map-full-header { padding:14px 20px; border-bottom:1px solid rgba(255,255,255,0.06); font-size:17px; font-weight:900; }
     .map-full-frame { flex:1; border:none; width:100%; }
 
-    /* ── CARD GRIDS ── */
+    /* ══════════════════════════════════════
+       NEWS PAGE
+    ══════════════════════════════════════ */
+    .news-layout { display:grid; grid-template-columns:1fr 340px; gap:24px; }
+    .news-feed { display:flex; flex-direction:column; gap:16px; }
+    .news-card { background:rgba(0,0,0,0.72); border:1px solid rgba(255,255,255,0.1); border-radius:14px; padding:22px 26px; border-left:3px solid #ff4dd2; transition:border-color 0.2s,box-shadow 0.2s; animation:newsSlideIn 0.4s ease both; }
+    @keyframes newsSlideIn { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:none} }
+    .news-card:hover { border-left-color:#00ffe0; box-shadow:0 0 20px rgba(0,255,224,0.1); }
+    .news-card.pinned { border-left-color:#ffd700; }
+    .news-card-header { display:flex; align-items:center; gap:10px; margin-bottom:10px; flex-wrap:wrap; }
+    .news-tag { padding:3px 10px; border-radius:999px; font-size:8px; font-weight:900; letter-spacing:1px; text-transform:uppercase; }
+    .tag-update  { background:rgba(255,77,210,0.2); border:1px solid rgba(255,77,210,0.5); color:#ff4dd2; }
+    .tag-new     { background:rgba(255,215,0,0.2); border:1px solid rgba(255,215,0,0.5); color:#ffd700; }
+    .tag-fix     { background:rgba(0,255,224,0.15); border:1px solid rgba(0,255,224,0.4); color:#00ffe0; }
+    .tag-feature { background:rgba(100,180,255,0.15); border:1px solid rgba(100,180,255,0.4); color:#64b4ff; }
+    .tag-pinned  { background:rgba(255,215,0,0.3); border:1px solid #ffd700; color:#ffd700; }
+    .news-date { font-size:9px; color:rgba(255,255,255,0.35); letter-spacing:1px; margin-left:auto; font-family:'Exo 2',sans-serif; }
+    .news-title { font-size:15px; font-weight:700; letter-spacing:1px; margin-bottom:8px; }
+    .news-body  { font-size:12px; line-height:1.8; color:rgba(255,255,255,0.75); font-family:'Exo 2',sans-serif; }
+    .news-sidebar { display:flex; flex-direction:column; gap:16px; }
+    .news-sidebar-box { background:rgba(0,0,0,0.72); border:1px solid rgba(255,255,255,0.1); border-radius:14px; padding:20px; }
+    .sidebar-title { font-size:9px; letter-spacing:3px; text-transform:uppercase; color:#ff4dd2; margin-bottom:14px; padding-bottom:9px; border-bottom:1px solid rgba(255,77,210,0.25); }
+    .stat-row { display:flex; justify-content:space-between; align-items:center; padding:7px 0; border-bottom:1px solid rgba(255,255,255,0.05); font-size:11px; }
+    .stat-row:last-child { border-bottom:none; }
+    .stat-val { color:#00ffe0; font-family:'Exo 2',sans-serif; }
+    .changelog-item { padding:7px 0; border-bottom:1px solid rgba(255,255,255,0.04); font-size:10px; color:rgba(255,255,255,0.6); font-family:'Exo 2',sans-serif; }
+    .changelog-item span { color:#ff4dd2; font-weight:700; }
+    .changelog-item:last-child { border-bottom:none; }
+
+    /* ══════════════════════════════════════
+       CARD GRIDS
+    ══════════════════════════════════════ */
     .card-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(290px,1fr)); gap:26px; }
     .char-card { border-radius:18px; overflow:hidden; position:relative; cursor:pointer; box-shadow:0 15px 40px rgba(0,0,0,0.65); transition:transform 0.35s,box-shadow 0.35s; background:#111; aspect-ratio:1/1; }
     .char-card.place-card { aspect-ratio:4/3; }
@@ -96,12 +322,12 @@
     .char-modal.active .modal-box { transform:scale(1); }
     .modal-box img { width:100%; border-radius:14px; object-fit:cover; box-shadow:0 10px 30px rgba(0,0,0,0.6); }
     .modal-box h2 { font-size:clamp(26px,3vw,36px); margin-bottom:14px; }
-    .modal-box p { font-size:14px; line-height:1.7; opacity:0.9; font-family:'Exo 2',sans-serif; }
-    .modal-close { position:absolute; top:16px; right:20px; font-size:26px; cursor:pointer; opacity:0.7; color:#fff; background:none; border:none; }
+    .modal-box p  { font-size:14px; line-height:1.7; opacity:0.9; font-family:'Exo 2',sans-serif; }
+    .modal-close  { position:absolute; top:16px; right:20px; font-size:26px; cursor:pointer; opacity:0.7; color:#fff; background:none; border:none; }
     .modal-close:hover { opacity:1; color:#ff4dd2; }
     @media(max-width:860px){ .modal-box{grid-template-columns:1fr;} }
 
-    /* ── SCREENSHOTS ── */
+    /* SCREENSHOTS */
     .gallery { column-count:4; column-gap:18px; }
     .gallery-item { break-inside:avoid; margin-bottom:18px; border-radius:14px; overflow:hidden; box-shadow:0 10px 28px rgba(0,0,0,0.5); opacity:0; transform:translateY(28px); transition:opacity 0.5s,transform 0.5s,box-shadow 0.3s; cursor:pointer; }
     .gallery-item.visible { opacity:1; transform:translateY(0); }
@@ -113,14 +339,14 @@
     .ss-viewer { position:fixed; inset:0; background:rgba(0,0,0,0.94); z-index:950; display:flex; align-items:center; justify-content:center; opacity:0; pointer-events:none; transition:opacity 0.35s; }
     .ss-viewer.active { opacity:1; pointer-events:auto; }
     .ss-viewer img { max-width:92%; max-height:92vh; border-radius:16px; object-fit:contain; box-shadow:0 0 60px rgba(255,255,255,0.1); }
-    .ss-close { position:absolute; top:26px; right:26px; font-size:3rem; color:#fff; cursor:pointer; transition:color 0.2s,transform 0.2s; background:none; border:none; }
-    .ss-close:hover { color:#ff4dd2; transform:scale(1.2); }
+    .ss-close,.t-close { position:absolute; top:26px; right:26px; font-size:3rem; color:#fff; cursor:pointer; transition:color 0.2s,transform 0.2s; background:none; border:none; }
+    .ss-close:hover { color:#ff4dd2; }
     .ss-arrow { position:absolute; top:50%; transform:translateY(-50%); font-size:3.2rem; color:rgba(255,255,255,0.7); cursor:pointer; user-select:none; background:none; border:none; }
     .ss-arrow:hover { color:#ff4dd2; }
     .ss-prev { left:22px; }
     .ss-next { right:22px; }
 
-    /* ── TRAILERS PAGE ── */
+    /* TRAILERS */
     .trailers-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(360px,1fr)); gap:26px; }
     .trailer-card-big { position:relative; background:rgba(0,0,0,0.65); border:1px solid rgba(255,255,255,0.09); border-radius:20px; overflow:hidden; box-shadow:0 16px 40px rgba(0,0,0,0.7); transition:transform 0.4s,box-shadow 0.4s; cursor:pointer; }
     .trailer-card-big:hover { transform:translateY(-12px) scale(1.03); box-shadow:0 24px 60px rgba(0,0,0,0.8),0 0 40px rgba(255,77,210,0.4); }
@@ -132,10 +358,12 @@
     .t-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.96); display:flex; align-items:center; justify-content:center; z-index:950; opacity:0; pointer-events:none; transition:opacity 0.35s; }
     .t-overlay.active { opacity:1; pointer-events:auto; }
     .t-overlay iframe { width:92vw; max-width:1400px; height:78vh; border:none; border-radius:16px; box-shadow:0 0 80px rgba(255,255,255,0.1); }
-    .t-close { position:absolute; top:20px; right:26px; background:rgba(255,255,255,0.1); color:#fff; font-size:22px; width:46px; height:46px; border:none; border-radius:50%; cursor:pointer; transition:background 0.2s,transform 0.2s; }
+    .t-close { top:20px; right:26px; font-size:22px; width:46px; height:46px; border-radius:50%; }
     .t-close:hover { background:rgba(255,77,210,0.4); transform:scale(1.12); }
 
-    /* ── SETTINGS ── */
+    /* ══════════════════════════════════════
+       SETTINGS
+    ══════════════════════════════════════ */
     .settings-grid { display:grid; grid-template-columns:230px 1fr; gap:24px; height:calc(100vh - 200px); }
     .settings-sidebar { background:rgba(0,0,0,0.72); border-radius:14px; border:1px solid rgba(255,255,255,0.1); padding:18px 12px; display:flex; flex-direction:column; gap:5px; overflow-y:auto; }
     .settings-sidebar::-webkit-scrollbar { width:3px; }
@@ -168,32 +396,269 @@
     .color-swatch { width:30px; height:30px; border-radius:7px; cursor:pointer; border:2px solid transparent; transition:transform 0.2s,border-color 0.2s; }
     .color-swatch:hover { transform:scale(1.18); }
     .color-swatch.selected { border-color:#fff; transform:scale(1.18); }
+    .bg-picker-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin-top:4px; }
+    .bg-swatch { position:relative; aspect-ratio:16/9; border-radius:8px; overflow:hidden; cursor:pointer; border:2px solid transparent; transition:all 0.2s; box-shadow:0 4px 12px rgba(0,0,0,0.4); }
+    .bg-swatch img { width:100%; height:100%; object-fit:cover; }
+    .bg-swatch:hover { transform:scale(1.05); border-color:rgba(255,255,255,0.5); }
+    .bg-swatch.selected { border-color:#ff4dd2; box-shadow:0 0 16px rgba(255,77,210,0.5); }
+    .bg-swatch-label { position:absolute; bottom:0; left:0; right:0; background:rgba(0,0,0,0.75); font-size:7px; padding:3px 5px; letter-spacing:1px; text-align:center; }
     .settings-save-btn { margin-top:22px; padding:11px 28px; background:linear-gradient(135deg,rgba(255,77,210,0.3),rgba(0,255,224,0.2)); border:1px solid #ff4dd2; color:#fff; border-radius:9px; font-family:'Orbitron',sans-serif; font-size:10px; font-weight:900; letter-spacing:2px; text-transform:uppercase; cursor:pointer; transition:background 0.2s,transform 0.2s,box-shadow 0.2s; }
     .settings-save-btn:hover { background:linear-gradient(135deg,rgba(255,77,210,0.55),rgba(0,255,224,0.35)); box-shadow:0 0 20px rgba(255,77,210,0.4); transform:translateY(-2px); }
     .save-toast { display:inline-block; margin-left:12px; font-size:10px; color:#00ffe0; opacity:0; transition:opacity 0.4s; vertical-align:middle; font-family:'Exo 2',sans-serif; }
     .save-toast.show { opacity:1; }
     .about-stat { display:flex; justify-content:space-between; align-items:center; padding:11px 0; border-bottom:1px solid rgba(255,255,255,0.05); font-size:12px; }
     .about-val { color:#00ffe0; font-family:'Exo 2',sans-serif; font-size:12px; }
+    .banned-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(160px,1fr)); gap:7px; margin-top:10px; max-height:340px; overflow-y:auto; padding-right:6px; }
+    .banned-grid::-webkit-scrollbar { width:3px; }
+    .banned-grid::-webkit-scrollbar-thumb { background:#ff4dd2; border-radius:10px; }
+    .banned-tag { background:rgba(255,60,60,0.1); border:1px solid rgba(255,60,60,0.3); color:rgba(255,120,120,0.9); border-radius:6px; padding:5px 10px; font-size:9px; font-family:'Exo 2',sans-serif; letter-spacing:0.5px; display:flex; align-items:center; gap:5px; }
+    .banned-tag::before { content:"⛔"; font-size:10px; }
+    .banned-search { width:100%; padding:9px 12px; margin-bottom:10px; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.12); border-radius:8px; color:#fff; font-family:'Exo 2',sans-serif; font-size:12px; outline:none; transition:border-color 0.2s; }
+    .banned-search:focus { border-color:#ff4dd2; }
+    .banned-count { font-size:10px; color:rgba(255,255,255,0.4); font-family:'Exo 2',sans-serif; margin-bottom:8px; }
+    .s-input { width:160px; padding:8px 12px; font-size:11px; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.14); border-radius:8px; color:#fff; font-family:'Exo 2',sans-serif; outline:none; transition:border-color 0.2s; }
+    .s-input:focus { border-color:#ff4dd2; }
+
+    /* ══════════════════════════════════════
+       ADMIN PANEL STYLES
+    ══════════════════════════════════════ */
+    #admin-login-overlay {
+      position:fixed; inset:0; z-index:9999;
+      background:rgba(0,0,0,0.97);
+      display:flex; align-items:center; justify-content:center;
+      opacity:0; pointer-events:none; transition:opacity 0.3s;
+    }
+    #admin-login-overlay.open { opacity:1; pointer-events:auto; }
+    .admin-login-box { background:rgba(5,5,20,0.98); border:1px solid rgba(255,77,210,0.4); border-radius:18px; padding:38px 44px 42px; width:420px; display:flex; flex-direction:column; gap:14px; box-shadow:0 0 80px rgba(255,77,210,0.12); }
+    .admin-login-logo  { font-family:'Orbitron',sans-serif; font-size:11px; letter-spacing:3px; color:#ff4dd2; text-transform:uppercase; }
+    .admin-login-title { font-family:'Exo 2',sans-serif; font-size:22px; font-weight:900; }
+    .admin-login-sub   { font-size:10px; color:rgba(255,255,255,0.35); letter-spacing:1px; font-family:'Exo 2',sans-serif; }
+    .admin-field-label { font-size:9px; letter-spacing:2px; color:rgba(255,255,255,0.4); text-transform:uppercase; font-family:'Orbitron',sans-serif; }
+    .admin-input { padding:11px 14px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.12); border-radius:9px; color:#fff; font-family:'Exo 2',sans-serif; font-size:13px; outline:none; width:100%; transition:border-color 0.2s; }
+    .admin-input:focus { border-color:#ff4dd2; }
+    .admin-input::placeholder { color:rgba(255,255,255,0.2); }
+    .admin-login-btn { padding:13px; background:linear-gradient(135deg,rgba(255,77,210,0.3),rgba(0,255,224,0.15)); border:1px solid #ff4dd2; border-radius:9px; color:#fff; font-family:'Orbitron',sans-serif; font-size:10px; font-weight:900; letter-spacing:2px; cursor:pointer; transition:all 0.2s; text-transform:uppercase; }
+    .admin-login-btn:hover { background:linear-gradient(135deg,rgba(255,77,210,0.55),rgba(0,255,224,0.3)); box-shadow:0 0 24px rgba(255,77,210,0.4); }
+    .admin-login-cancel { font-size:9px; color:rgba(255,255,255,0.3); cursor:pointer; text-align:center; letter-spacing:1px; text-decoration:underline; }
+    .admin-login-cancel:hover { color:#ff4dd2; }
+    .admin-login-error { font-size:10px; color:#ff4d4d; letter-spacing:1px; min-height:14px; text-align:center; font-family:'Exo 2',sans-serif; }
+    .admin-attempts    { font-size:10px; color:rgba(255,255,255,0.3); text-align:center; font-family:'Exo 2',sans-serif; }
+    .admin-grid { display:grid; grid-template-columns:240px 1fr; gap:24px; min-height:calc(100vh - 200px); }
+    .admin-sidebar { background:rgba(0,0,0,0.8); border:1px solid rgba(255,77,210,0.2); border-radius:14px; padding:18px 12px; display:flex; flex-direction:column; gap:4px; overflow-y:auto; }
+    .admin-sidebar::-webkit-scrollbar { width:3px; }
+    .admin-sidebar::-webkit-scrollbar-thumb { background:#ff4dd2; border-radius:10px; }
+    .admin-sidebar-header { font-size:8px; letter-spacing:3px; text-transform:uppercase; color:#ff4dd2; padding:6px 10px 10px; border-bottom:1px solid rgba(255,77,210,0.2); margin-bottom:6px; }
+    .admin-tab { padding:10px 14px; border-radius:8px; cursor:pointer; font-size:9px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:rgba(255,255,255,0.5); transition:all 0.2s; border:1px solid transparent; font-family:'Orbitron',sans-serif; }
+    .admin-tab:hover { background:rgba(255,77,210,0.08); color:#fff; }
+    .admin-tab.active { background:rgba(255,77,210,0.15); color:#ff4dd2; border-color:rgba(255,77,210,0.3); }
+    .admin-tab.danger-tab:hover  { background:rgba(255,60,60,0.1); color:rgba(255,120,120,0.9); }
+    .admin-tab.danger-tab.active { background:rgba(255,60,60,0.15); color:rgba(255,120,120,0.9); border-color:rgba(255,60,60,0.3); }
+    .admin-content { background:rgba(0,0,0,0.8); border:1px solid rgba(255,77,210,0.2); border-radius:14px; padding:28px; overflow-y:auto; }
+    .admin-content::-webkit-scrollbar { width:3px; }
+    .admin-content::-webkit-scrollbar-thumb { background:#ff4dd2; border-radius:10px; }
+    .admin-panel { display:none; }
+    .admin-panel.active { display:block; }
+    .admin-section-title { font-size:9px; letter-spacing:3px; text-transform:uppercase; color:#ff4dd2; margin-bottom:18px; padding-bottom:9px; border-bottom:1px solid rgba(255,77,210,0.25); font-family:'Orbitron',sans-serif; }
+    .admin-row { display:flex; align-items:center; justify-content:space-between; padding:13px 0; border-bottom:1px solid rgba(255,255,255,0.05); gap:18px; }
+    .admin-row:last-child { border-bottom:none; }
+    .admin-info { flex:1; }
+    .admin-name { font-size:12px; font-weight:700; margin-bottom:3px; font-family:'Orbitron',sans-serif; }
+    .admin-desc { font-size:11px; color:rgba(255,255,255,0.4); font-family:'Exo 2',sans-serif; line-height:1.5; }
+    .admin-stats-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(160px,1fr)); gap:14px; margin-bottom:28px; }
+    .admin-stat-card { background:rgba(255,77,210,0.07); border:1px solid rgba(255,77,210,0.2); border-radius:10px; padding:16px 18px; }
+    .admin-stat-label { font-size:8px; letter-spacing:2px; text-transform:uppercase; color:rgba(255,255,255,0.4); margin-bottom:8px; font-family:'Orbitron',sans-serif; }
+    .admin-stat-val   { font-size:24px; font-weight:900; color:#ff4dd2; font-family:'Exo 2',sans-serif; }
+    .admin-stat-sub   { font-size:9px; color:rgba(255,255,255,0.3); margin-top:4px; font-family:'Exo 2',sans-serif; }
+    .admin-user-list  { display:flex; flex-direction:column; gap:10px; }
+    .admin-user-row   { display:flex; align-items:center; gap:14px; padding:12px 16px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.07); border-radius:10px; transition:border-color 0.2s; }
+    .admin-user-row:hover { border-color:rgba(255,77,210,0.3); }
+    .admin-user-avatar { width:36px; height:36px; border-radius:50%; overflow:hidden; border:1px solid rgba(255,77,210,0.4); flex-shrink:0; }
+    .admin-user-avatar img { width:100%; height:100%; object-fit:cover; }
+    .admin-user-name  { font-size:12px; font-weight:700; flex:1; font-family:'Exo 2',sans-serif; }
+    .admin-user-role  { font-size:9px; color:rgba(255,255,255,0.35); letter-spacing:1px; font-family:'Orbitron',sans-serif; }
+    .admin-badge { padding:3px 10px; border-radius:999px; font-size:8px; font-weight:900; letter-spacing:1px; text-transform:uppercase; font-family:'Orbitron',sans-serif; }
+    .badge-owner  { background:rgba(255,215,0,0.25); border:1px solid rgba(255,215,0,0.6); color:#ffd700; }
+    .badge-admin  { background:rgba(255,77,210,0.2); border:1px solid rgba(255,77,210,0.5); color:#ff4dd2; }
+    .badge-friend { background:rgba(0,255,224,0.15); border:1px solid rgba(0,255,224,0.4); color:#00ffe0; }
+    .badge-active { background:rgba(0,255,224,0.15); border:1px solid rgba(0,255,224,0.4); color:#00ffe0; }
+    .badge-banned { background:rgba(255,60,60,0.15); border:1px solid rgba(255,60,60,0.4); color:#ff6060; }
+    .badge-guest  { background:rgba(255,255,255,0.07); border:1px solid rgba(255,255,255,0.2); color:rgba(255,255,255,0.5); }
+    .admin-log-list  { display:flex; flex-direction:column; gap:8px; max-height:400px; overflow-y:auto; }
+    .admin-log-list::-webkit-scrollbar { width:3px; }
+    .admin-log-list::-webkit-scrollbar-thumb { background:#ff4dd2; border-radius:10px; }
+    .admin-log-entry { display:flex; gap:12px; padding:9px 12px; background:rgba(0,0,0,0.4); border-radius:8px; border-left:2px solid rgba(255,255,255,0.1); font-family:'Exo 2',sans-serif; font-size:11px; color:rgba(255,255,255,0.65); }
+    .log-time    { color:rgba(255,255,255,0.25); white-space:nowrap; flex-shrink:0; }
+    .log-action  { color:#00ffe0; font-weight:700; flex-shrink:0; }
+    .log-warn    { border-left-color:#ffd700; }
+    .log-danger  { border-left-color:#ff4d4d; }
+    .log-success { border-left-color:#00ffe0; }
+    .admin-news-form { display:flex; flex-direction:column; gap:12px; background:rgba(0,0,0,0.4); border-radius:12px; padding:20px; border:1px solid rgba(255,255,255,0.07); }
+    .admin-news-form input, .admin-news-form textarea, .admin-news-form select { padding:10px 13px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.12); border-radius:8px; color:#fff; font-family:'Exo 2',sans-serif; font-size:12px; outline:none; transition:border-color 0.2s; width:100%; }
+    .admin-news-form input:focus, .admin-news-form textarea:focus, .admin-news-form select:focus { border-color:#ff4dd2; }
+    .admin-news-form textarea { resize:vertical; min-height:90px; }
+    .admin-publish-btn { padding:11px 22px; background:linear-gradient(135deg,rgba(255,77,210,0.35),rgba(0,255,224,0.2)); border:1px solid #ff4dd2; border-radius:8px; color:#fff; font-family:'Orbitron',sans-serif; font-size:10px; font-weight:900; letter-spacing:2px; cursor:pointer; transition:all 0.2s; align-self:flex-start; }
+    .admin-publish-btn:hover { background:linear-gradient(135deg,rgba(255,77,210,0.6),rgba(0,255,224,0.35)); box-shadow:0 0 20px rgba(255,77,210,0.4); }
+    .admin-danger-btn { padding:9px 18px; border-radius:8px; background:rgba(255,60,60,0.12); border:1px solid rgba(255,60,60,0.4); color:rgba(255,120,120,0.9); font-family:'Orbitron',sans-serif; font-size:9px; font-weight:700; letter-spacing:1px; cursor:pointer; transition:all 0.2s; }
+    .admin-danger-btn:hover { background:rgba(255,60,60,0.28); border-color:rgba(255,60,60,0.7); }
+    .admin-action-btn { padding:7px 14px; border-radius:7px; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.12); color:rgba(255,255,255,0.7); font-family:'Orbitron',sans-serif; font-size:8px; font-weight:700; letter-spacing:1px; cursor:pointer; transition:all 0.2s; }
+    .admin-action-btn:hover { background:rgba(255,77,210,0.15); border-color:#ff4dd2; color:#ff4dd2; }
+    .admin-feedback-msg { font-size:10px; color:#00ffe0; letter-spacing:1px; font-family:'Exo 2',sans-serif; min-height:14px; margin-top:4px; opacity:0; transition:opacity 0.3s; }
+    .admin-feedback-msg.show { opacity:1; }
+    #admin-site-banner { position:fixed; top:0; left:0; right:0; z-index:500; padding:10px 20px; text-align:center; font-size:11px; font-family:'Orbitron',sans-serif; font-weight:700; letter-spacing:2px; display:none; cursor:pointer; }
+    #admin-site-banner.show { display:block; }
+    .admin-progress-wrap { background:rgba(255,255,255,0.07); border-radius:999px; height:6px; overflow:hidden; flex:1; }
+    .admin-progress-bar  { height:100%; border-radius:999px; background:linear-gradient(90deg,#ff4dd2,#00ffe0); transition:width 0.4s; }
+    .a-toggle-wrap { position:relative; width:46px; height:24px; flex-shrink:0; }
+    .a-toggle-wrap input { opacity:0; width:0; height:0; position:absolute; }
+    .a-toggle-slider { position:absolute; inset:0; background:rgba(255,255,255,0.15); border-radius:24px; cursor:pointer; transition:background 0.25s; border:1px solid rgba(255,255,255,0.1); }
+    .a-toggle-slider::before { content:""; position:absolute; left:3px; top:50%; transform:translateY(-50%); width:18px; height:18px; border-radius:50%; background:#fff; transition:left 0.25s; box-shadow:0 2px 6px rgba(0,0,0,0.4); }
+    .a-toggle-wrap input:checked + .a-toggle-slider { background:rgba(255,77,210,0.7); border-color:#ff4dd2; }
+    .a-toggle-wrap input:checked + .a-toggle-slider::before { left:25px; }
+    .pwd-strength { height:4px; border-radius:999px; margin-top:6px; width:0%; transition:width 0.3s,background 0.3s; }
+
+    /* friend account table */
+    .friend-table { width:100%; border-collapse:collapse; font-size:11px; font-family:'Exo 2',sans-serif; }
+    .friend-table th { font-family:'Orbitron',sans-serif; font-size:8px; letter-spacing:2px; text-transform:uppercase; color:rgba(255,255,255,0.4); padding:8px 10px; border-bottom:1px solid rgba(255,255,255,0.08); text-align:left; }
+    .friend-table td { padding:10px; border-bottom:1px solid rgba(255,255,255,0.04); color:rgba(255,255,255,0.75); vertical-align:middle; }
+    .friend-table tr:hover td { background:rgba(255,77,210,0.04); }
+    .friend-table .ft-pass { color:rgba(255,255,255,0.3); font-style:italic; font-size:10px; }
   </style>
 </head>
 <body>
 
 <div id="bg-layer"></div>
 <div id="bg-overlay"></div>
+<div id="scanline-layer"></div>
 
+<!-- ══════════════════════════════════════════════════
+     SITE SHUTDOWN OVERLAY
+══════════════════════════════════════════════════ -->
+<div id="shutdown-overlay">
+  <div class="sd-logo"><span class="sd-neon-gta">GTA</span> <span class="sd-neon-vi">VI</span></div>
+  <div class="sd-title">SITE MAINTENANCE</div>
+  <div class="sd-spinner"></div>
+  <div class="sd-msg" id="sd-msg">The Leonida Network is currently down for maintenance. We'll be back online shortly — check back soon.</div>
+  <div class="sd-eta" id="sd-eta">ESTIMATED DOWNTIME: UNKNOWN</div>
+  <div class="sd-admin-bypass">
+    <div class="sd-bypass-toggle" id="sd-bypass-toggle" onclick="document.getElementById('sd-bypass-form').classList.toggle('open')">Admin access</div>
+    <div class="sd-bypass-form" id="sd-bypass-form">
+      <input class="sd-bypass-input" id="sd-bypass-usr" type="text" placeholder="Username..." autocomplete="off">
+      <input class="sd-bypass-input" id="sd-bypass-pwd" type="password" placeholder="Password...">
+      <button class="sd-bypass-btn" onclick="bypassShutdown()">BYPASS</button>
+      <div class="sd-bypass-error" id="sd-bypass-err"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     LOGIN SCREEN
+══════════════════════════════════════════════════ -->
+<div id="login-screen">
+  <div class="login-box">
+    <div class="login-logo"><span class="neon-gta">GTA</span> <span class="neon-vi">VI</span></div>
+    <div class="login-sub">LEONIDA NETWORK — RESTRICTED ACCESS</div>
+    <div class="login-divider"></div>
+
+    <!-- Login mode tabs -->
+    <div class="login-mode-toggle">
+      <button class="login-mode-btn active" id="lm-guest-btn" onclick="setLoginMode('guest')">Guest / Name</button>
+      <button class="login-mode-btn" id="lm-cred-btn" onclick="setLoginMode('creds')">Login with Account</button>
+    </div>
+
+    <!-- Avatar + name (guest mode) -->
+    <div id="login-guest-section" style="display:flex;flex-direction:column;gap:10px;width:100%">
+      <div class="login-section-label">Choose your character</div>
+      <div class="avatar-grid" id="login-avatar-grid"></div>
+      <div class="login-section-label">Agent callsign</div>
+      <div style="display:flex;gap:10px;width:100%;align-items:center;">
+        <div class="selected-avatar-preview" id="login-av-preview">
+          <img id="login-av-preview-img" src="gta/npc/lucia.jpg" alt="">
+        </div>
+        <input class="login-input" id="login-name" type="text" placeholder="Enter your name..." maxlength="12" autocomplete="off" style="flex:1">
+      </div>
+    </div>
+
+    <!-- Credential fields (account mode) -->
+    <div class="login-cred-fields" id="login-cred-section">
+      <div class="login-section-label">Username</div>
+      <input class="login-input" id="cred-username" type="text" placeholder="Your username..." autocomplete="off" style="width:100%">
+      <div class="login-section-label">Password</div>
+      <input class="login-input" id="cred-password" type="password" placeholder="Your password..." style="width:100%">
+    </div>
+
+    <div class="login-error" id="login-error"></div>
+    <button class="login-btn" id="login-btn">ACCESS SITE</button>
+    <div class="login-skip" id="login-skip">Continue as guest</div>
+  </div>
+</div>
 
 <!-- NAV -->
-<header>
+<header id="main-nav" style="display:none">
   <button class="nav-btn active" data-page="0">Home</button>
   <button class="nav-btn" data-page="1">Map</button>
   <button class="nav-btn" data-page="2">Characters</button>
   <button class="nav-btn" data-page="3">Places</button>
   <button class="nav-btn" data-page="4">Screenshots</button>
   <button class="nav-btn" data-page="5">Trailers</button>
-  <button class="nav-btn" data-page="6">Settings</button>
+  <button class="nav-btn" data-page="7">Settings</button>
+  <button class="nav-btn" data-page="8" id="admin-nav-btn" style="visibility:hidden;border-color:rgba(255,77,210,0.5);color:rgba(255,77,210,0.7)">⚙ Admin</button>
 </header>
 
-<!-- ==================== SLIDER ==================== -->
+<!-- PROFILE CIRCLE -->
+<div id="profile-trigger" style="display:none">
+  <img id="profile-trigger-img" src="gta/npc/lucia.jpg" alt="Profile">
+</div>
+
+<!-- PROFILE PANEL -->
+<div id="profile-panel">
+  <div class="pp-header">
+    <div class="pp-avatar-big"><img id="pp-avatar-img" src="gta/npc/lucia.jpg" alt=""></div>
+    <div>
+      <div class="pp-name" id="pp-name-display">Agent</div>
+      <div class="pp-role" id="pp-role-text">LEONIDA OPERATIVE</div>
+      <span class="pp-role-badge role-guest" id="pp-role-badge">GUEST</span>
+    </div>
+  </div>
+  <div class="pp-label">Change Avatar</div>
+  <div class="pp-avatar-mini-grid" id="pp-avatar-grid"></div>
+  <div class="pp-label">Callsign</div>
+  <div class="pp-input-row">
+    <input class="pp-input" id="pp-name-input" type="text" placeholder="Your name..." maxlength="24">
+    <button class="pp-save-btn" onclick="saveProfile()">Save</button>
+  </div>
+  <div class="pp-label" style="margin-top:2px">Greeting Style</div>
+  <select class="pp-greeting-select" id="pp-greeting-select" style="margin-bottom:12px">
+    <option value="simple">Simple Welcome</option>
+    <option value="mission">Mission Briefing</option>
+    <option value="none">None</option>
+  </select>
+  <div class="pp-saved" id="pp-saved">✓ Profile updated</div>
+  <div class="pp-divider"></div>
+  <button class="pp-logout" onclick="doLogout()">⟵ Log Out</button>
+</div>
+
+<!-- ADMIN LOGIN OVERLAY -->
+<div id="admin-login-overlay">
+  <div class="admin-login-box">
+    <div class="admin-login-logo">⚠ RESTRICTED ACCESS</div>
+    <div class="admin-login-title">Admin Portal</div>
+    <div class="admin-login-sub">LEONIDA NETWORK // AUTHORIZED PERSONNEL ONLY</div>
+    <div style="height:1px;background:rgba(255,255,255,0.07);margin:4px 0"></div>
+    <div class="admin-field-label">Username</div>
+    <input class="admin-input" id="admin-usr" type="text" placeholder="Admin username..." autocomplete="off">
+    <div class="admin-field-label">Password</div>
+    <input class="admin-input" id="admin-pwd" type="password" placeholder="Admin password...">
+    <div class="admin-login-error" id="admin-err"></div>
+    <button class="admin-login-btn" id="admin-login-btn">AUTHENTICATE</button>
+    <div class="admin-attempts" id="admin-attempts"></div>
+    <div class="admin-login-cancel" id="admin-cancel-btn">Return to site</div>
+  </div>
+</div>
+
+<!-- SITE ANNOUNCEMENT BANNER -->
+<div id="admin-site-banner" onclick="closeBanner()"></div>
+
+<!-- SLIDER -->
 <div id="slider-track">
 
   <!-- PAGE 0: HOME -->
@@ -203,7 +668,7 @@
       <div class="hud-line h-line-2"></div>
       <div>
         <h1 class="title"><span class="neon-gta">GTA</span> <span class="neon-vi">VI</span></h1>
-        <div class="subtitle">PREPARING FOR NOVEMBER 19, 2026</div>
+        <div class="subtitle" id="home-subtitle">PREPARING FOR NOVEMBER 19, 2026</div>
       </div>
       <div>
         <div class="clock-label">Time Remaining</div>
@@ -236,7 +701,7 @@
       <div class="panel-box desc-panel">
         <div class="radio-header"><span>DEVELOPER_LOG // MISSION_INTEL</span></div>
         <div class="desc-content">
-         I began coding one year ago. When news of Grand Theft Auto VI first surfaced, I became fascinated by the various countdown websites already online and decided to create my own version.
+          I began coding one year ago. When news of Grand Theft Auto VI first surfaced, I became fascinated by the various countdown websites already online and decided to create my own version.
           <br><br>
           This site was built as a personal project to track the countdown to release while providing a central space for the community to follow the development and share the anticipation for the next chapter set in Leonida.
         </div>
@@ -269,7 +734,7 @@
         <div class="char-card" data-name="Jason" data-img="gta/npc/jason.jpg" data-desc="Jason Duval grew up surrounded by grifters and crooks in the Keys, joined the army to escape his troubled past, but returned to Leonida and fell back into drug running for local kingpins like Brian Heder. Sharp, deadly, and craving an easier life — meeting Lucia might change everything for better or worse.">
           <img src="gta/npc/jason.jpg" alt="Jason" loading="lazy"><div class="card-label"><h2>Jason</h2></div>
         </div>
-        <div class="char-card" data-name="Dre'Quan Preist" data-img="gta/npc/dre.jpg" data-desc="Dre'Quan Priest started as a street hustler but music was always the real dream — he transitioned from gangster life to running Only Raw Records, signing hot talent like Real Dimez to chase Vice City's big stage. Partnered with Boobie Ike, he's booking acts and building an empire, always one track away from making it big.">
+        <div class="char-card" data-name="Dre'Quan Preist" data-img="gta/npc/dre.jpg" data-desc="Dre'Quan Priest started as a street hustler but music was always the real dream — he transitioned from gangster life to running Only Raw Records, signing hot talent like Real Dimez to chase Vice City's big stage.">
           <img src="gta/npc/dre.jpg" alt="Dre'Quan" loading="lazy"><div class="card-label"><h2>Dre'Quan Preist</h2></div>
         </div>
         <div class="char-card" data-name="Stefanie" data-img="gta/npc/stefanie.png" data-desc="Stefanie works as a social worker for Leonida Corrections, dealing daily with a deeply broken prison system. Frustrated by endless bureaucracy, she's reached her breaking point and is ready to bend — or outright break — the rules to actually help those caught in the cycle.">
@@ -284,13 +749,13 @@
         <div class="char-card" data-name="Roxy" data-img="gta/npc/dimez.webp" data-desc="Bae-Luxe and Roxy, known together as Real Dimez, turned shaking down local dealers into viral rap tracks and massive social media clout. Signed to Only Raw Records, they're fighting to drop the next big hit while staying relevant in Vice City's cutthroat music scene.">
           <img src="gta/npc/dimez.webp" alt="Roxy" loading="lazy"><div class="card-label"><h2>Roxy</h2></div>
         </div>
-        <div class="char-card" data-name="Raul Bautista" data-img="gta/npc/raul.png" data-desc="Raul Bautista is a veteran bank robber known for ice-cold precision and a reckless streak that keeps jobs exciting — and dangerous. Always scouting for the perfect crew to pull off the next big score, his experience makes him a valuable ally.">
+        <div class="char-card" data-name="Raul Bautista" data-img="gta/npc/raul.png" data-desc="Raul Bautista is a veteran bank robber known for ice-cold precision and a reckless streak that keeps jobs exciting — and dangerous. Always scouting for the perfect crew to pull off the next big score.">
           <img src="gta/npc/raul.png" alt="Raul Bautista" loading="lazy"><div class="card-label"><h2>Raul Bautista</h2></div>
         </div>
-        <div class="char-card" data-name="Brian Heder" data-img="gta/npc/brian.png" data-desc="Brian Heder is an old-school drug kingpin from the glory days of Keys smuggling, now running operations from his boat yard. He provides Jason a rent-free spot in exchange for muscle, maintaining a ruthless empire that still pulls strings across Leonida.">
+        <div class="char-card" data-name="Brian Heder" data-img="gta/npc/brian.png" data-desc="Brian Heder is an old-school drug kingpin from the glory days of Keys smuggling, now running operations from his boat yard. He provides Jason a rent-free spot in exchange for muscle.">
           <img src="gta/npc/brian.png" alt="Brian Heder" loading="lazy"><div class="card-label"><h2>Brian Heder</h2></div>
         </div>
-        <div class="char-card" data-name="Luxe" data-img="gta/npc/luxe.webp" data-desc="Luxe is one half of the viral rap duo Real Dimez, turning street-smart dealer shake-downs into bars and a relentless social media presence that caught Dre'Quan Priest's eye. Fiercely ambitious and hungry to claim the throne in Vice City's music game.">
+        <div class="char-card" data-name="Luxe" data-img="gta/npc/luxe.webp" data-desc="Luxe is one half of the viral rap duo Real Dimez, turning street-smart dealer shake-downs into bars and a relentless social media presence that caught Dre'Quan Priest's eye.">
           <img src="gta/npc/luxe.webp" alt="Luxe" loading="lazy"><div class="card-label"><h2>Luxe</h2></div>
         </div>
       </div>
@@ -302,22 +767,22 @@
     <div class="page-inner">
       <h1 class="page-title">GTA VI — Places</h1>
       <div class="card-grid" id="places-grid">
-        <div class="char-card place-card" data-name="Vice City" data-img="gta/places/vice.jpg" data-desc="Vice City is Leonida's neon-soaked metropolis where America's glamour, hustle, and greed are turned up to eleven. Pastel art deco towers rise alongside Cuban-influenced neighborhoods, bootleg markets, gorgeous beaches, and endless cruise ships docking in the bay.">
+        <div class="char-card place-card" data-name="Vice City" data-img="gta/places/vice.jpg" data-desc="Vice City is Leonida's neon-soaked metropolis where America's glamour, hustle, and greed are turned up to eleven.">
           <img src="gta/places/vice.jpg" alt="Vice City" loading="lazy"><div class="card-label"><h2>Vice City</h2></div>
         </div>
-        <div class="char-card place-card" data-name="Leonida Keys" data-img="gta/places/leoninda.jpg" data-desc="The Leonida Keys are the tropical gateway to paradise — a laid-back chain of islands where the dress code is flip-flops, the drinks are cold, and life moves at the speed of a slow-rolling wave. The turquoise waters hide strong currents, sharks, and secrets better left undisturbed.">
+        <div class="char-card place-card" data-name="Leonida Keys" data-img="gta/places/leoninda.jpg" data-desc="The Leonida Keys are the tropical gateway to paradise — a laid-back chain of islands where the dress code is flip-flops and the turquoise waters hide strong currents, sharks, and secrets.">
           <img src="gta/places/leoninda.jpg" alt="Leonida Keys" loading="lazy"><div class="card-label"><h2>Leonida Keys</h2></div>
         </div>
-        <div class="char-card place-card" data-name="Grassrivers" data-img="gta/places/grassrivers.jpg" data-desc="Grassrivers is Leonida's wild, primordial swamp — a sprawling maze of mangroves, slow-moving black water, and sawgrass. Gators own these channels, airboats are the only real transportation, and every bend hides something. The deeper you go, the less the normal rules apply.">
+        <div class="char-card place-card" data-name="Grassrivers" data-img="gta/places/grassrivers.jpg" data-desc="Grassrivers is Leonida's wild, primordial swamp — a sprawling maze of mangroves, slow-moving black water, and sawgrass.">
           <img src="gta/places/grassrivers.jpg" alt="Grassrivers" loading="lazy"><div class="card-label"><h2>Grassrivers</h2></div>
         </div>
-        <div class="char-card place-card" data-name="Port Gellhorn" data-img="gta/places/port.jpg" data-desc="Port Gellhorn is what's left after the tourists stopped coming: a decaying coastal town of abandoned motels, shuttered arcades, and cracked neon signs. The new economy runs on cheap beer, pain pills, and biker gangs. Grimy, desperate, and strangely alive.">
+        <div class="char-card place-card" data-name="Port Gellhorn" data-img="gta/places/port.jpg" data-desc="Port Gellhorn is what's left after the tourists stopped coming: a decaying coastal town of abandoned motels, shuttered arcades, and cracked neon signs.">
           <img src="gta/places/port.jpg" alt="Port Gellhorn" loading="lazy"><div class="card-label"><h2>Port Gellhorn</h2></div>
         </div>
-        <div class="char-card place-card" data-name="Ambrosia" data-img="gta/places/ambrosia.jpg" data-desc="Ambrosia is old-school Florida heartland built on sugar and hard labor. The massive Allied Crystal sugar refinery dominates the skyline. Outside the factory gates, outlaw motorcycle clubs run the roads, the bars, and most of the side hustles.">
+        <div class="char-card place-card" data-name="Ambrosia" data-img="gta/places/ambrosia.jpg" data-desc="Ambrosia is old-school Florida heartland built on sugar and hard labor. Outlaw motorcycle clubs run the roads, the bars, and most of the side hustles.">
           <img src="gta/places/ambrosia.jpg" alt="Ambrosia" loading="lazy"><div class="card-label"><h2>Ambrosia</h2></div>
         </div>
-        <div class="char-card place-card" data-name="Mount Kalaga" data-img="gta/places/mount.jpg" data-desc="Mount Kalaga National Park is the remote, rugged backbone of northern Leonida — dense pine forests, deep ravines, fast rivers, and miles of off-road trails. Beautiful during the day, eerie at night, and full of places perfect for hiding… or for never being found.">
+        <div class="char-card place-card" data-name="Mount Kalaga" data-img="gta/places/mount.jpg" data-desc="Mount Kalaga National Park is the remote, rugged backbone of northern Leonida — dense pine forests, deep ravines, and miles of off-road trails.">
           <img src="gta/places/mount.jpg" alt="Mount Kalaga" loading="lazy"><div class="card-label"><h2>Mount Kalaga</h2></div>
         </div>
       </div>
@@ -339,22 +804,47 @@
       <div class="trailers-grid">
         <div class="trailer-card-big" data-video="https://www.youtube.com/embed/QdBZY2fkU-0?enablejsapi=1&origin=https://vocql.site">
           <div class="vid-wrap">
-            <iframe src="https://www.youtube.com/embed/QdBZY2fkU-0?mute=1&controls=0&enablejsapi=1&origin=https://vocql.site" loading="lazy" allowfullscreen></iframe>
+            <iframe src="https://www.youtube.com/embed/QdBZY2fkU-0?mute=1&controls=0" loading="lazy" allowfullscreen></iframe>
           </div>
           <div class="trailer-info"><h2>Trailer 1 – Reveal</h2></div>
         </div>
         <div class="trailer-card-big" data-video="https://www.youtube.com/embed/VQRLujxTm3c?enablejsapi=1&origin=https://vocql.site">
           <div class="new-badge">NEW</div>
           <div class="vid-wrap">
-            <iframe src="https://www.youtube.com/embed/VQRLujxTm3c?mute=1&controls=0&enablejsapi=1&origin=https://vocql.site" loading="lazy" allowfullscreen></iframe>
+            <iframe src="https://www.youtube.com/embed/VQRLujxTm3c?mute=1&controls=0" loading="lazy" allowfullscreen></iframe>
           </div>
-          <div class="trailer-info"><h2>Trailer 2 – Jason & Lucia</h2></div>
+          <div class="trailer-info"><h2>Trailer 2 – Jason &amp; Lucia</h2></div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- PAGE 6: SETTINGS -->
+  <!-- PAGE 6: NEWS -->
+  <div class="page-slide">
+    <div class="page-inner">
+      <h1 class="page-title">News &amp; Updates</h1>
+      <div class="news-layout">
+        <div class="news-feed" id="news-feed"></div>
+        <div class="news-sidebar">
+          <div class="news-sidebar-box">
+            <div class="sidebar-title">Site Stats</div>
+            <div class="stat-row"><span>Version</span><span class="stat-val" id="sb-version">—</span></div>
+            <div class="stat-row"><span>Last Updated</span><span class="stat-val" id="sb-updated">—</span></div>
+            <div class="stat-row"><span>Total Updates</span><span class="stat-val" id="sb-total">—</span></div>
+            <div class="stat-row"><span>Pages</span><span class="stat-val">8</span></div>
+            <div class="stat-row"><span>Radio Tracks</span><span class="stat-val">25</span></div>
+            <div class="stat-row"><span>Screenshots</span><span class="stat-val">36</span></div>
+          </div>
+          <div class="news-sidebar-box">
+            <div class="sidebar-title">Changelog (Quick)</div>
+            <div id="quick-changelog"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE 7: SETTINGS -->
   <div class="page-slide">
     <div class="page-inner">
       <h1 class="page-title">Settings</h1>
@@ -363,137 +853,357 @@
           <div class="settings-tab active" data-tab="display">🖥 Display</div>
           <div class="settings-tab" data-tab="audio">🎵 Audio</div>
           <div class="settings-tab" data-tab="appearance">🎨 Appearance</div>
+          <div class="settings-tab" data-tab="typography">🔠 Typography</div>
           <div class="settings-tab" data-tab="navigation">🧭 Navigation</div>
+          <div class="settings-tab" data-tab="performance">⚡ Performance</div>
           <div class="settings-tab" data-tab="notifications">🔔 Notifications</div>
           <div class="settings-tab" data-tab="about">ℹ About</div>
         </div>
         <div class="settings-content">
-
-          <!-- DISPLAY -->
           <div class="settings-panel active" data-panel="display">
             <div class="settings-section-title">Display Settings</div>
-            <div class="setting-row">
-              <div class="setting-info"><div class="setting-name">Parallax Background</div><div class="setting-desc">Enable mouse parallax movement on the background image</div></div>
-              <label class="toggle-wrap"><input type="checkbox" id="set-parallax" checked><span class="toggle-slider"></span></label>
-            </div>
-            <div class="setting-row">
-              <div class="setting-info"><div class="setting-name">Scanline Overlay</div><div class="setting-desc">Show retro CRT scanline effect over the UI</div></div>
-              <label class="toggle-wrap"><input type="checkbox" id="set-scanlines" checked><span class="toggle-slider"></span></label>
-            </div>
-            <div class="setting-row">
-              <div class="setting-info"><div class="setting-name">Page Transition Speed</div><div class="setting-desc">Slide animation duration when switching pages</div></div>
-              <select class="setting-select" id="set-transition">
-                <option value="0.3">Fast (0.3s)</option>
-                <option value="0.55" selected>Normal (0.55s)</option>
-                <option value="0.9">Slow (0.9s)</option>
-              </select>
-            </div>
-            <div class="setting-row">
-              <div class="setting-info"><div class="setting-name">Background Dim</div><div class="setting-desc">Control the darkness level of the background overlay</div></div>
-              <div class="setting-range-wrap">
-                <input type="range" id="set-dim" min="0" max="90" value="55" oninput="document.getElementById('dim-val').textContent=this.value+'%';document.getElementById('bg-overlay').style.opacity=this.value/100">
-                <span class="range-val" id="dim-val">55%</span>
-              </div>
-            </div>
+            <div class="setting-row"><div class="setting-info"><div class="setting-name">Parallax Background</div><div class="setting-desc">Mouse parallax movement on the background image</div></div><label class="toggle-wrap"><input type="checkbox" id="set-parallax" checked><span class="toggle-slider"></span></label></div>
+            <div class="setting-row"><div class="setting-info"><div class="setting-name">Scanline Overlay</div><div class="setting-desc">Retro CRT scanline effect over the UI</div></div><label class="toggle-wrap"><input type="checkbox" id="set-scanlines" checked><span class="toggle-slider"></span></label></div>
+            <div class="setting-row"><div class="setting-info"><div class="setting-name">Card Hover Animations</div><div class="setting-desc">Lift &amp; zoom effects when hovering character/place cards</div></div><label class="toggle-wrap"><input type="checkbox" id="set-card-anim" checked><span class="toggle-slider"></span></label></div>
+            <div class="setting-row"><div class="setting-info"><div class="setting-name">Background Dim</div><div class="setting-desc">Darkness level of the background overlay</div></div><div class="setting-range-wrap"><input type="range" id="set-dim" min="0" max="90" value="55" oninput="document.getElementById('dim-val').textContent=this.value+'%';document.getElementById('bg-overlay').style.opacity=this.value/100"><span class="range-val" id="dim-val">55%</span></div></div>
+            <div class="setting-row"><div class="setting-info"><div class="setting-name">Page Transition Speed</div><div class="setting-desc">Slide animation duration when switching pages</div></div><select class="setting-select" id="set-transition"><option value="0.3">Fast (0.3s)</option><option value="0.55" selected>Normal (0.55s)</option><option value="0.9">Slow (0.9s)</option></select></div>
             <button class="settings-save-btn" onclick="saveSettings('save-toast-display')">Save Settings <span class="save-toast" id="save-toast-display">✓ Saved</span></button>
           </div>
-
-          <!-- AUDIO -->
           <div class="settings-panel" data-panel="audio">
             <div class="settings-section-title">Audio Settings</div>
-            <div class="setting-row">
-              <div class="setting-info"><div class="setting-name">Master Volume</div><div class="setting-desc">Controls the Vice City Radio and all site audio</div></div>
-              <div class="setting-range-wrap">
-                <input type="range" id="set-vol" min="0" max="100" value="70" oninput="document.getElementById('vol-val').textContent=this.value+'%';document.getElementById('volSlider').value=this.value/100;document.getElementById('musicPlayer').volume=this.value/100">
-                <span class="range-val" id="vol-val">70%</span>
-              </div>
-            </div>
-            <div class="setting-row">
-              <div class="setting-info"><div class="setting-name">Loop Track</div><div class="setting-desc">Repeat the current song when it ends</div></div>
-              <label class="toggle-wrap"><input type="checkbox" id="set-loop"><span class="toggle-slider"></span></label>
-            </div>
-            <div class="setting-row">
-              <div class="setting-info"><div class="setting-name">Autoplay on Load</div><div class="setting-desc">Play a random track when the site first loads</div></div>
-              <label class="toggle-wrap"><input type="checkbox" id="set-autoplay"><span class="toggle-slider"></span></label>
-            </div>
+            <div class="setting-row"><div class="setting-info"><div class="setting-name">Master Volume</div><div class="setting-desc">Controls the Vice City Radio and all site audio</div></div><div class="setting-range-wrap"><input type="range" id="set-vol" min="0" max="100" value="70" oninput="document.getElementById('vol-val').textContent=this.value+'%';document.getElementById('volSlider').value=this.value/100;document.getElementById('musicPlayer').volume=this.value/100"><span class="range-val" id="vol-val">70%</span></div></div>
+            <div class="setting-row"><div class="setting-info"><div class="setting-name">Loop Track</div><div class="setting-desc">Repeat the current song when it ends</div></div><label class="toggle-wrap"><input type="checkbox" id="set-loop"><span class="toggle-slider"></span></label></div>
+            <div class="setting-row"><div class="setting-info"><div class="setting-name">Show Song Notifications</div><div class="setting-desc">Display current song name in the page title bar</div></div><label class="toggle-wrap"><input type="checkbox" id="set-song-title" checked><span class="toggle-slider"></span></label></div>
             <button class="settings-save-btn" onclick="saveSettings('save-toast-audio')">Save Settings <span class="save-toast" id="save-toast-audio">✓ Saved</span></button>
           </div>
-
-          <!-- APPEARANCE -->
           <div class="settings-panel" data-panel="appearance">
             <div class="settings-section-title">Appearance</div>
-            <div class="setting-row">
-              <div class="setting-info"><div class="setting-name">Accent Color</div><div class="setting-desc">Primary neon glow color used across the interface</div></div>
-              <div class="color-row" id="accent-swatches">
-                <div class="color-swatch selected" style="background:#ff4dd2" data-color="#ff4dd2"></div>
-                <div class="color-swatch" style="background:#00ffe0" data-color="#00ffe0"></div>
-                <div class="color-swatch" style="background:#ff6b35" data-color="#ff6b35"></div>
-                <div class="color-swatch" style="background:#7c5cbf" data-color="#7c5cbf"></div>
-                <div class="color-swatch" style="background:#ffd700" data-color="#ffd700"></div>
-                <div class="color-swatch" style="background:#00ff88" data-color="#00ff88"></div>
-              </div>
-            </div>
-            <div class="setting-row">
-              <div class="setting-info"><div class="setting-name">Show Watermark</div><div class="setting-desc">Display the MADE BY VOCQL watermark on all pages</div></div>
-              <label class="toggle-wrap"><input type="checkbox" id="set-watermark" checked onchange="document.querySelector('.page-watermark').style.display=this.checked?'block':'none'"><span class="toggle-slider"></span></label>
-            </div>
+            <div class="setting-row"><div class="setting-info"><div class="setting-name">Accent Color</div><div class="setting-desc">Primary neon glow color used across the interface</div></div><div class="color-row" id="accent-swatches"><div class="color-swatch selected" style="background:#ff4dd2" data-color="#ff4dd2"></div><div class="color-swatch" style="background:#00ffe0" data-color="#00ffe0"></div><div class="color-swatch" style="background:#ff6b35" data-color="#ff6b35"></div><div class="color-swatch" style="background:#7c5cbf" data-color="#7c5cbf"></div><div class="color-swatch" style="background:#ffd700" data-color="#ffd700"></div><div class="color-swatch" style="background:#00ff88" data-color="#00ff88"></div><div class="color-swatch" style="background:#ff2244" data-color="#ff2244"></div><div class="color-swatch" style="background:#4daaff" data-color="#4daaff"></div></div></div>
+            <div class="setting-row"><div class="setting-info"><div class="setting-name">UI Opacity</div><div class="setting-desc">Transparency of glass panels</div></div><div class="setting-range-wrap"><input type="range" id="set-opacity" min="40" max="100" value="72" oninput="document.getElementById('opacity-val').textContent=this.value+'%';setUiOpacity(this.value)"><span class="range-val" id="opacity-val">72%</span></div></div>
             <button class="settings-save-btn" onclick="saveSettings('save-toast-appearance')">Save Settings <span class="save-toast" id="save-toast-appearance">✓ Saved</span></button>
           </div>
-
-          <!-- NAVIGATION -->
+          <div class="settings-panel" data-panel="typography">
+            <div class="settings-section-title">Typography</div>
+            <div class="setting-row"><div class="setting-info"><div class="setting-name">Card Title Font</div><div class="setting-desc">Font used for character and place card names</div></div><select class="setting-select" id="set-cardfont"><option value="'Orbitron',sans-serif" selected>Orbitron (Default)</option><option value="'Exo 2',sans-serif">Exo 2</option><option value="monospace">Monospace</option></select></div>
+            <div class="setting-row" style="flex-direction:column;align-items:flex-start"><div class="setting-name">Preview</div><div style="font-family:'Exo 2',sans-serif;color:rgba(255,255,255,0.6);margin-top:4px;font-size:11px" id="font-preview">Grand Theft Auto VI — State of Leonida</div></div>
+            <button class="settings-save-btn" onclick="saveSettings('save-toast-typo')">Save Settings <span class="save-toast" id="save-toast-typo">✓ Saved</span></button>
+          </div>
           <div class="settings-panel" data-panel="navigation">
             <div class="settings-section-title">Navigation Settings</div>
-            <div class="setting-row">
-              <div class="setting-info"><div class="setting-name">Page Transition Speed</div><div class="setting-desc">Slide animation duration when switching pages</div></div>
-              <select class="setting-select" id="set-transition-nav">
-                <option value="0.3">Fast (0.3s)</option>
-                <option value="0.55" selected>Normal (0.55s)</option>
-                <option value="0.9">Slow (0.9s)</option>
-              </select>
-            </div>
+            <div class="setting-row"><div class="setting-info"><div class="setting-name">Page Transition Speed</div><div class="setting-desc">Slide animation duration when switching pages</div></div><select class="setting-select" id="set-transition-nav"><option value="0.3">Fast (0.3s)</option><option value="0.55" selected>Normal (0.55s)</option><option value="0.9">Slow (0.9s)</option></select></div>
+            <div class="setting-row"><div class="setting-info"><div class="setting-name">Remember Last Page</div><div class="setting-desc">Return to the last visited page on reload</div></div><label class="toggle-wrap"><input type="checkbox" id="set-remember-page" checked><span class="toggle-slider"></span></label></div>
             <button class="settings-save-btn" onclick="saveSettings('save-toast-nav')">Save Settings <span class="save-toast" id="save-toast-nav">✓ Saved</span></button>
           </div>
-
-          <!-- NOTIFICATIONS -->
+          <div class="settings-panel" data-panel="performance">
+            <div class="settings-section-title">Performance</div>
+            <div class="setting-row"><div class="setting-info"><div class="setting-name">Lazy Load Images</div><div class="setting-desc">Load screenshots and cards only when visible</div></div><label class="toggle-wrap"><input type="checkbox" id="set-lazy" checked><span class="toggle-slider"></span></label></div>
+            <div class="setting-row"><div class="setting-info"><div class="setting-name">Reduce Motion</div><div class="setting-desc">Disable animations for performance or accessibility</div></div><label class="toggle-wrap"><input type="checkbox" id="set-reduce-motion"><span class="toggle-slider"></span></label></div>
+            <button class="settings-save-btn" onclick="saveSettings('save-toast-perf')">Save Settings <span class="save-toast" id="save-toast-perf">✓ Saved</span></button>
+          </div>
           <div class="settings-panel" data-panel="notifications">
             <div class="settings-section-title">Notifications</div>
-            <div class="setting-row">
-              <div class="setting-info"><div class="setting-name">Countdown Milestones</div><div class="setting-desc">Alerts at 100 days, 30 days, 7 days remaining</div></div>
-              <label class="toggle-wrap"><input type="checkbox" id="set-notif"><span class="toggle-slider"></span></label>
-            </div>
-            <div class="setting-row">
-              <div class="setting-info"><div class="setting-name">New Trailer Alerts</div><div class="setting-desc">Get notified when a new trailer is added</div></div>
-              <label class="toggle-wrap"><input type="checkbox" id="set-trailer-notif"><span class="toggle-slider"></span></label>
-            </div>
-            <div class="setting-row">
-              <div class="setting-info"><div class="setting-name">Radio Now Playing</div><div class="setting-desc">Show browser media notification when a track starts</div></div>
-              <label class="toggle-wrap"><input type="checkbox" id="set-radio-notif" checked><span class="toggle-slider"></span></label>
-            </div>
+            <div class="setting-row"><div class="setting-info"><div class="setting-name">Countdown Milestones</div><div class="setting-desc">Alerts at 100 days, 30 days, 7 days remaining</div></div><label class="toggle-wrap"><input type="checkbox" id="set-notif"><span class="toggle-slider"></span></label></div>
+            <div class="setting-row"><div class="setting-info"><div class="setting-name">Radio Now Playing</div><div class="setting-desc">Show current track name in the browser tab</div></div><label class="toggle-wrap"><input type="checkbox" id="set-radio-notif" checked><span class="toggle-slider"></span></label></div>
             <button class="settings-save-btn" onclick="saveSettings('save-toast-notif')">Save Settings <span class="save-toast" id="save-toast-notif">✓ Saved</span></button>
           </div>
-
-          <!-- ABOUT -->
           <div class="settings-panel" data-panel="about">
             <div class="settings-section-title">About This Site</div>
-            <p style="font-size:13px;line-height:1.8;color:rgba(255,255,255,0.8);font-family:'Exo 2',sans-serif;margin-bottom:22px;">
-              Built with passion by <span style="color:#ff4dd2;font-weight:700">VOCQL</span>. A fan-made hub celebrating the upcoming release of Grand Theft Auto VI. All GTA VI assets, images, and trademarks belong to <span style="color:#00ffe0">Rockstar Games</span>.
-            </p>
-            <div class="about-stat"><span class="setting-name">Version</span><span class="about-val">2.0.0 — Unified</span></div>
+            <p style="font-size:13px;line-height:1.8;color:rgba(255,255,255,0.8);font-family:'Exo 2',sans-serif;margin-bottom:22px;">Built with passion by <span style="color:#ff4dd2;font-weight:700">VOCQL</span>. A fan-made hub celebrating the upcoming release of Grand Theft Auto VI. All GTA VI assets, images, and trademarks belong to <span style="color:#00ffe0">Rockstar Games</span>.</p>
+            <div class="about-stat"><span class="setting-name">Version</span><span class="about-val">3.2.0 — Enhanced</span></div>
             <div class="about-stat"><span class="setting-name">Architecture</span><span class="about-val">Single HTML File</span></div>
-            <div class="about-stat"><span class="setting-name">Total Pages</span><span class="about-val">7</span></div>
+            <div class="about-stat"><span class="setting-name">Total Pages</span><span class="about-val">9</span></div>
             <div class="about-stat"><span class="setting-name">Release Target</span><span class="about-val">November 19, 2026</span></div>
             <div class="about-stat"><span class="setting-name">Radio Tracks</span><span class="about-val">25 Songs</span></div>
             <div class="about-stat"><span class="setting-name">Screenshots</span><span class="about-val">36</span></div>
-            <div style="margin-top:22px;">
-              <div class="setting-name" style="margin-bottom:10px;">Reset All Settings</div>
-              <button class="settings-save-btn" style="background:rgba(255,60,60,0.15);border-color:rgba(255,60,60,0.5);margin-top:0" onclick="resetSettings()">⚠ Reset to Defaults</button>
-            </div>
+            <div style="margin-top:22px;"><button class="settings-save-btn" style="background:rgba(255,60,60,0.15);border-color:rgba(255,60,60,0.5);margin-top:0" onclick="resetSettings()">⚠ Reset to Defaults</button></div>
           </div>
-
         </div>
       </div>
     </div>
   </div>
+
+  <!-- PAGE 8: ADMIN PANEL -->
+  <div class="page-slide" id="page-admin">
+    <div class="page-inner">
+      <h1 class="page-title" style="color:#ff4dd2">⚙ Admin Control Panel</h1>
+      <div class="admin-grid">
+        <div class="admin-sidebar">
+          <div class="admin-sidebar-header">ADMIN MODULES</div>
+          <div class="admin-tab active" data-atab="dashboard">📊 Dashboard</div>
+          <div class="admin-tab" data-atab="accounts">👥 Accounts</div>
+          <div class="admin-tab" data-atab="shutdown">🔴 Site Shutdown</div>
+          <div class="admin-tab" data-atab="news-editor">📝 News Editor</div>
+          <div class="admin-tab" data-atab="banned-manage">⛔ Ban Manager</div>
+          <div class="admin-tab" data-atab="announcement">📢 Announcement</div>
+          <div class="admin-tab" data-atab="site-control">🌐 Site Control</div>
+          <div class="admin-tab" data-atab="radio-manage">🎵 Radio Manager</div>
+          <div class="admin-tab" data-atab="appearance-admin">🎨 Appearance</div>
+          <div class="admin-tab" data-atab="countdown-admin">⏱ Countdown</div>
+          <div class="admin-tab" data-atab="content-flags">🚩 Content Flags</div>
+          <div class="admin-tab" data-atab="activity-log">📋 Activity Log</div>
+          <div class="admin-tab" data-atab="security">🔒 Security</div>
+          <div class="admin-tab danger-tab" data-atab="danger-zone">⚠ Danger Zone</div>
+          <div style="margin-top:auto;padding-top:14px;border-top:1px solid rgba(255,77,210,0.15);">
+            <button class="admin-danger-btn" style="width:100%;font-size:9px" onclick="adminLogout()">⟵ Admin Logout</button>
+          </div>
+        </div>
+
+        <div class="admin-content">
+
+          <!-- DASHBOARD -->
+          <div class="admin-panel active" data-apanel="dashboard">
+            <div class="admin-section-title">Site Dashboard</div>
+            <div class="admin-stats-grid">
+              <div class="admin-stat-card"><div class="admin-stat-label">Admin Logins</div><div class="admin-stat-val" id="stat-logins">0</div><div class="admin-stat-sub">This session</div></div>
+              <div class="admin-stat-card"><div class="admin-stat-label">Friend Accounts</div><div class="admin-stat-val" id="stat-friends">0</div><div class="admin-stat-sub">Active accounts</div></div>
+              <div class="admin-stat-card"><div class="admin-stat-label">Banned Names</div><div class="admin-stat-val">85+</div><div class="admin-stat-sub">Blocked callsigns</div></div>
+              <div class="admin-stat-card"><div class="admin-stat-label">Site Status</div><div class="admin-stat-val" id="stat-site-status" style="font-size:16px;color:#00ffe0">ONLINE</div><div class="admin-stat-sub">Current state</div></div>
+              <div class="admin-stat-card"><div class="admin-stat-label">News Posts</div><div class="admin-stat-val" id="stat-news">0</div><div class="admin-stat-sub">Published</div></div>
+              <div class="admin-stat-card"><div class="admin-stat-label">Days to Release</div><div class="admin-stat-val" id="stat-days">—</div><div class="admin-stat-sub">Until GTA VI</div></div>
+              <div class="admin-stat-card"><div class="admin-stat-label">Site Version</div><div class="admin-stat-val" style="font-size:16px">3.2.0</div><div class="admin-stat-sub">Enhanced+</div></div>
+              <div class="admin-stat-card"><div class="admin-stat-label">Admin Session</div><div class="admin-stat-val" id="stat-session" style="font-size:14px;color:#00ffe0">Active</div><div class="admin-stat-sub">Authenticated</div></div>
+            </div>
+            <div class="admin-section-title">Quick Actions</div>
+            <div style="display:flex;flex-wrap:wrap;gap:10px">
+              <button class="admin-action-btn" onclick="switchAdminTab('shutdown')">🔴 Shutdown Control</button>
+              <button class="admin-action-btn" onclick="switchAdminTab('accounts')">👥 Manage Accounts</button>
+              <button class="admin-action-btn" onclick="switchAdminTab('news-editor')">+ Publish News</button>
+              <button class="admin-action-btn" onclick="switchAdminTab('announcement')">📢 Announcement</button>
+              <button class="admin-action-btn" onclick="switchAdminTab('activity-log')">📋 View Log</button>
+            </div>
+            <div class="admin-section-title" style="margin-top:24px">System Status</div>
+            <div style="display:flex;flex-direction:column;gap:10px">
+              <div style="display:flex;align-items:center;gap:14px"><span style="font-size:11px;font-family:'Exo 2',sans-serif;width:140px">Radio Service</span><div class="admin-progress-wrap"><div class="admin-progress-bar" style="width:92%"></div></div><span style="font-size:11px;color:#00ffe0;min-width:38px;font-family:'Exo 2',sans-serif">92%</span></div>
+              <div style="display:flex;align-items:center;gap:14px"><span style="font-size:11px;font-family:'Exo 2',sans-serif;width:140px">Image CDN</span><div class="admin-progress-wrap"><div class="admin-progress-bar" style="width:100%"></div></div><span style="font-size:11px;color:#00ffe0;min-width:38px;font-family:'Exo 2',sans-serif">100%</span></div>
+              <div style="display:flex;align-items:center;gap:14px"><span style="font-size:11px;font-family:'Exo 2',sans-serif;width:140px">Map Embed</span><div class="admin-progress-wrap"><div class="admin-progress-bar" style="width:87%"></div></div><span style="font-size:11px;color:#00ffe0;min-width:38px;font-family:'Exo 2',sans-serif">87%</span></div>
+              <div style="display:flex;align-items:center;gap:14px"><span style="font-size:11px;font-family:'Exo 2',sans-serif;width:140px">Ban Filter</span><div class="admin-progress-wrap"><div class="admin-progress-bar" style="width:100%"></div></div><span style="font-size:11px;color:#00ffe0;min-width:38px;font-family:'Exo 2',sans-serif">Online</span></div>
+            </div>
+          </div>
+
+          <!-- ACCOUNTS MANAGER -->
+          <div class="admin-panel" data-apanel="accounts">
+            <div class="admin-section-title">Account Manager</div>
+            <div style="font-size:11px;color:rgba(255,255,255,0.4);font-family:'Exo 2',sans-serif;line-height:1.7;margin-bottom:16px;padding:10px 14px;background:rgba(255,255,255,0.03);border-radius:8px;border:1px solid rgba(255,255,255,0.06)">
+              Owner account (ysxj) has full access and cannot be edited here. Admin accounts can access the admin panel. Friend accounts can bypass the site shutdown and log in with credentials.
+            </div>
+
+            <!-- Add account form -->
+            <div class="admin-news-form" style="margin-bottom:22px">
+              <div style="display:flex;gap:10px">
+                <input id="acc-username" type="text" placeholder="Username..." autocomplete="off">
+                <input id="acc-password" type="password" placeholder="Password...">
+                <select id="acc-role">
+                  <option value="friend">Friend</option>
+                  <option value="admin">Admin</option>
+                </select>
+              </div>
+              <input id="acc-display" type="text" placeholder="Display name (optional)...">
+              <button class="admin-publish-btn" onclick="adminAddAccount()">ADD ACCOUNT</button>
+              <div class="admin-feedback-msg" id="acc-feedback"></div>
+            </div>
+
+            <!-- Built-in accounts -->
+            <div class="admin-section-title">All Accounts</div>
+            <table class="friend-table">
+              <thead><tr><th>Username</th><th>Display Name</th><th>Role</th><th>Status</th><th>Actions</th></tr></thead>
+              <tbody id="accounts-table-body"></tbody>
+            </table>
+          </div>
+
+          <!-- SITE SHUTDOWN -->
+          <div class="admin-panel" data-apanel="shutdown">
+            <div class="admin-section-title">Site Shutdown Control</div>
+
+            <!-- Status indicator -->
+            <div style="display:flex;align-items:center;gap:14px;padding:16px 20px;border-radius:12px;margin-bottom:20px;" id="shutdown-status-bar">
+              <div style="width:14px;height:14px;border-radius:50%;background:#00ffe0;box-shadow:0 0 10px #00ffe0;flex-shrink:0" id="shutdown-dot"></div>
+              <div>
+                <div style="font-size:13px;font-weight:700;font-family:'Orbitron',sans-serif" id="shutdown-status-text">SITE ONLINE</div>
+                <div style="font-size:10px;color:rgba(255,255,255,0.4);font-family:'Exo 2',sans-serif;margin-top:2px">All visitors can access the site normally</div>
+              </div>
+            </div>
+
+            <div class="admin-row">
+              <div class="admin-info">
+                <div class="admin-name">ACTIVATE SHUTDOWN</div>
+                <div class="admin-desc">When enabled, all visitors see the maintenance screen. Only owner, admins, and friends with accounts can bypass using the hidden login on the shutdown page.</div>
+              </div>
+              <label class="a-toggle-wrap"><input type="checkbox" id="admin-shutdown-toggle" onchange="toggleSiteShutdown(this.checked)"><span class="a-toggle-slider"></span></label>
+            </div>
+
+            <div class="admin-row">
+              <div class="admin-info">
+                <div class="admin-name">Maintenance Message</div>
+                <div class="admin-desc">Custom message shown to visitors on the shutdown screen</div>
+              </div>
+            </div>
+            <div style="display:flex;gap:8px;margin-bottom:8px">
+              <input class="admin-input" id="sd-custom-msg" type="text" placeholder="The Leonida Network is down for maintenance..." style="flex:1">
+              <button class="admin-action-btn" onclick="updateShutdownMsg()">Set</button>
+            </div>
+
+            <div class="admin-row">
+              <div class="admin-info">
+                <div class="admin-name">ETA Message</div>
+                <div class="admin-desc">Estimated return time shown under spinner</div>
+              </div>
+            </div>
+            <div style="display:flex;gap:8px;margin-bottom:16px">
+              <input class="admin-input" id="sd-eta-msg" type="text" placeholder="ESTIMATED DOWNTIME: ~30 MINUTES" style="flex:1">
+              <button class="admin-action-btn" onclick="document.getElementById('sd-eta').textContent=document.getElementById('sd-eta-msg').value||'ESTIMATED DOWNTIME: UNKNOWN'">Set</button>
+            </div>
+
+            <div class="admin-section-title">Who Can Bypass Shutdown</div>
+            <div style="display:flex;flex-direction:column;gap:8px" id="bypass-list"></div>
+            <div style="font-size:10px;color:rgba(255,255,255,0.3);font-family:'Exo 2',sans-serif;margin-top:10px">All accounts above can use the hidden "Admin access" link on the shutdown screen to bypass. Guests cannot bypass.</div>
+          </div>
+
+          <!-- NEWS EDITOR -->
+          <div class="admin-panel" data-apanel="news-editor">
+            <div class="admin-section-title">Publish News Post</div>
+            <div class="admin-news-form">
+              <input id="admin-news-title" type="text" placeholder="Post title...">
+              <div style="display:flex;gap:10px">
+                <select id="admin-news-tag" style="flex:1"><option value="new">NEW</option><option value="update">UPDATE</option><option value="fix">FIX</option><option value="feature">FEATURE</option></select>
+                <input id="admin-news-date" type="text" placeholder="Date (e.g. Jul 2025)" style="flex:1">
+                <label style="display:flex;align-items:center;gap:7px;font-size:10px;font-family:'Orbitron',sans-serif;color:rgba(255,255,255,0.5);flex-shrink:0"><input type="checkbox" id="admin-news-pinned"> Pin</label>
+              </div>
+              <textarea id="admin-news-body" placeholder="Post body text..."></textarea>
+              <button class="admin-publish-btn" onclick="adminPublishNews()">PUBLISH POST</button>
+              <div class="admin-feedback-msg" id="admin-news-feedback"></div>
+            </div>
+            <div class="admin-section-title" style="margin-top:24px">Published Posts</div>
+            <div id="admin-news-list" style="display:flex;flex-direction:column;gap:10px"></div>
+          </div>
+
+          <!-- BAN MANAGER -->
+          <div class="admin-panel" data-apanel="banned-manage">
+            <div class="admin-section-title">Ban Manager</div>
+            <div style="display:flex;gap:10px;margin-bottom:14px">
+              <input class="admin-input" id="admin-ban-input" type="text" placeholder="Add name to ban list..." style="flex:1">
+              <button class="admin-publish-btn" style="padding:10px 18px" onclick="adminAddBan()">BAN</button>
+            </div>
+            <div class="admin-feedback-msg" id="admin-ban-feedback"></div>
+            <div class="admin-section-title" style="margin-top:16px">Test Name</div>
+            <div style="display:flex;gap:10px">
+              <input class="admin-input" id="admin-test-name" type="text" placeholder="Enter a name to test..." style="flex:1">
+              <button class="admin-publish-btn" style="padding:10px 18px" onclick="adminTestBan()">TEST</button>
+            </div>
+            <div class="admin-feedback-msg" id="admin-test-feedback"></div>
+          </div>
+
+          <!-- ANNOUNCEMENT -->
+          <div class="admin-panel" data-apanel="announcement">
+            <div class="admin-section-title">Site Announcement Banner</div>
+            <div class="admin-news-form">
+              <input id="admin-banner-text" type="text" placeholder="Announcement message...">
+              <div style="display:flex;gap:10px">
+                <select id="admin-banner-color" style="flex:1">
+                  <option value="rgba(255,77,210,0.95)|#ff4dd2|#000">Pink (Default)</option>
+                  <option value="rgba(255,215,0,0.95)|#ffd700|#000">Gold</option>
+                  <option value="rgba(0,255,224,0.9)|#00ffe0|#000">Cyan</option>
+                  <option value="rgba(255,60,60,0.95)|#ff4444|#fff">Red (Alert)</option>
+                  <option value="rgba(0,200,100,0.92)|#00c864|#000">Green</option>
+                </select>
+              </div>
+              <div style="display:flex;gap:10px">
+                <button class="admin-publish-btn" onclick="adminShowBanner()">SHOW BANNER</button>
+                <button class="admin-danger-btn" onclick="closeBanner()">Hide Banner</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- SITE CONTROL -->
+          <div class="admin-panel" data-apanel="site-control">
+            <div class="admin-section-title">Site Control</div>
+            <div class="admin-row"><div class="admin-info"><div class="admin-name">Hide Nav Menu</div><div class="admin-desc">Hide the top navigation bar from visitors</div></div><label class="a-toggle-wrap"><input type="checkbox" id="admin-hide-nav" onchange="document.getElementById('main-nav').style.display=this.checked?'none':''"><span class="a-toggle-slider"></span></label></div>
+            <div class="admin-row"><div class="admin-info"><div class="admin-name">Disable Radio</div><div class="admin-desc">Stop music playback and disable the radio player</div></div><label class="a-toggle-wrap"><input type="checkbox" id="admin-disable-radio" onchange="if(this.checked){document.getElementById('musicPlayer').pause();document.getElementById('musicPlayer').src='';}"><span class="a-toggle-slider"></span></label></div>
+            <div class="admin-row"><div class="admin-info"><div class="admin-name">Disable Parallax</div><div class="admin-desc">Stop background movement on mouse move</div></div><label class="a-toggle-wrap"><input type="checkbox" id="admin-no-parallax" onchange="parallaxOn=!this.checked;if(this.checked)document.getElementById('bg-layer').style.transform=''"><span class="a-toggle-slider"></span></label></div>
+            <div class="admin-row"><div class="admin-info"><div class="admin-name">Force Dark Overlay</div><div class="admin-desc">Maximum dim on background for readability</div></div><label class="a-toggle-wrap"><input type="checkbox" id="admin-force-dark" onchange="document.getElementById('bg-overlay').style.opacity=this.checked?0.92:0.55"><span class="a-toggle-slider"></span></label></div>
+            <div class="admin-row"><div class="admin-info"><div class="admin-name">Site Page Title Override</div><div class="admin-desc">Override the browser tab title</div></div><div style="display:flex;gap:8px"><input class="admin-input" id="admin-page-title" type="text" placeholder="GTA VI" style="width:200px"><button class="admin-action-btn" onclick="if(document.getElementById('admin-page-title').value)document.title=document.getElementById('admin-page-title').value">Set</button></div></div>
+            <div class="admin-row" style="flex-direction:column;align-items:flex-start;gap:8px"><div class="admin-info"><div class="admin-name">Inject Custom CSS</div><div class="admin-desc">Apply temporary CSS overrides to the site</div></div><textarea id="admin-custom-css" style="width:100%;min-height:80px;background:rgba(0,0,0,0.4);border:1px solid rgba(255,255,255,0.1);border-radius:8px;color:#00ffe0;font-family:monospace;font-size:11px;padding:10px;outline:none;resize:vertical" placeholder="/* Custom CSS here... */"></textarea><div style="display:flex;gap:10px"><button class="admin-publish-btn" onclick="adminInjectCSS()">APPLY CSS</button><button class="admin-danger-btn" onclick="adminClearCSS()">Clear</button></div></div>
+          </div>
+
+          <!-- RADIO -->
+          <div class="admin-panel" data-apanel="radio-manage">
+            <div class="admin-section-title">Radio Manager</div>
+            <div class="admin-row"><div class="admin-info"><div class="admin-name">Force Track</div><div class="admin-desc">Force all users onto a specific track</div></div><div style="display:flex;gap:8px"><select id="admin-force-track" style="background:rgba(0,0,0,0.5);border:1px solid rgba(255,255,255,0.15);color:#fff;border-radius:8px;padding:7px 10px;font-family:'Exo 2',sans-serif;font-size:11px;outline:none"></select><button class="admin-action-btn" onclick="adminForceTrack()">Play</button></div></div>
+            <div class="admin-row"><div class="admin-info"><div class="admin-name">Stop All Music</div><div class="admin-desc">Immediately stop playback</div></div><button class="admin-danger-btn" onclick="document.getElementById('musicPlayer').pause()">Stop</button></div>
+            <div class="admin-row"><div class="admin-info"><div class="admin-name">Set Master Volume</div><div class="admin-desc">Override volume level</div></div><div style="display:flex;gap:8px;align-items:center"><input type="range" id="admin-vol-override" min="0" max="100" value="70" style="width:110px" oninput="document.getElementById('admin-vol-val').textContent=this.value+'%'"><span id="admin-vol-val" style="font-size:11px;color:#00ffe0;font-family:'Exo 2',sans-serif;min-width:36px">70%</span><button class="admin-action-btn" onclick="document.getElementById('musicPlayer').volume=document.getElementById('admin-vol-override').value/100;document.getElementById('volSlider').value=document.getElementById('admin-vol-override').value/100">Apply</button></div></div>
+            <div class="admin-section-title" style="margin-top:20px">Track List</div>
+            <div id="admin-track-list" style="display:flex;flex-direction:column;gap:6px;max-height:300px;overflow-y:auto"></div>
+          </div>
+
+          <!-- APPEARANCE -->
+          <div class="admin-panel" data-apanel="appearance-admin">
+            <div class="admin-section-title">Appearance Override</div>
+            <div class="admin-row"><div class="admin-info"><div class="admin-name">Force Accent Color</div><div class="admin-desc">Override accent color for all UI elements</div></div><div style="display:flex;gap:8px;align-items:center"><input type="color" id="admin-accent-pick" value="#ff4dd2" style="width:40px;height:32px;border:1px solid rgba(255,255,255,0.2);border-radius:6px;cursor:pointer;background:none"><button class="admin-action-btn" onclick="adminForceAccent()">Apply</button></div></div>
+            <div class="admin-row"><div class="admin-info"><div class="admin-name">Background Image URL</div><div class="admin-desc">Force a specific background for all users</div></div></div>
+            <div style="display:flex;gap:8px"><input class="admin-input" id="admin-bg-url" type="text" placeholder="https://... or gta/jason.jpg" style="flex:1"><button class="admin-action-btn" onclick="if(document.getElementById('admin-bg-url').value)document.getElementById('bg-layer').style.backgroundImage='url(\''+document.getElementById('admin-bg-url').value+'\')'">Set</button></div>
+            <div class="admin-row" style="margin-top:14px"><div class="admin-info"><div class="admin-name">Hide Scanlines</div><div class="admin-desc">Remove CRT scanline overlay globally</div></div><label class="a-toggle-wrap"><input type="checkbox" id="admin-hide-scanlines" onchange="document.getElementById('scanline-layer').style.display=this.checked?'none':'block'"><span class="a-toggle-slider"></span></label></div>
+          </div>
+
+          <!-- COUNTDOWN -->
+          <div class="admin-panel" data-apanel="countdown-admin">
+            <div class="admin-section-title">Countdown Override</div>
+            <div class="admin-row"><div class="admin-info"><div class="admin-name">Override Subtitle</div><div class="admin-desc">Change the home page subtitle text</div></div></div>
+            <div style="display:flex;gap:8px;margin-bottom:14px"><input class="admin-input" id="admin-subtitle-override" type="text" placeholder="PREPARING FOR NOVEMBER 19, 2026" style="flex:1"><button class="admin-action-btn" onclick="if(document.getElementById('admin-subtitle-override').value)document.getElementById('home-subtitle').textContent=document.getElementById('admin-subtitle-override').value">Set</button></div>
+            <div class="admin-row"><div class="admin-info"><div class="admin-name">Freeze Countdown</div><div class="admin-desc">Stop the countdown timer from ticking</div></div><label class="a-toggle-wrap"><input type="checkbox" id="admin-freeze-countdown" onchange="adminCountdownFrozen=this.checked"><span class="a-toggle-slider"></span></label></div>
+            <div class="admin-row"><div class="admin-info"><div class="admin-name">Show "RELEASED" State</div><div class="admin-desc">Force the countdown to zero</div></div><button class="admin-action-btn" onclick="document.getElementById('days').textContent='000';document.getElementById('hours').textContent='00';document.getElementById('minutes').textContent='00';document.getElementById('seconds').textContent='00';document.getElementById('home-subtitle').textContent='🎮 GTA VI IS OUT NOW'">Trigger</button></div>
+          </div>
+
+          <!-- CONTENT FLAGS -->
+          <div class="admin-panel" data-apanel="content-flags">
+            <div class="admin-section-title">Content Flags</div>
+            <div class="admin-row"><div class="admin-info"><div class="admin-name">Show Screenshots Page</div><div class="admin-desc">Toggle gallery visibility</div></div><label class="a-toggle-wrap"><input type="checkbox" checked onchange="adminTogglePage(4,this.checked)"><span class="a-toggle-slider"></span></label></div>
+            <div class="admin-row"><div class="admin-info"><div class="admin-name">Show Trailers Page</div><div class="admin-desc">Toggle trailers tab</div></div><label class="a-toggle-wrap"><input type="checkbox" checked onchange="adminTogglePage(5,this.checked)"><span class="a-toggle-slider"></span></label></div>
+            <div class="admin-row"><div class="admin-info"><div class="admin-name">Show Characters Page</div><div class="admin-desc">Toggle characters tab</div></div><label class="a-toggle-wrap"><input type="checkbox" checked onchange="adminTogglePage(2,this.checked)"><span class="a-toggle-slider"></span></label></div>
+            <div class="admin-row"><div class="admin-info"><div class="admin-name">Show Map Page</div><div class="admin-desc">Toggle the Leonida map tab</div></div><label class="a-toggle-wrap"><input type="checkbox" checked onchange="adminTogglePage(1,this.checked)"><span class="a-toggle-slider"></span></label></div>
+            <div class="admin-row"><div class="admin-info"><div class="admin-name">Show Map on Home Page</div><div class="admin-desc">Toggle embedded map panel</div></div><label class="a-toggle-wrap"><input type="checkbox" checked onchange="document.querySelector('.map-home').style.display=this.checked?'':'none'"><span class="a-toggle-slider"></span></label></div>
+          </div>
+
+          <!-- ACTIVITY LOG -->
+          <div class="admin-panel" data-apanel="activity-log">
+            <div class="admin-section-title">Activity Log</div>
+            <div style="display:flex;gap:10px;margin-bottom:14px">
+              <button class="admin-action-btn" onclick="adminLog('TEST','Manual log entry triggered by admin','success')">+ Test Entry</button>
+              <button class="admin-danger-btn" onclick="document.getElementById('admin-log-container').innerHTML='';adminLog('CLEAR','Activity log cleared','warn')">Clear Log</button>
+            </div>
+            <div class="admin-log-list" id="admin-log-container" style="max-height:500px"></div>
+          </div>
+
+          <!-- SECURITY -->
+          <div class="admin-panel" data-apanel="security">
+            <div class="admin-section-title">Security Settings</div>
+            <div class="admin-row"><div class="admin-info"><div class="admin-name">Max Login Attempts</div><div class="admin-desc">Lock admin login after N failed attempts</div></div><div style="display:flex;gap:8px;align-items:center"><input type="number" id="admin-max-attempts" value="5" min="1" max="20" style="width:70px;background:rgba(0,0,0,0.4);border:1px solid rgba(255,255,255,0.15);color:#fff;border-radius:8px;padding:7px;text-align:center;font-family:'Exo 2',sans-serif;outline:none"><button class="admin-action-btn" onclick="adminMaxAttempts=parseInt(document.getElementById('admin-max-attempts').value)||5;adminShowFeedback('sec-feedback','Max attempts updated')">Set</button></div></div>
+            <div class="admin-row"><div class="admin-info"><div class="admin-name">Admin Session Timeout</div><div class="admin-desc">Auto-logout after inactivity (minutes)</div></div><div style="display:flex;gap:8px;align-items:center"><input type="number" id="admin-timeout-min" value="30" min="1" max="480" style="width:70px;background:rgba(0,0,0,0.4);border:1px solid rgba(255,255,255,0.15);color:#fff;border-radius:8px;padding:7px;text-align:center;font-family:'Exo 2',sans-serif;outline:none"><button class="admin-action-btn" onclick="resetAdminTimeout();adminShowFeedback('sec-feedback','Timeout updated')">Set</button></div></div>
+            <div class="admin-row"><div class="admin-info"><div class="admin-name">Show Admin Tab to All Users</div><div class="admin-desc">Make Admin nav tab visible (still requires auth)</div></div><label class="a-toggle-wrap"><input type="checkbox" id="admin-show-tab" onchange="document.getElementById('admin-nav-btn').style.visibility=this.checked?'visible':'hidden'"><span class="a-toggle-slider"></span></label></div>
+            <div class="admin-section-title" style="margin-top:20px">Change Owner Password</div>
+            <div style="display:flex;flex-direction:column;gap:8px">
+              <input class="admin-input" id="admin-new-pwd" type="password" placeholder="New password...">
+              <div class="pwd-strength" id="pwd-strength"></div>
+              <input class="admin-input" id="admin-confirm-pwd" type="password" placeholder="Confirm new password...">
+              <button class="admin-publish-btn" onclick="adminChangePassword()">UPDATE PASSWORD</button>
+              <div class="admin-feedback-msg" id="sec-feedback"></div>
+            </div>
+          </div>
+
+          <!-- DANGER ZONE -->
+          <div class="admin-panel" data-apanel="danger-zone">
+            <div class="admin-section-title" style="color:#ff4d4d;border-color:rgba(255,60,60,0.3)">⚠ Danger Zone</div>
+            <div style="font-size:12px;color:rgba(255,150,150,0.7);font-family:'Exo 2',sans-serif;line-height:1.7;margin-bottom:18px;padding:12px 16px;background:rgba(255,60,60,0.07);border:1px solid rgba(255,60,60,0.2);border-radius:8px">These actions are destructive. Proceed with extreme caution.</div>
+            <div class="admin-row"><div class="admin-info"><div class="admin-name">Clear Activity Log</div><div class="admin-desc">Permanently wipe all log entries</div></div><button class="admin-danger-btn" onclick="if(confirm('Clear all log entries?')){document.getElementById('admin-log-container').innerHTML='';adminLog('CLEAR','Log wiped by admin','danger');}">Clear Log</button></div>
+            <div class="admin-row"><div class="admin-info"><div class="admin-name">Delete All Friend Accounts</div><div class="admin-desc">Remove all friend/admin accounts (keeps owner)</div></div><button class="admin-danger-btn" onclick="if(confirm('Delete ALL added accounts? This cannot be undone.')){ACCOUNTS=ACCOUNTS.filter(a=>a.role==='owner');renderAccountsTable();adminShowFeedback('danger-feedback','All non-owner accounts deleted');adminLog('DELETE','All friend/admin accounts deleted','danger');}">Delete All</button></div>
+            <div class="admin-row"><div class="admin-info"><div class="admin-name">Force Site Offline</div><div class="admin-desc">Instantly activate shutdown for all visitors</div></div><button class="admin-danger-btn" onclick="if(confirm('Shut down site now?')){document.getElementById('admin-shutdown-toggle').checked=true;toggleSiteShutdown(true);}">Shutdown Now</button></div>
+            <div class="admin-row"><div class="admin-info"><div class="admin-name">Reset All Settings</div><div class="admin-desc">Factory reset all site settings</div></div><button class="admin-danger-btn" onclick="if(confirm('Reset ALL site settings?')){resetSettings();adminLog('RESET','All settings reset','danger');}">Reset All</button></div>
+            <div class="admin-row"><div class="admin-info"><div class="admin-name">Nuke Custom News Posts</div><div class="admin-desc">Delete all admin-published news posts</div></div><button class="admin-danger-btn" onclick="if(confirm('Delete all custom news posts?')){adminExtraNews=[];renderAdminNewsList();adminLog('DELETE','All custom news deleted','danger');}">Delete Posts</button></div>
+            <div class="admin-feedback-msg" id="danger-feedback" style="margin-top:10px"></div>
+          </div>
+
+        </div><!-- /admin-content -->
+      </div><!-- /admin-grid -->
+    </div><!-- /page-inner -->
+  </div><!-- /page-slide admin -->
 
 </div><!-- /slider-track -->
 
@@ -521,56 +1231,459 @@
 <audio id="musicPlayer"></audio>
 
 <script>
-/* ── SLIDER ── */
-const TOTAL = 7;
-let cur = 0;
-const track = document.getElementById('slider-track');
-const navBtns = document.querySelectorAll('.nav-btn[data-page]');
+/* ══════════════════════════════════════════════════
+   ACCOUNT SYSTEM
+   Roles: owner > admin > friend > guest
+   - owner:  ysxj / gta6admin2**  — full access, cannot be removed
+   - admin:  can access admin panel, bypass shutdown
+   - friend: can bypass shutdown, logs in with credentials
+   - guest:  no credentials, just a name
+══════════════════════════════════════════════════ */
+let ACCOUNTS = [
+  { username:'ysxj', password:'gta6admin2**', display:'VOCQL', role:'owner' }
+  // Friends and admins added via admin panel push here at runtime
+];
 
-function goTo(n) {
-  cur = Math.max(0, Math.min(TOTAL - 1, n));
-  track.style.transform = `translateX(-${cur * 100}vw)`;
-  navBtns.forEach(b => b.classList.toggle('active', +b.dataset.page === cur));
+function findAccount(usr, pwd) {
+  return ACCOUNTS.find(a => a.username.toLowerCase() === usr.toLowerCase() && a.password === pwd) || null;
 }
-navBtns.forEach(b => b.addEventListener('click', () => goTo(+b.dataset.page)));
+function canBypassShutdown(account) {
+  return account && (account.role === 'owner' || account.role === 'admin' || account.role === 'friend');
+}
 
-/* ── COUNTDOWN ── */
+/* ══════════════════════════════════════════════════
+   SHUTDOWN SYSTEM
+══════════════════════════════════════════════════ */
+let siteShutdown = false;
+
+function toggleSiteShutdown(on) {
+  siteShutdown = on;
+  const overlay = document.getElementById('shutdown-overlay');
+  overlay.classList.toggle('active', on);
+  // Status indicator
+  const dot  = document.getElementById('shutdown-dot');
+  const text = document.getElementById('shutdown-status-text');
+  const bar  = document.getElementById('shutdown-status-bar');
+  const stat = document.getElementById('stat-site-status');
+  if (on) {
+    dot.style.background  = '#ff4d4d';
+    dot.style.boxShadow   = '0 0 10px #ff4d4d';
+    text.textContent = 'SITE OFFLINE — MAINTENANCE ACTIVE';
+    bar.style.background  = 'rgba(255,60,60,0.1)';
+    if (stat) { stat.textContent = 'OFFLINE'; stat.style.color = '#ff4d4d'; }
+    adminLog('SHUTDOWN', 'Site shutdown activated — visitors now see maintenance screen', 'danger');
+  } else {
+    dot.style.background  = '#00ffe0';
+    dot.style.boxShadow   = '0 0 10px #00ffe0';
+    text.textContent = 'SITE ONLINE';
+    bar.style.background  = 'rgba(0,255,224,0.05)';
+    if (stat) { stat.textContent = 'ONLINE'; stat.style.color = '#00ffe0'; }
+    adminLog('ONLINE', 'Site brought back online', 'success');
+  }
+  renderBypassList();
+}
+
+function updateShutdownMsg() {
+  const msg = document.getElementById('sd-custom-msg').value.trim();
+  if (msg) document.getElementById('sd-msg').textContent = msg;
+}
+
+function bypassShutdown() {
+  const usr = document.getElementById('sd-bypass-usr').value.trim();
+  const pwd = document.getElementById('sd-bypass-pwd').value;
+  const err = document.getElementById('sd-bypass-err');
+  const acc = findAccount(usr, pwd);
+  if (acc && canBypassShutdown(acc)) {
+    document.getElementById('shutdown-overlay').classList.remove('active');
+    // Mark as logged in
+    currentUserAccount = acc;
+    currentUser = acc.display || acc.username;
+    selectedAvatar = AVATARS[0].img;
+    adminLog('BYPASS', `"${acc.username}" bypassed shutdown (role: ${acc.role})`, 'success');
+    // If owner or admin, authenticate admin panel too
+    if (acc.role === 'owner' || acc.role === 'admin') {
+      adminAuthenticated = true;
+      loginCount++;
+      document.getElementById('admin-nav-btn').style.visibility = 'visible';
+      initAdminDashboard();
+    }
+    // Show site
+    document.getElementById('login-screen').classList.add('fade-out');
+    document.getElementById('main-nav').style.display = '';
+    document.getElementById('profile-trigger').style.display = '';
+    setTimeout(() => document.getElementById('login-screen').style.display = 'none', 900);
+    updateProfileUI();
+    applyGreeting();
+  } else {
+    err.textContent = '✕ Invalid credentials or insufficient access.';
+    setTimeout(() => err.textContent = '', 3000);
+    adminLog('BYPASS-FAIL', `Failed shutdown bypass attempt for "${usr}"`, 'warn');
+  }
+}
+
+function renderBypassList() {
+  const list = document.getElementById('bypass-list');
+  if (!list) return;
+  list.innerHTML = '';
+  ACCOUNTS.forEach(acc => {
+    const row = document.createElement('div');
+    row.style.cssText = 'display:flex;align-items:center;gap:12px;padding:9px 14px;background:rgba(0,255,224,0.05);border:1px solid rgba(0,255,224,0.15);border-radius:8px;font-family:\'Exo 2\',sans-serif;font-size:11px';
+    const roleColor = acc.role === 'owner' ? '#ffd700' : acc.role === 'admin' ? '#ff4dd2' : '#00ffe0';
+    row.innerHTML = `<span style="flex:1;color:rgba(255,255,255,0.8)">${acc.display || acc.username}</span><span style="color:${roleColor};font-size:9px;font-family:'Orbitron',sans-serif;font-weight:900">${acc.role.toUpperCase()}</span><span style="color:#00ffe0;font-size:16px">✓</span>`;
+    list.appendChild(row);
+  });
+}
+
+/* ══════════════════════════════════════════════════
+   AVATARS
+══════════════════════════════════════════════════ */
+const AVATARS = [
+  { img:'gta/npc/lucia.jpg',    name:'Lucia'    },
+  { img:'gta/npc/jason.jpg',    name:'Jason'    },
+  { img:'gta/npc/dre.jpg',      name:"Dre'Quan" },
+  { img:'gta/npc/stefanie.png', name:'Stefanie' },
+  { img:'gta/npc/cal.png',      name:'Cal'      },
+  { img:'gta/npc/boobie.png',   name:'Boobie'   },
+  { img:'gta/npc/dimez.webp',   name:'Roxy'     },
+  { img:'gta/npc/raul.png',     name:'Raul'     },
+  { img:'gta/npc/brian.png',    name:'Brian'    },
+  { img:'gta/npc/luxe.webp',    name:'Luxe'     },
+];
+
+let selectedAvatar = AVATARS[0].img;
+let currentUserAccount = null; // the full account object if logged in with creds
+
+/* Build login avatar grid */
+const loginGrid = document.getElementById('login-avatar-grid');
+AVATARS.forEach((av, i) => {
+  const div = document.createElement('div');
+  div.className = 'avatar-opt' + (i === 0 ? ' selected' : '');
+  div.title = av.name;
+  div.innerHTML = `<img src="${av.img}" alt="${av.name}"><div class="av-check">✓</div>`;
+  div.addEventListener('click', () => {
+    document.querySelectorAll('.avatar-opt').forEach(a => a.classList.remove('selected'));
+    div.classList.add('selected');
+    selectedAvatar = av.img;
+    document.getElementById('login-av-preview-img').src = av.img;
+  });
+  loginGrid.appendChild(div);
+});
+
+/* Build profile panel avatar mini grid */
+const ppGrid = document.getElementById('pp-avatar-grid');
+AVATARS.forEach((av, i) => {
+  const div = document.createElement('div');
+  div.className = 'pp-av-mini' + (i === 0 ? ' selected' : '');
+  div.title = av.name;
+  div.innerHTML = `<img src="${av.img}" alt="${av.name}">`;
+  div.addEventListener('click', () => {
+    document.querySelectorAll('.pp-av-mini').forEach(a => a.classList.remove('selected'));
+    div.classList.add('selected');
+    selectedAvatar = av.img;
+    updateProfileUI();
+  });
+  ppGrid.appendChild(div);
+});
+
+/* ══════════════════════════════════════════════════
+   LOGIN MODE TOGGLE
+══════════════════════════════════════════════════ */
+let loginMode = 'guest';
+function setLoginMode(mode) {
+  loginMode = mode;
+  document.getElementById('lm-guest-btn').classList.toggle('active', mode === 'guest');
+  document.getElementById('lm-cred-btn').classList.toggle('active', mode === 'creds');
+  document.getElementById('login-guest-section').style.display = mode === 'guest' ? '' : 'none';
+  document.getElementById('login-cred-section').classList.toggle('open', mode === 'creds');
+}
+
+/* ══════════════════════════════════════════════════
+   BANNED NAMES
+══════════════════════════════════════════════════ */
+const BANNED_NAMES = [
+  'admin','administrator','root','superuser','system','moderator','mod','nigger','nigga',
+  'n1gger','n1gga','f4ggot','r3tard','k1ke','sp1c','ch1nk','cr1pple',
+  'rockstar','rockstargames','gtavi','gta6','leonida','luciacaminos',
+  'jasonduval','vicecity','wantedlevel','lcpd','lspd','noose',
+  'kkk','nazi','hitler','osama','terrorist','isis','jihad',
+  'rape','rapist','murder','murderer','shooter','bomber',
+  'bot','spambot','hacker','cheat','modmenu','aimbot','wallhack',
+  'xploiter','skiddie','scriptkiddie','ddos','ddoser',
+  'penis','vagina','dick','cock','pussy','slut','whore','bitch',
+  'griefer','troll','tryhard','sweat','camper','noob','noobage',
+  'kill3r','d3ath','x_x','xxx','69','420blaze','yolo',
+  'iplogger','iplogged','goturdox','l0g1p','dox3r','ip_puller',
+  'vocql','devteam','staff','official','verified','support',
+  'ceo','president','founder','owner','partnered',
+  '00000','11111','22222','33333','99999','123456','000000','67',
+  'anonymous','anon','nobody','null','undefined','none','void',
+  'delete','drop_table','sqlinjection',
+];
+
+function isBanned(name) {
+  const lower = name.toLowerCase().replace(/\s+/g,'');
+  return BANNED_NAMES.some(b => {
+    const bl = b.toLowerCase().replace(/\s+/g,'');
+    return lower === bl || lower.includes(bl);
+  });
+}
+
+/* ══════════════════════════════════════════════════
+   NEWS LOG
+══════════════════════════════════════════════════ */
+const NEWS_LOG = [
+  { date:"Jun 2025", tag:"new", pinned:true, title:"Version 3.2.0 — Multi-Account, Shutdown & Admin Update", body:"Added friend/admin account system with credential login, site shutdown mode with admin bypass, improved admin panel with dedicated Accounts and Shutdown modules." },
+  { date:"Jun 2025", tag:"new", title:"Version 3.1.0 — Profile & Background Update", body:"Added avatar profile pictures at login, profile circle icon, real Rockstar Games screenshots as backgrounds, and a full auto-generated banned callsigns list." },
+  { date:"Jun 2025", tag:"new", title:"Version 3.0.0 — Major Enhancement", body:"Completely overhauled the site with a new login screen, expanded settings panel, dynamic News page, profile system, and more." },
+  { date:"May 2025", tag:"new",    title:"Trailer 2 Added — Jason & Lucia", body:"Trailer 2 is now live on both the Home page and the Trailers page." },
+  { date:"Apr 2025", tag:"update", title:"Characters & Places Expanded", body:"Added full descriptions for all 10 characters and 6 locations." },
+  { date:"Mar 2025", tag:"feature",title:"Interactive Leonida Map", body:"Embedded the State of Leonida interactive map." },
+  { date:"Feb 2025", tag:"feature",title:"Vice City Radio — 25 Tracks", body:"The integrated music player now has 25 Vice City Radio tracks." },
+  { date:"Jan 2025", tag:"fix",    title:"Countdown Timer Fix", body:"Fixed a timezone offset bug causing incorrect hours." },
+  { date:"Dec 2024", tag:"update", title:"Screenshots Gallery — 36 Images", body:"Added all 36 official screenshots with lazy loading and lightbox." },
+  { date:"Nov 2024", tag:"new",    title:"Site Launch", body:"Initial launch of the GTA VI fan countdown site." }
+];
+const SITE_VERSION = "3.2.0";
+const LAST_UPDATED = "Jun 2025";
+
+function renderNews() {
+  const feed = document.getElementById('news-feed');
+  const pinned = NEWS_LOG.filter(n => n.pinned);
+  const rest   = NEWS_LOG.filter(n => !n.pinned);
+  [...pinned, ...rest].forEach((item, i) => {
+    const card = document.createElement('div');
+    card.className = 'news-card' + (item.pinned ? ' pinned' : '');
+    card.style.animationDelay = (i * 0.06) + 's';
+    const tagClass = { update:'tag-update', new:'tag-new', fix:'tag-fix', feature:'tag-feature' }[item.tag] || 'tag-update';
+    card.innerHTML = `<div class="news-card-header">${item.pinned ? '<span class="news-tag tag-pinned">📌 PINNED</span>' : ''}<span class="news-tag ${tagClass}">${item.tag.toUpperCase()}</span><span class="news-date">${item.date}</span></div><div class="news-title">${item.title}</div><div class="news-body">${item.body}</div>`;
+    feed.appendChild(card);
+  });
+  document.getElementById('sb-version').textContent = SITE_VERSION;
+  document.getElementById('sb-updated').textContent = LAST_UPDATED;
+  document.getElementById('sb-total').textContent   = NEWS_LOG.length;
+  const cl = document.getElementById('quick-changelog');
+  NEWS_LOG.slice(0,6).forEach(item => {
+    const d = document.createElement('div');
+    d.className = 'changelog-item';
+    d.innerHTML = `<span>${item.date}</span> — ${item.title}`;
+    cl.appendChild(d);
+  });
+}
+renderNews();
+
+/* ══════════════════════════════════════════════════
+   LOGIN
+══════════════════════════════════════════════════ */
+let currentUser = '';
+
+function doLogin(name, account = null) {
+  currentUser = name ? name.trim() : 'Guest';
+  if (!currentUser) currentUser = 'Guest';
+  currentUserAccount = account;
+  const screen = document.getElementById('login-screen');
+  screen.classList.add('fade-out');
+  document.getElementById('main-nav').style.display = '';
+  document.getElementById('profile-trigger').style.display = '';
+  updateProfileUI();
+  setTimeout(() => screen.style.display = 'none', 900);
+  applyGreeting();
+}
+
+function doLogout() {
+  currentUser = '';
+  currentUserAccount = null;
+  adminAuthenticated = false;
+  selectedAvatar = AVATARS[0].img;
+  closePP();
+  document.getElementById('main-nav').style.display = 'none';
+  document.getElementById('profile-trigger').style.display = 'none';
+  document.getElementById('admin-nav-btn').style.visibility = 'hidden';
+  const screen = document.getElementById('login-screen');
+  screen.style.display = '';
+  screen.classList.remove('fade-out');
+  document.querySelectorAll('.avatar-opt').forEach((a,i) => a.classList.toggle('selected', i===0));
+  document.getElementById('login-av-preview-img').src = AVATARS[0].img;
+  document.getElementById('login-name').value = '';
+  document.getElementById('cred-username').value = '';
+  document.getElementById('cred-password').value = '';
+  setLoginMode('guest');
+}
+
+document.getElementById('login-btn').addEventListener('click', () => {
+  const err = document.getElementById('login-error');
+
+  if (loginMode === 'creds') {
+    // Credential login
+    const usr = document.getElementById('cred-username').value.trim();
+    const pwd = document.getElementById('cred-password').value;
+    if (!usr || !pwd) { err.textContent = 'Enter username and password.'; setTimeout(()=>err.textContent='',2500); return; }
+    const acc = findAccount(usr, pwd);
+    if (!acc) { err.textContent = '✕ Invalid username or password.'; setTimeout(()=>err.textContent='',3000); return; }
+    // If site is shut down, only owner/admin/friend can log in
+    if (siteShutdown && !canBypassShutdown(acc)) {
+      err.textContent = '✕ Site is currently in maintenance mode.'; setTimeout(()=>err.textContent='',3000); return;
+    }
+    const displayName = acc.display || acc.username;
+    doLogin(displayName, acc);
+    // Owner or admin unlock admin panel
+    if (acc.role === 'owner' || acc.role === 'admin') {
+      adminAuthenticated = true;
+      loginCount++;
+      document.getElementById('admin-nav-btn').style.visibility = 'visible';
+      initAdminDashboard();
+      adminLog('LOGIN', `"${acc.username}" logged in via credentials (role: ${acc.role})`, 'success');
+    } else {
+      adminLog('LOGIN', `Friend "${acc.username}" logged in`, 'success');
+    }
+  } else {
+    // Guest name login
+    if (siteShutdown) { err.textContent = '⛔ Site is in maintenance — use an account to access.'; setTimeout(()=>err.textContent='',3500); return; }
+    const val = document.getElementById('login-name').value.trim();
+    if (!val) { err.textContent = 'Enter a callsign to proceed.'; setTimeout(()=>err.textContent='',2500); return; }
+    if (isBanned(val)) { err.textContent = '⛔ That callsign is banned. Choose another.'; setTimeout(()=>err.textContent='',3000); return; }
+    if (val.length < 2) { err.textContent = 'Callsign must be at least 2 characters.'; setTimeout(()=>err.textContent='',2500); return; }
+    doLogin(val, null);
+  }
+});
+
+document.getElementById('login-name').addEventListener('keydown', e => { if(e.key==='Enter') document.getElementById('login-btn').click(); });
+document.getElementById('cred-password').addEventListener('keydown', e => { if(e.key==='Enter') document.getElementById('login-btn').click(); });
+document.getElementById('login-skip').addEventListener('click', () => {
+  if (siteShutdown) {
+    document.getElementById('login-error').textContent = '⛔ Site is in maintenance — use an account.';
+    setTimeout(() => document.getElementById('login-error').textContent = '', 3000);
+    return;
+  }
+  doLogin('Guest', null);
+});
+
+function applyGreeting() {
+  const style = document.getElementById('pp-greeting-select') ? document.getElementById('pp-greeting-select').value : 'simple';
+  const sub = document.getElementById('home-subtitle');
+  if (!sub) return;
+  if (style === 'none' || currentUser === 'Guest') {
+    sub.textContent = 'PREPARING FOR NOVEMBER 19, 2026';
+  } else if (style === 'mission') {
+    sub.textContent = `MISSION ACTIVE // AGENT ${currentUser.toUpperCase()} — STAND BY`;
+  } else {
+    sub.textContent = `WELCOME BACK, ${currentUser.toUpperCase()}`;
+  }
+}
+
+/* ══════════════════════════════════════════════════
+   PROFILE PANEL
+══════════════════════════════════════════════════ */
+const profileTrigger = document.getElementById('profile-trigger');
+const profilePanel   = document.getElementById('profile-panel');
+let ppOpen = false;
+
+function getRoleBadgeClass(account) {
+  if (!account) return 'role-guest';
+  return { owner:'role-owner', admin:'role-admin', friend:'role-friend' }[account.role] || 'role-guest';
+}
+function getRoleLabel(account) {
+  if (!account) return 'GUEST';
+  return { owner:'👑 OWNER', admin:'⚙ ADMIN', friend:'🎮 FRIEND' }[account.role] || 'GUEST';
+}
+
+function updateProfileUI() {
+  document.getElementById('profile-trigger-img').src = selectedAvatar;
+  document.getElementById('pp-avatar-img').src = selectedAvatar;
+  document.getElementById('pp-name-display').textContent = currentUser || 'Guest';
+  document.getElementById('pp-name-input').value = currentUser || '';
+  document.querySelectorAll('.pp-av-mini').forEach((el, i) => el.classList.toggle('selected', AVATARS[i].img === selectedAvatar));
+  const badge = document.getElementById('pp-role-badge');
+  const roleText = document.getElementById('pp-role-text');
+  if (badge) {
+    badge.className = 'pp-role-badge ' + getRoleBadgeClass(currentUserAccount);
+    badge.textContent = getRoleLabel(currentUserAccount);
+  }
+  if (roleText) {
+    const labels = { owner:'LEONIDA OWNER', admin:'LEONIDA ADMIN', friend:'LEONIDA OPERATIVE' };
+    roleText.textContent = currentUserAccount ? (labels[currentUserAccount.role] || 'LEONIDA OPERATIVE') : 'LEONIDA OPERATIVE';
+  }
+}
+
+function closePP() { ppOpen = false; profilePanel.classList.remove('open'); }
+function openPP()  { ppOpen = true;  profilePanel.classList.add('open'); }
+
+profileTrigger.addEventListener('click', e => { e.stopPropagation(); ppOpen ? closePP() : openPP(); });
+document.addEventListener('click', e => { if(ppOpen && !profilePanel.contains(e.target)) closePP(); });
+
+function saveProfile() {
+  const newName = document.getElementById('pp-name-input').value.trim();
+  if (newName && isBanned(newName)) {
+    const s = document.getElementById('pp-saved');
+    s.textContent = '⛔ Banned name.'; s.style.color = '#ff4d4d'; s.classList.add('show');
+    setTimeout(() => { s.classList.remove('show'); s.style.color='#00ffe0'; s.textContent='✓ Profile updated'; }, 2500);
+    return;
+  }
+  if (newName) currentUser = newName;
+  updateProfileUI(); applyGreeting();
+  const saved = document.getElementById('pp-saved');
+  saved.classList.add('show');
+  setTimeout(() => saved.classList.remove('show'), 2000);
+}
+
+/* ══════════════════════════════════════════════════
+   SLIDER
+══════════════════════════════════════════════════ */
+const TOTAL = 9;
+let cur = 0;
+const track    = document.getElementById('slider-track');
+const navBtns  = document.querySelectorAll('.nav-btn[data-page]');
+function goTo(n) {
+  cur = Math.max(0, Math.min(TOTAL-1, n));
+  track.style.transform = `translateX(-${cur*100}vw)`;
+  navBtns.forEach(b => b.classList.toggle('active', +b.dataset.page === cur));
+  closePP();
+}
+navBtns.forEach(b => b.addEventListener('click', () => {
+  const pg = +b.dataset.page;
+  if (pg === 8 && !adminAuthenticated) { openAdminLogin(); return; }
+  goTo(pg);
+}));
+
+/* ══════════════════════════════════════════════════
+   COUNTDOWN
+══════════════════════════════════════════════════ */
+let adminCountdownFrozen = false;
 const target = new Date('2026-11-19T00:00:00');
-const dEl=document.getElementById('days'),hEl=document.getElementById('hours'),mEl=document.getElementById('minutes'),sEl=document.getElementById('seconds');
+const dEl=document.getElementById('days'), hEl=document.getElementById('hours'),
+      mEl=document.getElementById('minutes'), sEl=document.getElementById('seconds');
 function tick() {
-  const diff = Math.floor((target - Date.now()) / 1000);
-  if (diff <= 0) return;
-  const ds=Math.floor(diff/86400).toString().padStart(3,'0');
-  const hs=Math.floor(diff/3600%24).toString().padStart(2,'0');
-  const ms=Math.floor(diff/60%60).toString().padStart(2,'0');
-  const ss=(diff%60).toString().padStart(2,'0');
+  if (adminCountdownFrozen) return;
+  const diff = Math.floor((target - Date.now()) / 1000); if (diff <= 0) return;
+  const ds = Math.floor(diff/86400).toString().padStart(3,'0');
+  const hs = Math.floor(diff/3600%24).toString().padStart(2,'0');
+  const ms = Math.floor(diff/60%60).toString().padStart(2,'0');
+  const ss = (diff%60).toString().padStart(2,'0');
   if(dEl.textContent!==ds)dEl.textContent=ds;
   if(hEl.textContent!==hs)hEl.textContent=hs;
   if(mEl.textContent!==ms)mEl.textContent=ms;
   if(sEl.textContent!==ss)sEl.textContent=ss;
 }
-setInterval(tick,1000); tick();
+setInterval(tick, 1000); tick();
 
-/* ── HOME TRAILER ── */
+/* ══════════════════════════════════════════════════
+   HOME TRAILER
+══════════════════════════════════════════════════ */
 const homeTrailers = ["QdBZY2fkU-0","VQRLujxTm3c"];
 let tIdx = 0;
-function changeT(d) {
-  tIdx = (tIdx + d + homeTrailers.length) % homeTrailers.length;
-  document.getElementById('vFrame').src = `https://www.youtube.com/embed/${homeTrailers[tIdx]}?autoplay=1&enablejsapi=1&origin=https://vocql.site`;
-}
-function toggleFS() {
-  const p = document.getElementById('tPanel');
-  if (!document.fullscreenElement) p.requestFullscreen();
-  else document.exitFullscreen();
-}
+function changeT(d) { tIdx=(tIdx+d+homeTrailers.length)%homeTrailers.length; document.getElementById('vFrame').src=`https://www.youtube.com/embed/${homeTrailers[tIdx]}?autoplay=1&enablejsapi=1&origin=https://vocql.site`; }
+function toggleFS() { const p=document.getElementById('tPanel'); if(!document.fullscreenElement)p.requestFullscreen(); else document.exitFullscreen(); }
 
-/* ── PARALLAX ── */
+/* ══════════════════════════════════════════════════
+   PARALLAX
+══════════════════════════════════════════════════ */
 const bgLayer = document.getElementById('bg-layer');
-let mx=0,my=0,rafP=false,parallaxOn=true;
-document.addEventListener('mousemove', e=>{ mx=e.clientX; my=e.clientY; if(!rafP&&parallaxOn){rafP=true;requestAnimationFrame(ap);} },{passive:true});
-function ap(){ rafP=false; bgLayer.style.transform=`translate(${-(window.innerWidth/2-mx)/60}px,${-(window.innerHeight/2-my)/60}px) scale(1.05)`; }
+let mx=0, my=0, rafP=false, parallaxOn=true;
+document.addEventListener('mousemove', e => { mx=e.clientX; my=e.clientY; if(!rafP&&parallaxOn){rafP=true;requestAnimationFrame(ap);} }, {passive:true});
+function ap() { rafP=false; bgLayer.style.transform=`translate(${-(window.innerWidth/2-mx)/60}px,${-(window.innerHeight/2-my)/60}px) scale(1.05)`; }
 
-/* ── MUSIC ── */
+/* ══════════════════════════════════════════════════
+   MUSIC
+══════════════════════════════════════════════════ */
 const songs=[
   {n:"Hot Together",s:"music/together.mp3"},{n:"Love Is A Long Road",s:"music/long.mp3"},
   {n:"Night",s:"music/night.mp3"},{n:"Ocean Breeze",s:"music/ocean.mp3"},
@@ -586,33 +1699,36 @@ const songs=[
   {n:"I Still Remember You",s:"music/remember.mp3"},{n:"Gamble With My Love",s:"music/gamble.mp3"},
   {n:"Sukiyaki",s:"music/suki.mp3"}
 ];
-const player=document.getElementById('musicPlayer');
-const slEl=document.getElementById('songList');
-const sf=document.createDocumentFragment();
+const player = document.getElementById('musicPlayer');
+const slEl   = document.getElementById('songList');
+const sf = document.createDocumentFragment();
 songs.forEach((s,i)=>{ const d=document.createElement('div'); d.className='track'; d.textContent=s.n; d.dataset.idx=i; sf.appendChild(d); });
 slEl.appendChild(sf);
-slEl.addEventListener('click',e=>{ const el=e.target.closest('.track'); if(!el)return; playTrack(songs[+el.dataset.idx].s,el); });
-document.getElementById('volSlider').addEventListener('input',e=>{ player.volume=e.target.value; },{passive:true});
-document.getElementById('shuffleBtn').addEventListener('click',()=>{ const r=Math.floor(Math.random()*songs.length); playTrack(songs[r].s,slEl.children[r]); });
-function playTrack(src,el){
+slEl.addEventListener('click', e => { const el=e.target.closest('.track'); if(!el)return; playTrack(songs[+el.dataset.idx].s,songs[+el.dataset.idx].n,el); });
+document.getElementById('volSlider').addEventListener('input', e => { player.volume=e.target.value; }, {passive:true});
+document.getElementById('shuffleBtn').addEventListener('click', () => { const r=Math.floor(Math.random()*songs.length); playTrack(songs[r].s,songs[r].n,slEl.children[r]); });
+function playTrack(src,name,el) {
   const full=new URL(src,location.href).href;
   if(player.src===full&&!player.paused){player.pause();return;}
   slEl.querySelectorAll('.track').forEach(t=>t.classList.remove('active-song'));
   player.src=src; player.volume=document.getElementById('volSlider').value;
   player.play().catch(()=>{});
   if(el){el.classList.add('active-song');el.scrollIntoView({behavior:'smooth',block:'nearest'});}
+  if(document.getElementById('set-song-title').checked)document.title=`🎵 ${name} — GTA VI`;
 }
-document.getElementById('set-loop').addEventListener('change',e=>{ player.loop=e.target.checked; });
+document.getElementById('set-loop').addEventListener('change', e => { player.loop=e.target.checked; });
 
-/* ── CARD MODALS ── */
-const charModal=document.getElementById('charModal');
-const modalImg=document.getElementById('modalImg');
-const modalTitle=document.getElementById('modalTitle');
-const modalDesc=document.getElementById('modalDesc');
-document.getElementById('modalClose').onclick=()=>charModal.classList.remove('active');
-charModal.addEventListener('click',e=>{ if(e.target===charModal)charModal.classList.remove('active'); });
-function initCards(id){
-  document.getElementById(id).addEventListener('click',e=>{
+/* ══════════════════════════════════════════════════
+   CARD MODALS
+══════════════════════════════════════════════════ */
+const charModal  = document.getElementById('charModal');
+const modalImg   = document.getElementById('modalImg');
+const modalTitle = document.getElementById('modalTitle');
+const modalDesc  = document.getElementById('modalDesc');
+document.getElementById('modalClose').onclick = () => charModal.classList.remove('active');
+charModal.addEventListener('click', e => { if(e.target===charModal)charModal.classList.remove('active'); });
+function initCards(id) {
+  document.getElementById(id).addEventListener('click', e => {
     const c=e.target.closest('[data-name]'); if(!c)return;
     modalImg.src=c.dataset.img; modalTitle.textContent=c.dataset.name; modalDesc.textContent=c.dataset.desc;
     charModal.classList.add('active');
@@ -620,12 +1736,14 @@ function initCards(id){
 }
 initCards('char-grid'); initCards('places-grid');
 
-/* ── SCREENSHOTS ── */
-const gallery=document.getElementById('gallery');
-const ssViewer=document.getElementById('ssViewer');
-const ssImg=document.getElementById('ssImg');
-let ssIdx=0,ssImgs=[];
-const gf=document.createDocumentFragment();
+/* ══════════════════════════════════════════════════
+   SCREENSHOTS
+══════════════════════════════════════════════════ */
+const gallery  = document.getElementById('gallery');
+const ssViewer = document.getElementById('ssViewer');
+const ssImg    = document.getElementById('ssImg');
+let ssIdx=0, ssImgs=[];
+const gf = document.createDocumentFragment();
 for(let i=1;i<=36;i++){
   const w=document.createElement('div'); w.className='gallery-item';
   const img=document.createElement('img'); img.src=`gta/screenshots/${i}.jpg`; img.alt=`Screenshot ${i}`; img.loading='lazy'; img.dataset.idx=i-1;
@@ -633,37 +1751,45 @@ for(let i=1;i<=36;i++){
   w.appendChild(img); gf.appendChild(w);
 }
 gallery.appendChild(gf);
-const ssObs=new IntersectionObserver(ens=>{ ens.forEach(en=>{ if(en.isIntersecting){en.target.classList.add('visible');ssObs.unobserve(en.target);} }); },{threshold:0.1});
+const ssObs=new IntersectionObserver(ens=>{ens.forEach(en=>{if(en.isIntersecting){en.target.classList.add('visible');ssObs.unobserve(en.target);}});},{threshold:0.1});
 document.querySelectorAll('.gallery-item').forEach(el=>ssObs.observe(el));
-gallery.addEventListener('click',e=>{ const img=e.target.closest('img[data-idx]'); if(!img)return; ssIdx=+img.dataset.idx; ssImg.src=ssImgs[ssIdx]; ssViewer.classList.add('active'); });
-function ssClose(){ ssViewer.classList.remove('active'); }
+gallery.addEventListener('click',e=>{const img=e.target.closest('img[data-idx]');if(!img)return;ssIdx=+img.dataset.idx;ssImg.src=ssImgs[ssIdx];ssViewer.classList.add('active');});
+function ssClose(){ssViewer.classList.remove('active');}
 document.getElementById('ssClose').addEventListener('click',ssClose);
-ssViewer.addEventListener('click',e=>{ if(e.target===ssViewer)ssClose(); });
-document.getElementById('ssPrev').addEventListener('click',()=>{ ssIdx=(ssIdx-1+ssImgs.length)%ssImgs.length; ssImg.src=ssImgs[ssIdx]; });
-document.getElementById('ssNext').addEventListener('click',()=>{ ssIdx=(ssIdx+1)%ssImgs.length; ssImg.src=ssImgs[ssIdx]; });
+ssViewer.addEventListener('click',e=>{if(e.target===ssViewer)ssClose();});
+document.getElementById('ssPrev').addEventListener('click',()=>{ssIdx=(ssIdx-1+ssImgs.length)%ssImgs.length;ssImg.src=ssImgs[ssIdx];});
+document.getElementById('ssNext').addEventListener('click',()=>{ssIdx=(ssIdx+1)%ssImgs.length;ssImg.src=ssImgs[ssIdx];});
 
-/* ── TRAILERS PAGE ── */
-const tOverlay=document.getElementById('tOverlay');
-const tFrame=document.getElementById('tOverlayFrame');
-document.querySelectorAll('.trailer-card-big').forEach(c=>{ c.addEventListener('click',()=>{ tFrame.src=c.dataset.video+'&autoplay=1&rel=0'; tOverlay.classList.add('active'); }); });
-function closeTOverlay(){ tOverlay.classList.remove('active'); tFrame.src=''; }
+/* ══════════════════════════════════════════════════
+   TRAILERS
+══════════════════════════════════════════════════ */
+const tOverlay = document.getElementById('tOverlay');
+const tFrame   = document.getElementById('tOverlayFrame');
+document.querySelectorAll('.trailer-card-big').forEach(c=>{c.addEventListener('click',()=>{tFrame.src=c.dataset.video+'&autoplay=1&rel=0';tOverlay.classList.add('active');});});
+function closeTOverlay(){tOverlay.classList.remove('active');tFrame.src='';}
 document.getElementById('tClose').addEventListener('click',closeTOverlay);
-tOverlay.addEventListener('click',e=>{ if(e.target===tOverlay)closeTOverlay(); });
+tOverlay.addEventListener('click',e=>{if(e.target===tOverlay)closeTOverlay();});
 
-/* ── KEYBOARD ── */
+/* ══════════════════════════════════════════════════
+   KEYBOARD
+══════════════════════════════════════════════════ */
 document.addEventListener('keydown',e=>{
-  if(charModal.classList.contains('active')){ if(e.key==='Escape')charModal.classList.remove('active'); return; }
+  if(e.key==='Escape'){
+    if(charModal.classList.contains('active')){charModal.classList.remove('active');return;}
+    if(ssViewer.classList.contains('active')){ssClose();return;}
+    if(tOverlay.classList.contains('active')){closeTOverlay();return;}
+    if(document.getElementById('admin-login-overlay').classList.contains('open')){closeAdminLogin();return;}
+    if(ppOpen){closePP();return;}
+  }
   if(ssViewer.classList.contains('active')){
-    if(e.key==='Escape')ssClose();
     if(e.key==='ArrowLeft')document.getElementById('ssPrev').click();
     if(e.key==='ArrowRight')document.getElementById('ssNext').click();
-    return;
   }
-  if(tOverlay.classList.contains('active')){ if(e.key==='Escape')closeTOverlay(); return; }
-  /* Arrow key page navigation removed */
 });
 
-/* ── SETTINGS ── */
+/* ══════════════════════════════════════════════════
+   SETTINGS TABS
+══════════════════════════════════════════════════ */
 document.querySelectorAll('.settings-tab').forEach(tab=>{
   tab.addEventListener('click',()=>{
     document.querySelectorAll('.settings-tab').forEach(t=>t.classList.remove('active'));
@@ -672,35 +1798,352 @@ document.querySelectorAll('.settings-tab').forEach(tab=>{
     document.querySelector(`[data-panel="${tab.dataset.tab}"]`).classList.add('active');
   });
 });
-document.getElementById('set-parallax').addEventListener('change',e=>{ parallaxOn=e.target.checked; if(!parallaxOn)bgLayer.style.transform=''; });
-document.getElementById('set-scanlines').addEventListener('change',e=>{
-  const id='no-scan'; const ex=document.getElementById(id);
-  if(!e.target.checked){ if(!ex){const s=document.createElement('style');s.id=id;s.textContent='html::after{display:none}';document.head.appendChild(s);} }
-  else { if(ex)ex.remove(); }
-});
-document.getElementById('set-transition').addEventListener('change',e=>{ track.style.transition=`transform ${e.target.value}s cubic-bezier(0.77,0,0.175,1)`; });
+
+/* ══════════════════════════════════════════════════
+   SETTINGS HANDLERS
+══════════════════════════════════════════════════ */
+document.getElementById('set-parallax').addEventListener('change',e=>{parallaxOn=e.target.checked;if(!parallaxOn)bgLayer.style.transform='';});
+document.getElementById('set-scanlines').addEventListener('change',e=>{document.getElementById('scanline-layer').style.display=e.target.checked?'block':'none';});
+document.getElementById('set-transition').addEventListener('change',e=>{track.style.transition=`transform ${e.target.value}s cubic-bezier(0.77,0,0.175,1)`;});
+document.getElementById('set-transition-nav').addEventListener('change',e=>{track.style.transition=`transform ${e.target.value}s cubic-bezier(0.77,0,0.175,1)`;});
 document.getElementById('accent-swatches').addEventListener('click',e=>{
   const sw=e.target.closest('.color-swatch'); if(!sw)return;
-  document.querySelectorAll('.color-swatch').forEach(s=>s.classList.remove('selected'));
-  sw.classList.add('selected');
-  document.querySelectorAll('.nav-btn.active,.shuffle-btn,.neon-accent').forEach(el=>el.style.color=sw.dataset.color);
+  document.querySelectorAll('.color-swatch').forEach(s=>s.classList.remove('selected')); sw.classList.add('selected');
+  const c=sw.dataset.color;
+  document.querySelectorAll('.nav-btn.active').forEach(el=>el.style.color=c);
+  document.querySelectorAll('.shuffle-btn').forEach(el=>{el.style.color=c;el.style.borderColor=c;});
+  document.querySelectorAll('.subtitle,.settings-section-title,.sidebar-title').forEach(el=>el.style.color=c);
 });
-
-function saveSettings(toastId){
-  const t=document.getElementById(toastId); if(!t)return;
-  t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),2200);
+function setUiOpacity(val){
+  const o=val/100;
+  document.querySelectorAll('.main-hud,.panel-box,.map-home,.settings-content,.settings-sidebar,.news-card,.news-sidebar-box').forEach(el=>{el.style.backgroundColor=`rgba(0,0,0,${o*0.72})`;});
 }
-
+document.getElementById('set-cardfont').addEventListener('change',e=>{
+  document.querySelectorAll('.card-label h2,.page-title').forEach(el=>el.style.fontFamily=e.target.value);
+  document.getElementById('font-preview').style.fontFamily=e.target.value;
+});
+document.getElementById('set-reduce-motion').addEventListener('change',e=>{
+  const s=document.getElementById('reduce-motion-style')||document.createElement('style');
+  s.id='reduce-motion-style'; s.textContent=e.target.checked?'*{transition:none!important;animation:none!important;}':''; document.head.appendChild(s);
+});
+document.getElementById('set-card-anim').addEventListener('change',e=>{
+  const s=document.getElementById('card-anim-style')||document.createElement('style');
+  s.id='card-anim-style'; s.textContent=e.target.checked?'':'.char-card{transition:none!important;transform:none!important;}'; document.head.appendChild(s);
+});
+function saveSettings(toastId){ const t=document.getElementById(toastId); if(!t)return; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),2200); }
 function resetSettings(){
   if(!confirm('Reset all settings to defaults?'))return;
   document.getElementById('set-parallax').checked=true; parallaxOn=true;
-  document.getElementById('set-scanlines').checked=true; const ns=document.getElementById('no-scan'); if(ns)ns.remove();
+  document.getElementById('set-scanlines').checked=true; document.getElementById('scanline-layer').style.display='block';
   document.getElementById('set-transition').value='0.55'; track.style.transition='transform 0.55s cubic-bezier(0.77,0,0.175,1)';
   document.getElementById('set-dim').value=55; document.getElementById('dim-val').textContent='55%'; document.getElementById('bg-overlay').style.opacity=1;
   document.getElementById('set-vol').value=70; document.getElementById('vol-val').textContent='70%'; player.volume=0.7; document.getElementById('volSlider').value=0.7;
-  document.getElementById('set-watermark').checked=true; document.querySelector('.page-watermark').style.display='block';
-  document.querySelectorAll('.color-swatch').forEach((s,i)=>s.classList.toggle('selected',i===0));
+  bgLayer.style.filter=''; bgLayer.style.backgroundImage="url('gta/jason.jpg')";
 }
+
+/* ══════════════════════════════════════════════════
+   ADMIN SYSTEM
+══════════════════════════════════════════════════ */
+let adminAuthenticated = false;
+let adminAttempts  = 0;
+let adminMaxAttempts = 5;
+let adminLocked    = false;
+let adminTimeoutTimer = null;
+let adminExtraNews = [];
+let loginCount     = 0;
+
+function openAdminLogin() {
+  document.getElementById('admin-login-overlay').classList.add('open');
+  document.getElementById('admin-usr').value = '';
+  document.getElementById('admin-pwd').value = '';
+  document.getElementById('admin-err').textContent = '';
+  setTimeout(()=>document.getElementById('admin-usr').focus(),150);
+}
+function closeAdminLogin() { document.getElementById('admin-login-overlay').classList.remove('open'); }
+document.getElementById('admin-cancel-btn').addEventListener('click', closeAdminLogin);
+document.getElementById('admin-login-btn').addEventListener('click', attemptAdminLogin);
+document.getElementById('admin-pwd').addEventListener('keydown', e=>{ if(e.key==='Enter')attemptAdminLogin(); });
+
+function attemptAdminLogin() {
+  if (adminLocked) { document.getElementById('admin-err').textContent='⛔ Login locked after too many attempts.'; return; }
+  const usr = document.getElementById('admin-usr').value.trim();
+  const pwd = document.getElementById('admin-pwd').value;
+  const acc = findAccount(usr, pwd);
+  if (acc && (acc.role === 'owner' || acc.role === 'admin')) {
+    adminAuthenticated = true; adminAttempts = 0; loginCount++;
+    closeAdminLogin();
+    adminLog('LOGIN', `Admin authenticated as "${usr}" (${acc.role})`, 'success');
+    document.getElementById('admin-nav-btn').style.visibility = 'visible';
+    initAdminDashboard();
+    goTo(8);
+    resetAdminTimeout();
+  } else {
+    adminAttempts++;
+    const left = adminMaxAttempts - adminAttempts;
+    if (adminAttempts >= adminMaxAttempts) {
+      adminLocked = true;
+      document.getElementById('admin-err').textContent = '⛔ Account locked. Refresh page to reset.';
+      adminLog('LOCKOUT','Admin login locked after too many failed attempts','danger');
+    } else {
+      document.getElementById('admin-err').textContent = '✕ Invalid credentials or insufficient role.';
+      document.getElementById('admin-attempts').textContent = `${left} attempt${left!==1?'s':''} remaining`;
+      adminLog('FAIL',`Failed admin login for "${usr}" (${adminAttempts}/${adminMaxAttempts})`,'warn');
+    }
+    setTimeout(()=>{ if(!adminLocked) document.getElementById('admin-err').textContent=''; },2500);
+  }
+}
+
+function adminLogout() {
+  adminAuthenticated = false;
+  adminLog('LOGOUT','Admin session terminated','warn');
+  document.getElementById('admin-nav-btn').style.visibility = 'hidden';
+  if (adminTimeoutTimer) clearTimeout(adminTimeoutTimer);
+  goTo(0);
+}
+
+function resetAdminTimeout() {
+  if (adminTimeoutTimer) clearTimeout(adminTimeoutTimer);
+  const mins = parseInt(document.getElementById('admin-timeout-min')?.value)||30;
+  adminTimeoutTimer = setTimeout(()=>{ if(adminAuthenticated){ adminLog('TIMEOUT','Admin timed out','warn'); adminLogout(); } }, mins*60000);
+}
+document.addEventListener('click',()=>{ if(adminAuthenticated) resetAdminTimeout(); });
+
+/* Activity Log */
+function adminLog(action, message, type='') {
+  const container = document.getElementById('admin-log-container');
+  const now = new Date().toLocaleTimeString();
+  const entry = document.createElement('div');
+  entry.className=`admin-log-entry${type==='warn'?' log-warn':type==='danger'?' log-danger':type==='success'?' log-success':''}`;
+  entry.innerHTML=`<span class="log-time">${now}</span><span class="log-action">${action}</span><span>${message}</span>`;
+  if(container) container.prepend(entry);
+}
+
+/* Admin Tab Nav */
+document.querySelectorAll('.admin-tab[data-atab]').forEach(tab=>{
+  tab.addEventListener('click',()=>switchAdminTab(tab.dataset.atab));
+});
+function switchAdminTab(name) {
+  document.querySelectorAll('.admin-tab').forEach(t=>t.classList.toggle('active',t.dataset.atab===name));
+  document.querySelectorAll('.admin-panel').forEach(p=>p.classList.toggle('active',p.dataset.apanel===name));
+}
+
+/* Dashboard Init */
+function initAdminDashboard() {
+  const daysEl = document.getElementById('stat-days');
+  if (daysEl) daysEl.textContent = Math.max(0, Math.floor((new Date('2026-11-19')-Date.now())/86400000));
+  const newsEl = document.getElementById('stat-news');
+  if (newsEl) newsEl.textContent = NEWS_LOG.length + adminExtraNews.length;
+  const loginsEl = document.getElementById('stat-logins');
+  if (loginsEl) loginsEl.textContent = loginCount;
+  const friendsEl = document.getElementById('stat-friends');
+  if (friendsEl) friendsEl.textContent = ACCOUNTS.filter(a=>a.role==='friend'||a.role==='admin').length;
+  buildAdminTrackList();
+  renderAdminNewsList();
+  renderAccountsTable();
+  renderBypassList();
+  adminLog('INIT','Admin dashboard loaded','success');
+}
+
+/* ══════════════════════════════════════════════════
+   ACCOUNTS MANAGER
+══════════════════════════════════════════════════ */
+function adminAddAccount() {
+  const usr  = document.getElementById('acc-username').value.trim();
+  const pwd  = document.getElementById('acc-password').value;
+  const role = document.getElementById('acc-role').value;
+  const disp = document.getElementById('acc-display').value.trim();
+  if (!usr || !pwd) { adminShowFeedback('acc-feedback','✕ Username and password required','#ff4d4d'); return; }
+  if (ACCOUNTS.find(a=>a.username.toLowerCase()===usr.toLowerCase())) { adminShowFeedback('acc-feedback','✕ Username already exists','#ff4d4d'); return; }
+  ACCOUNTS.push({ username:usr, password:pwd, display:disp||usr, role });
+  document.getElementById('acc-username').value='';
+  document.getElementById('acc-password').value='';
+  document.getElementById('acc-display').value='';
+  renderAccountsTable();
+  renderBypassList();
+  const friendsEl = document.getElementById('stat-friends');
+  if (friendsEl) friendsEl.textContent = ACCOUNTS.filter(a=>a.role==='friend'||a.role==='admin').length;
+  adminShowFeedback('acc-feedback',`✓ Account "${usr}" added as ${role}`);
+  adminLog('ACCOUNT',`New account created: "${usr}" (${role})`,'success');
+}
+
+function adminDeleteAccount(username) {
+  const acc = ACCOUNTS.find(a=>a.username===username);
+  if (!acc || acc.role==='owner') return;
+  if (!confirm(`Delete account "${username}"?`)) return;
+  ACCOUNTS = ACCOUNTS.filter(a=>a.username!==username);
+  renderAccountsTable();
+  renderBypassList();
+  adminLog('ACCOUNT',`Account deleted: "${username}"`, 'warn');
+}
+
+function adminResetPassword(username) {
+  const newPwd = prompt(`New password for "${username}":`);
+  if (!newPwd) return;
+  const acc = ACCOUNTS.find(a=>a.username===username);
+  if (acc) { acc.password = newPwd; adminShowFeedback('acc-feedback',`✓ Password updated for "${username}"`); adminLog('SECURITY',`Password reset for "${username}"`,'warn'); }
+}
+
+function renderAccountsTable() {
+  const tbody = document.getElementById('accounts-table-body');
+  if (!tbody) return;
+  tbody.innerHTML = '';
+  ACCOUNTS.forEach(acc => {
+    const tr = document.createElement('tr');
+    const roleBadge = { owner:'badge-owner', admin:'badge-admin', friend:'badge-friend' }[acc.role] || 'badge-guest';
+    const isOwner = acc.role === 'owner';
+    tr.innerHTML = `
+      <td style="font-family:'Exo 2',sans-serif;font-weight:700">${acc.username}</td>
+      <td style="font-family:'Exo 2',sans-serif">${acc.display||acc.username}</td>
+      <td><span class="admin-badge ${roleBadge}">${acc.role.toUpperCase()}</span></td>
+      <td><span class="admin-badge badge-active">ACTIVE</span></td>
+      <td style="display:flex;gap:6px;flex-wrap:wrap">
+        ${isOwner ? '<span style="font-size:9px;color:rgba(255,255,255,0.2);font-family:\'Exo 2\',sans-serif;padding:4px 0">Protected</span>' : `
+          <button class="admin-action-btn" style="padding:5px 10px;font-size:8px" onclick="adminResetPassword('${acc.username}')">Reset Pwd</button>
+          <button class="admin-danger-btn" style="padding:5px 10px;font-size:8px" onclick="adminDeleteAccount('${acc.username}')">Delete</button>
+        `}
+      </td>`;
+    tbody.appendChild(tr);
+  });
+}
+
+/* News Editor */
+function adminPublishNews() {
+  const title = document.getElementById('admin-news-title').value.trim();
+  const body  = document.getElementById('admin-news-body').value.trim();
+  const tag   = document.getElementById('admin-news-tag').value;
+  const date  = document.getElementById('admin-news-date').value.trim() || new Date().toLocaleDateString('en-US',{month:'short',year:'numeric'});
+  const pinned= document.getElementById('admin-news-pinned').checked;
+  if(!title||!body){adminShowFeedback('admin-news-feedback','✕ Title and body required','#ff4d4d');return;}
+  const post={title,body,tag,date,pinned};
+  adminExtraNews.unshift(post); NEWS_LOG.unshift(post);
+  document.getElementById('news-feed').innerHTML=''; renderNews(); renderAdminNewsList();
+  document.getElementById('admin-news-title').value=''; document.getElementById('admin-news-body').value='';
+  const newsEl=document.getElementById('stat-news'); if(newsEl)newsEl.textContent=NEWS_LOG.length;
+  adminShowFeedback('admin-news-feedback','✓ Post published successfully');
+  adminLog('PUBLISH',`News post: "${title}"`,'success');
+}
+function renderAdminNewsList() {
+  const list=document.getElementById('admin-news-list'); if(!list)return;
+  list.innerHTML='';
+  adminExtraNews.forEach((post,i)=>{
+    const el=document.createElement('div');
+    el.style.cssText="display:flex;align-items:center;gap:12px;padding:10px 14px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:8px;font-family:'Exo 2',sans-serif;font-size:11px";
+    el.innerHTML=`<span style="flex:1;color:rgba(255,255,255,0.8)">${post.title}</span><span style="color:#ff4dd2;font-size:9px;font-family:'Orbitron',sans-serif">${post.tag.toUpperCase()}</span><span style="color:rgba(255,255,255,0.3);font-size:9px">${post.date}</span><button class="admin-danger-btn" style="padding:4px 10px;font-size:8px" onclick="adminDeletePost(${i})">Del</button>`;
+    list.appendChild(el);
+  });
+  if(!adminExtraNews.length) list.innerHTML='<div style="font-size:11px;color:rgba(255,255,255,0.3);font-family:\'Exo 2\',sans-serif;padding:10px">No custom posts yet.</div>';
+}
+function adminDeletePost(i) {
+  const post=adminExtraNews[i]; adminExtraNews.splice(i,1);
+  const idx=NEWS_LOG.indexOf(post); if(idx>-1)NEWS_LOG.splice(idx,1);
+  document.getElementById('news-feed').innerHTML=''; renderNews(); renderAdminNewsList();
+  adminLog('DELETE',`News post deleted: "${post.title}"`,'warn');
+}
+
+/* Ban Manager */
+function adminAddBan() {
+  const val=document.getElementById('admin-ban-input').value.trim().toLowerCase();
+  if(!val)return;
+  if(BANNED_NAMES.includes(val)){adminShowFeedback('admin-ban-feedback',`"${val}" is already banned`,'#ffd700');return;}
+  BANNED_NAMES.push(val);
+  document.getElementById('admin-ban-input').value='';
+  adminShowFeedback('admin-ban-feedback',`✓ "${val}" banned`);
+  adminLog('BAN',`Added "${val}" to ban list`,'warn');
+}
+function adminTestBan() {
+  const val=document.getElementById('admin-test-name').value.trim();
+  if(!val)return;
+  if(isBanned(val)) adminShowFeedback('admin-test-feedback',`⛔ "${val}" would be BLOCKED`,'#ff4d4d');
+  else adminShowFeedback('admin-test-feedback',`✓ "${val}" would be allowed`,'#00ffe0');
+}
+
+/* Announcement */
+function adminShowBanner() {
+  const text=document.getElementById('admin-banner-text').value.trim(); if(!text)return;
+  const cv=document.getElementById('admin-banner-color').value.split('|');
+  const banner=document.getElementById('admin-site-banner');
+  banner.textContent=text; banner.style.background=cv[0]; banner.style.borderBottom=`1px solid ${cv[1]}`; banner.style.color=cv[2];
+  banner.classList.add('show'); document.getElementById('main-nav').style.top='48px';
+  adminLog('BANNER',`Announcement: "${text}"`,'success');
+}
+function closeBanner() { document.getElementById('admin-site-banner').classList.remove('show'); document.getElementById('main-nav').style.top='14px'; }
+
+/* Site Control */
+function adminInjectCSS() {
+  const css=document.getElementById('admin-custom-css').value;
+  let el=document.getElementById('admin-injected-css');
+  if(!el){el=document.createElement('style');el.id='admin-injected-css';document.head.appendChild(el);}
+  el.textContent=css; adminLog('CSS','Custom CSS injected','success');
+}
+function adminClearCSS() {
+  const el=document.getElementById('admin-injected-css'); if(el)el.textContent='';
+  document.getElementById('admin-custom-css').value=''; adminLog('CSS','Custom CSS cleared','warn');
+}
+
+/* Radio Manager */
+function buildAdminTrackList() {
+  const sel=document.getElementById('admin-force-track');
+  const list=document.getElementById('admin-track-list');
+  if(!sel||!list)return;
+  sel.innerHTML=''; list.innerHTML='';
+  songs.forEach((s,i)=>{
+    const opt=document.createElement('option'); opt.value=i; opt.textContent=s.n; sel.appendChild(opt);
+    const row=document.createElement('div');
+    row.style.cssText="display:flex;align-items:center;gap:10px;padding:7px 10px;background:rgba(0,0,0,0.3);border-radius:6px;font-family:'Exo 2',sans-serif;font-size:11px;color:rgba(255,255,255,0.7)";
+    row.innerHTML=`<span style="color:rgba(255,255,255,0.3);min-width:22px">${i+1}.</span><span style="flex:1">${s.n}</span><button class="admin-action-btn" style="padding:4px 10px;font-size:8px" onclick="playTrack('${s.s}','${s.n}',null)">Play</button>`;
+    list.appendChild(row);
+  });
+}
+function adminForceTrack() {
+  const idx=parseInt(document.getElementById('admin-force-track').value);
+  const s=songs[idx]; if(s){playTrack(s.s,s.n,document.querySelectorAll('.track')[idx]);adminLog('RADIO',`Forced track: "${s.n}"`,'success');}
+}
+
+/* Appearance */
+function adminForceAccent() {
+  const c=document.getElementById('admin-accent-pick').value;
+  document.querySelectorAll('.nav-btn.active').forEach(el=>el.style.color=c);
+  document.querySelectorAll('.shuffle-btn').forEach(el=>{el.style.color=c;el.style.borderColor=c;});
+  document.querySelectorAll('.subtitle,.settings-section-title,.sidebar-title,.admin-section-title').forEach(el=>el.style.color=c);
+  adminLog('ACCENT',`Accent forced to ${c}`,'success');
+}
+
+/* Content Flags */
+function adminTogglePage(pageIdx,show) {
+  document.querySelectorAll('.nav-btn[data-page]').forEach(b=>{if(+b.dataset.page===pageIdx)b.style.display=show?'':'none';});
+  adminLog('FLAG',`Page ${pageIdx} ${show?'enabled':'disabled'}`,show?'success':'warn');
+}
+
+/* Security */
+function adminChangePassword() {
+  const np=document.getElementById('admin-new-pwd').value;
+  const cp=document.getElementById('admin-confirm-pwd').value;
+  if(!np){adminShowFeedback('sec-feedback','✕ Enter a new password','#ff4d4d');return;}
+  if(np!==cp){adminShowFeedback('sec-feedback','✕ Passwords do not match','#ff4d4d');return;}
+  if(np.length<8){adminShowFeedback('sec-feedback','✕ Must be at least 8 characters','#ff4d4d');return;}
+  const owner=ACCOUNTS.find(a=>a.role==='owner');
+  if(owner) owner.password=np;
+  document.getElementById('admin-new-pwd').value=''; document.getElementById('admin-confirm-pwd').value='';
+  adminShowFeedback('sec-feedback','✓ Owner password updated');
+  adminLog('SECURITY','Owner password changed','warn');
+}
+document.getElementById('admin-new-pwd')?.addEventListener('input',function(){
+  const bar=document.getElementById('pwd-strength');
+  const v=this.value;
+  const strength=(v.length>=8?1:0)+(/[A-Z]/.test(v)?1:0)+(/[0-9]/.test(v)?1:0)+(/[^a-zA-Z0-9]/.test(v)?1:0);
+  bar.style.width=(strength/4*100)+'%';
+  bar.style.background=['#ff4d4d','#ff9900','#ffd700','#00ffe0'][strength-1]||'#ff4d4d';
+});
+
+/* Helper */
+function adminShowFeedback(id,msg,color='#00ffe0'){
+  const el=document.getElementById(id); if(!el)return;
+  el.style.color=color; el.textContent=msg; el.classList.add('show');
+  setTimeout(()=>el.classList.remove('show'),3000);
+}
+
+/* Init log */
+adminLog('SYSTEM','Admin system initialized and standing by','success');
 </script>
 </body>
 </html>
