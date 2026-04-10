@@ -610,7 +610,7 @@ setInterval(() => {
 }, 4000);
 
 /* HOME TRAILER */
-const homeTrailers = ["QdBZY2fkU-0","VQRLujxTm3c"];
+const homeTrailers = ["QdBZY2fkU-0","VQRLujxTm3c","T7aaNEW7zA0"];
 let tIdx = 0;
 function changeT(d) { tIdx=(tIdx+d+homeTrailers.length)%homeTrailers.length; document.getElementById('vFrame').src=`https://www.youtube.com/embed/${homeTrailers[tIdx]}?autoplay=1&enablejsapi=1&origin=https://vocql.site`; }
 function toggleFS() { const p=document.getElementById('tPanel'); if(!document.fullscreenElement)p.requestFullscreen(); else document.exitFullscreen(); }
