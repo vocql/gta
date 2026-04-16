@@ -628,7 +628,7 @@ let ssIdx=0,ssImgs=[];
 const gf=document.createDocumentFragment();
 for(let i=1;i<=36;i++){
   const w=document.createElement('div'); w.className='gallery-item';
-  const img=document.createElement('img'); img.src=`gta/screenshots/${i}.jpg`; img.alt=`Screenshot ${i}`; img.loading='lazy'; img.dataset.idx=i-1;
+  const img=document.createElement('img'); img.src=`sreenshotgta/${i}.jpg`; img.alt=`Screenshot ${i}`; img.loading='lazy'; img.dataset.idx=i-1;
   ssImgs.push(`gta/screenshots/${i}.jpg`);
   w.appendChild(img); gf.appendChild(w);
 }
