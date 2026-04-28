@@ -348,119 +348,13 @@
           </div>
           <div class="trailer-info"><h2>Trailer 2 – Jason & Lucia</h2></div>
         </div>
-        <div class="trailer-card-big" data-video="https://www.youtube.com/embed/V?enablejsapi=1&origin=https://vocql.site">
+          <div class="trailer-card-big" data-video="https://www.youtube.com/embed/V?enablejsapi=1&origin=https://vocql.site">
           <div class="new-badge">NEW</div>
           <div class="vid-wrap">
             <iframe src="https://www.youtube.com/embed/V?mute=1&controls=0&enablejsapi=1&origin=https://vocql.site" loading="lazy" allowfullscreen></iframe>
           </div>
           <div class="trailer-info"><h2>Trailer 3 – ???</h2></div>
-      </div>
-    </div>
-  </div>
-
-
-          <!-- DISPLAY -->
-          <div class="settings-panel active" data-panel="display">
-            <div class="settings-section-title">Display Settings</div>
-            <div class="setting-row">
-              <div class="setting-info"><div class="setting-name">Parallax Background</div><div class="setting-desc">Enable mouse parallax movement on the background image</div></div>
-              <label class="toggle-wrap"><input type="checkbox" id="set-parallax" checked><span class="toggle-slider"></span></label>
-            </div>
-            <div class="setting-row">
-              <div class="setting-info"><div class="setting-name">Scanline Overlay</div><div class="setting-desc">Show retro CRT scanline effect over the UI</div></div>
-              <label class="toggle-wrap"><input type="checkbox" id="set-scanlines" checked><span class="toggle-slider"></span></label>
-            </div>
-            <div class="setting-row">
-              <div class="setting-info"><div class="setting-name">Page Transition Speed</div><div class="setting-desc">Slide animation duration when switching pages</div></div>
-              <select class="setting-select" id="set-transition">
-                <option value="0.3">Fast (0.3s)</option>
-                <option value="0.55" selected>Normal (0.55s)</option>
-                <option value="0.9">Slow (0.9s)</option>
-              </select>
-            </div>
-            <div class="setting-row">
-              <div class="setting-info"><div class="setting-name">Background Dim</div><div class="setting-desc">Control the darkness level of the background overlay</div></div>
-              <div class="setting-range-wrap">
-                <input type="range" id="set-dim" min="0" max="90" value="55" oninput="document.getElementById('dim-val').textContent=this.value+'%';document.getElementById('bg-overlay').style.opacity=this.value/100">
-                <span class="range-val" id="dim-val">55%</span>
-              </div>
-            </div>
-            <button class="settings-save-btn" onclick="saveSettings('save-toast-display')">Save Settings <span class="save-toast" id="save-toast-display">✓ Saved</span></button>
-          </div>
-
-          <!-- AUDIO -->
-          <div class="settings-panel" data-panel="audio">
-            <div class="settings-section-title">Audio Settings</div>
-            <div class="setting-row">
-              <div class="setting-info"><div class="setting-name">Master Volume</div><div class="setting-desc">Controls the Vice City Radio and all site audio</div></div>
-              <div class="setting-range-wrap">
-                <input type="range" id="set-vol" min="0" max="100" value="70" oninput="document.getElementById('vol-val').textContent=this.value+'%';document.getElementById('volSlider').value=this.value/100;document.getElementById('musicPlayer').volume=this.value/100">
-                <span class="range-val" id="vol-val">70%</span>
-              </div>
-            </div>
-            <div class="setting-row">
-              <div class="setting-info"><div class="setting-name">Loop Track</div><div class="setting-desc">Repeat the current song when it ends</div></div>
-              <label class="toggle-wrap"><input type="checkbox" id="set-loop"><span class="toggle-slider"></span></label>
-            </div>
-            <div class="setting-row">
-              <div class="setting-info"><div class="setting-name">Autoplay on Load</div><div class="setting-desc">Play a random track when the site first loads</div></div>
-              <label class="toggle-wrap"><input type="checkbox" id="set-autoplay"><span class="toggle-slider"></span></label>
-            </div>
-            <button class="settings-save-btn" onclick="saveSettings('save-toast-audio')">Save Settings <span class="save-toast" id="save-toast-audio">✓ Saved</span></button>
-          </div>
-
-          <!-- NAVIGATION -->
-          <div class="settings-panel" data-panel="navigation">
-            <div class="settings-section-title">Navigation Settings</div>
-            <div class="setting-row">
-              <div class="setting-info"><div class="setting-name">Page Transition Speed</div><div class="setting-desc">Slide animation duration when switching pages</div></div>
-              <select class="setting-select" id="set-transition-nav">
-                <option value="0.3">Fast (0.3s)</option>
-                <option value="0.55" selected>Normal (0.55s)</option>
-                <option value="0.9">Slow (0.9s)</option>
-              </select>
-            </div>
-            <button class="settings-save-btn" onclick="saveSettings('save-toast-nav')">Save Settings <span class="save-toast" id="save-toast-nav">✓ Saved</span></button>
-          </div>
-
-          <!-- NOTIFICATIONS -->
-          <div class="settings-panel" data-panel="notifications">
-            <div class="settings-section-title">Notifications</div>
-            <div class="setting-row">
-              <div class="setting-info"><div class="setting-name">Countdown Milestones</div><div class="setting-desc">Alerts at 100 days, 30 days, 7 days remaining</div></div>
-              <label class="toggle-wrap"><input type="checkbox" id="set-notif"><span class="toggle-slider"></span></label>
-            </div>
-            <div class="setting-row">
-              <div class="setting-info"><div class="setting-name">New Trailer Alerts</div><div class="setting-desc">Get notified when a new trailer is added</div></div>
-              <label class="toggle-wrap"><input type="checkbox" id="set-trailer-notif"><span class="toggle-slider"></span></label>
-            </div>
-            <div class="setting-row">
-              <div class="setting-info"><div class="setting-name">Radio Now Playing</div><div class="setting-desc">Show browser media notification when a track starts</div></div>
-              <label class="toggle-wrap"><input type="checkbox" id="set-radio-notif" checked><span class="toggle-slider"></span></label>
-            </div>
-            <button class="settings-save-btn" onclick="saveSettings('save-toast-notif')">Save Settings <span class="save-toast" id="save-toast-notif">✓ Saved</span></button>
-          </div>
-
-          <!-- ABOUT -->
-          <div class="settings-panel" data-panel="about">
-            <div class="settings-section-title">About This Site</div>
-            <p style="font-size:13px;line-height:1.8;color:rgba(255,255,255,0.8);font-family:'Exo 2',sans-serif;margin-bottom:22px;">
-              Built with passion by <span style="color:#ff4dd2;font-weight:700">VOCQL</span>. A fan-made hub celebrating the upcoming release of Grand Theft Auto VI. All GTA VI assets, images, and trademarks belong to <span style="color:#00ffe0">Rockstar Games</span>.
-            </p>
-            <div class="about-stat"><span class="setting-name">Version</span><span class="about-val">2.2.0 — Grid Gallery</span></div>
-            <div class="about-stat"><span class="setting-name">Architecture</span><span class="about-val">Single HTML File</span></div>
-            <div class="about-stat"><span class="setting-name">Total Pages</span><span class="about-val">7</span></div>
-            <div class="about-stat"><span class="setting-name">Release Target</span><span class="about-val">November 19, 2026</span></div>
-            <div class="about-stat"><span class="setting-name">Radio Tracks</span><span class="about-val">25 Songs</span></div>
-            <div class="about-stat"><span class="setting-name">Screenshots</span><span class="about-val">Auto-detected</span></div>
-            <div style="margin-top:22px;">
-              <div class="setting-name" style="margin-bottom:10px;">Reset All Settings</div>
-              <button class="settings-save-btn" style="background:rgba(255,60,60,0.15);border-color:rgba(255,60,60,0.5);margin-top:0" onclick="resetSettings()">⚠ Reset to Defaults</button>
-            </div>
-          </div>
-
         </div>
-      </div>
     </div>
   </div>
 
