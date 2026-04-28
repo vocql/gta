@@ -99,7 +99,7 @@
     .modal-close:hover { opacity:1; color:#ff4dd2; }
     @media(max-width:860px){ .modal-box{grid-template-columns:1fr;} }
 
-    /* SCREENSHOTS — fixed 4-column grid */
+    /* SCREENSHOTS */
     .gallery { display:grid; grid-template-columns:repeat(4,1fr); gap:18px; }
     .gallery-item { border-radius:14px; overflow:hidden; box-shadow:0 10px 28px rgba(0,0,0,0.5); opacity:0; transform:translateY(28px); transition:opacity 0.5s,transform 0.5s,box-shadow 0.3s; cursor:pointer; aspect-ratio:16/9; }
     .gallery-item.visible { opacity:1; transform:translateY(0); }
@@ -126,6 +126,8 @@
     .new-badge { position:absolute; top:12px; right:12px; background:#ffeb3b; color:#000; font-size:0.78rem; font-weight:900; padding:5px 12px; border-radius:999px; z-index:5; letter-spacing:1px; pointer-events:none; }
     .vid-wrap { position:relative; padding-top:56.25%; background:#111; }
     .vid-wrap iframe { position:absolute; inset:0; width:100%; height:100%; border:none; pointer-events:none; }
+    /* ── FIX: invisible layer that captures clicks above the iframe ── */
+    .vid-wrap .click-blocker { position:absolute; inset:0; z-index:2; cursor:pointer; }
     .trailer-info { padding:16px; text-align:center; }
     .trailer-info h2 { font-size:1.2rem; font-weight:700; }
     .t-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.96); display:flex; align-items:center; justify-content:center; z-index:950; opacity:0; pointer-events:none; transition:opacity 0.35s; }
@@ -133,46 +135,6 @@
     .t-overlay iframe { width:92vw; max-width:1400px; height:78vh; border:none; border-radius:16px; box-shadow:0 0 80px rgba(255,255,255,0.1); }
     .t-close { position:absolute; top:20px; right:26px; background:rgba(255,255,255,0.1); color:#fff; font-size:22px; width:46px; height:46px; border:none; border-radius:50%; cursor:pointer; transition:background 0.2s,transform 0.2s; }
     .t-close:hover { background:rgba(255,77,210,0.4); transform:scale(1.12); }
-
-    /* SETTINGS */
-    .settings-grid { display:grid; grid-template-columns:230px 1fr; gap:24px; height:calc(100vh - 200px); }
-    .settings-sidebar { background:rgba(0,0,0,0.72); border-radius:14px; border:1px solid rgba(255,255,255,0.1); padding:18px 12px; display:flex; flex-direction:column; gap:5px; overflow-y:auto; }
-    .settings-sidebar::-webkit-scrollbar { width:3px; }
-    .settings-sidebar::-webkit-scrollbar-thumb { background:#ff4dd2; border-radius:10px; }
-    .settings-tab { padding:10px 15px; border-radius:9px; cursor:pointer; font-size:10px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:rgba(255,255,255,0.55); transition:background 0.2s,color 0.2s; border:1px solid transparent; }
-    .settings-tab:hover { background:rgba(255,255,255,0.07); color:#fff; }
-    .settings-tab.active { background:rgba(255,77,210,0.12); color:#ff4dd2; border-color:rgba(255,77,210,0.3); }
-    .settings-content { background:rgba(0,0,0,0.72); border-radius:14px; border:1px solid rgba(255,255,255,0.1); padding:28px; overflow-y:auto; }
-    .settings-content::-webkit-scrollbar { width:3px; }
-    .settings-content::-webkit-scrollbar-thumb { background:#ff4dd2; border-radius:10px; }
-    .settings-panel { display:none; }
-    .settings-panel.active { display:block; }
-    .settings-section-title { font-size:10px; letter-spacing:3px; text-transform:uppercase; color:#ff4dd2; margin-bottom:18px; padding-bottom:9px; border-bottom:1px solid rgba(255,77,210,0.25); }
-    .setting-row { display:flex; align-items:center; justify-content:space-between; padding:13px 0; border-bottom:1px solid rgba(255,255,255,0.05); gap:18px; }
-    .setting-row:last-child { border-bottom:none; }
-    .setting-info { flex:1; }
-    .setting-name { font-size:12px; font-weight:700; margin-bottom:3px; }
-    .setting-desc { font-size:11px; color:rgba(255,255,255,0.4); font-family:'Exo 2',sans-serif; line-height:1.5; }
-    .toggle-wrap { position:relative; width:46px; height:24px; flex-shrink:0; }
-    .toggle-wrap input { opacity:0; width:0; height:0; position:absolute; }
-    .toggle-slider { position:absolute; inset:0; background:rgba(255,255,255,0.15); border-radius:24px; cursor:pointer; transition:background 0.25s; border:1px solid rgba(255,255,255,0.1); }
-    .toggle-slider::before { content:""; position:absolute; left:3px; top:50%; transform:translateY(-50%); width:18px; height:18px; border-radius:50%; background:#fff; transition:left 0.25s; box-shadow:0 2px 6px rgba(0,0,0,0.4); }
-    .toggle-wrap input:checked + .toggle-slider { background:rgba(255,77,210,0.7); border-color:#ff4dd2; }
-    .toggle-wrap input:checked + .toggle-slider::before { left:25px; }
-    .setting-select { background:rgba(0,0,0,0.5); border:1px solid rgba(255,255,255,0.15); color:#fff; border-radius:8px; padding:7px 11px; font-family:'Orbitron',sans-serif; font-size:10px; cursor:pointer; outline:none; transition:border-color 0.2s; }
-    .setting-select:focus { border-color:#ff4dd2; }
-    .setting-range-wrap { display:flex; align-items:center; gap:9px; min-width:175px; }
-    .range-val { font-size:11px; color:#00ffe0; min-width:32px; text-align:right; font-family:'Exo 2',sans-serif; }
-    .color-row { display:flex; gap:9px; flex-wrap:wrap; }
-    .color-swatch { width:30px; height:30px; border-radius:7px; cursor:pointer; border:2px solid transparent; transition:transform 0.2s,border-color 0.2s; }
-    .color-swatch:hover { transform:scale(1.18); }
-    .color-swatch.selected { border-color:#fff; transform:scale(1.18); }
-    .settings-save-btn { margin-top:22px; padding:11px 28px; background:linear-gradient(135deg,rgba(255,77,210,0.3),rgba(0,255,224,0.2)); border:1px solid #ff4dd2; color:#fff; border-radius:9px; font-family:'Orbitron',sans-serif; font-size:10px; font-weight:900; letter-spacing:2px; text-transform:uppercase; cursor:pointer; transition:background 0.2s,transform 0.2s,box-shadow 0.2s; }
-    .settings-save-btn:hover { background:linear-gradient(135deg,rgba(255,77,210,0.55),rgba(0,255,224,0.35)); box-shadow:0 0 20px rgba(255,77,210,0.4); transform:translateY(-2px); }
-    .save-toast { display:inline-block; margin-left:12px; font-size:10px; color:#00ffe0; opacity:0; transition:opacity 0.4s; vertical-align:middle; font-family:'Exo 2',sans-serif; }
-    .save-toast.show { opacity:1; }
-    .about-stat { display:flex; justify-content:space-between; align-items:center; padding:11px 0; border-bottom:1px solid rgba(255,255,255,0.05); font-size:12px; }
-    .about-val { color:#00ffe0; font-family:'Exo 2',sans-serif; font-size:12px; }
   </style>
 </head>
 <body>
@@ -281,7 +243,7 @@
           <img src="gta/npc/boobie.png" alt="Boobie Ike" loading="lazy"><div class="card-label"><h2>Boobie Ike</h2></div>
         </div>
         <div class="char-card" data-name="Real Dimez" data-img="gta/npc/dimez.webp" data-desc="Bae-Luxe and Roxy, AKA Real Dimez, turned shaking down local dealers into viral rap tracks and massive social media clout. Signed to Only Raw Records, they're fighting to drop the next big hit while staying relevant in Vice City's cutthroat music scene.">
-          <img src="gta/npc/dimez.webp" alt="Roxy" loading="lazy"><div class="card-label"><h2>Real Dimez</h2></div>
+          <img src="gta/npc/dimez.webp" alt="Real Dimez" loading="lazy"><div class="card-label"><h2>Real Dimez</h2></div>
         </div>
         <div class="char-card" data-name="Raul Bautista" data-img="gta/npc/raul.png" data-desc="Raul Bautista is a veteran bank robber known for ice-cold precision and a reckless streak that keeps jobs exciting — and dangerous. Always scouting for the perfect crew to pull off the next big score, his experience makes him a valuable ally.">
           <img src="gta/npc/raul.png" alt="Raul Bautista" loading="lazy"><div class="card-label"><h2>Raul Bautista</h2></div>
@@ -336,25 +298,33 @@
     <div class="page-inner">
       <h1 class="page-title">GTA VI — Trailers</h1>
       <div class="trailers-grid">
+
         <div class="trailer-card-big" data-video="https://www.youtube.com/embed/QdBZY2fkU-0?enablejsapi=1&origin=https://vocql.site">
           <div class="vid-wrap">
+            <div class="click-blocker"></div>
             <iframe src="https://www.youtube.com/embed/QdBZY2fkU-0?mute=1&controls=0&enablejsapi=1&origin=https://vocql.site" loading="lazy" allowfullscreen></iframe>
           </div>
           <div class="trailer-info"><h2>Trailer 1 – Reveal</h2></div>
         </div>
+
         <div class="trailer-card-big" data-video="https://www.youtube.com/embed/VQRLujxTm3c?enablejsapi=1&origin=https://vocql.site">
           <div class="vid-wrap">
+            <div class="click-blocker"></div>
             <iframe src="https://www.youtube.com/embed/VQRLujxTm3c?mute=1&controls=0&enablejsapi=1&origin=https://vocql.site" loading="lazy" allowfullscreen></iframe>
           </div>
-          <div class="trailer-info"><h2>Trailer 2 – Jason & Lucia</h2></div>
+          <div class="trailer-info"><h2>Trailer 2 – Jason &amp; Lucia</h2></div>
         </div>
-          <div class="trailer-card-big" data-video="https://www.youtube.com/embed/V?enablejsapi=1&origin=https://vocql.site">
+
+        <div class="trailer-card-big" data-video="https://www.youtube.com/embed/V?enablejsapi=1&origin=https://vocql.site">
           <div class="new-badge">NEW</div>
           <div class="vid-wrap">
+            <div class="click-blocker"></div>
             <iframe src="https://www.youtube.com/embed/V?mute=1&controls=0&enablejsapi=1&origin=https://vocql.site" loading="lazy" allowfullscreen></iframe>
           </div>
           <div class="trailer-info"><h2>Trailer 3 – ???</h2></div>
         </div>
+
+      </div>
     </div>
   </div>
 
@@ -385,7 +355,7 @@
 
 <script>
 /* ── SLIDER ── */
-const TOTAL = 7;
+const TOTAL = 6;
 let cur = 0;
 const track = document.getElementById('slider-track');
 const navBtns = document.querySelectorAll('.nav-btn[data-page]');
@@ -465,7 +435,6 @@ function playTrack(src,el){
   player.play().catch(()=>{});
   if(el){el.classList.add('active-song');el.scrollIntoView({behavior:'smooth',block:'nearest'});}
 }
-document.getElementById('set-loop').addEventListener('change',e=>{ player.loop=e.target.checked; });
 
 /* ── CARD MODALS ── */
 const charModal=document.getElementById('charModal');
@@ -497,17 +466,23 @@ for (let i = 1; i <= 70; i++) {
   img.loading = 'lazy';
   img.dataset.idx = String(i - 1);
   img.onerror = function() {
-    const item = this.closest('.gallery-item');
-    if (item) item.remove();
-  };
-  img.onload = function() {
-    const item = this.closest('.gallery-item');
-    if (item) item.classList.add('visible');
+    this.closest('.gallery-item')?.remove();
   };
   img.src = `gta/screenshots/${i}.jpg`;
   w.appendChild(img);
   gallery.appendChild(w);
 }
+
+const ssObs = new IntersectionObserver(entries => {
+  entries.forEach(en => {
+    if (en.isIntersecting) {
+      en.target.classList.add('visible');
+      ssObs.unobserve(en.target);
+    }
+  });
+}, { threshold: 0.05 });
+
+document.querySelectorAll('.gallery-item').forEach(el => ssObs.observe(el));
 
 gallery.addEventListener('click', e => {
   const img = e.target.closest('img[data-idx]');
@@ -555,37 +530,6 @@ document.addEventListener('keydown',e=>{
   }
   if(tOverlay.classList.contains('active')){ if(e.key==='Escape')closeTOverlay(); return; }
 });
-
-/* ── SETTINGS ── */
-document.querySelectorAll('.settings-tab').forEach(tab=>{
-  tab.addEventListener('click',()=>{
-    document.querySelectorAll('.settings-tab').forEach(t=>t.classList.remove('active'));
-    document.querySelectorAll('.settings-panel').forEach(p=>p.classList.remove('active'));
-    tab.classList.add('active');
-    document.querySelector(`[data-panel="${tab.dataset.tab}"]`).classList.add('active');
-  });
-});
-document.getElementById('set-parallax').addEventListener('change',e=>{ parallaxOn=e.target.checked; if(!parallaxOn)bgLayer.style.transform=''; });
-document.getElementById('set-scanlines').addEventListener('change',e=>{
-  const id='no-scan'; const ex=document.getElementById(id);
-  if(!e.target.checked){ if(!ex){const s=document.createElement('style');s.id=id;s.textContent='html::after{display:none}';document.head.appendChild(s);} }
-  else { if(ex)ex.remove(); }
-});
-document.getElementById('set-transition').addEventListener('change',e=>{ track.style.transition=`transform ${e.target.value}s cubic-bezier(0.77,0,0.175,1)`; });
-
-function saveSettings(toastId){
-  const t=document.getElementById(toastId); if(!t)return;
-  t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),2200);
-}
-
-function resetSettings(){
-  if(!confirm('Reset all settings to defaults?'))return;
-  document.getElementById('set-parallax').checked=true; parallaxOn=true;
-  document.getElementById('set-scanlines').checked=true; const ns=document.getElementById('no-scan'); if(ns)ns.remove();
-  document.getElementById('set-transition').value='0.55'; track.style.transition='transform 0.55s cubic-bezier(0.77,0,0.175,1)';
-  document.getElementById('set-dim').value=55; document.getElementById('dim-val').textContent='55%'; document.getElementById('bg-overlay').style.opacity=1;
-  document.getElementById('set-vol').value=70; document.getElementById('vol-val').textContent='70%'; player.volume=0.7; document.getElementById('volSlider').value=0.7;
-}
 </script>
 </body>
 </html>
