@@ -55,33 +55,35 @@
     html, body { height:100%; overflow:hidden; background:#000; }
     body { font-family:'Orbitron', sans-serif; color:#fff; position:relative; }
 
-    /* BG */
-    #bg-layer { 
-      position:fixed; 
-      inset:0; 
-      z-index:0; 
-      background:url('gta/jason.jpg') center/cover no-repeat; 
-      will-change:transform; 
-    }
+   /* BG */
+#bg-layer { 
+    position:fixed; 
+    inset:0; 
+    z-index:0; 
+    background:url('gta/jason.jpg') center/cover no-repeat; 
+    will-change:transform; 
+}
 
-    #bg-overlay { 
-      position:fixed; 
-      inset:0; 
-      z-index:1; 
-      background:linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.45)); 
-      pointer-events:none; 
-    }
+#bg-overlay { 
+    position:fixed; 
+    inset:0; 
+    z-index:1; 
+    background:linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.5)); 
+    pointer-events:none; 
+}
 
-    /* Force remove any remaining grid/squares */
-    html::after, body::after, html::before, body::before, *::after, *::before {
-      content: none !important;
-      background: none !important;
-      background-image: none !important;
-      display: none !important;
-      visibility: hidden !important;
-      opacity: 0 !important;
-    }
-
+/* === FINAL KILL SWITCH FOR SQUARES === */
+html::after, body::after, html::before, body::before,
+#bg-layer::after, #bg-overlay::after, #slider-track::after,
+*::after, *::before {
+    content: none !important;
+    background: none !important;
+    background-image: none !important !important;
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    z-index: -999 !important;
+}
     /* NAV */
     header { position:fixed; top:14px; left:50%; transform:translateX(-50%); z-index:150; display:flex; gap:5px; padding:5px 10px; border-radius:999px; background:rgba(0,0,0,0.6); border:1px solid rgba(255,255,255,0.1); box-shadow:0 6px 20px rgba(0,0,0,0.5); flex-wrap:wrap; justify-content:center; }
     .nav-btn { padding:7px 13px; border-radius:999px; color:#fff; font-size:9px; font-weight:700; text-decoration:none; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); transition:background 0.2s,border-color 0.2s,color 0.2s; letter-spacing:1px; text-transform:uppercase; cursor:pointer; font-family:'Orbitron',sans-serif; }
